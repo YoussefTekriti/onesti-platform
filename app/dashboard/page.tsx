@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Calendar,
@@ -19,9 +19,21 @@ import {
   Users,
   Settings,
   LogOut,
+  X,
+  Paperclip,
+  Upload,
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+
+// Define a type for the active section
+type ActiveSection = "dashboard" | "appointments" | "dependants" | "medical-records" | "profile";
 
 // Sample data for purchased packages
 const purchasedPackages = [
@@ -35,6 +47,7 @@ const purchasedPackages = [
     },
     validUntil: "June 30, 2025",
     status: "Active",
+    childId: 1 // Associated with Emma
   },
   {
     id: 2,
@@ -46,7 +59,20 @@ const purchasedPackages = [
     },
     validUntil: "April 15, 2025",
     status: "Active",
+    childId: 2 // Associated with Alex
   },
+  {
+    id: 3,
+    name: "Behavioral Therapy Package",
+    sessions: {
+      total: 8,
+      used: 2,
+      remaining: 6,
+    },
+    validUntil: "August 15, 2025",
+    status: "Active",
+    childId: 1 // Associated with Emma
+  }
 ]
 
 // Sample data for upcoming appointments
@@ -105,9 +131,66 @@ const children = [
   },
 ]
 
+// Sample data for appointment documents
+const appointmentDocuments = [
+  {
+    id: 1,
+    appointmentId: 1,
+    name: "Session Notes - March 21",
+    uploadedBy: "Dr. Sarah Johnson",
+    uploadDate: "March 21, 2025",
+    fileType: "PDF",
+    fileSize: "1.2 MB",
+    url: "#",
+    notes: "Initial evaluation notes for speech therapy assessment."
+  }
+]
+
 export default function DashboardPage() {
   const [activeChildIndex, setActiveChildIndex] = useState(0)
-  const [activeSection, setActiveSection] = useState("dashboard")
+  const [activeSection, setActiveSection] = useState<ActiveSection>("dashboard")
+  const [isAddChildModalOpen, setIsAddChildModalOpen] = useState(false)
+  const [isEditChildModalOpen, setIsEditChildModalOpen] = useState(false)
+  const [isUploadDocModalOpen, setIsUploadDocModalOpen] = useState(false)
+  const [isViewDocsModalOpen, setIsViewDocsModalOpen] = useState(false)
+  const [selectedAppointment, setSelectedAppointment] = useState<any>(null)
+  const [editingChildIndex, setEditingChildIndex] = useState<number | null>(null)
+  const [newChildData, setNewChildData] = useState({
+    name: "",
+    age: "",
+    gender: "Male",
+    image: "/placeholder.svg?height=120&width=120",
+  })
+  const [editChildData, setEditChildData] = useState({
+    name: "",
+    age: "",
+    gender: "Male",
+    image: "/placeholder.svg?height=120&width=120",
+  })
+  const [documentData, setDocumentData] = useState({
+    name: "",
+    notes: "",
+    file: null as File | null
+  })
+  const [isUploadMedicalRecordModalOpen, setIsUploadMedicalRecordModalOpen] = useState(false)
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false)
+  const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState(false)
+  const [isNotificationToggled, setIsNotificationToggled] = useState({
+    email: true,
+    sms: true,
+    newsletter: false
+  })
+  const [medicalRecordData, setMedicalRecordData] = useState({
+    name: "",
+    description: "",
+    date: "",
+    file: null as File | null
+  })
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  })
   const activeChild = children[activeChildIndex]
 
   const upcomingSessions = [
@@ -138,6 +221,230 @@ export default function DashboardPage() {
     profileImage: "/placeholder.svg?height=120&width=120",
   }
 
+  // Handle adding a new child
+  const handleAddChild = () => {
+    // Generate a new patient ID
+    const newPatientId = `PT${254656 + children.length + 1}`
+    
+    // Create a new child object
+    const newChild = {
+      id: children.length + 1,
+      name: newChildData.name,
+      age: newChildData.age,
+      patientId: newPatientId,
+      active: true,
+      gender: newChildData.gender,
+      image: newChildData.image,
+      nextAssessment: "Not scheduled",
+      assessments: [],
+      healthRecords: {
+        lastVisit: "None",
+      },
+    }
+    
+    // Add the new child to the children array
+    children.push(newChild)
+    
+    // Close the modal and reset the form
+    setIsAddChildModalOpen(false)
+    setNewChildData({
+      name: "",
+      age: "",
+      gender: "Male",
+      image: "/placeholder.svg?height=120&width=120",
+    })
+  }
+
+  // Handle editing a child
+  const handleEditChild = () => {
+    if (editingChildIndex === null) return;
+    
+    // Update the child data
+    children[editingChildIndex] = {
+      ...children[editingChildIndex],
+      name: editChildData.name,
+      age: editChildData.age,
+      gender: editChildData.gender,
+      image: editChildData.image,
+    };
+    
+    // Close the modal and reset the form
+    setIsEditChildModalOpen(false);
+    setEditingChildIndex(null);
+  };
+  
+  // Handle opening edit child modal
+  const openEditChildModal = (index: number) => {
+    setEditingChildIndex(index);
+    const child = children[index];
+    setEditChildData({
+      name: child.name,
+      age: child.age,
+      gender: child.gender,
+      image: child.image,
+    });
+    setIsEditChildModalOpen(true);
+  };
+  
+  // Handle image upload for child
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>, isNewChild: boolean) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    // In a real app, you would upload the file to a server and get a URL back
+    // For demo purposes, we'll use a placeholder URL
+    const imageUrl = URL.createObjectURL(file);
+    
+    if (isNewChild) {
+      setNewChildData({...newChildData, image: imageUrl});
+    } else {
+      setEditChildData({...editChildData, image: imageUrl});
+    }
+  };
+  
+  // Handle document upload for appointment
+  const handleDocumentUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setDocumentData({...documentData, file});
+  };
+  
+  // Submit document upload
+  const submitDocument = () => {
+    if (!selectedAppointment || !documentData.name) return;
+    
+    // Create a new document
+    const newDocument = {
+      id: appointmentDocuments.length + 1,
+      appointmentId: selectedAppointment.id,
+      name: documentData.name,
+      uploadedBy: "Dr. Therapist Name", // In a real app, this would be the logged-in user
+      uploadDate: new Date().toLocaleDateString(),
+      fileType: documentData.file?.type.split('/')[1].toUpperCase() || "PDF",
+      fileSize: documentData.file ? `${Math.round(documentData.file.size / 1024)} KB` : "0 KB",
+      url: "#",
+      notes: documentData.notes
+    };
+    
+    // Add to documents array
+    appointmentDocuments.push(newDocument);
+    
+    // Reset and close modal
+    setDocumentData({name: "", notes: "", file: null});
+    setIsUploadDocModalOpen(false);
+    setSelectedAppointment(null);
+  };
+  
+  // Open upload document modal
+  const openUploadDocModal = (appointment: any) => {
+    setSelectedAppointment(appointment);
+    setIsUploadDocModalOpen(true);
+  };
+
+  // Open view documents modal
+  const openViewDocsModal = (appointment: any) => {
+    setSelectedAppointment(appointment);
+    setIsViewDocsModalOpen(true);
+  };
+
+  // Handle appointment actions
+  const handleRescheduleAppointment = (appointment: any) => {
+    setSelectedAppointment(appointment);
+    setIsRescheduleModalOpen(true);
+  };
+  
+  const handleCancelAppointment = (appointmentId: number) => {
+    // Filter out the cancelled appointment
+    const updatedSessions = upcomingSessions.filter(session => session.id !== appointmentId);
+    // In a real app, you would make an API call to cancel the appointment
+    // For demo purposes, we'll just log a message
+    console.log(`Appointment ${appointmentId} cancelled`);
+    alert(`Appointment has been cancelled successfully.`);
+  };
+  
+  // Handle medical record upload
+  const handleMedicalRecordUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setMedicalRecordData({...medicalRecordData, file});
+  };
+  
+  const submitMedicalRecord = () => {
+    if (!medicalRecordData.name || !medicalRecordData.file) return;
+    
+    // In a real app, you would upload the medical record to a server
+    console.log("Medical record uploaded:", medicalRecordData);
+    
+    // Reset form and close modal
+    setMedicalRecordData({
+      name: "",
+      description: "",
+      date: "",
+      file: null
+    });
+    setIsUploadMedicalRecordModalOpen(false);
+    
+    // Show success message
+    alert("Medical record uploaded successfully!");
+  };
+  
+  // Handle password change
+  const handlePasswordChange = () => {
+    if (!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword) return;
+    
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      alert("New passwords do not match!");
+      return;
+    }
+    
+    // In a real app, you would make an API call to change the password
+    console.log("Password changed");
+    
+    // Reset form and close modal
+    setPasswordData({
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: ""
+    });
+    setIsChangePasswordModalOpen(false);
+    
+    // Show success message
+    alert("Password changed successfully!");
+  };
+  
+  // Toggle notification settings
+  const toggleNotification = (type: 'email' | 'sms' | 'newsletter') => {
+    setIsNotificationToggled({
+      ...isNotificationToggled,
+      [type]: !isNotificationToggled[type]
+    });
+  };
+  
+  // Save profile changes
+  const saveProfileChanges = () => {
+    // In a real app, you would make an API call to save the profile changes
+    console.log("Profile changes saved");
+    
+    // Show success message
+    alert("Profile changes saved successfully!");
+  };
+
+  // Handle chat with therapist
+  const startChat = (specialist: string) => {
+    // In a real app, this would open a chat window or redirect to a chat page
+    alert(`Starting chat with ${specialist}...`);
+  };
+  
+  // Handle attending appointment
+  const attendAppointment = (session: any) => {
+    // In a real app, this would redirect to a video call or show directions to the location
+    if (session.format === "Virtual") {
+      alert(`Joining virtual appointment with ${session.specialist}...`);
+    } else {
+      alert(`Directions to: ${session.location || "Appointment location"}`);
+    }
+  };
+
   // Render the appropriate content based on the active section
   const renderContent = () => {
     switch (activeSection) {
@@ -161,40 +468,43 @@ export default function DashboardPage() {
                   <CardDescription>View and manage your purchased therapy packages</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {purchasedPackages.length > 0 ? (
+                  {purchasedPackages.filter(pkg => pkg.childId === activeChild.id).length > 0 ? (
                     <div className="space-y-4">
-                      {purchasedPackages.map((pkg) => (
-                        <div key={pkg.id} className="border rounded-lg p-4">
-                          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                            <div>
-                              <h3 className="font-medium">{pkg.name}</h3>
-                              <Badge className="mt-1" variant="outline">
-                                {pkg.status}
-                              </Badge>
-                            </div>
+                      {purchasedPackages
+                        .filter(pkg => pkg.childId === activeChild.id)
+                        .map((pkg) => (
+                          <div key={pkg.id} className="border rounded-lg p-4">
+                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                              <div>
+                                <h3 className="font-medium">{pkg.name}</h3>
+                                <Badge className="mt-1" variant="outline">
+                                  {pkg.status}
+                                </Badge>
+                                <p className="text-xs text-gray-500 mt-1">For: {children.find(child => child.id === pkg.childId)?.name}</p>
+                              </div>
 
-                            <div className="flex flex-wrap gap-4">
-                              <div className="text-center">
-                                <p className="text-sm text-gray-500">Total Sessions</p>
-                                <p className="font-bold">{pkg.sessions.total}</p>
+                              <div className="flex flex-wrap gap-4">
+                                <div className="text-center">
+                                  <p className="text-sm text-gray-500">Total Sessions</p>
+                                  <p className="font-bold">{pkg.sessions.total}</p>
+                                </div>
+                                <div className="text-center">
+                                  <p className="text-sm text-gray-500">Used</p>
+                                  <p className="font-bold">{pkg.sessions.used}</p>
+                                </div>
+                                <div className="text-center">
+                                  <p className="text-sm text-gray-500">Remaining</p>
+                                  <p className="font-bold text-green-600">{pkg.sessions.remaining}</p>
+                                </div>
                               </div>
-                              <div className="text-center">
-                                <p className="text-sm text-gray-500">Used</p>
-                                <p className="font-bold">{pkg.sessions.used}</p>
-                              </div>
-                              <div className="text-center">
-                                <p className="text-sm text-gray-500">Remaining</p>
-                                <p className="font-bold text-green-600">{pkg.sessions.remaining}</p>
-                              </div>
-                            </div>
 
-                            <div>
-                              <p className="text-sm text-gray-500">Valid Until</p>
-                              <p>{pkg.validUntil}</p>
+                              <div>
+                                <p className="text-sm text-gray-500">Valid Until</p>
+                                <p>{pkg.validUntil}</p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
 
                       <div className="flex justify-end mt-4">
                         <Button variant="outline" asChild>
@@ -208,8 +518,8 @@ export default function DashboardPage() {
                   ) : (
                     <div className="text-center py-8">
                       <Package className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium">No Packages Purchased</h3>
-                      <p className="text-gray-500 mb-4">You haven't purchased any therapy packages yet</p>
+                      <h3 className="text-lg font-medium">No Packages for {activeChild.name}</h3>
+                      <p className="text-gray-500 mb-4">No therapy packages purchased for this child yet</p>
                       <Button asChild>
                         <Link href="/packages">Browse Packages</Link>
                       </Button>
@@ -287,11 +597,11 @@ export default function DashboardPage() {
                             </div>
 
                             <div className="mt-4 flex gap-2">
-                              <Button variant="outline" className="flex-1">
+                              <Button variant="outline" className="flex-1" onClick={() => startChat(session.specialist)}>
                                 <MessageCircle className="h-4 w-4 mr-2" />
                                 Chat Now
                               </Button>
-                              <Button className="flex-1">Attend</Button>
+                              <Button className="flex-1" onClick={() => attendAppointment(session)}>Attend</Button>
                             </div>
                           </div>
                         ))}
@@ -328,70 +638,278 @@ export default function DashboardPage() {
             <TabsContent value="appointments" className="space-y-8">
               <Card>
                 <CardHeader>
-                  <CardTitle>Upcoming Appointments</CardTitle>
+                  <CardTitle>Manage Appointments</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {upcomingSessions.length > 0 ? (
-                    <div className="space-y-4">
-                      {upcomingSessions.map((session) => (
-                        <div key={session.id} className="border rounded-lg p-4">
-                          <div className="flex items-center gap-4">
-                            <Image
-                              src="/placeholder.svg?height=60&width=60"
-                              alt={session.specialist}
-                              width={60}
-                              height={60}
-                              className="rounded-full"
-                            />
-                            <div>
-                              <h3 className="font-bold">{session.specialist}</h3>
-                              <p className="text-sm text-gray-500">{session.specialty}</p>
-                              <p className="text-xs text-primary mt-1">For: {session.child}</p>
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-lg font-medium">Upcoming Appointments</h3>
+                      <Button asChild>
+                        <Link href="/consultation">Book New Appointment</Link>
+                      </Button>
+                    </div>
+
+                    {upcomingSessions.length > 0 ? (
+                      <div className="space-y-4">
+                        {upcomingSessions.map((session) => (
+                          <div key={session.id} className="border rounded-lg p-4">
+                            <div className="flex items-center gap-4">
+                              <Image
+                                src="/placeholder.svg?height=60&width=60"
+                                alt={session.specialist}
+                                width={60}
+                                height={60}
+                                className="rounded-full"
+                              />
+                              <div>
+                                <h3 className="font-bold">{session.specialist}</h3>
+                                <p className="text-sm text-gray-500">{session.specialty}</p>
+                                <p className="text-xs text-primary mt-1">For: {session.child}</p>
+                              </div>
+                              <div className="ml-auto flex gap-2">
+                                <Button size="sm" variant="outline" onClick={() => handleRescheduleAppointment(session)}>
+                                  Reschedule
+                                </Button>
+                                <Button size="sm" variant="destructive" onClick={() => handleCancelAppointment(session.id)}>
+                                  Cancel
+                                </Button>
+                              </div>
                             </div>
-                            <div className="ml-auto">
-                              <Button size="icon" variant="outline">
-                                <Calendar className="h-4 w-4" />
+
+                            <div className="mt-4 flex items-center text-sm text-gray-500">
+                              <Clock className="h-4 w-4 mr-2" />
+                              {session.date} - {session.time}
+                            </div>
+                            
+                            <div className="mt-4 flex justify-between">
+                              <Button variant="outline" size="sm" onClick={() => openUploadDocModal(session)}>
+                                <Paperclip className="h-4 w-4 mr-2" />
+                                Upload Document
+                              </Button>
+                              <Button variant="ghost" size="sm" onClick={() => openViewDocsModal(session)}>
+                                View Documents ({appointmentDocuments.filter(doc => doc.appointmentId === session.id).length})
                               </Button>
                             </div>
                           </div>
-
-                          <div className="mt-4 flex items-center text-sm text-gray-500">
-                            <Clock className="h-4 w-4 mr-2" />
-                            {session.date} - {session.time}
-                          </div>
-
-                          <div className="mt-4 flex gap-2">
-                            <Button variant="outline" className="flex-1">
-                              <MessageCircle className="h-4 w-4 mr-2" />
-                              Chat Now
-                            </Button>
-                            <Button className="flex-1">Attend</Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8 text-gray-500">No upcoming appointments</div>
-                  )}
-
-                  <div className="mt-6 flex justify-center">
-                    <Button asChild>
-                      <Link href="/consultation">Book New Appointment</Link>
-                    </Button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 text-gray-500">No upcoming appointments</div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
 
+              {/* Reschedule Modal */}
+              <Dialog open={isRescheduleModalOpen} onOpenChange={setIsRescheduleModalOpen}>
+                <DialogContent className="sm:max-w-[500px]">
+                  <DialogHeader>
+                    <DialogTitle>Reschedule Appointment</DialogTitle>
+                  </DialogHeader>
+                  
+                  <div className="grid gap-4 py-4">
+                    {selectedAppointment && (
+                      <div className="bg-gray-50 p-3 rounded-md">
+                        <p className="font-medium">{selectedAppointment.specialist} - {selectedAppointment.specialty}</p>
+                        <p className="text-sm text-gray-500">
+                          Current appointment: {selectedAppointment.date} at {selectedAppointment.time}
+                        </p>
+                      </div>
+                    )}
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="newDate">New Date</Label>
+                      <Input 
+                        id="newDate" 
+                        type="date"
+                        className="w-full"
+                      />
+                    </div>
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="newTime">New Time</Label>
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a time slot" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="9:00 AM">9:00 AM</SelectItem>
+                          <SelectItem value="10:00 AM">10:00 AM</SelectItem>
+                          <SelectItem value="11:00 AM">11:00 AM</SelectItem>
+                          <SelectItem value="1:00 PM">1:00 PM</SelectItem>
+                          <SelectItem value="2:00 PM">2:00 PM</SelectItem>
+                          <SelectItem value="3:00 PM">3:00 PM</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="rescheduleReason">Reason for Rescheduling (Optional)</Label>
+                      <Textarea 
+                        id="rescheduleReason" 
+                        rows={3}
+                        placeholder="Please provide a reason for rescheduling"
+                      />
+                    </div>
+                  </div>
+                  
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setIsRescheduleModalOpen(false)}>Cancel</Button>
+                    <Button onClick={() => {
+                      alert("Appointment rescheduled successfully!");
+                      setIsRescheduleModalOpen(false);
+                    }}>
+                      Confirm Reschedule
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
+              {/* Document Upload Modal */}
+              <Dialog open={isUploadDocModalOpen} onOpenChange={setIsUploadDocModalOpen}>
+                <DialogContent className="sm:max-w-[500px]">
+                  <DialogHeader>
+                    <DialogTitle>Upload Session Document</DialogTitle>
+                  </DialogHeader>
+                  
+                  <div className="grid gap-4 py-4">
+                    {selectedAppointment && (
+                      <div className="bg-gray-50 p-3 rounded-md">
+                        <p className="font-medium">{selectedAppointment.specialist} - {selectedAppointment.specialty}</p>
+                        <p className="text-sm text-gray-500">
+                          Session for {selectedAppointment.child} on {selectedAppointment.date} at {selectedAppointment.time}
+                        </p>
+                      </div>
+                    )}
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="docName">Document Name</Label>
+                      <Input 
+                        id="docName" 
+                        value={documentData.name} 
+                        onChange={(e) => setDocumentData({...documentData, name: e.target.value})}
+                        placeholder="e.g. Session Notes, Progress Report, etc." 
+                      />
+                    </div>
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="docNotes">Notes (Optional)</Label>
+                      <Textarea 
+                        id="docNotes" 
+                        value={documentData.notes} 
+                        onChange={(e) => setDocumentData({...documentData, notes: e.target.value})}
+                        placeholder="Add any notes about this document"
+                        rows={3}
+                      />
+                    </div>
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="docFile">Upload File</Label>
+                      <div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
+                        <Input
+                          id="docFile"
+                          type="file"
+                          className="hidden"
+                          onChange={handleDocumentUpload}
+                        />
+                        <label htmlFor="docFile" className="cursor-pointer">
+                          <div className="flex flex-col items-center">
+                            <Upload className="h-10 w-10 text-gray-400 mb-2" />
+                            <p className="text-sm font-medium">
+                              {documentData.file ? documentData.file.name : "Click to upload or drag and drop"}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              PDF, Word, Excel, or image files accepted
+                            </p>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setIsUploadDocModalOpen(false)}>Cancel</Button>
+                    <Button onClick={submitDocument} disabled={!documentData.name || !documentData.file}>
+                      Upload Document
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
+              {/* View Documents Modal */}
+              <Dialog open={isViewDocsModalOpen} onOpenChange={setIsViewDocsModalOpen}>
+                <DialogContent className="sm:max-w-[600px]">
+                  <DialogHeader>
+                    <DialogTitle>Session Documents</DialogTitle>
+                  </DialogHeader>
+                  
+                  <div className="py-4">
+                    {selectedAppointment && (
+                      <div className="bg-gray-50 p-3 rounded-md mb-4">
+                        <p className="font-medium">{selectedAppointment.specialist} - {selectedAppointment.specialty}</p>
+                        <p className="text-sm text-gray-500">
+                          Session for {selectedAppointment.child} on {selectedAppointment.date} at {selectedAppointment.time}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {selectedAppointment && appointmentDocuments.filter(doc => doc.appointmentId === selectedAppointment.id).length > 0 ? (
+                      <div className="space-y-3">
+                        {appointmentDocuments
+                          .filter(doc => doc.appointmentId === selectedAppointment.id)
+                          .map((doc) => (
+                            <div key={doc.id} className="border rounded-lg p-3">
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <FileText className="h-5 w-5 text-blue-500" />
+                                    <h3 className="font-medium">{doc.name}</h3>
+                                  </div>
+                                  <p className="text-xs text-gray-500 mt-1">
+                                    Uploaded by {doc.uploadedBy} on {doc.uploadDate}
+                                  </p>
+                                  {doc.notes && (
+                                    <p className="text-sm mt-2 bg-gray-50 p-2 rounded">
+                                      {doc.notes}
+                                    </p>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <Badge variant="outline">{doc.fileType}</Badge>
+                                  <span className="text-xs text-gray-500">{doc.fileSize}</span>
+                                </div>
+                              </div>
+                              <div className="mt-3 flex justify-end gap-2">
+                                <Button size="sm" variant="outline" asChild>
+                                  <Link href={doc.url}>Download</Link>
+                                </Button>
+                                <Button size="sm">View</Button>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 text-gray-500">
+                        No documents uploaded for this session yet
+                      </div>
+                    )}
+                  </div>
+                  
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setIsViewDocsModalOpen(false)}>Close</Button>
+                    <Button onClick={() => { setIsViewDocsModalOpen(false); openUploadDocModal(selectedAppointment); }}>
+                      Upload New Document
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
               <Card>
                 <CardHeader>
-                  <CardTitle>Appointment History</CardTitle>
+                  <CardTitle>Past Appointments</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-8 text-gray-500">No past appointments found</div>
-
-                  <div className="mt-4 text-sm text-gray-500 text-center">
-                    Your appointment history will appear here after your first session
-                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -432,10 +950,10 @@ export default function DashboardPage() {
                               <p className="text-xs text-primary mt-1">For: {session.child}</p>
                             </div>
                             <div className="ml-auto flex gap-2">
-                              <Button size="sm" variant="outline">
+                              <Button size="sm" variant="outline" onClick={() => handleRescheduleAppointment(session)}>
                                 Reschedule
                               </Button>
-                              <Button size="sm" variant="destructive">
+                              <Button size="sm" variant="destructive" onClick={() => handleCancelAppointment(session.id)}>
                                 Cancel
                               </Button>
                             </div>
@@ -444,6 +962,16 @@ export default function DashboardPage() {
                           <div className="mt-4 flex items-center text-sm text-gray-500">
                             <Clock className="h-4 w-4 mr-2" />
                             {session.date} - {session.time}
+                          </div>
+                          
+                          <div className="mt-4 flex justify-between">
+                            <Button variant="outline" size="sm" onClick={() => openUploadDocModal(session)}>
+                              <Paperclip className="h-4 w-4 mr-2" />
+                              Upload Document
+                            </Button>
+                            <Button variant="ghost" size="sm" onClick={() => openViewDocsModal(session)}>
+                              View Documents ({appointmentDocuments.filter(doc => doc.appointmentId === session.id).length})
+                            </Button>
                           </div>
                         </div>
                       ))}
@@ -477,11 +1005,169 @@ export default function DashboardPage() {
                 <div className="space-y-6">
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-medium">Children</h3>
-                    <Button>Add Child</Button>
+                    <Button onClick={() => setIsAddChildModalOpen(true)}>Add Child</Button>
                   </div>
 
+                  {/* Add Child Modal */}
+                  <Dialog open={isAddChildModalOpen} onOpenChange={setIsAddChildModalOpen}>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Add New Child</DialogTitle>
+                      </DialogHeader>
+                      
+                      <div className="grid gap-4 py-4">
+                        <div className="flex justify-center mb-2">
+                          <div className="relative">
+                            <Image
+                              src={newChildData.image}
+                              alt="Child profile"
+                              width={80}
+                              height={80}
+                              className="rounded-full border"
+                            />
+                            <Input
+                              id="childImageNew"
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => handleImageUpload(e, true)}
+                            />
+                            <label
+                              htmlFor="childImageNew"
+                              className="absolute bottom-0 right-0 bg-primary text-white p-1 rounded-full cursor-pointer"
+                            >
+                              <Upload className="h-3 w-3" />
+                            </label>
+                          </div>
+                        </div>
+                        
+                        <div className="grid gap-2">
+                          <Label htmlFor="childName">Child's Name</Label>
+                          <Input 
+                            id="childName" 
+                            value={newChildData.name} 
+                            onChange={(e) => setNewChildData({...newChildData, name: e.target.value})}
+                            placeholder="Enter child's name" 
+                          />
+                        </div>
+                        
+                        <div className="grid gap-2">
+                          <Label htmlFor="childAge">Age</Label>
+                          <Input 
+                            id="childAge" 
+                            value={newChildData.age} 
+                            onChange={(e) => setNewChildData({...newChildData, age: e.target.value})}
+                            placeholder="e.g. 5 years, 3 months" 
+                          />
+                        </div>
+                        
+                        <div className="grid gap-2">
+                          <Label>Gender</Label>
+                          <RadioGroup 
+                            defaultValue={newChildData.gender} 
+                            onValueChange={(value) => setNewChildData({...newChildData, gender: value})}
+                            className="flex gap-4"
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="Male" id="male" />
+                              <Label htmlFor="male">Male</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="Female" id="female" />
+                              <Label htmlFor="female">Female</Label>
+                            </div>
+                          </RadioGroup>
+                        </div>
+                      </div>
+                      
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsAddChildModalOpen(false)}>Cancel</Button>
+                        <Button onClick={handleAddChild} disabled={!newChildData.name || !newChildData.age}>Add Child</Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                  
+                  {/* Edit Child Modal */}
+                  <Dialog open={isEditChildModalOpen} onOpenChange={setIsEditChildModalOpen}>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Edit Child</DialogTitle>
+                      </DialogHeader>
+                      
+                      <div className="grid gap-4 py-4">
+                        <div className="flex justify-center mb-2">
+                          <div className="relative">
+                            <Image
+                              src={editChildData.image}
+                              alt="Child profile"
+                              width={80}
+                              height={80}
+                              className="rounded-full border"
+                            />
+                            <Input
+                              id="childImageEdit"
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => handleImageUpload(e, false)}
+                            />
+                            <label
+                              htmlFor="childImageEdit"
+                              className="absolute bottom-0 right-0 bg-primary text-white p-1 rounded-full cursor-pointer"
+                            >
+                              <Upload className="h-3 w-3" />
+                            </label>
+                          </div>
+                        </div>
+                        
+                        <div className="grid gap-2">
+                          <Label htmlFor="editChildName">Child's Name</Label>
+                          <Input 
+                            id="editChildName" 
+                            value={editChildData.name} 
+                            onChange={(e) => setEditChildData({...editChildData, name: e.target.value})}
+                            placeholder="Enter child's name" 
+                          />
+                        </div>
+                        
+                        <div className="grid gap-2">
+                          <Label htmlFor="editChildAge">Age</Label>
+                          <Input 
+                            id="editChildAge" 
+                            value={editChildData.age} 
+                            onChange={(e) => setEditChildData({...editChildData, age: e.target.value})}
+                            placeholder="e.g. 5 years, 3 months" 
+                          />
+                        </div>
+                        
+                        <div className="grid gap-2">
+                          <Label>Gender</Label>
+                          <RadioGroup 
+                            value={editChildData.gender} 
+                            onValueChange={(value) => setEditChildData({...editChildData, gender: value})}
+                            className="flex gap-4"
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="Male" id="editMale" />
+                              <Label htmlFor="editMale">Male</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="Female" id="editFemale" />
+                              <Label htmlFor="editFemale">Female</Label>
+                            </div>
+                          </RadioGroup>
+                        </div>
+                      </div>
+                      
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsEditChildModalOpen(false)}>Cancel</Button>
+                        <Button onClick={handleEditChild} disabled={!editChildData.name || !editChildData.age}>Save Changes</Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {children.map((child) => (
+                    {children.map((child, index) => (
                       <div key={child.id} className="border rounded-lg p-4">
                         <div className="flex items-center gap-4">
                           <Image
@@ -497,7 +1183,7 @@ export default function DashboardPage() {
                             <p className="text-xs text-gray-500">ID: {child.patientId}</p>
                           </div>
                           <div className="ml-auto">
-                            <Button size="sm" variant="outline">
+                            <Button size="sm" variant="outline" onClick={() => openEditChildModal(index)}>
                               Edit
                             </Button>
                           </div>
@@ -531,20 +1217,6 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Other Family Members</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-lg font-medium">Adults</h3>
-                  <Button>Add Family Member</Button>
-                </div>
-
-                <div className="text-center py-8 text-gray-500">No other family members added yet</div>
-              </CardContent>
-            </Card>
           </div>
         )
 
@@ -559,7 +1231,7 @@ export default function DashboardPage() {
                 <div className="space-y-6">
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-medium">Documents</h3>
-                    <Button>Upload Document</Button>
+                    <Button onClick={() => setIsUploadMedicalRecordModalOpen(true)}>Upload Document</Button>
                   </div>
 
                   <div className="text-center py-8 text-gray-500">No medical records uploaded yet</div>
@@ -574,6 +1246,78 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
+            
+            {/* Upload Medical Record Modal */}
+            <Dialog open={isUploadMedicalRecordModalOpen} onOpenChange={setIsUploadMedicalRecordModalOpen}>
+              <DialogContent className="sm:max-w-[500px]">
+                <DialogHeader>
+                  <DialogTitle>Upload Medical Record</DialogTitle>
+                </DialogHeader>
+                
+                <div className="grid gap-4 py-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="medicalRecordName">Document Name</Label>
+                    <Input 
+                      id="medicalRecordName" 
+                      value={medicalRecordData.name} 
+                      onChange={(e) => setMedicalRecordData({...medicalRecordData, name: e.target.value})}
+                      placeholder="e.g. Blood Test Results, Diagnosis Report, etc." 
+                    />
+                  </div>
+                  
+                  <div className="grid gap-2">
+                    <Label htmlFor="medicalRecordDate">Date of Record</Label>
+                    <Input 
+                      id="medicalRecordDate" 
+                      type="date"
+                      value={medicalRecordData.date} 
+                      onChange={(e) => setMedicalRecordData({...medicalRecordData, date: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="grid gap-2">
+                    <Label htmlFor="medicalRecordDescription">Description (Optional)</Label>
+                    <Textarea 
+                      id="medicalRecordDescription" 
+                      value={medicalRecordData.description} 
+                      onChange={(e) => setMedicalRecordData({...medicalRecordData, description: e.target.value})}
+                      placeholder="Add any details about this document"
+                      rows={3}
+                    />
+                  </div>
+                  
+                  <div className="grid gap-2">
+                    <Label htmlFor="medicalRecordFile">Upload File</Label>
+                    <div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
+                      <Input
+                        id="medicalRecordFile"
+                        type="file"
+                        className="hidden"
+                        onChange={handleMedicalRecordUpload}
+                      />
+                      <label htmlFor="medicalRecordFile" className="cursor-pointer">
+                        <div className="flex flex-col items-center">
+                          <Upload className="h-10 w-10 text-gray-400 mb-2" />
+                          <p className="text-sm font-medium">
+                            {medicalRecordData.file ? medicalRecordData.file.name : "Click to upload or drag and drop"}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            PDF, Word, Excel, or image files accepted
+                          </p>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setIsUploadMedicalRecordModalOpen(false)}>Cancel</Button>
+                  <Button onClick={submitMedicalRecord} disabled={!medicalRecordData.name || !medicalRecordData.file}>
+                    Upload Document
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
 
             <Card>
               <CardHeader>
@@ -678,9 +1422,22 @@ export default function DashboardPage() {
                         height={120}
                         className="rounded-full"
                       />
-                      <button className="absolute bottom-0 right-0 bg-primary text-white p-1 rounded-full">
+                      <label htmlFor="profileImage" className="absolute bottom-0 right-0 bg-primary text-white p-1 rounded-full cursor-pointer">
                         <Settings className="h-4 w-4" />
-                      </button>
+                      </label>
+                      <Input
+                        id="profileImage"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            // In a real app, you would upload the image
+                            console.log("Profile image updated");
+                          }
+                        }}
+                      />
                     </div>
                     <h2 className="mt-4 font-bold text-xl">{parentProfile.name}</h2>
                     <p className="text-gray-500">Parent Account</p>
@@ -692,7 +1449,7 @@ export default function DashboardPage() {
                         <label className="text-sm font-medium text-gray-500">Full Name</label>
                         <input
                           type="text"
-                          value={parentProfile.name}
+                          defaultValue={parentProfile.name}
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
                         />
                       </div>
@@ -700,7 +1457,7 @@ export default function DashboardPage() {
                         <label className="text-sm font-medium text-gray-500">Email</label>
                         <input
                           type="email"
-                          value={parentProfile.email}
+                          defaultValue={parentProfile.email}
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
                         />
                       </div>
@@ -708,7 +1465,7 @@ export default function DashboardPage() {
                         <label className="text-sm font-medium text-gray-500">Phone</label>
                         <input
                           type="tel"
-                          value={parentProfile.phone}
+                          defaultValue={parentProfile.phone}
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
                         />
                       </div>
@@ -716,7 +1473,7 @@ export default function DashboardPage() {
                         <label className="text-sm font-medium text-gray-500">Address</label>
                         <input
                           type="text"
-                          value={parentProfile.address}
+                          defaultValue={parentProfile.address}
                           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
                         />
                       </div>
@@ -727,20 +1484,67 @@ export default function DashboardPage() {
                       <input
                         type="password"
                         value="••••••••"
+                        readOnly
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
                       />
-                      <Button variant="link" className="mt-1 h-auto p-0 text-sm">
+                      <Button variant="link" className="mt-1 h-auto p-0 text-sm" onClick={() => setIsChangePasswordModalOpen(true)}>
                         Change Password
                       </Button>
                     </div>
 
                     <div className="flex justify-end">
-                      <Button>Save Changes</Button>
+                      <Button onClick={saveProfileChanges}>Save Changes</Button>
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
+            
+            {/* Change Password Modal */}
+            <Dialog open={isChangePasswordModalOpen} onOpenChange={setIsChangePasswordModalOpen}>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Change Password</DialogTitle>
+                </DialogHeader>
+                
+                <div className="grid gap-4 py-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="currentPassword">Current Password</Label>
+                    <Input 
+                      id="currentPassword" 
+                      type="password"
+                      value={passwordData.currentPassword} 
+                      onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="grid gap-2">
+                    <Label htmlFor="newPassword">New Password</Label>
+                    <Input 
+                      id="newPassword" 
+                      type="password"
+                      value={passwordData.newPassword} 
+                      onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="grid gap-2">
+                    <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                    <Input 
+                      id="confirmPassword" 
+                      type="password"
+                      value={passwordData.confirmPassword} 
+                      onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+                    />
+                  </div>
+                </div>
+                
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setIsChangePasswordModalOpen(false)}>Cancel</Button>
+                  <Button onClick={handlePasswordChange}>Update Password</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
 
             <Card>
               <CardHeader>
@@ -753,9 +1557,12 @@ export default function DashboardPage() {
                       <h3 className="font-medium">Email Notifications</h3>
                       <p className="text-sm text-gray-500">Receive email updates about appointments and assessments</p>
                     </div>
-                    <div className="h-6 w-11 bg-primary rounded-full relative">
-                      <div className="absolute right-1 top-1 bg-white h-4 w-4 rounded-full"></div>
-                    </div>
+                    <button 
+                      className={`h-6 w-11 rounded-full relative ${isNotificationToggled.email ? 'bg-primary' : 'bg-gray-200'}`}
+                      onClick={() => toggleNotification('email')}
+                    >
+                      <div className={`absolute top-1 h-4 w-4 rounded-full bg-white transition-all ${isNotificationToggled.email ? 'right-1' : 'left-1'}`}></div>
+                    </button>
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -763,9 +1570,12 @@ export default function DashboardPage() {
                       <h3 className="font-medium">SMS Notifications</h3>
                       <p className="text-sm text-gray-500">Receive text message reminders for upcoming appointments</p>
                     </div>
-                    <div className="h-6 w-11 bg-primary rounded-full relative">
-                      <div className="absolute right-1 top-1 bg-white h-4 w-4 rounded-full"></div>
-                    </div>
+                    <button 
+                      className={`h-6 w-11 rounded-full relative ${isNotificationToggled.sms ? 'bg-primary' : 'bg-gray-200'}`}
+                      onClick={() => toggleNotification('sms')}
+                    >
+                      <div className={`absolute top-1 h-4 w-4 rounded-full bg-white transition-all ${isNotificationToggled.sms ? 'right-1' : 'left-1'}`}></div>
+                    </button>
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -773,9 +1583,12 @@ export default function DashboardPage() {
                       <h3 className="font-medium">Newsletter</h3>
                       <p className="text-sm text-gray-500">Receive monthly updates about new features and resources</p>
                     </div>
-                    <div className="h-6 w-11 bg-gray-200 rounded-full relative">
-                      <div className="absolute left-1 top-1 bg-white h-4 w-4 rounded-full"></div>
-                    </div>
+                    <button 
+                      className={`h-6 w-11 rounded-full relative ${isNotificationToggled.newsletter ? 'bg-primary' : 'bg-gray-200'}`}
+                      onClick={() => toggleNotification('newsletter')}
+                    >
+                      <div className={`absolute top-1 h-4 w-4 rounded-full bg-white transition-all ${isNotificationToggled.newsletter ? 'right-1' : 'left-1'}`}></div>
+                    </button>
                   </div>
                 </div>
               </CardContent>
@@ -851,7 +1664,6 @@ export default function DashboardPage() {
                           className="rounded-full"
                         />
                         <span>{child.name}</span>
-                        {activeChildIndex === index && <CheckCircle className="h-4 w-4 ml-auto text-primary" />}
                       </button>
                     ))}
                     <Button variant="ghost" size="sm" className="mt-2" onClick={() => setActiveSection("dependants")}>

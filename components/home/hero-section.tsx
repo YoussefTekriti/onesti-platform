@@ -37,13 +37,12 @@ export default function HeroSection() {
 
           {/* Right image */}
           <div className="md:w-1/2">
-            <div className="relative h-[400px] md:h-[500px] w-full">
-              <Image
-                src="/placeholder.svg?height=500&width=600"
-                alt="Mother and child together"
-                fill
-                className="object-cover rounded-lg"
-                priority
+            <div className="relative h-[400px] md:h-[500px] w-full rounded-lg overflow-hidden">
+              {/* Use a regular img tag to avoid Next.js image optimization issues */}
+              <img
+                src="/images/therapy-session.jpeg"
+                alt="Therapist working with diverse children at a table with colorful learning materials"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>

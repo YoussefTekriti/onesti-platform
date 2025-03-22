@@ -6,10 +6,11 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Globe } from "lucide-react"
+import { useLanguage } from "@/components/language-provider"
 
-// Update the navigation array to include "I'm a Therapist" that links to the login page
-const navigation = [
+// Define navigation menu in both languages
+const navigationEN = [
   { name: "I'm a Parent", href: "/#parent-journey" },
   { name: "I'm a School", href: "/#professional-development" },
   { name: "I'm a Therapist", href: "/login" },
@@ -18,12 +19,30 @@ const navigation = [
   { name: "About Us", href: "/about" },
 ]
 
+const navigationAR = [
+  { name: "أنا والد", href: "/#parent-journey" },
+  { name: "أنا مدرسة", href: "/#professional-development" },
+  { name: "أنا معالج", href: "/login" },
+  { name: "الباقات", href: "/packages" },
+  { name: "المدونات", href: "/blogs" },
+  { name: "من نحن", href: "/about" },
+]
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { language, setLanguage } = useLanguage()
   const pathname = usePathname()
 
   // This would be replaced with actual auth state
   const isLoggedIn = false
+
+  // Toggle language between English and Arabic
+  const toggleLanguage = () => {
+    setLanguage(language === "en" ? "ar" : "en")
+  }
+
+  // Get the navigation based on current language
+  const navigation = language === "en" ? navigationEN : navigationAR
 
   // Handle smooth scrolling for section links on the homepage
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -79,14 +98,33 @@ export default function Header() {
             </Link>
           ))}
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden lg:flex lg:items-center lg:gap-x-6">
+          {/* Language toggle button */}
+          <button 
+            onClick={toggleLanguage} 
+            className={`flex items-center text-sm font-semibold text-gray-700 hover:text-onesti-purple transition-colors px-3 py-1 rounded-md ${language === "ar" ? "ml-2" : "mr-2"}`}
+          >
+            <Globe className={`h-4 w-4 ${language === "ar" ? "ml-1.5" : "mr-1.5"}`} />
+            {language === "en" ? "العربية" : "English"}
+          </button>
+          
+          <div className="h-4 w-px bg-gray-200 mx-4"></div>
+          
           {isLoggedIn ? (
-            <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900">
-              Dashboard <span aria-hidden="true">&rarr;</span>
+            <Link href="/dashboard" className={`text-sm font-semibold leading-6 text-gray-900 flex items-center`}>
+              {language === "en" ? (
+                <>Dashboard <span aria-hidden="true" className="ml-1">&rarr;</span></>
+              ) : (
+                <><span aria-hidden="true" className="mr-1">&larr;</span> لوحة التحكم</>
+              )}
             </Link>
           ) : (
-            <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900">
-              Log in / Sign up <span aria-hidden="true">&rarr;</span>
+            <Link href="/login" className={`text-sm font-semibold leading-6 text-gray-900 flex items-center`}>
+              {language === "en" ? (
+                <>Log in / Sign up <span aria-hidden="true" className="ml-1">&rarr;</span></>
+              ) : (
+                <><span aria-hidden="true" className="mr-1">&larr;</span> تسجيل الدخول / التسجيل</>
+              )}
             </Link>
           )}
         </div>
@@ -96,7 +134,7 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="lg:hidden">
           <div className="fixed inset-0 z-50" />
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div className={`fixed inset-y-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 ${language === "ar" ? "right-0" : "left-0"}`}>
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Onesti</span>
@@ -120,6 +158,15 @@ export default function Header() {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
+                  {/* Language toggle button in mobile menu */}
+                  <button
+                    onClick={toggleLanguage}
+                    className="flex items-center w-full rounded-lg px-3 py-2 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                  >
+                    <Globe className={`h-4 w-4 ${language === "ar" ? "ml-2" : "mr-2"}`} />
+                    {language === "en" ? "العربية" : "English"}
+                  </button>
+                  
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
@@ -142,7 +189,7 @@ export default function Header() {
                       className="block rounded-lg px-3 py-2.5 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      Dashboard
+                      {language === "en" ? "Dashboard" : "لوحة التحكم"}
                     </Link>
                   ) : (
                     <Link
@@ -150,7 +197,7 @@ export default function Header() {
                       className="block rounded-lg px-3 py-2.5 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      Log in / Sign up
+                      {language === "en" ? "Log in / Sign up" : "تسجيل الدخول / التسجيل"}
                     </Link>
                   )}
                 </div>

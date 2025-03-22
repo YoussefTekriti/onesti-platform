@@ -6,6 +6,7 @@ import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 import ChatSupport from "@/components/support/chat-support"
+import { LanguageProvider } from "@/components/language-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,12 +25,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <ChatSupport />
-          </div>
+          <LanguageProvider>
+            <div className="flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <ChatSupport />
+            </div>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>
