@@ -60,7 +60,35 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white shadow-sm relative">
+      {/* Language toggle switch positioned at top right */}
+      <div className="absolute top-2 right-4 z-20 lg:top-6 lg:right-6">
+        <div className="flex items-center bg-gray-100 rounded-full p-1 w-20 h-9 shadow-sm">
+          <button
+            onClick={toggleLanguage}
+            className={`flex justify-center items-center rounded-full transition-all duration-300 w-10 h-7 text-xs font-medium ${
+              language === "en" 
+                ? "bg-white text-onesti-purple shadow-sm translate-x-0" 
+                : "bg-transparent text-gray-500 translate-x-9"
+            }`}
+            aria-label={language === "en" ? "Switch to Arabic" : "Switch to English"}
+          >
+            EN
+          </button>
+          <button
+            onClick={toggleLanguage}
+            className={`flex justify-center items-center rounded-full transition-all duration-300 w-10 h-7 -ml-10 text-xs font-medium ${
+              language === "ar" 
+                ? "bg-white text-onesti-purple shadow-sm translate-x-9" 
+                : "bg-transparent text-gray-500 translate-x-0"
+            }`}
+            aria-label={language === "ar" ? "Switch to English" : "Switch to Arabic"}
+          >
+            عربي
+          </button>
+        </div>
+      </div>
+
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
@@ -99,16 +127,9 @@ export default function Header() {
           ))}
         </div>
         <div className="hidden lg:flex lg:items-center lg:gap-x-6">
-          {/* Language toggle button */}
-          <button 
-            onClick={toggleLanguage} 
-            className={`flex items-center text-sm font-semibold text-gray-700 hover:text-onesti-purple transition-colors px-3 py-1 rounded-md ${language === "ar" ? "ml-2" : "mr-2"}`}
-          >
-            <Globe className={`h-4 w-4 ${language === "ar" ? "ml-1.5" : "mr-1.5"}`} />
-            {language === "en" ? "العربية" : "English"}
-          </button>
+          {/* Removed the language toggle from here */}
           
-          <div className="h-4 w-px bg-gray-200 mx-4"></div>
+          <div className="h-4 w-px bg-gray-200 hidden"></div>
           
           {isLoggedIn ? (
             <Link href="/dashboard" className={`text-sm font-semibold leading-6 text-gray-900 flex items-center`}>
@@ -158,14 +179,7 @@ export default function Header() {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
-                  {/* Language toggle button in mobile menu */}
-                  <button
-                    onClick={toggleLanguage}
-                    className="flex items-center w-full rounded-lg px-3 py-2 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
-                  >
-                    <Globe className={`h-4 w-4 ${language === "ar" ? "ml-2" : "mr-2"}`} />
-                    {language === "en" ? "العربية" : "English"}
-                  </button>
+                  {/* Remove language toggle from mobile menu since it's always visible in the top right */}
                   
                   {navigation.map((item) => (
                     <Link
