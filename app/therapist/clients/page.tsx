@@ -125,7 +125,7 @@ export default function TherapistClients() {
                     <div className="p-6 md:w-1/3 border-b md:border-b-0 md:border-r">
                       <div className="flex items-start space-x-4">
                         <Avatar className="h-12 w-12">
-                          <AvatarImage src="/placeholder.svg" alt={client.name} />
+                          <AvatarImage src="/placeholder-user.jpg" alt={client.name} />
                           <AvatarFallback>{client.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
@@ -133,9 +133,9 @@ export default function TherapistClients() {
                           <p className="text-sm text-gray-500">Age: {client.age}</p>
                           <p className="text-sm text-gray-500">Parent: {client.parent}</p>
                           <Badge
-                            className="mt-2"
+                            className={`mt-2 ${client.status === "Active" ? "bg-green-100 text-green-800" : ""}`}
                             variant={
-                              client.status === "Active" ? "success" : client.status === "New" ? "default" : "outline"
+                              client.status === "Active" ? "default" : client.status === "New" ? "default" : "outline"
                             }
                           >
                             {client.status}

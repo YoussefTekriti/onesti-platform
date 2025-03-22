@@ -6,7 +6,7 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Calendar, Users, FileText, Settings, Home, LogOut, Menu, X, Bell, MessageSquare, Clock } from "lucide-react"
+import { Calendar, Users, FileText, Settings, Home, LogOut, Menu, X, Bell, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
@@ -15,7 +15,6 @@ const navigation = [
   { name: "Appointments", href: "/therapist/appointments", icon: Calendar },
   { name: "Clients", href: "/therapist/clients", icon: Users },
   { name: "Session Notes", href: "/therapist/notes", icon: FileText },
-  { name: "Messages", href: "/therapist/messages", icon: MessageSquare },
   { name: "Availability", href: "/therapist/availability", icon: Clock },
   { name: "Profile", href: "/therapist/profile", icon: Settings },
 ]
@@ -52,7 +51,7 @@ export default function TherapistLayout({ children }: { children: React.ReactNod
 
               <div className="flex flex-shrink-0 items-center px-4">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image001.jpg-lRBjbexqlJ9PjqISbLsUVR8QmtOJt5.jpeg"
+                  src="/images/logo.png"
                   alt="Onesti Logo"
                   width={150}
                   height={50}
@@ -87,7 +86,7 @@ export default function TherapistLayout({ children }: { children: React.ReactNod
                   <div className="flex items-center">
                     <div>
                       <Avatar className="inline-block h-10 w-10">
-                        <AvatarImage src="/placeholder.svg" alt="Avatar" />
+                        <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
                         <AvatarFallback>ST</AvatarFallback>
                       </Avatar>
                     </div>
@@ -108,7 +107,7 @@ export default function TherapistLayout({ children }: { children: React.ReactNod
         <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white">
           <div className="flex h-16 flex-shrink-0 items-center px-4">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image001.jpg-lRBjbexqlJ9PjqISbLsUVR8QmtOJt5.jpeg"
+              src="/images/logo.png"
               alt="Onesti Logo"
               width={150}
               height={50}
@@ -143,7 +142,7 @@ export default function TherapistLayout({ children }: { children: React.ReactNod
               <div className="flex items-center">
                 <div>
                   <Avatar className="inline-block h-9 w-9">
-                    <AvatarImage src="/placeholder.svg" alt="Avatar" />
+                    <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
                     <AvatarFallback>ST</AvatarFallback>
                   </Avatar>
                 </div>
