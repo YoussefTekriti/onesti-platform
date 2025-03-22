@@ -63,34 +63,39 @@ export default function Header() {
     <header className="bg-white shadow-sm relative">
       {/* Language toggle switch positioned at top right */}
       <div className="absolute top-2 right-4 z-20 lg:top-6 lg:right-6">
-        <div className="flex items-center bg-gray-100 rounded-full p-1 w-20 h-9 shadow-sm">
+        <div className="relative flex items-center bg-white rounded-full p-1 w-28 h-10 shadow-md border border-gray-200">
+          {/* Sliding background */}
+          <div className={`absolute w-14 h-8 bg-onesti-purple rounded-full transition-transform duration-300 ${
+            language === "en" ? "transform translate-x-12" : "transform translate-x-0"
+          }`}></div>
+          
+          {/* AR Button */}
           <button
-            onClick={toggleLanguage}
-            className={`flex justify-center items-center rounded-full transition-all duration-300 w-10 h-7 text-xs font-medium ${
-              language === "en" 
-                ? "bg-white text-onesti-purple shadow-sm translate-x-0" 
-                : "bg-transparent text-gray-500 translate-x-9"
+            onClick={() => setLanguage("ar")}
+            className={`z-10 flex justify-center items-center rounded-full h-8 w-14 font-semibold transition-colors duration-300 ${
+              language === "ar" ? "text-white" : "text-gray-500"
             }`}
-            aria-label={language === "en" ? "Switch to Arabic" : "Switch to English"}
-          >
-            EN
-          </button>
-          <button
-            onClick={toggleLanguage}
-            className={`flex justify-center items-center rounded-full transition-all duration-300 w-10 h-7 -ml-10 text-xs font-medium ${
-              language === "ar" 
-                ? "bg-white text-onesti-purple shadow-sm translate-x-9" 
-                : "bg-transparent text-gray-500 translate-x-0"
-            }`}
-            aria-label={language === "ar" ? "Switch to English" : "Switch to Arabic"}
+            aria-label="Switch to Arabic"
           >
             عربي
+          </button>
+          
+          {/* EN Button */}
+          <button
+            onClick={() => setLanguage("en")}
+            className={`z-10 flex justify-center items-center rounded-full h-8 w-14 font-semibold transition-colors duration-300 ${
+              language === "en" ? "text-white" : "text-gray-500"
+            }`}
+            aria-label="Switch to English"
+          >
+            EN
           </button>
         </div>
       </div>
 
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div className="flex lg:flex-1">
+        {/* Logo - fixed width on left */}
+        <div className="flex w-40 lg:w-64">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Onesti</span>
             <Image
@@ -102,6 +107,8 @@ export default function Header() {
             />
           </Link>
         </div>
+
+        {/* Mobile menu button */}
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -112,7 +119,9 @@ export default function Header() {
             <Menu className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+
+        {/* Navigation - centered */}
+        <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:gap-x-8">
           {navigation.map((item) => (
             <Link
               key={item.name}
@@ -126,11 +135,9 @@ export default function Header() {
             </Link>
           ))}
         </div>
-        <div className="hidden lg:flex lg:items-center lg:gap-x-6">
-          {/* Removed the language toggle from here */}
-          
-          <div className="h-4 w-px bg-gray-200 hidden"></div>
-          
+
+        {/* Account - fixed width on right */}
+        <div className="hidden lg:flex lg:items-center lg:w-64 lg:justify-end">
           {isLoggedIn ? (
             <Link href="/dashboard" className={`text-sm font-semibold leading-6 text-gray-900 flex items-center`}>
               {language === "en" ? (
