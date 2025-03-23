@@ -42,11 +42,11 @@ export default function Footer() {
 
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                Daychounieh street, Hajjar building, 2nd floor, Mansourieh – Lebanon
+                Said Freiha street, Shawki Lutfala bldg. Second floor
               </p>
               <div className="w-full h-48 mt-2 rounded-md overflow-hidden">
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3311.885503850986!2d35.56534!3d33.8626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f17624e7e11f5%3A0x623b6f879d4ba27d!2sMansourieh%2C%20Lebanon!5e0!3m2!1sen!2sus!4v1717084050188!5m2!1sen!2sus" 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.2442227164127!2d35.566546676889366!3d33.85318727322019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f17c67ffec1d7%3A0x1db1c4e0b63e72e8!2sSaid%20Fraiha%20St%2C%20Lebanon!5e0!3m2!1sen!2sus!4v1718286566891!5m2!1sen!2sus" 
                   className="w-full h-full border-0" 
                   allowFullScreen 
                   loading="lazy" 
@@ -126,7 +126,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/assessments-catalog" className="text-sm text-gray-600 hover:text-onesti-purple">
+                <Link href="/assessments" className="text-sm text-gray-600 hover:text-onesti-purple">
                   Screening
                 </Link>
               </li>
@@ -136,12 +136,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <button 
-                  onClick={openMilestonePopup}
-                  className="text-sm text-gray-600 hover:text-onesti-purple"
-                >
+                <Link href="/milestone-tracker" className="text-sm text-gray-600 hover:text-onesti-purple">
                   Milestone Tracker
-                </button>
+                </Link>
               </li>
             </ul>
 
