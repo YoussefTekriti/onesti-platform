@@ -40,11 +40,18 @@ export default function Footer() {
               <p className="text-sm text-gray-600">letstalk@onestiglobal.com</p>
             </div>
 
+            {/* Location */}
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
                 Said Freiha street, Shawki Lutfala bldg. Second floor
               </p>
-              <div className="w-full h-48 mt-2 rounded-md overflow-hidden">
+              <div 
+                className="w-full h-48 mt-2 rounded-md overflow-hidden cursor-pointer relative"
+                onClick={() => window.open("https://www.google.com/maps/place/Onesti+Global/@33.8523053,35.5424429,17z/data=!3m1!4b1!4m6!3m5!1s0x151f3d4587c0d32d:0x96c5a89d8dc7f05d!8m2!3d33.8523053!4d35.5450178!16s%2Fg%2F11t2f3fb9v?hl=en&entry=ttu&g_ep=EgoyMDI1MDMxOS4yIKXMDSoASAFQAw%3D%3D", "_blank")}
+              >
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-black bg-opacity-0 hover:bg-opacity-10 transition-all">
+                  <span className="text-transparent hover:text-white font-medium transition-all">View on Google Maps</span>
+                </div>
                 <iframe 
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.416892558931!2d35.56730947614503!3d33.848982380657544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f17c1c18d92e9%3A0x1da4b2e4f8da38d7!2sOnesti%20Therapy%20%26%20Learning%20Center!5e0!3m2!1sen!2sus!4v1718557046278!5m2!1sen!2sus" 
                   className="w-full h-full border-0" 
