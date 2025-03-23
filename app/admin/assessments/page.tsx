@@ -266,8 +266,7 @@ export default function AssessmentsPage() {
     // Here you would normally save the assessment data
     toast({
       title: "Assessment Created",
-      description: "The new assessment has been created successfully.",
-      icon: <Check className="h-4 w-4" />
+      description: "The new assessment has been created successfully."
     });
     setIsCreateDialogOpen(false)
   }
@@ -285,7 +284,7 @@ export default function AssessmentsPage() {
       setAssessmentTypesList([...assessmentTypesList, newTypeItem])
       toast({
         title: "Assessment Category Created",
-        description: `${newType.name} category has been created successfully.`,
+        description: `${newType.name} category has been created successfully.`
       })
       setIsCreateTypeDialogOpen(false)
       setNewType({ name: "", description: "", published: false })
@@ -491,17 +490,19 @@ export default function AssessmentsPage() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <Select value={typeFilter} onValueChange={setTypeFilter}>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Assessment Type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Types</SelectItem>
-                        {assessmentTypesList.map(type => (
-                          <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <div className="w-[180px]">
+                      <Select value={typeFilter} onValueChange={setTypeFilter}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Assessment Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Types</SelectItem>
+                          {assessmentTypesList.map(type => (
+                            <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
                     <Button variant="outline" onClick={exportToCSV}>
                       <Download className="h-4 w-4 mr-2" />
@@ -641,16 +642,18 @@ export default function AssessmentsPage() {
             <Card>
               <CardHeader className="pb-3 flex flex-row justify-between items-center">
                 <CardTitle>Assessment Categories</CardTitle>
-                <Select value={publishFilter} onValueChange={setPublishFilter} className="w-44">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Filter by status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="published">Published</SelectItem>
-                    <SelectItem value="unpublished">Unpublished</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="w-44">
+                  <Select value={publishFilter} onValueChange={setPublishFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Filter by status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Categories</SelectItem>
+                      <SelectItem value="published">Published</SelectItem>
+                      <SelectItem value="unpublished">Unpublished</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
@@ -717,27 +720,31 @@ export default function AssessmentsPage() {
               <CardContent>
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center space-x-2">
-                    <Select value={typeFilter} onValueChange={setTypeFilter}>
-                      <SelectTrigger className="w-[200px]">
-                        <SelectValue placeholder="Filter by category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Categories</SelectItem>
-                        {assessmentTypesList.map((type) => (
-                          <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Select value={publishFilter} onValueChange={setPublishFilter}>
-                      <SelectTrigger className="w-[150px]">
-                        <SelectValue placeholder="Status" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Status</SelectItem>
-                        <SelectItem value="published">Published</SelectItem>
-                        <SelectItem value="unpublished">Unpublished</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <div className="w-[200px]">
+                      <Select value={typeFilter} onValueChange={setTypeFilter}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Filter by category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Categories</SelectItem>
+                          {assessmentTypesList.map((type) => (
+                            <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="w-[150px]">
+                      <Select value={publishFilter} onValueChange={setPublishFilter}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Status</SelectItem>
+                          <SelectItem value="published">Published</SelectItem>
+                          <SelectItem value="unpublished">Unpublished</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                   <Input
                     placeholder="Search questions..."
