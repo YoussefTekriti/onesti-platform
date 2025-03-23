@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useToast } from "@/components/ui/use-toast"
+import { Checkbox } from "@/components/ui/checkbox"
 
 // Mock user data to link with assessments
 const users = [
@@ -37,20 +38,20 @@ const users = [
 
 // Mock assessment types data
 const assessmentTypes = [
-  { id: "AST001", name: "Developmental", description: "Evaluates developmental milestones and progress" },
-  { id: "AST002", name: "Speech", description: "Evaluates speech patterns and language development" },
-  { id: "AST003", name: "Behavioral", description: "Evaluates behavior patterns and social interactions" },
-  { id: "AST004", name: "Cognitive", description: "Evaluates cognitive abilities and learning skills" },
+  { id: "AST001", name: "Developmental", description: "Evaluates developmental milestones and progress", published: true },
+  { id: "AST002", name: "Speech", description: "Evaluates speech patterns and language development", published: true },
+  { id: "AST003", name: "Behavioral", description: "Evaluates behavior patterns and social interactions", published: true },
+  { id: "AST004", name: "Cognitive", description: "Evaluates cognitive abilities and learning skills", published: true },
 ];
 
 // Mock questions data
 const questionsData = [
-  { id: "Q001", typeId: "AST001", text: "Does your child respond to their name?", ageRange: "0-12 months" },
-  { id: "Q002", typeId: "AST001", text: "Can your child sit without support?", ageRange: "6-12 months" },
-  { id: "Q003", typeId: "AST002", text: "Does your child babble or make sounds?", ageRange: "0-12 months" },
-  { id: "Q004", typeId: "AST002", text: "Can your child say simple words like 'mama' or 'dada'?", ageRange: "12-18 months" },
-  { id: "Q005", typeId: "AST003", text: "Does your child make eye contact?", ageRange: "0-12 months" },
-  { id: "Q006", typeId: "AST003", text: "Does your child engage in parallel play with other children?", ageRange: "18-36 months" },
+  { id: "Q001", typeId: "AST001", text: "Does your child respond to their name?", ageRange: "0-12 months", published: true },
+  { id: "Q002", typeId: "AST001", text: "Can your child sit without support?", ageRange: "6-12 months", published: true },
+  { id: "Q003", typeId: "AST002", text: "Does your child babble or make sounds?", ageRange: "0-12 months", published: true },
+  { id: "Q004", typeId: "AST002", text: "Can your child say simple words like 'mama' or 'dada'?", ageRange: "12-18 months", published: true },
+  { id: "Q005", typeId: "AST003", text: "Does your child make eye contact?", ageRange: "0-12 months", published: true },
+  { id: "Q006", typeId: "AST003", text: "Does your child engage in parallel play with other children?", ageRange: "18-36 months", published: true },
 ];
 
 // Update the component to include the create assessment dialog
@@ -68,8 +69,12 @@ export default function AssessmentsPage() {
   const [isCreateTypeDialogOpen, setIsCreateTypeDialogOpen] = useState(false)
   const [isCreateQuestionDialogOpen, setIsCreateQuestionDialogOpen] = useState(false)
   const [questions, setQuestions] = useState(questionsData)
-  const [newType, setNewType] = useState({ name: "", description: "" })
-  const [newQuestion, setNewQuestion] = useState({ typeId: "", text: "", ageRange: "" })
+  const [newType, setNewType] = useState({ name: "", description: "", published: false })
+  const [newQuestion, setNewQuestion] = useState({ typeId: "", text: "", ageRange: "", published: false })
+  const [assessmentTypesList, setAssessmentTypesList] = useState(assessmentTypes)
+  const [editingType, setEditingType] = useState<{ id: string } | null>(null)
+  const [editingQuestion, setEditingQuestion] = useState<{ id: string } | null>(null)
+  const [publishFilter, setPublishFilter] = useState("all")
 
   // Mock assessment data
   const assessments = [
@@ -272,13 +277,67 @@ export default function AssessmentsPage() {
     e.preventDefault()
     // Simulating API call
     setTimeout(() => {
+      const newTypeItem = {
+        id: `AST${Math.floor(Math.random() * 1000)}`,
+        ...newType
+      }
+      
+      setAssessmentTypesList([...assessmentTypesList, newTypeItem])
       toast({
-        title: "Assessment Type Created",
-        description: `${newType.name} type has been created successfully.`,
+        title: "Assessment Category Created",
+        description: `${newType.name} category has been created successfully.`,
       })
       setIsCreateTypeDialogOpen(false)
-      setNewType({ name: "", description: "" })
+      setNewType({ name: "", description: "", published: false })
     }, 1000)
+  }
+
+  // Add function to handle type editing
+  const handleEditType = (type: any) => {
+    setEditingType(type)
+    setNewType({ 
+      name: type.name, 
+      description: type.description,
+      published: type.published
+    })
+    setIsCreateTypeDialogOpen(true)
+  }
+
+  // Add function to update type
+  const handleUpdateType = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!editingType) return
+
+    // Simulating API call
+    setTimeout(() => {
+      const updatedTypes = assessmentTypesList.map(type => 
+        type.id === editingType.id ? { ...type, ...newType } : type
+      )
+      
+      setAssessmentTypesList(updatedTypes)
+      toast({
+        title: "Category Updated",
+        description: `${newType.name} category has been updated successfully.`,
+      })
+      setIsCreateTypeDialogOpen(false)
+      setNewType({ name: "", description: "", published: false })
+      setEditingType(null)
+    }, 1000)
+  }
+
+  // Add function to toggle type publication status
+  const toggleTypePublish = (typeId: string) => {
+    const updatedTypes = assessmentTypesList.map(type => 
+      type.id === typeId ? { ...type, published: !type.published } : type
+    )
+    
+    setAssessmentTypesList(updatedTypes)
+    const type = updatedTypes.find(t => t.id === typeId)
+    
+    toast({
+      title: type?.published ? "Category Published" : "Category Unpublished",
+      description: `${type?.name} has been ${type?.published ? "published" : "unpublished"} successfully.`,
+    })
   }
 
   // Add new function to handle question creation
@@ -290,14 +349,84 @@ export default function AssessmentsPage() {
         id: `Q${Math.floor(Math.random() * 1000)}`,
         ...newQuestion
       }
+      
       setQuestions([...questions, newQuestionItem])
       toast({
         title: "Question Added",
         description: "The question has been added successfully.",
       })
       setIsCreateQuestionDialogOpen(false)
-      setNewQuestion({ typeId: "", text: "", ageRange: "" })
+      setNewQuestion({ typeId: "", text: "", ageRange: "", published: false })
     }, 1000)
+  }
+
+  // Add function to handle question editing
+  const handleEditQuestion = (question: any) => {
+    setEditingQuestion(question)
+    setNewQuestion({ 
+      typeId: question.typeId, 
+      text: question.text,
+      ageRange: question.ageRange,
+      published: question.published
+    })
+    setIsCreateQuestionDialogOpen(true)
+  }
+
+  // Add function to update question
+  const handleUpdateQuestion = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!editingQuestion) return
+
+    // Simulating API call
+    setTimeout(() => {
+      const updatedQuestions = questions.map(question => 
+        question.id === editingQuestion.id ? { ...question, ...newQuestion } : question
+      )
+      
+      setQuestions(updatedQuestions)
+      toast({
+        title: "Question Updated",
+        description: "The question has been updated successfully.",
+      })
+      setIsCreateQuestionDialogOpen(false)
+      setNewQuestion({ typeId: "", text: "", ageRange: "", published: false })
+      setEditingQuestion(null)
+    }, 1000)
+  }
+
+  // Add function to toggle question publication status
+  const toggleQuestionPublish = (questionId: string) => {
+    const updatedQuestions = questions.map(question => 
+      question.id === questionId ? { ...question, published: !question.published } : question
+    )
+    
+    setQuestions(updatedQuestions)
+    const question = updatedQuestions.find(q => q.id === questionId)
+    
+    toast({
+      title: question?.published ? "Question Published" : "Question Unpublished",
+      description: `Question has been ${question?.published ? "published" : "unpublished"} successfully.`,
+    })
+  }
+
+  // Filter questions based on publish status
+  const getFilteredQuestions = () => {
+    return questions
+      .filter(q => typeFilter === "all" || q.typeId === typeFilter)
+      .filter(q => q.text.toLowerCase().includes(searchTerm.toLowerCase()))
+      .filter(q => publishFilter === "all" || 
+        (publishFilter === "published" && q.published) || 
+        (publishFilter === "unpublished" && !q.published)
+      )
+  }
+
+  // Filter categories based on publish status
+  const getFilteredCategories = () => {
+    return assessmentTypesList
+      .filter(t => publishFilter === "all" || 
+        (publishFilter === "published" && t.published) || 
+        (publishFilter === "unpublished" && !t.published)
+      )
   }
 
   return (
@@ -320,13 +449,21 @@ export default function AssessmentsPage() {
                 </Button>
               )}
               {activeTab === "categories" && (
-                <Button onClick={() => setIsCreateTypeDialogOpen(true)}>
+                <Button onClick={() => {
+                  setEditingType(null);
+                  setNewType({ name: "", description: "", published: false });
+                  setIsCreateTypeDialogOpen(true);
+                }}>
                   <Plus className="h-4 w-4 mr-2" />
                   New Category
                 </Button>
               )}
               {activeTab === "questions" && (
-                <Button onClick={() => setIsCreateQuestionDialogOpen(true)}>
+                <Button onClick={() => {
+                  setEditingQuestion(null);
+                  setNewQuestion({ typeId: "", text: "", ageRange: "", published: false });
+                  setIsCreateQuestionDialogOpen(true);
+                }}>
                   <Plus className="h-4 w-4 mr-2" />
                   New Question
                 </Button>
@@ -360,7 +497,7 @@ export default function AssessmentsPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">All Types</SelectItem>
-                        {assessmentTypes.map(type => (
+                        {assessmentTypesList.map(type => (
                           <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
                         ))}
                       </SelectContent>
@@ -502,8 +639,18 @@ export default function AssessmentsPage() {
 
           <TabsContent value="categories" className="space-y-6">
             <Card>
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-3 flex flex-row justify-between items-center">
                 <CardTitle>Assessment Categories</CardTitle>
+                <Select value={publishFilter} onValueChange={setPublishFilter} className="w-44">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Filter by status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    <SelectItem value="published">Published</SelectItem>
+                    <SelectItem value="unpublished">Unpublished</SelectItem>
+                  </SelectContent>
+                </Select>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
@@ -512,24 +659,42 @@ export default function AssessmentsPage() {
                       <tr className="border-b">
                         <th className="py-3 px-4 text-left font-medium">Name</th>
                         <th className="py-3 px-4 text-left font-medium">Description</th>
+                        <th className="py-3 px-4 text-center font-medium">Status</th>
                         <th className="py-3 px-4 text-right font-medium">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {assessmentTypes.map((type) => (
+                      {getFilteredCategories().map((type) => (
                         <tr key={type.id} className="border-b hover:bg-gray-50">
                           <td className="py-3 px-4">{type.name}</td>
                           <td className="py-3 px-4">{type.description}</td>
+                          <td className="py-3 px-4 text-center">
+                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${type.published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                              {type.published ? 'Published' : 'Draft'}
+                            </span>
+                          </td>
                           <td className="py-3 px-4 text-right">
                             <div className="flex items-center justify-end gap-2">
-                              <Button variant="ghost" size="icon">
+                              <Button 
+                                variant="ghost" 
+                                size="icon"
+                                onClick={() => handleEditType(type)}
+                              >
                                 <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="icon"
+                                onClick={() => toggleTypePublish(type.id)}
+                              >
+                                {type.published ? <Eye className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
                               </Button>
                               <Button variant="ghost" size="icon" onClick={() => {
                                 toast({
                                   title: "Category Deleted",
                                   description: "The category has been deleted",
                                 })
+                                setAssessmentTypesList(assessmentTypesList.filter(t => t.id !== type.id))
                               }}>
                                 <Trash2 className="h-4 w-4" />
                               </Button>
@@ -558,9 +723,19 @@ export default function AssessmentsPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">All Categories</SelectItem>
-                        {assessmentTypes.map((type) => (
+                        {assessmentTypesList.map((type) => (
                           <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
                         ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={publishFilter} onValueChange={setPublishFilter}>
+                      <SelectTrigger className="w-[150px]">
+                        <SelectValue placeholder="Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="published">Published</SelectItem>
+                        <SelectItem value="unpublished">Unpublished</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -578,37 +753,52 @@ export default function AssessmentsPage() {
                         <th className="py-3 px-4 text-left font-medium">Question</th>
                         <th className="py-3 px-4 text-left font-medium">Category</th>
                         <th className="py-3 px-4 text-left font-medium">Age Range</th>
+                        <th className="py-3 px-4 text-center font-medium">Status</th>
                         <th className="py-3 px-4 text-right font-medium">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {questions
-                        .filter(q => typeFilter === "all" || q.typeId === typeFilter)
-                        .filter(q => q.text.toLowerCase().includes(searchTerm.toLowerCase()))
-                        .map((question) => (
-                          <tr key={question.id} className="border-b hover:bg-gray-50">
-                            <td className="py-3 px-4">{question.text}</td>
-                            <td className="py-3 px-4">
-                              {assessmentTypes.find(t => t.id === question.typeId)?.name || "Unknown"}
-                            </td>
-                            <td className="py-3 px-4">{question.ageRange}</td>
-                            <td className="py-3 px-4 text-right">
-                              <div className="flex items-center justify-end gap-2">
-                                <Button variant="ghost" size="icon">
-                                  <Edit className="h-4 w-4" />
-                                </Button>
-                                <Button variant="ghost" size="icon" onClick={() => {
-                                  toast({
-                                    title: "Question Deleted",
-                                    description: "The question has been deleted",
-                                  })
-                                }}>
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                      {getFilteredQuestions().map((question) => (
+                        <tr key={question.id} className="border-b hover:bg-gray-50">
+                          <td className="py-3 px-4">{question.text}</td>
+                          <td className="py-3 px-4">
+                            {assessmentTypesList.find(t => t.id === question.typeId)?.name || "Unknown"}
+                          </td>
+                          <td className="py-3 px-4">{question.ageRange}</td>
+                          <td className="py-3 px-4 text-center">
+                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${question.published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                              {question.published ? 'Published' : 'Draft'}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <Button 
+                                variant="ghost" 
+                                size="icon"
+                                onClick={() => handleEditQuestion(question)}
+                              >
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="icon"
+                                onClick={() => toggleQuestionPublish(question.id)}
+                              >
+                                {question.published ? <Eye className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
+                              </Button>
+                              <Button variant="ghost" size="icon" onClick={() => {
+                                toast({
+                                  title: "Question Deleted",
+                                  description: "The question has been deleted",
+                                })
+                                setQuestions(questions.filter(q => q.id !== question.id))
+                              }}>
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -673,12 +863,12 @@ export default function AssessmentsPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="assessmentType">Assessment Type</Label>
-                    <Select defaultValue={assessmentTypes[0].id}>
+                    <Select defaultValue={assessmentTypesList[0].id}>
                       <SelectTrigger id="assessmentType">
                         <SelectValue placeholder="Select type" />
                       </SelectTrigger>
                       <SelectContent>
-                        {assessmentTypes.map(type => (
+                        {assessmentTypesList.map(type => (
                           <SelectItem key={type.id} value={type.id}>
                             {type.name}
                           </SelectItem>
@@ -796,12 +986,12 @@ export default function AssessmentsPage() {
         <Dialog open={isCreateTypeDialogOpen} onOpenChange={setIsCreateTypeDialogOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Assessment Category</DialogTitle>
+              <DialogTitle>{editingType ? 'Edit Assessment Category' : 'Create New Assessment Category'}</DialogTitle>
               <DialogDescription>
-                Add a new category for screening assessments.
+                {editingType ? 'Update an existing category.' : 'Add a new category for screening assessments.'}
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleCreateType}>
+            <form onSubmit={editingType ? handleUpdateType : handleCreateType}>
               <div className="space-y-4 py-2">
                 <div className="space-y-2">
                   <Label htmlFor="type-name">Category Name</Label>
@@ -823,12 +1013,24 @@ export default function AssessmentsPage() {
                     required
                   />
                 </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="type-published" 
+                    checked={newType.published}
+                    onCheckedChange={(checked) => setNewType({ ...newType, published: checked === true })}
+                  />
+                  <Label htmlFor="type-published">Publish immediately</Label>
+                </div>
               </div>
               <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => setIsCreateTypeDialogOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => {
+                  setIsCreateTypeDialogOpen(false);
+                  setEditingType(null);
+                  setNewType({ name: "", description: "", published: false });
+                }}>
                   Cancel
                 </Button>
-                <Button type="submit">Create Category</Button>
+                <Button type="submit">{editingType ? 'Update Category' : 'Create Category'}</Button>
               </DialogFooter>
             </form>
           </DialogContent>
@@ -837,12 +1039,12 @@ export default function AssessmentsPage() {
         <Dialog open={isCreateQuestionDialogOpen} onOpenChange={setIsCreateQuestionDialogOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Question</DialogTitle>
+              <DialogTitle>{editingQuestion ? 'Edit Question' : 'Create New Question'}</DialogTitle>
               <DialogDescription>
-                Add a new question for screening assessments.
+                {editingQuestion ? 'Update an existing question.' : 'Add a new question for screening assessments.'}
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleCreateQuestion}>
+            <form onSubmit={editingQuestion ? handleUpdateQuestion : handleCreateQuestion}>
               <div className="space-y-4 py-2">
                 <div className="space-y-2">
                   <Label htmlFor="question-category">Category</Label>
@@ -855,7 +1057,7 @@ export default function AssessmentsPage() {
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
-                      {assessmentTypes.map((type) => (
+                      {assessmentTypesList.map((type) => (
                         <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
                       ))}
                     </SelectContent>
@@ -893,12 +1095,24 @@ export default function AssessmentsPage() {
                     </SelectContent>
                   </Select>
                 </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="question-published" 
+                    checked={newQuestion.published}
+                    onCheckedChange={(checked) => setNewQuestion({ ...newQuestion, published: checked === true })}
+                  />
+                  <Label htmlFor="question-published">Publish immediately</Label>
+                </div>
               </div>
               <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => setIsCreateQuestionDialogOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => {
+                  setIsCreateQuestionDialogOpen(false);
+                  setEditingQuestion(null);
+                  setNewQuestion({ typeId: "", text: "", ageRange: "", published: false });
+                }}>
                   Cancel
                 </Button>
-                <Button type="submit">Create Question</Button>
+                <Button type="submit">{editingQuestion ? 'Update Question' : 'Create Question'}</Button>
               </DialogFooter>
             </form>
           </DialogContent>
