@@ -23,28 +23,31 @@ export default function ParentJourney() {
         <div className="absolute left-16 top-0 bottom-0 w-0.5 bg-gray-200 hidden md:block"></div>
 
         {/* Step 1 */}
-        <div className="relative mb-24">
+        <div className="relative mb-12 md:mb-24">
           <div className="hidden md:block absolute left-16 top-0 -translate-x-1/2 z-10">
             <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-full">
               <span className="text-white text-xl font-semibold">1</span>
             </div>
           </div>
           <div className="flex flex-col md:flex-row items-center md:pl-24">
-            <div className="md:w-5/12 md:pr-8 mb-8 md:mb-0">
-              <div className="text-left">
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Learn About Your Child's Development</h3>
+            <div className="w-full md:w-5/12 md:pr-8 mb-8 md:mb-0">
+              <div className="flex md:hidden items-center justify-center w-12 h-12 bg-primary rounded-full mb-4 mx-auto">
+                <span className="text-white text-xl font-semibold">1</span>
+              </div>
+              <div className="text-left md:text-left text-center">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Learn About Your Child's Development</h3>
                 <p className="text-lg text-gray-600 mb-8">
                   Explore our blog articles to understand developmental milestones, challenges, and solutions for your
                   child.
                 </p>
-                <Button asChild className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8">
+                <Button asChild className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8 w-full md:w-auto">
                   <Link href="/blogs">Read Our Blog</Link>
                 </Button>
               </div>
             </div>
-            <div className="md:w-7/12 md:pl-8">
+            <div className="w-full md:w-7/12 md:pl-8">
               <div className="bg-blue-50 rounded-xl overflow-hidden p-4">
-                <div className="relative h-64 w-full rounded-lg overflow-hidden">
+                <div className="relative h-48 md:h-64 w-full rounded-lg overflow-hidden">
                   <Image
                     src="/images/consultation-session.jpeg"
                     alt="Consultation session"
@@ -58,30 +61,33 @@ export default function ParentJourney() {
         </div>
 
         {/* Step 2 */}
-        <div className="relative mb-24">
+        <div className="relative mb-12 md:mb-24">
           <div className="hidden md:block absolute left-16 top-0 -translate-x-1/2 z-10">
             <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-full">
               <span className="text-white text-xl font-semibold">2</span>
             </div>
           </div>
           <div className="flex flex-col md:flex-row items-center md:pl-24">
-            <div className="md:w-5/12 md:pr-8 mb-8 md:mb-0">
-              <div className="text-left">
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Track Your Child's Milestones</h3>
+            <div className="w-full md:w-5/12 md:pr-8 mb-8 md:mb-0">
+              <div className="flex md:hidden items-center justify-center w-12 h-12 bg-primary rounded-full mb-4 mx-auto">
+                <span className="text-white text-xl font-semibold">2</span>
+              </div>
+              <div className="text-left md:text-left text-center">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Track Your Child's Milestones</h3>
                 <p className="text-lg text-gray-600 mb-8">
                   Subscribe to receive personalized milestone updates and developmental tips based on your child's age.
                 </p>
                 <Button
-                  className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8"
+                  className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8 w-full md:w-auto"
                   onClick={() => setIsDialogOpen(true)}
                 >
                   Track Milestones
                 </Button>
               </div>
             </div>
-            <div className="md:w-7/12 md:pl-8">
+            <div className="w-full md:w-7/12 md:pl-8">
               <div className="bg-blue-50 rounded-xl overflow-hidden p-4">
-                <div className="relative h-64 w-full rounded-lg overflow-hidden">
+                <div className="relative h-48 md:h-64 w-full rounded-lg overflow-hidden">
                   <Image
                     src="/images/child-development.jpeg"
                     alt="Child development milestones"
@@ -95,27 +101,30 @@ export default function ParentJourney() {
         </div>
 
         {/* Step 3 */}
-        <div className="relative mb-24">
+        <div className="relative mb-12 md:mb-24">
           <div className="hidden md:block absolute left-16 top-0 -translate-x-1/2 z-10">
             <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-full">
               <span className="text-white text-xl font-semibold">3</span>
             </div>
           </div>
           <div className="flex flex-col md:flex-row items-center md:pl-24">
-            <div className="md:w-5/12 md:pr-8 mb-8 md:mb-0">
-              <div className="text-left">
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Complete an Assessment for Your Child</h3>
+            <div className="w-full md:w-5/12 md:pr-8 mb-8 md:mb-0">
+              <div className="flex md:hidden items-center justify-center w-12 h-12 bg-primary rounded-full mb-4 mx-auto">
+                <span className="text-white text-xl font-semibold">3</span>
+              </div>
+              <div className="text-left md:text-left text-center">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Complete an Assessment for Your Child</h3>
                 <p className="text-lg text-gray-600 mb-8">
                   Take a comprehensive assessment to help us understand your child's specific needs and challenges.
                 </p>
-                <Button asChild className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8">
+                <Button asChild className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8 w-full md:w-auto">
                   <Link href="/assessments">Start Assessment</Link>
                 </Button>
               </div>
             </div>
-            <div className="md:w-7/12 md:pl-8">
+            <div className="w-full md:w-7/12 md:pl-8">
               <div className="bg-blue-50 rounded-xl overflow-hidden p-4">
-                <div className="relative h-64 w-full rounded-lg overflow-hidden">
+                <div className="relative h-48 md:h-64 w-full rounded-lg overflow-hidden">
                   <Image
                     src="/images/therapy-session.jpeg"
                     alt="Child assessment session"
@@ -129,27 +138,30 @@ export default function ParentJourney() {
         </div>
 
         {/* Step 4 */}
-        <div className="relative mb-24">
+        <div className="relative mb-12 md:mb-24">
           <div className="hidden md:block absolute left-16 top-0 -translate-x-1/2 z-10">
             <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-full">
               <span className="text-white text-xl font-semibold">4</span>
             </div>
           </div>
           <div className="flex flex-col md:flex-row items-center md:pl-24">
-            <div className="md:w-5/12 md:pr-8 mb-8 md:mb-0">
-              <div className="text-left">
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Book Your Free 20-Minute Session</h3>
+            <div className="w-full md:w-5/12 md:pr-8 mb-8 md:mb-0">
+              <div className="flex md:hidden items-center justify-center w-12 h-12 bg-primary rounded-full mb-4 mx-auto">
+                <span className="text-white text-xl font-semibold">4</span>
+              </div>
+              <div className="text-left md:text-left text-center">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Book Your Free 20-Minute Session</h3>
                 <p className="text-lg text-gray-600 mb-8">
                   Schedule a complimentary consultation with one of our specialists to discuss your child's needs.
                 </p>
-                <Button asChild className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8">
+                <Button asChild className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8 w-full md:w-auto">
                   <Link href="/consultation">Book Consultation</Link>
                 </Button>
               </div>
             </div>
-            <div className="md:w-7/12 md:pl-8">
+            <div className="w-full md:w-7/12 md:pl-8">
               <div className="bg-blue-50 rounded-xl overflow-hidden p-4">
-                <div className="relative h-64 w-full rounded-lg overflow-hidden">
+                <div className="relative h-48 md:h-64 w-full rounded-lg overflow-hidden">
                   <Image
                     src="/images/child-learning.jpeg"
                     alt="Child learning and growing"
@@ -170,20 +182,23 @@ export default function ParentJourney() {
             </div>
           </div>
           <div className="flex flex-col md:flex-row items-center md:pl-24">
-            <div className="md:w-5/12 md:pr-8 mb-8 md:mb-0">
-              <div className="text-left">
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Start Your Child's Treatment</h3>
+            <div className="w-full md:w-5/12 md:pr-8 mb-8 md:mb-0">
+              <div className="flex md:hidden items-center justify-center w-12 h-12 bg-primary rounded-full mb-4 mx-auto">
+                <span className="text-white text-xl font-semibold">5</span>
+              </div>
+              <div className="text-left md:text-left text-center">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Start Your Child's Treatment</h3>
                 <p className="text-lg text-gray-600 mb-8">
                   Begin your child's personalized therapy program with the right package for their unique needs.
                 </p>
-                <Button asChild className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8">
+                <Button asChild className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8 w-full md:w-auto">
                   <Link href="/packages">View Packages</Link>
                 </Button>
               </div>
             </div>
-            <div className="md:w-7/12 md:pl-8">
+            <div className="w-full md:w-7/12 md:pl-8">
               <div className="bg-blue-50 rounded-xl overflow-hidden p-4">
-                <div className="relative h-64 w-full rounded-lg overflow-hidden">
+                <div className="relative h-48 md:h-64 w-full rounded-lg overflow-hidden">
                   <Image src="/images/speech-therapy.jpeg" alt="Child therapy session" fill className="object-cover" />
                 </div>
               </div>

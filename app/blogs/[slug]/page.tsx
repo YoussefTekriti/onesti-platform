@@ -27,49 +27,49 @@ function getBlogPost(slug: string): BlogPost | null {
   // Mock data for demonstration - aligned with the CMS data
   const blogPosts: Record<string, BlogPost> = {
     "child-development-milestones": {
-      title: "Understanding Child Development Milestones",
-      author: {
-        name: "Dr. Sarah Johnson",
+    title: "Understanding Child Development Milestones",
+    author: {
+      name: "Dr. Sarah Johnson",
         image: "/images/child-development.jpeg",
-        bio: "As a certified child development specialist, I'm passionate about helping parents understand their children's growth journey. My approach focuses on evidence-based practices and practical advice for families.",
-      },
-      date: "March 15, 2025",
-      content: `
-        <h2 id="what-are-developmental-milestones">What Are Developmental Milestones?</h2>
-        <p>Developmental milestones are behaviors or physical skills seen in infants and children as they grow and develop. Rolling over, crawling, walking, and talking are all considered milestones.</p>
-        
-        <h2 id="why-milestones-matter">Why Milestones Matter</h2>
-        <p>Tracking milestones helps ensure a child's development is on track. They serve as important clues about a child's developmental health.</p>
-        
-        <h3 id="early-identification">Early Identification</h3>
-        <p>Recognizing delays early allows for timely intervention, which can significantly improve outcomes.</p>
-        
-        <h3 id="parental-guidance">Parental Guidance</h3>
-        <p>Understanding milestones helps parents know what to expect and how to support their child's development.</p>
-        
-        <h2 id="key-developmental-areas">Key Developmental Areas</h2>
-        
-        <h3 id="physical-development">Physical Development</h3>
-        <p>This includes gross motor skills like sitting, standing, and walking, as well as fine motor skills like grasping objects and using utensils.</p>
-        
-        <h3 id="cognitive-development">Cognitive Development</h3>
-        <p>This involves learning, thinking, problem-solving, and understanding concepts like cause and effect.</p>
-        
-        <h3 id="social-emotional-development">Social and Emotional Development</h3>
-        <p>This encompasses forming attachments, expressing emotions, and developing relationships with others.</p>
-        
-        <h3 id="language-development">Language Development</h3>
-        <p>This includes understanding language, expressing needs, and eventually speaking clearly.</p>
-        
-        <h2 id="when-to-seek-professional-advice">When to Seek Professional Advice</h2>
-        <p>While all children develop at their own pace, significant delays might warrant professional evaluation. Trust your instincts as a parent and don't hesitate to consult with healthcare providers if you have concerns.</p>
-        
-        <blockquote>
-          <p>An extra important note to remember is that consistency is key. Small, sustainable changes in your daily habits will have a more lasting impact than short-term, extreme efforts. Prioritize gradual improvements in your routine and be patient with yourself - lasting health is a marathon, not a sprint.</p>
-        </blockquote>
-      `,
-      category: "Child Development",
-      tags: ["Child Development", "Milestones", "Early Intervention", "Parenting"],
+      bio: "As a certified child development specialist, I'm passionate about helping parents understand their children's growth journey. My approach focuses on evidence-based practices and practical advice for families.",
+    },
+    date: "March 15, 2025",
+    content: `
+      <h2 id="what-are-developmental-milestones">What Are Developmental Milestones?</h2>
+      <p>Developmental milestones are behaviors or physical skills seen in infants and children as they grow and develop. Rolling over, crawling, walking, and talking are all considered milestones.</p>
+      
+      <h2 id="why-milestones-matter">Why Milestones Matter</h2>
+      <p>Tracking milestones helps ensure a child's development is on track. They serve as important clues about a child's developmental health.</p>
+      
+      <h3 id="early-identification">Early Identification</h3>
+      <p>Recognizing delays early allows for timely intervention, which can significantly improve outcomes.</p>
+      
+      <h3 id="parental-guidance">Parental Guidance</h3>
+      <p>Understanding milestones helps parents know what to expect and how to support their child's development.</p>
+      
+      <h2 id="key-developmental-areas">Key Developmental Areas</h2>
+      
+      <h3 id="physical-development">Physical Development</h3>
+      <p>This includes gross motor skills like sitting, standing, and walking, as well as fine motor skills like grasping objects and using utensils.</p>
+      
+      <h3 id="cognitive-development">Cognitive Development</h3>
+      <p>This involves learning, thinking, problem-solving, and understanding concepts like cause and effect.</p>
+      
+      <h3 id="social-emotional-development">Social and Emotional Development</h3>
+      <p>This encompasses forming attachments, expressing emotions, and developing relationships with others.</p>
+      
+      <h3 id="language-development">Language Development</h3>
+      <p>This includes understanding language, expressing needs, and eventually speaking clearly.</p>
+      
+      <h2 id="when-to-seek-professional-advice">When to Seek Professional Advice</h2>
+      <p>While all children develop at their own pace, significant delays might warrant professional evaluation. Trust your instincts as a parent and don't hesitate to consult with healthcare providers if you have concerns.</p>
+      
+      <blockquote>
+        <p>An extra important note to remember is that consistency is key. Small, sustainable changes in your daily habits will have a more lasting impact than short-term, extreme efforts. Prioritize gradual improvements in your routine and be patient with yourself - lasting health is a marathon, not a sprint.</p>
+      </blockquote>
+    `,
+    category: "Child Development",
+    tags: ["Child Development", "Milestones", "Early Intervention", "Parenting"],
       featuredImage: "/images/child-development.jpeg",
     },
     "sensory-processing-strategies": {
@@ -227,7 +227,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   
   // Move the data fetching logic here for client component
   const post = getBlogPost(params.slug)
-  
+
   if (!post) {
     return <div className="container mx-auto px-4 py-12 text-center">
       <h1 className="text-2xl font-bold mb-4">Resource Not Found</h1>
@@ -267,12 +267,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 <div className="flex flex-wrap items-center text-sm text-gray-600 mb-4 gap-y-2">
                   <div className="flex items-center mr-6">
                     <div className="relative w-10 h-10 overflow-hidden rounded-full mr-2">
-                      <Image
+                    <Image
                         src={post.author.image}
-                        alt={post.author.name}
+                      alt={post.author.name}
                         fill
                         className="object-cover"
-                      />
+                    />
                     </div>
                     <span>{post.author.name}</span>
                   </div>
@@ -285,30 +285,30 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 <div className="relative h-[400px] w-full mb-8 rounded-lg overflow-hidden">
                   <Image
                     src={post.featuredImage}
-                    alt={post.title}
+                  alt={post.title}
                     fill
                     priority
                     className="object-cover"
-                  />
+                />
                 </div>
               </div>
 
               {/* Table of Contents */}
               {headings.length > 0 && (
-                <div className="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
-                  <h3 className="text-lg font-semibold mb-4">Table of Contents:</h3>
-                  <ul className="space-y-2">
-                    {headings.map((heading) => (
-                      <li
-                        key={heading.id}
-                        className="text-primary hover:underline"
-                        style={{ marginLeft: `${(heading.level - 2) * 1}rem` }}
-                      >
-                        <a href={`#${heading.id}`}>{heading.text}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <h3 className="text-lg font-semibold mb-4">Table of Contents:</h3>
+                <ul className="space-y-2">
+                  {headings.map((heading) => (
+                    <li
+                      key={heading.id}
+                      className="text-primary hover:underline"
+                      style={{ marginLeft: `${(heading.level - 2) * 1}rem` }}
+                    >
+                      <a href={`#${heading.id}`}>{heading.text}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               )}
 
               {/* Main Content */}
@@ -319,12 +319,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 <h2 className="text-2xl font-bold mb-6 text-gray-900">About Author</h2>
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="relative w-[120px] h-[120px] rounded-lg overflow-hidden flex-shrink-0">
-                    <Image
+                  <Image
                       src={post.author.image}
-                      alt={post.author.name}
+                    alt={post.author.name}
                       fill
                       className="object-cover"
-                    />
+                  />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-2">{post.author.name}</h3>
@@ -356,18 +356,18 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             {/* Search Box */}
             <div className="bg-white p-6 rounded-lg shadow-sm mb-8">
               <form onSubmit={handleSearch}>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search..."
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  />
+                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
                   <button type="submit" className="absolute inset-y-0 right-0 px-3 flex items-center">
-                    <Search className="h-5 w-5 text-blue-500" />
-                  </button>
-                </div>
+                  <Search className="h-5 w-5 text-blue-500" />
+                </button>
+              </div>
               </form>
             </div>
 
@@ -421,14 +421,14 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                         fill
                         className="object-cover"
                       />
-                    </div>
-                    <div>
+                </div>
+                  <div>
                       <div className="text-gray-500 text-xs mb-1">{relatedPost.date}</div>
                       <h4 className="text-sm font-medium group-hover:text-primary line-clamp-2">
                         {relatedPost.title}
                       </h4>
-                    </div>
-                  </Link>
+                </div>
+                    </Link>
                 ))}
               </div>
             </div>
