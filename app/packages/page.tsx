@@ -322,7 +322,7 @@ export default function PackagesPage() {
         {/* Floating Cart Summary */}
         {showCartSummary && !showPayment && !purchaseComplete && (
           <div className="fixed bottom-4 right-4 z-50">
-            <div className="bg-white rounded-lg shadow-lg border p-4 w-72">
+            <div className="bg-white rounded-lg shadow-lg border p-4 w-72 max-w-[calc(100vw-2rem)]">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="font-semibold">Cart Summary</h3>
                 <span className="text-sm bg-primary text-white rounded-full px-2 py-0.5">
@@ -380,377 +380,69 @@ export default function PackagesPage() {
         <div className="mx-auto mt-12 max-w-7xl">
           {!selectedPackage && !purchaseComplete && (
             <>
-              <Tabs defaultValue="developmental" onValueChange={setSelectedCategory}>
-                <TabsList className="grid w-full grid-cols-4">
-                  {serviceCategories.map((category) => (
-                    <TabsTrigger key={category.id} value={category.id}>
-                      {category.name}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-                <TabsContent value="developmental" className="mt-6">
-                  <div className="mb-6 rounded-lg bg-muted p-4">
-                    <h2 className="text-lg font-semibold">Developmental Interventions</h2>
-                    <p className="mt-2 text-muted-foreground">
-                      Long-term, multidisciplinary therapy addressing developmental delays or conditions like autism,
-                      speech delays, or motor skill challenges.
-                    </p>
-                  </div>
-                  <div className="grid gap-8 lg:grid-cols-3">
-                    {packages.map((pkg) => (
-                      <Card
-                        key={pkg.id}
-                        className={`flex flex-col transition-all duration-200 hover:border-primary hover:shadow-md ${
-                          pkg.recommended ? "border-primary shadow-md" : ""
-                        }`}
-                      >
-                        {pkg.recommended && (
-                          <div className="rounded-t-lg bg-primary px-4 py-1 text-center text-sm font-medium text-primary-foreground">
-                            Recommended
-                          </div>
-                        )}
-                        <CardHeader>
-                          <CardTitle>{pkg.name}</CardTitle>
-                          <CardDescription>{pkg.description}</CardDescription>
-                          <div className="mt-4 flex items-baseline text-gray-900">
-                            <span className="text-3xl font-bold tracking-tight">${pkg.price}</span>
-                            <span className="ml-1 text-xl font-semibold">/package</span>
-                          </div>
-                          <div className="mt-1 text-sm text-muted-foreground">Regional price: ${pkg.regionalPrice}</div>
-                        </CardHeader>
-                        <CardContent className="flex-grow">
-                          <ul className="space-y-3">
-                            {pkg.features.map((feature, index) => (
-                              <li key={index} className="flex items-start">
-                                <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                                <span className="text-sm text-gray-700">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </CardContent>
-                        <CardFooter>
-                          <Button
-                            className="w-full"
-                            variant={pkg.recommended ? "default" : "outline"}
-                            onClick={() => handlePackageSelect(pkg.id)}
-                          >
-                            Select This Package
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="routine" className="mt-6">
-                  <div className="mb-6 rounded-lg bg-muted p-4">
-                    <h2 className="text-lg font-semibold">Routine-Based Interventions</h2>
-                    <p className="mt-2 text-muted-foreground">
-                      Short-term, multidisciplinary therapy for specific challenges like feeding, sleeping, or potty
-                      training.
-                    </p>
-                  </div>
-                  <div className="grid gap-8 lg:grid-cols-3">
-                    {routinePackages.map((pkg) => (
-                      <Card
-                        key={pkg.id}
-                        className={`flex flex-col transition-all duration-200 hover:border-primary hover:shadow-md ${
-                          pkg.recommended ? "border-primary shadow-md" : ""
-                        }`}
-                      >
-                        {pkg.recommended && (
-                          <div className="rounded-t-lg bg-primary px-4 py-1 text-center text-sm font-medium text-primary-foreground">
-                            Recommended
-                          </div>
-                        )}
-                        <CardHeader>
-                          <CardTitle>{pkg.name}</CardTitle>
-                          <CardDescription>{pkg.description}</CardDescription>
-                          <div className="mt-4 flex items-baseline text-gray-900">
-                            <span className="text-3xl font-bold tracking-tight">${pkg.price}</span>
-                            <span className="ml-1 text-xl font-semibold">/package</span>
-                          </div>
-                          <div className="mt-1 text-sm text-muted-foreground">Regional price: ${pkg.regionalPrice}</div>
-                        </CardHeader>
-                        <CardContent className="flex-grow">
-                          <ul className="space-y-3">
-                            {pkg.features.map((feature, index) => (
-                              <li key={index} className="flex items-start">
-                                <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                                <span className="text-sm text-gray-700">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </CardContent>
-                        <CardFooter className="flex flex-col gap-3">
-                          <Button
-                            className="w-full"
-                            variant={pkg.recommended ? "default" : "outline"}
-                            onClick={() => handlePackageSelect(pkg.id)}
-                          >
-                            Select This Package
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="aba" className="mt-6">
-                  <div className="mb-6 rounded-lg bg-muted p-4">
-                    <h2 className="text-lg font-semibold">Applied Behavior Analysis (ABA)</h2>
-                    <p className="mt-2 text-muted-foreground">
-                      Targeted therapy for behavioral challenges and skill acquisition, integrated with other
-                      developmental therapies where needed.
-                    </p>
-                  </div>
-                  <div className="grid gap-8 lg:grid-cols-3">
-                    {abaPackages.map((pkg) => (
-                      <Card
-                        key={pkg.id}
-                        className={`flex flex-col transition-all duration-200 hover:border-primary hover:shadow-md ${
-                          pkg.recommended ? "border-primary shadow-md" : ""
-                        }`}
-                      >
-                        {pkg.recommended && (
-                          <div className="rounded-t-lg bg-primary px-4 py-1 text-center text-sm font-medium text-primary-foreground">
-                            Recommended
-                          </div>
-                        )}
-                        <CardHeader>
-                          <CardTitle>{pkg.name}</CardTitle>
-                          <CardDescription>{pkg.description}</CardDescription>
-                          <div className="mt-4 flex items-baseline text-gray-900">
-                            <span className="text-3xl font-bold tracking-tight">${pkg.price}</span>
-                            <span className="ml-1 text-xl font-semibold">/package</span>
-                          </div>
-                          <div className="mt-1 text-sm text-muted-foreground">Regional price: ${pkg.regionalPrice}</div>
-                        </CardHeader>
-                        <CardContent className="flex-grow">
-                          <ul className="space-y-3">
-                            {pkg.features.map((feature, index) => (
-                              <li key={index} className="flex items-start">
-                                <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                                <span className="text-sm text-gray-700">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </CardContent>
-                        <CardFooter className="flex flex-col gap-3">
-                          <Button
-                            className="w-full"
-                            variant={pkg.recommended ? "default" : "outline"}
-                            onClick={() => handlePackageSelect(pkg.id)}
-                          >
-                            Select This Package
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="counseling" className="mt-6">
-                  <div className="mb-6 rounded-lg bg-muted p-4">
-                    <h2 className="text-lg font-semibold">Counseling & Single Sessions</h2>
-                    <p className="mt-2 text-muted-foreground">
-                      Standalone therapy or consultation sessions addressing emotional well-being, parental support, or
-                      other specific needs.
-                    </p>
-                  </div>
-                  <div className="grid gap-8 lg:grid-cols-3">
-                    {counselingPackages.map((pkg) => (
-                      <Card
-                        key={pkg.id}
-                        className={`flex flex-col transition-all duration-200 hover:border-primary hover:shadow-md ${
-                          pkg.recommended ? "border-primary shadow-md" : ""
-                        }`}
-                      >
-                        {pkg.recommended && (
-                          <div className="rounded-t-lg bg-primary px-4 py-1 text-center text-sm font-medium text-primary-foreground">
-                            Recommended
-                          </div>
-                        )}
-                        <CardHeader>
-                          <CardTitle>{pkg.name}</CardTitle>
-                          <CardDescription>{pkg.description}</CardDescription>
-                          <div className="mt-4 flex items-baseline text-gray-900">
-                            <span className="text-3xl font-bold tracking-tight">${pkg.price}</span>
-                            <span className="ml-1 text-xl font-semibold">/package</span>
-                          </div>
-                          <div className="mt-1 text-sm text-muted-foreground">Regional price: ${pkg.regionalPrice}</div>
-                        </CardHeader>
-                        <CardContent className="flex-grow">
-                          <ul className="space-y-3">
-                            {pkg.features.map((feature, index) => (
-                              <li key={index} className="flex items-start">
-                                <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                                <span className="text-sm text-gray-700">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </CardContent>
-                        <CardFooter className="flex flex-col gap-3">
-                          <Button
-                            className="w-full"
-                            variant={pkg.recommended ? "default" : "outline"}
-                            onClick={() => handlePackageSelect(pkg.id)}
-                          >
-                            Select This Package
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
-                </TabsContent>
-              </Tabs>
-
-              {/* Why Choose ONESTI Section */}
-              <div className="mt-12 bg-gray-50 rounded-lg p-8">
-                <div className="mx-auto max-w-3xl text-center mb-8">
-                  <h2 className="text-2xl font-bold tracking-tight text-gray-900">Why Choose ONESTI</h2>
-                  <p className="mt-4 text-gray-600">
-                    We provide comprehensive, personalized care for your child's developmental journey
+              <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight">Choose a Service Category</h2>
+                  <p className="mt-2 text-base text-gray-600">
+                    Select a category to view our specialized therapy packages
                   </p>
                 </div>
-
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div className="bg-white p-6 rounded-lg shadow-sm">
-                    <div className="h-12 w-12 bg-[#4b2e83]/10 rounded-lg flex items-center justify-center mb-4">
-                      <svg className="h-6 w-6 text-[#4b2e83]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Expert Team</h3>
-                    <p className="text-gray-600">
-                      Our multidisciplinary team of specialists brings years of experience in pediatric therapy and
-                      development.
-                    </p>
-                  </div>
-
-                  <div className="bg-white p-6 rounded-lg shadow-sm">
-                    <div className="h-12 w-12 bg-[#4b2e83]/10 rounded-lg flex items-center justify-center mb-4">
-                      <svg className="h-6 w-6 text-[#4b2e83]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Personalized Approach</h3>
-                    <p className="text-gray-600">
-                      We tailor our therapy packages to meet your child's unique needs, goals, and developmental
-                      timeline.
-                    </p>
-                  </div>
-
-                  <div className="bg-white p-6 rounded-lg shadow-sm">
-                    <div className="h-12 w-12 bg-[#4b2e83]/10 rounded-lg flex items-center justify-center mb-4">
-                      <svg className="h-6 w-6 text-[#4b2e83]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Comprehensive Care</h3>
-                    <p className="text-gray-600">
-                      From assessments to therapy sessions and parent coaching, we provide all the support your family
-                      needs.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6 mt-6">
-                  <div className="bg-white p-6 rounded-lg shadow-sm">
-                    <div className="h-12 w-12 bg-[#4b2e83]/10 rounded-lg flex items-center justify-center mb-4">
-                      <svg className="h-6 w-6 text-[#4b2e83]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Flexible Scheduling</h3>
-                    <p className="text-gray-600">
-                      We offer convenient appointment times, including evenings and weekends, to accommodate your busy
-                      family schedule.
-                    </p>
-                  </div>
-
-                  <div className="bg-white p-6 rounded-lg shadow-sm">
-                    <div className="h-12 w-12 bg-[#4b2e83]/10 rounded-lg flex items-center justify-center mb-4">
-                      <svg className="h-6 w-6 text-[#4b2e83]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Family-Centered</h3>
-                    <p className="text-gray-600">
-                      We involve parents and caregivers in the therapy process, providing education and support for
-                      continued progress at home.
-                    </p>
-                  </div>
-
-                  <div className="bg-white p-6 rounded-lg shadow-sm">
-                    <div className="h-12 w-12 bg-[#4b2e83]/10 rounded-lg flex items-center justify-center mb-4">
-                      <svg className="h-6 w-6 text-[#4b2e83]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Evidence-Based Practices</h3>
-                    <p className="text-gray-600">
-                      Our therapy approaches are grounded in research and proven methodologies for optimal developmental
-                      outcomes.
-                    </p>
-                  </div>
+                <div className="space-x-2 flex flex-wrap gap-2">
+                  {serviceCategories.map((category) => (
+                    <Button
+                      key={category.id}
+                      variant={selectedCategory === category.id ? "default" : "outline"}
+                      className="min-w-[120px]"
+                      onClick={() => setSelectedCategory(category.id)}
+                    >
+                      {category.name}
+                    </Button>
+                  ))}
                 </div>
               </div>
-
-              <div className="mt-12">
-                <TrialSessionCard />
-              </div>
-
-              {/* <TestimonialsSection /> */}
-
-              <div className="mt-12 rounded-lg border p-6">
-                <h2 className="text-xl font-semibold">Need Help Choosing?</h2>
-                <p className="mt-2 text-muted-foreground">
-                  Our support team is available to help you select the right package for your child's needs.
-                </p>
-                <div className="mt-4">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => {
-                      // Use a safer approach to open chat
-                      const chatTrigger = document.querySelector('[data-sidebar="trigger"]');
-                      if (chatTrigger && 'click' in chatTrigger) {
-                        (chatTrigger as HTMLElement).click();
-                      }
-                    }}
-                  >
-                    Chat with Support
-                  </Button>
+              <div className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {getPackagesByCategory().map((packageItem) => (
+                    <div
+                      key={packageItem.id}
+                      className={`relative rounded-xl border bg-white p-6 shadow-sm ${
+                        packageItem.recommended ? "ring-2 ring-primary" : ""
+                      }`}
+                    >
+                      {packageItem.recommended && (
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
+                          Recommended
+                        </div>
+                      )}
+                      <div className="flex flex-col justify-between h-full">
+                        <div>
+                          <h3 className="text-xl font-bold">{packageItem.name}</h3>
+                          <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
+                          <div className="my-4">
+                            <span className="text-3xl font-bold">${packageItem.price}</span>
+                            <span className="ml-1 text-gray-500">/package</span>
+                          </div>
+                          <ul className="space-y-2.5 my-6">
+                            {packageItem.features.map((feature, index) => (
+                              <li key={index} className="flex items-start">
+                                <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
+                                <span className="text-sm">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <Button
+                          className="w-full mt-6"
+                          onClick={() => handlePackageSelect(packageItem.id)}
+                        >
+                          Select Package
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="border-t border-gray-200 pt-8 flex justify-center">
+                  <TrialSessionCard />
                 </div>
               </div>
             </>

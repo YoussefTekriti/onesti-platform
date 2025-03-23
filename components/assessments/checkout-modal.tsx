@@ -117,7 +117,7 @@ export function CheckoutModal({ children, assessmentName, price }: CheckoutModal
     <>
       <div onClick={handleOpen}>{children}</div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] w-[calc(100%-2rem)] max-h-[90vh] overflow-y-auto">
           {currentStep === "booking" && (
             <>
               <DialogHeader>
@@ -182,8 +182,8 @@ export function CheckoutModal({ children, assessmentName, price }: CheckoutModal
                     />
                   </div>
                 </div>
-                <DialogFooter>
-                  <Button type="submit">Continue to Payment</Button>
+                <DialogFooter className="flex-col sm:flex-row gap-2">
+                  <Button type="submit" className="w-full sm:w-auto">Continue to Payment</Button>
                 </DialogFooter>
               </form>
             </>
@@ -201,7 +201,7 @@ export function CheckoutModal({ children, assessmentName, price }: CheckoutModal
                 <div className="rounded-lg bg-muted p-4 mb-6">
                   <h3 className="font-medium">Order Summary</h3>
                   <div className="mt-4 space-y-2">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between flex-wrap">
                       <span className="text-sm text-muted-foreground">Assessment:</span>
                       <span className="text-sm font-medium">{assessmentName}</span>
                     </div>
@@ -243,19 +243,19 @@ export function CheckoutModal({ children, assessmentName, price }: CheckoutModal
                     <div className="rounded-lg border p-4">
                       <h3 className="font-medium">Bank Transfer Details</h3>
                       <div className="mt-4 space-y-2">
-                        <div className="flex justify-between">
+                        <div className="flex justify-between flex-wrap">
                           <span className="text-sm text-muted-foreground">Bank Name:</span>
                           <span className="text-sm font-medium">Example Bank</span>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between flex-wrap">
                           <span className="text-sm text-muted-foreground">Account Name:</span>
                           <span className="text-sm font-medium">Onesti Therapy Services</span>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between flex-wrap">
                           <span className="text-sm text-muted-foreground">Account Number:</span>
                           <span className="text-sm font-medium">1234567890</span>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between flex-wrap">
                           <span className="text-sm text-muted-foreground">Routing Number:</span>
                           <span className="text-sm font-medium">987654321</span>
                         </div>
@@ -289,14 +289,14 @@ export function CheckoutModal({ children, assessmentName, price }: CheckoutModal
                 <Button
                   variant="outline"
                   onClick={() => setCurrentStep("booking")}
-                  className="sm:order-1"
+                  className="w-full sm:w-auto sm:order-1"
                 >
                   Back
                 </Button>
                 <Button 
                   onClick={handleSubmitPayment} 
                   disabled={isSubmitting}
-                  className="sm:order-2"
+                  className="w-full sm:w-auto sm:order-2"
                 >
                   <CreditCard className="mr-2 h-4 w-4" />
                   {isSubmitting ? "Processing..." : "Complete Purchase"}
@@ -317,7 +317,7 @@ export function CheckoutModal({ children, assessmentName, price }: CheckoutModal
                 <div className="rounded-lg bg-green-50 p-4 text-green-800 mb-6">
                   <div className="flex items-center">
                     <svg
-                      className="h-5 w-5 mr-2"
+                      className="h-5 w-5 mr-2 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -347,7 +347,7 @@ export function CheckoutModal({ children, assessmentName, price }: CheckoutModal
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={handleFinish}>Go to Dashboard</Button>
+                <Button onClick={handleFinish} className="w-full sm:w-auto">Go to Dashboard</Button>
               </DialogFooter>
             </>
           )}

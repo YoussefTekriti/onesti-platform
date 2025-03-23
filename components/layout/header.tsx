@@ -201,10 +201,10 @@ export default function Header() {
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden">
-          <div className="fixed inset-0 z-50" />
+          <div className="fixed inset-0 z-50 bg-black/20" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
           <div className={`fixed inset-y-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 ${language === "ar" ? "right-0" : "left-0"}`}>
             <div className="flex items-center justify-between">
-              <Link href="/" className="-m-1.5 p-1.5">
+              <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
                 <span className="sr-only">Onesti</span>
                 <Image
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image001.jpg-lRBjbexqlJ9PjqISbLsUVR8QmtOJt5.jpeg"
@@ -229,7 +229,7 @@ export default function Header() {
                   {navigation.map((item) => (
                     item.dropdown ? (
                       <div key={item.name} className="space-y-1">
-                        <div className="block rounded-lg px-3 py-2 text-sm font-semibold leading-6 text-gray-900">
+                        <div className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900">
                           {item.name}
                         </div>
                         <div className="pl-4">
@@ -253,7 +253,7 @@ export default function Header() {
                           handleNavClick(e, item.href);
                           setMobileMenuOpen(false);
                         }}
-                        className={`block rounded-lg px-3 py-2 text-sm font-semibold leading-6 ${
+                        className={`block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 ${
                           pathname === item.href.replace(/#.*$/, "")
                             ? "text-onesti-purple bg-gray-50"
                             : "text-gray-900 hover:bg-gray-50"
@@ -268,7 +268,7 @@ export default function Header() {
                   {isLoggedIn ? (
                     <Link
                       href="/dashboard"
-                      className="block rounded-lg px-3 py-2.5 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                      className="block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {language === "en" ? "Dashboard" : "لوحة التحكم"}
@@ -276,7 +276,7 @@ export default function Header() {
                   ) : (
                     <Link
                       href="/login"
-                      className="block rounded-lg px-3 py-2.5 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                      className="block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {language === "en" ? "Log in / Sign up" : "تسجيل الدخول / التسجيل"}

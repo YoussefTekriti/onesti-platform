@@ -278,7 +278,7 @@ export default function SpeechLanguagePage() {
 
                     <div className="flex flex-col sm:flex-row gap-4">
                       <Button 
-                        className="bg-[#4b2e83] hover:bg-[#4b2e83]/90" 
+                        className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 w-full sm:w-auto" 
                         onClick={() => handleBuyNow(assessment.id)}
                       >
                         <CreditCard className="mr-2 h-4 w-4" /> Buy Now
@@ -408,7 +408,7 @@ export default function SpeechLanguagePage() {
 
       {/* Payment Dialog */}
       <Dialog open={showPayment} onOpenChange={setShowPayment}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] w-[calc(100%-2rem)] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Payment</DialogTitle>
             <DialogDescription>
@@ -525,8 +525,8 @@ export default function SpeechLanguagePage() {
 
       {/* Success Message */}
       {isPurchased && (
-        <div className="fixed bottom-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded flex items-center shadow-lg">
-          <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <div className="fixed bottom-4 right-4 z-50 max-w-[90vw] md:max-w-md bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded flex items-center shadow-lg">
+          <svg className="h-5 w-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
           </svg>
           <span>Purchase successful! You can view this in your dashboard.</span>
