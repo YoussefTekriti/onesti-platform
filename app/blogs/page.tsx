@@ -18,7 +18,7 @@ const featuredBlog = {
   category: "Child Development",
   image: "/images/child-development.jpeg",
   slug: "child-development-milestones",
-  tags: ["Child Development", "Milestones", "Early Intervention", "Parenting"],
+  tags: ["Milestones", "Cognitive Development", "Early Childhood", "Parenting Tips"],
 }
 
 const blogPosts = [
@@ -28,10 +28,10 @@ const blogPosts = [
     excerpt: "Discover effective sensory processing techniques to help children with autism thrive in various environments.",
     date: "06 Nov 2024",
     author: "Dr. Michael Chen",
-    category: "Special Needs",
+    category: "Delays & Disorders",
     image: "/images/speech-therapy.jpeg",
     slug: "sensory-processing-strategies",
-    tags: ["Autism", "Sensory Processing", "Special Needs", "Therapy Approaches"],
+    tags: ["Autism Spectrum Disorder", "Sensory Processing", "Special Needs", "Intervention Strategies"],
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ const blogPosts = [
     category: "Child Development",
     image: "/images/therapy-session.jpeg",
     slug: "speech-development-milestones",
-    tags: ["Speech", "Language Development", "Child Development", "Milestones"],
+    tags: ["Language Skills", "Speech Delay", "Milestones", "Early Childhood"],
   },
   {
     id: 4,
@@ -50,10 +50,10 @@ const blogPosts = [
     excerpt: "Explore the crucial connection between nutrition and cognitive development in children of all ages.",
     date: "08 Dec 2024",
     author: "Dr. Robert Williams",
-    category: "Nutrition",
+    category: "Parenting Support",
     image: "/images/child-development.jpeg",
     slug: "nutrition-child-development",
-    tags: ["Nutrition", "Child Development", "Parenting", "Health"],
+    tags: ["Healthy Eating", "Cognitive Development", "Parenting Tips", "Child Development"],
   },
   {
     id: 5,
@@ -61,31 +61,35 @@ const blogPosts = [
     excerpt: "Understanding how early intervention services can make a significant difference in a child's developmental trajectory.",
     date: "17 Dec 2024",
     author: "Dr. Emily Chen",
-    category: "Early Intervention",
+    category: "Assessments & Intervention",
     image: "/images/child-learning.jpeg",
     slug: "early-intervention-benefits",
-    tags: ["Early Intervention", "Developmental Delays", "Therapy", "Child Development"],
+    tags: ["Early Intervention", "Developmental Screening", "Therapy Options", "Developmental Delays"],
   },
 ]
 
-// Categories with post count - updated to be relevant to Onesti's focus
+// Categories with post count - updated to align with new content organization
 const categories = [
   { name: "Child Development", count: 8 },
-  { name: "Therapy Approaches", count: 6 },
-  { name: "Parenting Tips", count: 5 },
-  { name: "Special Needs", count: 4 },
-  { name: "Behavioral Strategies", count: 4 },
+  { name: "Delays & Disorders", count: 6 },
+  { name: "Assessments & Intervention", count: 5 },
+  { name: "Parenting Support", count: 5 },
+  { name: "Therapy & Specialists", count: 4 },
+  { name: "Telepractice & Online Therapy", count: 3 },
 ]
 
-// Available tags - updated to be relevant to Onesti's focus
+// Available tags - updated to align with new content organization
 const tags = [
-  "Child Development",
-  "Therapy",
-  "Parenting",
-  "Special Needs",
-  "Behavior",
   "Milestones",
+  "Cognitive Development",
+  "Language Skills",
+  "Motor Skills",
+  "Autism Spectrum Disorder",
+  "Speech Delay",
   "Early Intervention",
+  "Parenting Tips",
+  "Therapy Options",
+  "Online Sessions",
 ]
 
 export default function BlogsPage({ searchParams }: { searchParams: { category?: string; tag?: string; q?: string } }) {

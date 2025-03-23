@@ -8,33 +8,33 @@ const posts = [
   {
     id: 1,
     title: "Autism Spectrum Disorder: Signs, Symptoms, and Support",
-    href: "/resources/blog/autism-spectrum-disorder",
+    href: "/blogs/autism-spectrum-disorder",
     description:
       "Learn about the early signs of autism, diagnostic process, and how to support your child's development with effective interventions.",
     date: "Mar 16, 2023",
-    category: { name: "Autism" },
+    category: { name: "Delays & Disorders" },
     imageUrl:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/AdobeStock_404443582-g8BdYp49g78Tiv5oaNjVkKK40LGK9Y.jpeg",
   },
   {
     id: 2,
     title: "Establishing Healthy Sleep Routines for Children",
-    href: "/resources/blog/healthy-sleep-routines",
+    href: "/blogs/healthy-sleep-routines",
     description:
       "Discover effective strategies to establish consistent sleep patterns and overcome common bedtime challenges for children of all ages.",
     date: "Feb 12, 2023",
-    category: { name: "Daily Routines" },
+    category: { name: "Parenting Support" },
     imageUrl:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/AdobeStock_205813503%20%281%29-WM0lWmFovXLbeQUUpcSN4R3jdzaw2t.jpeg",
   },
   {
     id: 3,
     title: "Managing Challenging Behaviors in Children",
-    href: "/resources/blog/managing-challenging-behaviors",
+    href: "/blogs/managing-challenging-behaviors",
     description:
       "Practical approaches to understanding and addressing challenging behaviors through positive reinforcement and consistent strategies.",
     date: "Jan 24, 2023",
-    category: { name: "Behavior" },
+    category: { name: "Parenting Support" },
     imageUrl:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/AdobeStock_112130603-sxnHxRLX08Wr6lr4FCnbJOhJB14mun.jpeg",
   },

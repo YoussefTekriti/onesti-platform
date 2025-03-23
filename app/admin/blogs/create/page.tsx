@@ -68,7 +68,14 @@ export default function CreateBlogPage() {
   const linkDialogRef = useRef<HTMLDivElement>(null)
 
   // Mock data for categories and authors
-  const categories = ["Development", "Therapy", "Education", "Parenting", "Research", "News"]
+  const categories = [
+    "Child Development", 
+    "Delays & Disorders", 
+    "Assessments & Intervention", 
+    "Parenting Support", 
+    "Therapy & Specialists", 
+    "Telepractice & Online Therapy"
+  ]
   const authors = ["Dr. Emily Parker", "Dr. David Wilson", "Dr. Jessica Lee", "Dr. Michael Chen", "Add New Author..."]
 
   // Handle featured image upload

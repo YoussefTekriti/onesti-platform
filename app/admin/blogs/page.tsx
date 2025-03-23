@@ -26,7 +26,7 @@ export default function AdminBlogsPage() {
       date: "Nov 06, 2024",
       slug: "sensory-processing-strategies",
       author: "Dr. Michael Chen",
-      category: "Special Needs",
+      category: "Delays & Disorders",
       image: "/images/speech-therapy.jpeg"
     },
     {
@@ -46,7 +46,7 @@ export default function AdminBlogsPage() {
       date: "Dec 08, 2024",
       slug: "nutrition-child-development",
       author: "Dr. Emma Rodriguez",
-      category: "Parenting Tips",
+      category: "Parenting Support",
       image: "/images/child-development.jpeg"
     },
     {
@@ -56,7 +56,7 @@ export default function AdminBlogsPage() {
       date: "Dec 17, 2024",
       slug: "early-intervention-benefits",
       author: "Dr. Darren Elder",
-      category: "Therapy Approaches",
+      category: "Assessments & Intervention",
       image: "/images/child-learning.jpeg"
     },
   ])
