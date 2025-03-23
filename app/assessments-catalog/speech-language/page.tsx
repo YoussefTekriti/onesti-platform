@@ -1,8 +1,14 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, MessageSquareText, Brain, Sparkles, HeartHandshake } from "lucide-react"
-import { CheckoutModal } from "@/components/assessments/checkout-modal"
+import { ArrowRight, MessageSquareText, Brain, Sparkles, HeartHandshake, CreditCard } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useState } from "react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 
 // Assessment data
 const assessments = [
@@ -101,6 +107,30 @@ const assessments = [
 ]
 
 export default function SpeechLanguagePage() {
+  const [selectedAssessment, setSelectedAssessment] = useState<string | null>(null);
+  const [showPurchaseDialog, setShowPurchaseDialog] = useState(false);
+  const [isPurchased, setIsPurchased] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
+
+  const handleBuyNow = (assessmentId: string) => {
+    setSelectedAssessment(assessmentId);
+    setShowPurchaseDialog(true);
+  };
+
+  const handleProceedToPayment = () => {
+    setShowPurchaseDialog(false);
+    setShowPayment(true);
+  };
+
+  const completePurchase = () => {
+    setIsPurchased(true);
+    setShowPayment(false);
+    // In a real app, you would link this purchase to the user's profile
+    setTimeout(() => {
+      setIsPurchased(false);
+    }, 3000);
+  };
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
@@ -117,8 +147,8 @@ export default function SpeechLanguagePage() {
               <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
                 <Link href="#assessments">View Assessments</Link>
               </Button>
-              <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
-                <Link href="/consultation">Book a Consultation</Link>
+              <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
+                <Link href="/assessments-catalog">Back to Categories</Link>
               </Button>
             </div>
           </div>
@@ -247,11 +277,12 @@ export default function SpeechLanguagePage() {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <CheckoutModal assessmentName={assessment.name} price={assessment.price}>
-                        <Button className="bg-[#4b2e83] hover:bg-[#4b2e83]/90">
-                          Book Assessment <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </CheckoutModal>
+                      <Button 
+                        className="bg-[#4b2e83] hover:bg-[#4b2e83]/90" 
+                        onClick={() => handleBuyNow(assessment.id)}
+                      >
+                        <CreditCard className="mr-2 h-4 w-4" /> Buy Now
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -316,11 +347,11 @@ export default function SpeechLanguagePage() {
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Ready to get started?
             <br />
-            Book an assessment today.
+            Purchase an assessment today.
           </h2>
           <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
             <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
-              <Link href="/consultation">Book Now</Link>
+              <Link href="#assessments">View Assessments</Link>
             </Button>
             <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
               <Link href="/contact">Contact Us</Link>
@@ -328,6 +359,179 @@ export default function SpeechLanguagePage() {
           </div>
         </div>
       </div>
+
+      {/* Purchase Dialog */}
+      <Dialog open={showPurchaseDialog} onOpenChange={setShowPurchaseDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Assessment Selection</DialogTitle>
+            <DialogDescription>
+              {selectedAssessment && `You've selected the ${assessments.find(a => a.id === selectedAssessment)?.name} for ${assessments.find(a => a.id === selectedAssessment)?.price}.`}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-sm text-gray-500">
+              After purchase, this assessment will appear in your dashboard. Our team will contact you to schedule the session.
+            </p>
+            <div className="mt-4 p-4 bg-gray-50 rounded-md">
+              <h4 className="font-medium text-gray-900 mb-2">Package Includes:</h4>
+              <ul className="space-y-1 text-sm text-gray-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-[#4b2e83] mt-1">•</span>
+                  <span>One professional assessment session</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#4b2e83] mt-1">•</span>
+                  <span>Detailed evaluation report</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#4b2e83] mt-1">•</span>
+                  <span>Follow-up consultation to discuss results</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#4b2e83] mt-1">•</span>
+                  <span>Personalized recommendations</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <DialogFooter className="flex items-center justify-end space-x-2">
+            <Button variant="outline" onClick={() => setShowPurchaseDialog(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleProceedToPayment}>
+              Proceed to Checkout
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Payment Dialog */}
+      <Dialog open={showPayment} onOpenChange={setShowPayment}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Payment</DialogTitle>
+            <DialogDescription>
+              Complete your payment to purchase your assessment
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <div className="rounded-lg bg-muted p-4 mb-6">
+              <h3 className="font-medium">Order Summary</h3>
+              <div className="mt-4 space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">Assessment:</span>
+                  <span className="text-sm font-medium">
+                    {selectedAssessment && assessments.find(a => a.id === selectedAssessment)?.name}
+                  </span>
+                </div>
+                <div className="flex justify-between border-t pt-2">
+                  <span className="font-medium">Total:</span>
+                  <span className="font-medium">
+                    {selectedAssessment && assessments.find(a => a.id === selectedAssessment)?.price}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <Tabs defaultValue="card">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="card">Credit Card</TabsTrigger>
+                <TabsTrigger value="bank">Bank Transfer</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="card" className="space-y-4 mt-4">
+                <div className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="card-number">Card Number</Label>
+                    <Input id="card-number" placeholder="1234 5678 9012 3456" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="expiry">Expiry Date</Label>
+                      <Input id="expiry" placeholder="MM/YY" />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="cvc">CVC</Label>
+                      <Input id="cvc" placeholder="123" />
+                    </div>
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="name">Name on Card</Label>
+                    <Input id="name" placeholder="John Doe" />
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="bank" className="space-y-4 mt-4">
+                <div className="rounded-lg border p-4">
+                  <h3 className="font-medium">Bank Transfer Details</h3>
+                  <div className="mt-4 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Bank Name:</span>
+                      <span className="text-sm font-medium">Example Bank</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Account Name:</span>
+                      <span className="text-sm font-medium">Onesti Therapy Services</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Account Number:</span>
+                      <span className="text-sm font-medium">1234567890</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Routing Number:</span>
+                      <span className="text-sm font-medium">987654321</span>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm text-muted-foreground">
+                    Please include your name and "Assessment" in the transfer description.
+                  </p>
+                </div>
+              </TabsContent>
+            </Tabs>
+
+            <div className="flex items-center space-x-2 mt-6">
+              <input
+                type="checkbox"
+                id="terms"
+                className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+              />
+              <Label htmlFor="terms" className="text-sm">
+                I agree to the{" "}
+                <Link href="/terms" className="text-primary hover:underline">
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link href="/privacy" className="text-primary hover:underline">
+                  Privacy Policy
+                </Link>
+              </Label>
+            </div>
+          </div>
+          <DialogFooter className="flex flex-col gap-2 sm:flex-row">
+            <Button variant="outline" onClick={() => {
+              setShowPayment(false);
+              setShowPurchaseDialog(true);
+            }} className="sm:order-1">
+              Back
+            </Button>
+            <Button onClick={completePurchase} className="sm:order-2">
+              <CreditCard className="mr-2 h-4 w-4" /> Complete Purchase
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Success Message */}
+      {isPurchased && (
+        <div className="fixed bottom-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded flex items-center shadow-lg">
+          <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span>Purchase successful! You can view this in your dashboard.</span>
+        </div>
+      )}
     </div>
   )
 }

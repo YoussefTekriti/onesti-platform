@@ -1,197 +1,359 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import Link from "next/link"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { ArrowRight, Check, CreditCard, Calendar } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { CreditCard } from "lucide-react"
+import { useRouter } from "next/navigation"
+
+// Define type for checkout steps
+type CheckoutStep = "booking" | "payment" | "confirmation"
 
 interface CheckoutModalProps {
+  children: React.ReactNode
   assessmentName: string
   price: string
-  children: React.ReactNode
 }
 
-export function CheckoutModal({ assessmentName, price, children }: CheckoutModalProps) {
-  const [step, setStep] = useState<"details" | "payment" | "confirmation">("details")
-  const [loading, setLoading] = useState(false)
+export function CheckoutModal({ children, assessmentName, price }: CheckoutModalProps) {
+  const [open, setOpen] = useState(false)
+  const [currentStep, setCurrentStep] = useState<CheckoutStep>("booking")
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    childName: "",
+    childAge: "",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
-  const handleSubmitDetails = (e: React.FormEvent) => {
-    e.preventDefault()
-    setStep("payment")
+  // Get cart from localStorage if available
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem('onesti-cart');
+      if (savedCart) {
+        const cartItems = JSON.parse(savedCart);
+        console.log("Loaded cart items:", cartItems);
+        // You could update state here based on cart contents
+      }
+    } catch (error) {
+      console.error("Error loading cart:", error);
+    }
+  }, []);
+
+  const handleOpen = () => {
+    setOpen(true)
+    setCurrentStep("booking")
   }
 
-  const handleSubmitPayment = (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    // Simulate payment processing
+  const handleClose = () => {
+    setOpen(false)
+    // Reset form after dialog closes with a slight delay
     setTimeout(() => {
-      setLoading(false)
-      setStep("confirmation")
+      setCurrentStep("booking")
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        childName: "",
+        childAge: "",
+      })
+    }, 300)
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  const handleSubmitBooking = (e: React.FormEvent) => {
+    e.preventDefault()
+    // In a real app, you would validate the form here
+    setCurrentStep("payment")
+  }
+
+  const handleSubmitPayment = () => {
+    setIsSubmitting(true)
+    
+    // Simulate API request
+    setTimeout(() => {
+      setIsSubmitting(false)
+      setCurrentStep("confirmation")
+      
+      // Save to cart in localStorage
+      try {
+        const savedCart = localStorage.getItem('onesti-cart') || '[]';
+        const cartItems = JSON.parse(savedCart);
+        
+        cartItems.push({
+          type: 'assessment',
+          name: assessmentName,
+          price: price,
+          date: new Date().toISOString()
+        });
+        
+        localStorage.setItem('onesti-cart', JSON.stringify(cartItems));
+      } catch (error) {
+        console.error("Error saving to cart:", error);
+      }
     }, 1500)
   }
 
-  return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
-        {step === "details" && (
-          <>
-            <DialogHeader>
-              <DialogTitle>Book Assessment</DialogTitle>
-              <DialogDescription>
-                {assessmentName} - {price}
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleSubmitDetails} className="space-y-4 pt-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="first-name">First name</Label>
-                  <Input id="first-name" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="last-name">Last name</Label>
-                  <Input id="last-name" required />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" required />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone number</Label>
-                <Input id="phone" type="tel" required />
-              </div>
-              <div className="space-y-2">
-                <Label>Preferred contact method</Label>
-                <RadioGroup defaultValue="email">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="email" id="contact-email" />
-                    <Label htmlFor="contact-email">Email</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="phone" id="contact-phone" />
-                    <Label htmlFor="contact-phone">Phone</Label>
-                  </div>
-                </RadioGroup>
-              </div>
-              <Button type="submit" className="w-full">
-                Continue to Payment <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </form>
-          </>
-        )}
+  const handleFinish = () => {
+    handleClose()
+    // Navigate to dashboard in a real app
+    router.push('/dashboard')
+  }
 
-        {step === "payment" && (
-          <>
-            <DialogHeader>
-              <DialogTitle>Payment Details</DialogTitle>
-              <DialogDescription>
-                {assessmentName} - {price}
-              </DialogDescription>
-            </DialogHeader>
-            <Tabs defaultValue="card" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="card">Credit Card</TabsTrigger>
-                <TabsTrigger value="paypal">PayPal</TabsTrigger>
-              </TabsList>
-              <TabsContent value="card">
-                <form onSubmit={handleSubmitPayment} className="space-y-4 pt-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="card-name">Name on card</Label>
-                    <Input id="card-name" required />
+  return (
+    <>
+      <div onClick={handleOpen}>{children}</div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          {currentStep === "booking" && (
+            <>
+              <DialogHeader>
+                <DialogTitle>Book an Assessment</DialogTitle>
+                <DialogDescription>
+                  Fill out the form below to schedule your {assessmentName}
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleSubmitBooking}>
+                <div className="grid gap-4 py-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="name">Your Name</Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="card-number">Card number</Label>
-                    <div className="relative">
-                      <Input id="card-number" placeholder="1234 5678 9012 3456" required />
-                      <CreditCard className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                  <div className="grid gap-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="childName">Child's Name</Label>
+                    <Input
+                      id="childName"
+                      name="childName"
+                      value={formData.childName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="childAge">Child's Age</Label>
+                    <Input
+                      id="childAge"
+                      name="childAge"
+                      type="number"
+                      value={formData.childAge}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Continue to Payment</Button>
+                </DialogFooter>
+              </form>
+            </>
+          )}
+
+          {currentStep === "payment" && (
+            <>
+              <DialogHeader>
+                <DialogTitle>Payment Details</DialogTitle>
+                <DialogDescription>
+                  Complete your payment to book your {assessmentName}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="py-4">
+                <div className="rounded-lg bg-muted p-4 mb-6">
+                  <h3 className="font-medium">Order Summary</h3>
+                  <div className="mt-4 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Assessment:</span>
+                      <span className="text-sm font-medium">{assessmentName}</span>
+                    </div>
+                    <div className="flex justify-between border-t pt-2">
+                      <span className="font-medium">Total:</span>
+                      <span className="font-medium">{price}</span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="expiry">Expiry date</Label>
-                      <div className="relative">
-                        <Input id="expiry" placeholder="MM/YY" required />
-                        <Calendar className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                </div>
+
+                <Tabs defaultValue="card">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="card">Credit Card</TabsTrigger>
+                    <TabsTrigger value="bank">Bank Transfer</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="card" className="space-y-4 mt-4">
+                    <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <Label htmlFor="card-number">Card Number</Label>
+                        <Input id="card-number" placeholder="1234 5678 9012 3456" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="grid gap-2">
+                          <Label htmlFor="expiry">Expiry Date</Label>
+                          <Input id="expiry" placeholder="MM/YY" />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="cvc">CVC</Label>
+                          <Input id="cvc" placeholder="123" />
+                        </div>
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="name-on-card">Name on Card</Label>
+                        <Input id="name-on-card" placeholder="John Doe" />
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="cvc">CVC</Label>
-                      <Input id="cvc" placeholder="123" required />
+                  </TabsContent>
+                  <TabsContent value="bank" className="space-y-4 mt-4">
+                    <div className="rounded-lg border p-4">
+                      <h3 className="font-medium">Bank Transfer Details</h3>
+                      <div className="mt-4 space-y-2">
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Bank Name:</span>
+                          <span className="text-sm font-medium">Example Bank</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Account Name:</span>
+                          <span className="text-sm font-medium">Onesti Therapy Services</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Account Number:</span>
+                          <span className="text-sm font-medium">1234567890</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Routing Number:</span>
+                          <span className="text-sm font-medium">987654321</span>
+                        </div>
+                      </div>
+                      <p className="mt-4 text-sm text-muted-foreground">
+                        Please include your name and "Assessment Payment" in the transfer description.
+                      </p>
                     </div>
-                  </div>
-                  <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? "Processing..." : "Complete Payment"}
-                  </Button>
-                </form>
-              </TabsContent>
-              <TabsContent value="paypal">
-                <div className="pt-4 space-y-4">
-                  <p className="text-sm text-gray-500">You will be redirected to PayPal to complete your payment.</p>
-                  <Button
-                    onClick={handleSubmitPayment}
-                    className="w-full bg-[#0070ba] hover:bg-[#005ea6]"
-                    disabled={loading}
-                  >
-                    {loading ? "Processing..." : "Pay with PayPal"}
-                  </Button>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </>
-        )}
+                  </TabsContent>
+                </Tabs>
 
-        {step === "confirmation" && (
-          <>
-            <DialogHeader>
-              <DialogTitle>Booking Confirmed</DialogTitle>
-              <DialogDescription>Thank you for booking {assessmentName}</DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-col items-center justify-center py-6 space-y-4">
-              <div className="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
-                <Check className="h-8 w-8 text-green-600" />
-              </div>
-              <div className="text-center">
-                <h3 className="text-lg font-medium">Payment Successful</h3>
-                <p className="text-sm text-gray-500 mt-1">We've sent a confirmation email with all the details.</p>
-              </div>
-              <div className="border rounded-lg p-4 w-full bg-gray-50">
-                <div className="flex justify-between mb-2">
-                  <span className="text-sm text-gray-500">Assessment:</span>
-                  <span className="text-sm font-medium">{assessmentName}</span>
-                </div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-sm text-gray-500">Amount:</span>
-                  <span className="text-sm font-medium">{price}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Transaction ID:</span>
-                  <span className="text-sm font-medium">
-                    ONS-{Math.random().toString(36).substring(2, 10).toUpperCase()}
-                  </span>
+                <div className="flex items-center space-x-2 mt-6">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  />
+                  <Label htmlFor="terms" className="text-sm">
+                    I agree to the{" "}
+                    <Link href="/terms" className="text-primary hover:underline">
+                      Terms of Service
+                    </Link>{" "}
+                    and{" "}
+                    <Link href="/privacy" className="text-primary hover:underline">
+                      Privacy Policy
+                    </Link>
+                  </Label>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 text-center">
-                Our team will contact you within 24 hours to schedule your assessment.
-              </p>
-            </div>
-          </>
-        )}
-      </DialogContent>
-    </Dialog>
+              <DialogFooter className="flex flex-col gap-2 sm:flex-row">
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentStep("booking")}
+                  className="sm:order-1"
+                >
+                  Back
+                </Button>
+                <Button 
+                  onClick={handleSubmitPayment} 
+                  disabled={isSubmitting}
+                  className="sm:order-2"
+                >
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  {isSubmitting ? "Processing..." : "Complete Purchase"}
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+
+          {currentStep === "confirmation" && (
+            <>
+              <DialogHeader>
+                <DialogTitle>Booking Confirmed!</DialogTitle>
+                <DialogDescription>
+                  Your assessment has been successfully booked.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="py-6">
+                <div className="rounded-lg bg-green-50 p-4 text-green-800 mb-6">
+                  <div className="flex items-center">
+                    <svg
+                      className="h-5 w-5 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      ></path>
+                    </svg>
+                    <span className="font-medium">Payment successful!</span>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <p className="text-sm text-gray-600">
+                    We've sent a confirmation email to {formData.email} with all the details of your booking.
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Our team will contact you within 24-48 hours to schedule your assessment sessions.
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Thank you for choosing Onesti Therapy Services!
+                  </p>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button onClick={handleFinish}>Go to Dashboard</Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,9 +8,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CheckCircle, CreditCard } from "lucide-react"
+import { CheckCircle, CreditCard, ShoppingCart } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import TrialSessionCard from "@/components/packages/trial-session-card"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 // import TestimonialsSection from "@/components/packages/testimonials-section"
 // import CostCalculator from "@/components/packages/cost-calculator"
 
@@ -206,6 +207,10 @@ export default function PackagesPage() {
   const [showPayment, setShowPayment] = useState(false)
   const [purchaseComplete, setPurchaseComplete] = useState(false)
   const [paymentOption, setPaymentOption] = useState("upfront")
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
+  const [packageToConfirm, setPackageToConfirm] = useState<string | null>(null)
+  const [cart, setCart] = useState<string[]>([])
+  const [showCartSummary, setShowCartSummary] = useState(false)
 
   // Get the appropriate package list based on selected category
   const getPackagesByCategory = () => {
@@ -222,6 +227,20 @@ export default function PackagesPage() {
   }
 
   const currentPackages = getPackagesByCategory()
+  
+  // Get all packages from all categories
+  const getAllPackages = () => {
+    return [...packages, ...routinePackages, ...abaPackages, ...counselingPackages]
+  }
+  
+  // Calculate total cart value
+  const calculateCartTotal = () => {
+    const allPackages = getAllPackages()
+    return cart.reduce((total, pkgId) => {
+      const pkg = allPackages.find(p => p.id === pkgId)
+      return total + (pkg?.price || 0)
+    }, 0)
+  }
 
   // Calculate payment amounts based on selected option
   const calculatePayment = (price: number) => {
@@ -236,7 +255,8 @@ export default function PackagesPage() {
   }
 
   const handlePackageSelect = (packageId: string) => {
-    setSelectedPackage(packageId)
+    setPackageToConfirm(packageId)
+    setConfirmDialogOpen(true)
   }
 
   const handleCustomize = () => {
@@ -256,7 +276,38 @@ export default function PackagesPage() {
     setCustomizing(false)
     setShowPayment(false)
     setPurchaseComplete(false)
+    setCart([])
   }
+
+  // Add function to confirm package selection
+  const confirmPackageSelection = () => {
+    if (packageToConfirm) {
+      setCart(prev => [...prev, packageToConfirm])
+      setSelectedPackage(packageToConfirm)
+      setConfirmDialogOpen(false)
+    }
+  }
+
+  // Add function to add to cart without proceeding to checkout
+  const addToCartOnly = () => {
+    if (packageToConfirm) {
+      setCart(prev => [...prev, packageToConfirm])
+      setConfirmDialogOpen(false)
+    }
+  }
+  
+  // Function to remove a package from cart
+  const removeFromCart = (packageId: string) => {
+    setCart(prev => prev.filter(id => id !== packageId))
+    if (selectedPackage === packageId) {
+      setSelectedPackage(null)
+    }
+  }
+  
+  // Show floating checkout button when there are items in cart
+  useEffect(() => {
+    setShowCartSummary(cart.length > 0)
+  }, [cart])
 
   return (
     <div className="bg-white">
@@ -267,6 +318,64 @@ export default function PackagesPage() {
             Choose a therapy package that fits your child's needs and your budget
           </p>
         </div>
+
+        {/* Floating Cart Summary */}
+        {showCartSummary && !showPayment && !purchaseComplete && (
+          <div className="fixed bottom-4 right-4 z-50">
+            <div className="bg-white rounded-lg shadow-lg border p-4 w-72">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold">Cart Summary</h3>
+                <span className="text-sm bg-primary text-white rounded-full px-2 py-0.5">
+                  {cart.length} {cart.length === 1 ? 'item' : 'items'}
+                </span>
+              </div>
+              
+              {cart.length > 0 && (
+                <div className="max-h-40 overflow-auto mb-3">
+                  {cart.map((pkgId) => {
+                    const allPackages = getAllPackages();
+                    const pkg = allPackages.find(p => p.id === pkgId);
+                    return pkg ? (
+                      <div key={pkgId} className="flex justify-between items-center py-2 border-b">
+                        <span className="text-sm truncate max-w-[150px]">{pkg.name}</span>
+                        <div className="flex items-center">
+                          <span className="text-sm font-medium mr-2">${pkg.price}</span>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-6 w-6 p-0" 
+                            onClick={() => removeFromCart(pkgId)}
+                          >
+                            ✕
+                          </Button>
+                        </div>
+                      </div>
+                    ) : null;
+                  })}
+                </div>
+              )}
+              
+              <div className="flex justify-between items-center font-semibold mb-3">
+                <span>Total:</span>
+                <span>${calculateCartTotal()}</span>
+              </div>
+              
+              <Button 
+                className="w-full" 
+                onClick={() => {
+                  if (selectedPackage) {
+                    handleProceedToPayment();
+                  } else if (cart.length > 0) {
+                    setSelectedPackage(cart[0]);
+                    handleProceedToPayment();
+                  }
+                }}
+              >
+                Proceed to Checkout
+              </Button>
+            </div>
+          </div>
+        )}
 
         <div className="mx-auto mt-12 max-w-7xl">
           {!selectedPackage && !purchaseComplete && (
@@ -291,7 +400,9 @@ export default function PackagesPage() {
                     {packages.map((pkg) => (
                       <Card
                         key={pkg.id}
-                        className={`flex flex-col ${pkg.recommended ? "border-primary shadow-md" : ""}`}
+                        className={`flex flex-col transition-all duration-200 hover:border-primary hover:shadow-md ${
+                          pkg.recommended ? "border-primary shadow-md" : ""
+                        }`}
                       >
                         {pkg.recommended && (
                           <div className="rounded-t-lg bg-primary px-4 py-1 text-center text-sm font-medium text-primary-foreground">
@@ -343,7 +454,9 @@ export default function PackagesPage() {
                     {routinePackages.map((pkg) => (
                       <Card
                         key={pkg.id}
-                        className={`flex flex-col ${pkg.recommended ? "border-primary shadow-md" : ""}`}
+                        className={`flex flex-col transition-all duration-200 hover:border-primary hover:shadow-md ${
+                          pkg.recommended ? "border-primary shadow-md" : ""
+                        }`}
                       >
                         {pkg.recommended && (
                           <div className="rounded-t-lg bg-primary px-4 py-1 text-center text-sm font-medium text-primary-foreground">
@@ -395,7 +508,9 @@ export default function PackagesPage() {
                     {abaPackages.map((pkg) => (
                       <Card
                         key={pkg.id}
-                        className={`flex flex-col ${pkg.recommended ? "border-primary shadow-md" : ""}`}
+                        className={`flex flex-col transition-all duration-200 hover:border-primary hover:shadow-md ${
+                          pkg.recommended ? "border-primary shadow-md" : ""
+                        }`}
                       >
                         {pkg.recommended && (
                           <div className="rounded-t-lg bg-primary px-4 py-1 text-center text-sm font-medium text-primary-foreground">
@@ -447,7 +562,9 @@ export default function PackagesPage() {
                     {counselingPackages.map((pkg) => (
                       <Card
                         key={pkg.id}
-                        className={`flex flex-col ${pkg.recommended ? "border-primary shadow-md" : ""}`}
+                        className={`flex flex-col transition-all duration-200 hover:border-primary hover:shadow-md ${
+                          pkg.recommended ? "border-primary shadow-md" : ""
+                        }`}
                       >
                         {pkg.recommended && (
                           <div className="rounded-t-lg bg-primary px-4 py-1 text-center text-sm font-medium text-primary-foreground">
@@ -622,7 +739,16 @@ export default function PackagesPage() {
                   Our support team is available to help you select the right package for your child's needs.
                 </p>
                 <div className="mt-4">
-                  <Button variant="outline" onClick={() => document.querySelector('[data-sidebar="trigger"]')?.click()}>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      // Use a safer approach to open chat
+                      const chatTrigger = document.querySelector('[data-sidebar="trigger"]');
+                      if (chatTrigger && 'click' in chatTrigger) {
+                        (chatTrigger as HTMLElement).click();
+                      }
+                    }}
+                  >
                     Chat with Support
                   </Button>
                 </div>
@@ -638,32 +764,38 @@ export default function PackagesPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
-                  <div className="rounded-lg bg-muted p-4">
-                    <h3 className="font-medium">{currentPackages.find((p) => p.id === selectedPackage)?.name}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {currentPackages.find((p) => p.id === selectedPackage)?.description}
-                    </p>
-                    <div className="mt-4 flex items-baseline">
-                      <span className="text-2xl font-bold">
-                        ${currentPackages.find((p) => p.id === selectedPackage)?.price}
-                      </span>
-                      <span className="ml-1 text-sm text-muted-foreground">/package</span>
+                  {cart.length > 0 && (
+                    <div className="rounded-lg bg-muted p-4">
+                      <h3 className="font-medium mb-4">Your Selected Packages</h3>
+                      {cart.map((pkgId) => {
+                        const allPackages = getAllPackages();
+                        const pkg = allPackages.find(p => p.id === pkgId);
+                        return pkg ? (
+                          <div key={pkgId} className="flex justify-between items-center py-2 border-b last:border-0">
+                            <div>
+                              <p className="font-medium">{pkg.name}</p>
+                              <p className="text-sm text-muted-foreground">{pkg.description}</p>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-medium">${pkg.price}</p>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="text-red-500 h-8" 
+                                onClick={() => removeFromCart(pkgId)}
+                              >
+                                Remove
+                              </Button>
+                            </div>
+                          </div>
+                        ) : null;
+                      })}
+                      <div className="flex justify-between items-center font-semibold mt-4 pt-2 border-t">
+                        <span>Total:</span>
+                        <span>${calculateCartTotal()}</span>
+                      </div>
                     </div>
-                  </div>
-
-                  <div>
-                    <h3 className="font-medium">Package Includes:</h3>
-                    <ul className="mt-4 space-y-3">
-                      {currentPackages
-                        .find((p) => p.id === selectedPackage)
-                        ?.features.map((feature, index) => (
-                          <li key={index} className="flex items-start">
-                            <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                            <span className="text-sm">{feature}</span>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
+                  )}
 
                   <div className="rounded-lg border p-4">
                     <h3 className="font-medium">Choose Your Payment Option</h3>
@@ -686,7 +818,7 @@ export default function PackagesPage() {
                           </Label>
                           <p className="text-sm text-muted-foreground">Full payment with 10% discount</p>
                           <p className="font-medium text-primary">
-                            ${Math.round(currentPackages.find((p) => p.id === selectedPackage)?.price * 0.9)}
+                            ${Math.round(calculateCartTotal() * 0.9)}
                           </p>
                         </div>
                       </div>
@@ -701,7 +833,7 @@ export default function PackagesPage() {
                           </Label>
                           <p className="text-sm text-muted-foreground">Split into 2 monthly payments</p>
                           <p className="font-medium text-primary">
-                            ${Math.round(currentPackages.find((p) => p.id === selectedPackage)?.price / 2)}/month
+                            ${Math.round(calculateCartTotal() / 2)}/month
                           </p>
                         </div>
                       </div>
@@ -716,7 +848,7 @@ export default function PackagesPage() {
                           </Label>
                           <p className="text-sm text-muted-foreground">Split into 4 weekly payments</p>
                           <p className="font-medium text-primary">
-                            ${Math.round(currentPackages.find((p) => p.id === selectedPackage)?.price / 4)}/week
+                            ${Math.round(calculateCartTotal() / 4)}/week
                           </p>
                         </div>
                       </div>
@@ -862,26 +994,62 @@ export default function PackagesPage() {
                 <div className="space-y-6">
                   <div className="rounded-lg bg-muted p-4">
                     <h3 className="font-medium">Order Summary</h3>
-                    <div className="mt-4 space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">Package:</span>
-                        <span className="text-sm font-medium">
-                          {customizing
-                            ? "Customized Package"
-                            : currentPackages.find((p) => p.id === selectedPackage)?.name}
-                        </span>
+                    
+                    {cart.length > 0 ? (
+                      <div className="mt-4 space-y-2">
+                        {cart.map((pkgId, index) => {
+                          const allPackages = getAllPackages();
+                          const pkg = allPackages.find(p => p.id === pkgId);
+                          return pkg ? (
+                            <div key={pkgId} className="flex justify-between py-1">
+                              <span className="text-sm text-muted-foreground">{pkg.name}:</span>
+                              <span className="text-sm font-medium">${pkg.price}</span>
+                            </div>
+                          ) : null;
+                        })}
+                        
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Payment Option:</span>
+                          <span className="text-sm font-medium">
+                            {paymentOption === 'upfront' ? 'Pay Upfront (10% off)' : 
+                             paymentOption === 'monthly' ? 'Monthly Payments' : 'Weekly Payments'}
+                          </span>
+                        </div>
+                        
+                        <div className="flex justify-between border-t pt-2">
+                          <span className="font-medium">Total:</span>
+                          <span className="font-medium">
+                            {paymentOption === 'upfront' 
+                              ? `$${Math.round(calculateCartTotal() * 0.9)} (Saved $${Math.round(calculateCartTotal() * 0.1)})`
+                              : paymentOption === 'monthly'
+                                ? `$${calculateCartTotal()} ($${Math.round(calculateCartTotal() / 2)}/month × 2)`
+                                : `$${calculateCartTotal()} ($${Math.round(calculateCartTotal() / 4)}/week × 4)`
+                            }
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">Billing Cycle:</span>
-                        <span className="text-sm font-medium">Monthly</span>
+                    ) : (
+                      <div className="mt-4 space-y-2">
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Package:</span>
+                          <span className="text-sm font-medium">
+                            {customizing
+                              ? "Customized Package"
+                              : currentPackages.find((p) => p.id === selectedPackage)?.name}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Billing Cycle:</span>
+                          <span className="text-sm font-medium">Monthly</span>
+                        </div>
+                        <div className="flex justify-between border-t pt-2">
+                          <span className="font-medium">Total:</span>
+                          <span className="font-medium">
+                            ${customizing ? "150" : currentPackages.find((p) => p.id === selectedPackage)?.price}/month
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex justify-between border-t pt-2">
-                        <span className="font-medium">Total:</span>
-                        <span className="font-medium">
-                          ${customizing ? "150" : currentPackages.find((p) => p.id === selectedPackage)?.price}/month
-                        </span>
-                      </div>
-                    </div>
+                    )}
                   </div>
 
                   <Tabs defaultValue="card">
@@ -978,26 +1146,55 @@ export default function PackagesPage() {
               <CardContent>
                 <div className="rounded-lg bg-muted p-4">
                   <div className="space-y-3">
+                    {cart.length > 1 ? (
+                      <>
+                        <h4 className="font-medium">Purchased Packages:</h4>
+                        {cart.map((pkgId, index) => {
+                          const allPackages = getAllPackages();
+                          const pkg = allPackages.find(p => p.id === pkgId);
+                          return pkg ? (
+                            <div key={pkgId} className="flex justify-between">
+                              <span className="text-sm text-muted-foreground">{pkg.name}:</span>
+                              <span className="text-sm font-medium">${pkg.price}</span>
+                            </div>
+                          ) : null;
+                        })}
+                      </>
+                    ) : (
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Package:</span>
+                        <span className="text-sm font-medium">
+                          {customizing
+                            ? "Customized Package"
+                            : currentPackages.find((p) => p.id === selectedPackage)?.name}
+                        </span>
+                      </div>
+                    )}
                     <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Package:</span>
+                      <span className="text-sm text-muted-foreground">Billing Cycle:</span>
                       <span className="text-sm font-medium">
-                        {customizing
-                          ? "Customized Package"
-                          : currentPackages.find((p) => p.id === selectedPackage)?.name}
+                        {paymentOption === 'upfront' 
+                          ? 'One-time Payment (10% discount applied)' 
+                          : paymentOption === 'monthly'
+                            ? 'Monthly (2 payments)'
+                            : 'Weekly (4 payments)'}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Billing Cycle:</span>
-                      <span className="text-sm font-medium">Monthly</span>
-                    </div>
-                    <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Next Billing Date:</span>
-                      <span className="text-sm font-medium">April 15, 2023</span>
+                      <span className="text-sm font-medium">
+                        {paymentOption === 'upfront' 
+                          ? 'N/A (Paid in full)' 
+                          : new Date(Date.now() + (paymentOption === 'monthly' ? 30 : 7) * 24 * 60 * 60 * 1000)
+                              .toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                      </span>
                     </div>
                     <div className="flex justify-between border-t pt-2">
-                      <span className="font-medium">Monthly Payment:</span>
+                      <span className="font-medium">Total Amount:</span>
                       <span className="font-medium">
-                        ${customizing ? "150" : currentPackages.find((p) => p.id === selectedPackage)?.price}
+                        ${paymentOption === 'upfront' 
+                          ? Math.round(calculateCartTotal() * 0.9)
+                          : calculateCartTotal()}
                       </span>
                     </div>
                   </div>
@@ -1024,6 +1221,46 @@ export default function PackagesPage() {
           )}
         </div>
       </div>
+
+      <Dialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Package Selection</DialogTitle>
+            <DialogDescription>
+              You've selected the {packageToConfirm && getPackagesByCategory().find(p => p.id === packageToConfirm)?.name} package.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="mb-2">Would you like to proceed to checkout or add more packages to your cart?</p>
+            {cart.length > 0 && (
+              <div className="mt-4 p-3 bg-muted rounded-md">
+                <p className="font-medium">Current Cart: {cart.length} package(s)</p>
+                <ul className="mt-2 space-y-1 text-sm">
+                  {cart.map((pkgId, index) => {
+                    const allPackages = getAllPackages();
+                    const pkg = allPackages.find(p => p.id === pkgId);
+                    return (
+                      <li key={index} className="flex justify-between">
+                        <span>{pkg?.name || 'Package'}</span>
+                        <span>${pkg?.price || 0}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={addToCartOnly} className="sm:order-1">
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Add to Cart
+            </Button>
+            <Button onClick={confirmPackageSelection} className="sm:order-2">
+              Proceed to Checkout
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

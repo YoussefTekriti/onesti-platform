@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -198,9 +200,6 @@ export default function AssessmentsPage() {
                           <Link href={`/assessments-catalog/${category.id}`}>
                             Learn More <ArrowRight className="ml-2 h-4 w-4" />
                           </Link>
-                        </Button>
-                        <Button variant="outline" className="border-[#4b2e83] text-[#4b2e83]" asChild>
-                          <Link href="/consultation">Book Assessment</Link>
                         </Button>
                       </div>
                     </div>
@@ -426,11 +425,11 @@ export default function AssessmentsPage() {
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Ready to get started?
             <br />
-            Book an assessment today.
+            Explore our assessment options.
           </h2>
           <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
             <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
-              <Link href="/consultation">Book Now</Link>
+              <Link href="#categories">View Categories</Link>
             </Button>
             <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
               <Link href="/contact">Contact Us</Link>
