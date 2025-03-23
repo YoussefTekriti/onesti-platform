@@ -40,36 +40,21 @@ export default function Footer() {
               <p className="text-sm text-gray-600">letstalk@onestiglobal.com</p>
             </div>
 
-            {/* Location */}
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                Said Freiha street, Shawki Lutfala bldg. Second floor, Hazmieh, Lebanon
+                Said Freiha street, Shawki Lutfala bldg. Second floor
               </p>
               <div className="w-full h-48 mt-2 rounded-md overflow-hidden">
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.1763962664093!2d35.51668542493026!3d33.855654474444484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f1778d9dca001%3A0xfac7f62a3a0c8c26!2sOnesti%20Global!5e0!3m2!1sen!2sus!4v1719161771175!5m2!1sen!2sus" 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.416892558931!2d35.56730947614503!3d33.848982380657544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f17c1c18d92e9%3A0x1da4b2e4f8da38d7!2sOnesti%20Therapy%20%26%20Learning%20Center!5e0!3m2!1sen!2sus!4v1718557046278!5m2!1sen!2sus" 
                   className="w-full h-full border-0" 
                   allowFullScreen 
                   loading="lazy" 
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Onesti Global Location in Hazmieh"
-                  aria-label="Map showing Onesti Global location in Hazmieh"
+                  title="Onesti Location"
+                  aria-label="Map showing Onesti Global location"
                 ></iframe>
               </div>
-              <p className="text-sm text-gray-600 mt-1">
-                <a 
-                  href="https://maps.app.goo.gl/FB1qMJ5wJovytk8j9"
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center text-onesti-purple hover:underline"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  Get directions on Google Maps
-                </a>
-              </p>
             </div>
             
             {/* Social Media */}
