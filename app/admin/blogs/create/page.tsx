@@ -67,6 +67,19 @@ export default function CreateBlogPage() {
   const imageDialogRef = useRef<HTMLDivElement>(null)
   const linkDialogRef = useRef<HTMLDivElement>(null)
 
+  // Predefined tag options
+  const predefinedTags = [
+    "Child Development", "Milestones", "Cognitive Development", "Language Skills", "Motor Skills", 
+    "Social Emotional", "Early Childhood", "Learning Activities", "Autism Spectrum Disorder", 
+    "ADHD", "Speech Delay", "Sensory Processing", "Behavioral Challenges", "Early Signs", "Special Needs", 
+    "Early Intervention", "Developmental Screening", "Assessment Tools", "Intervention Strategies", 
+    "Therapy Options", "Professional Guidance", "Parenting Tips", "Daily Routines", "Bedtime Routines", 
+    "Healthy Eating", "Toilet Training", "Emotional Support", "Behavioral Management", "Family Support", 
+    "Speech Therapy", "Occupational Therapy", "Play Therapy", "Behavioral Therapy", "Therapy Approaches", 
+    "Specialist Advice", "Professional Development", "Workshops and Trainings", "Teletherapy", 
+    "Online Sessions", "Virtual Therapy", "Remote Learning", "Parent Guidance Online", "Online Resources"
+  ]
+
   // Mock data for categories and authors
   const categories = [
     "Child Development", 
@@ -415,6 +428,7 @@ export default function CreateBlogPage() {
                       placeholder="Enter blog post title"
                       required
                     />
+                    <p className="text-xs text-muted-foreground">SEO optimized, clearly descriptive (max 70 characters).</p>
                   </div>
 
                   <div className="space-y-2">
@@ -833,6 +847,7 @@ export default function CreateBlogPage() {
                         ))}
                       </SelectContent>
                     </Select>
+                    <p className="text-xs text-muted-foreground">Each article must belong to one primary category.</p>
                   </div>
 
                   <div className="space-y-2">
@@ -869,6 +884,7 @@ export default function CreateBlogPage() {
                         </SelectContent>
                       </Select>
                     )}
+                    <p className="text-xs text-muted-foreground">Expert or specialist name (linked to author profile if available).</p>
                   </div>
 
                   <div className="space-y-2">
@@ -909,6 +925,7 @@ export default function CreateBlogPage() {
                         <p className="text-xs text-muted-foreground mt-1">Recommended: 1200x630px</p>
                       </div>
                     )}
+                    <p className="text-xs text-muted-foreground">High-quality, relevant image consistent with branding.</p>
                   </div>
 
                   <div className="space-y-2">
@@ -933,26 +950,46 @@ export default function CreateBlogPage() {
                         </div>
                       ))}
                     </div>
-                    <div className="flex space-x-2">
-                      <Input
-                        id="new-tag"
-                        value={newTag}
-                        onChange={(e) => setNewTag(e.target.value)}
-                        placeholder="Add a tag..."
-                        onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
-                      />
-                      <Button 
-                        type="button" 
-                        size="sm" 
-                        variant="outline"
-                        onClick={addTag}
-                        disabled={!newTag.trim()}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+                      <div className="flex space-x-2">
+                        <Input
+                          id="new-tag"
+                          value={newTag}
+                          onChange={(e) => setNewTag(e.target.value)}
+                          placeholder="Add a tag..."
+                          onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
+                        />
+                        <Button 
+                          type="button" 
+                          size="sm" 
+                          variant="outline"
+                          onClick={addTag}
+                          disabled={!newTag.trim()}
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <Select 
+                        onValueChange={(value) => {
+                          if (value && !tags.includes(value)) {
+                            setTags([...tags, value]);
+                          }
+                        }}
                       >
-                        <Plus className="h-4 w-4" />
-                      </Button>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select predefined tag" />
+                        </SelectTrigger>
+                        <SelectContent className="max-h-[200px]">
+                          {predefinedTags.map((tag) => (
+                            <SelectItem key={tag} value={tag}>
+                              {tag}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Tags help readers find related content
+                      Multiple tags (2-5 recommended) to improve searchability.
                     </p>
                   </div>
 
