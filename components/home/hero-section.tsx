@@ -36,8 +36,8 @@ export default function HeroSection() {
           </div>
 
           {/* Right image */}
-          <div className="md:w-1/2">
-            <div className="relative h-[400px] md:h-[500px] w-full rounded-lg overflow-hidden">
+          <div className="md:w-1/2 w-full">
+            <div className="relative h-[400px] md:h-[500px] w-full rounded-lg overflow-hidden shadow-xl">
               <Image
                 src="/images/therapy-session.jpeg"
                 alt="Therapist working with diverse children at a table with colorful learning materials"
