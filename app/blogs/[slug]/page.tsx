@@ -1,4 +1,4 @@
-"use client"
+import { useState, useEffect, use } from "react"
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
@@ -226,7 +226,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   }
   
   // Move the data fetching logic here for client component
-  const post = getBlogPost(params.slug)
+  const post = getBlogPost(use(params).slug)
 
   if (!post) {
     return <div className="container mx-auto px-4 py-12 text-center">
@@ -242,7 +242,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const headings = extractHeadings(post.content)
 
   // Filter related posts to exclude current post
-  const filteredRelatedPosts = relatedPosts.filter(related => related.slug !== params.slug).slice(0, 3);
+  const filteredRelatedPosts = relatedPosts.filter(related => related.slug !== use(params).slug).slice(0, 3);
 
   return (
     <div className="bg-gray-50 py-8">
