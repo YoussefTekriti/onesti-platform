@@ -43,6 +43,16 @@ const assessmentTypes = [
   { id: "AST004", name: "Cognitive", description: "Evaluates cognitive abilities and learning skills" },
 ];
 
+// Mock questions data
+const questionsData = [
+  { id: "Q001", typeId: "AST001", text: "Does your child respond to their name?", ageRange: "0-12 months" },
+  { id: "Q002", typeId: "AST001", text: "Can your child sit without support?", ageRange: "6-12 months" },
+  { id: "Q003", typeId: "AST002", text: "Does your child babble or make sounds?", ageRange: "0-12 months" },
+  { id: "Q004", typeId: "AST002", text: "Can your child say simple words like 'mama' or 'dada'?", ageRange: "12-18 months" },
+  { id: "Q005", typeId: "AST003", text: "Does your child make eye contact?", ageRange: "0-12 months" },
+  { id: "Q006", typeId: "AST003", text: "Does your child engage in parallel play with other children?", ageRange: "18-36 months" },
+];
+
 // Update the component to include the create assessment dialog
 export default function AssessmentsPage() {
   const [activeTab, setActiveTab] = useState("all")
@@ -55,6 +65,11 @@ export default function AssessmentsPage() {
   const [selectedChildName, setSelectedChildName] = useState("")
   const [availableChildren, setAvailableChildren] = useState<string[]>([])
   const { toast } = useToast()
+  const [isCreateTypeDialogOpen, setIsCreateTypeDialogOpen] = useState(false)
+  const [isCreateQuestionDialogOpen, setIsCreateQuestionDialogOpen] = useState(false)
+  const [questions, setQuestions] = useState(questionsData)
+  const [newType, setNewType] = useState({ name: "", description: "" })
+  const [newQuestion, setNewQuestion] = useState({ typeId: "", text: "", ageRange: "" })
 
   // Mock assessment data
   const assessments = [
@@ -252,176 +267,114 @@ export default function AssessmentsPage() {
     setIsCreateDialogOpen(false)
   }
 
+  // Add new function to handle type creation
+  const handleCreateType = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Simulating API call
+    setTimeout(() => {
+      toast({
+        title: "Assessment Type Created",
+        description: `${newType.name} type has been created successfully.`,
+      })
+      setIsCreateTypeDialogOpen(false)
+      setNewType({ name: "", description: "" })
+    }, 1000)
+  }
+
+  // Add new function to handle question creation
+  const handleCreateQuestion = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Simulating API call
+    setTimeout(() => {
+      const newQuestionItem = {
+        id: `Q${Math.floor(Math.random() * 1000)}`,
+        ...newQuestion
+      }
+      setQuestions([...questions, newQuestionItem])
+      toast({
+        title: "Question Added",
+        description: "The question has been added successfully.",
+      })
+      setIsCreateQuestionDialogOpen(false)
+      setNewQuestion({ typeId: "", text: "", ageRange: "" })
+    }, 1000)
+  }
+
   return (
     <div className="flex-1">
-      <AdminHeader title="Assessments" description="Manage all patient assessments" />
+      <AdminHeader title="Screening Assessments" description="Manage screening assessments and questions" />
 
       <main className="p-6">
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex items-center gap-2 w-full md:w-auto">
-                <div className="relative w-full md:w-80">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input 
-                    placeholder="Search assessments..." 
-                    className="pl-10" 
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                <Button variant="outline" size="icon">
-                  <Filter className="h-4 w-4" />
+        <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <div className="flex justify-between items-center">
+            <TabsList className="grid grid-cols-3 w-full max-w-md">
+              <TabsTrigger value="all">All Assessments</TabsTrigger>
+              <TabsTrigger value="categories">Categories</TabsTrigger>
+              <TabsTrigger value="questions">Questions</TabsTrigger>
+            </TabsList>
+            <div className="flex space-x-2">
+              {activeTab === "all" && (
+                <Button onClick={() => setIsCreateDialogOpen(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Assessment
                 </Button>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Select value={typeFilter} onValueChange={setTypeFilter}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Assessment Type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    {assessmentTypes.map(type => (
-                      <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <Button variant="outline" onClick={exportToCSV}>
-                  <Download className="h-4 w-4 mr-2" />
-                  Export
+              )}
+              {activeTab === "categories" && (
+                <Button onClick={() => setIsCreateTypeDialogOpen(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Category
                 </Button>
-
-                <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button>
-                      <Plus className="h-4 w-4 mr-2" />
-                      New Assessment
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[600px]">
-                    <form onSubmit={handleCreateAssessment}>
-                      <DialogHeader>
-                        <DialogTitle>Create New Assessment</DialogTitle>
-                        <DialogDescription>
-                          Create a new assessment for a patient. Fill in all the required fields.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="grid gap-4 py-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="parentUser">Parent/Guardian</Label>
-                          <Select value={selectedUserId} onValueChange={setSelectedUserId} required>
-                            <SelectTrigger id="parentUser">
-                              <SelectValue placeholder="Select parent user" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {users.filter(user => user.role === "Parent").map(user => (
-                                <SelectItem key={user.id} value={user.id}>
-                                  {user.name} ({user.email})
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="childName">Child</Label>
-                          <Select 
-                            value={selectedChildName} 
-                            onValueChange={setSelectedChildName} 
-                            disabled={availableChildren.length === 0}
-                            required
-                          >
-                            <SelectTrigger id="childName">
-                              <SelectValue placeholder={availableChildren.length === 0 ? "Select a parent first" : "Select child"} />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {availableChildren.map(childName => (
-                                <SelectItem key={childName} value={childName}>
-                                  {childName}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          {availableChildren.length === 0 && selectedUserId && (
-                            <p className="text-xs text-amber-600 flex items-center mt-1">
-                              <AlertCircle className="h-3 w-3 mr-1" />
-                              No children found for this parent
-                            </p>
-                          )}
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor="assessmentType">Assessment Type</Label>
-                            <Select defaultValue={assessmentTypes[0].id}>
-                              <SelectTrigger id="assessmentType">
-                                <SelectValue placeholder="Select type" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {assessmentTypes.map(type => (
-                                  <SelectItem key={type.id} value={type.id}>
-                                    {type.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="assessmentDate">Assessment Date</Label>
-                            <Input id="assessmentDate" type="date" required />
-                          </div>
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label>Assessment Status</Label>
-                          <RadioGroup defaultValue="scheduled">
-                            <div className="flex items-center space-x-6">
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="scheduled" id="scheduled" />
-                                <Label htmlFor="scheduled">Scheduled</Label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="inProgress" id="inProgress" />
-                                <Label htmlFor="inProgress">In Progress</Label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="completed" id="completed" />
-                                <Label htmlFor="completed">Completed</Label>
-                              </div>
-                            </div>
-                          </RadioGroup>
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="notes">Notes</Label>
-                          <Textarea id="notes" placeholder="Enter any additional notes" />
-                        </div>
-                      </div>
-                      <DialogFooter>
-                        <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                          Cancel
-                        </Button>
-                        <Button type="submit">Create Assessment</Button>
-                      </DialogFooter>
-                    </form>
-                  </DialogContent>
-                </Dialog>
-              </div>
+              )}
+              {activeTab === "questions" && (
+                <Button onClick={() => setIsCreateQuestionDialogOpen(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Question
+                </Button>
+              )}
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="all">All Assessments</TabsTrigger>
-            <TabsTrigger value="completed">Completed</TabsTrigger>
-            <TabsTrigger value="inProgress">In Progress</TabsTrigger>
-            <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
-          </TabsList>
+          <TabsContent value="all" className="space-y-6">
+            <Card className="mb-6">
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div className="flex items-center gap-2 w-full md:w-auto">
+                    <div className="relative w-full md:w-80">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                      <Input 
+                        placeholder="Search assessments..." 
+                        className="pl-10" 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                    <Button variant="outline" size="icon">
+                      <Filter className="h-4 w-4" />
+                    </Button>
+                  </div>
 
-          <TabsContent value={activeTab} className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Select value={typeFilter} onValueChange={setTypeFilter}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Assessment Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Types</SelectItem>
+                        {assessmentTypes.map(type => (
+                          <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    <Button variant="outline" onClick={exportToCSV}>
+                      <Download className="h-4 w-4 mr-2" />
+                      Export
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg font-medium">
@@ -546,75 +499,411 @@ export default function AssessmentsPage() {
               </Card>
             </div>
           </TabsContent>
-        </Tabs>
-      </main>
 
-      {/* View Assessment Dialog */}
-      <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="sm:max-w-[600px]">
-          {selectedAssessment && (
-            <>
+          <TabsContent value="categories" className="space-y-6">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle>Assessment Categories</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="py-3 px-4 text-left font-medium">Name</th>
+                        <th className="py-3 px-4 text-left font-medium">Description</th>
+                        <th className="py-3 px-4 text-right font-medium">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {assessmentTypes.map((type) => (
+                        <tr key={type.id} className="border-b hover:bg-gray-50">
+                          <td className="py-3 px-4">{type.name}</td>
+                          <td className="py-3 px-4">{type.description}</td>
+                          <td className="py-3 px-4 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <Button variant="ghost" size="icon">
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="icon" onClick={() => {
+                                toast({
+                                  title: "Category Deleted",
+                                  description: "The category has been deleted",
+                                })
+                              }}>
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="questions" className="space-y-6">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle>Assessment Questions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between items-center mb-4">
+                  <div className="flex items-center space-x-2">
+                    <Select value={typeFilter} onValueChange={setTypeFilter}>
+                      <SelectTrigger className="w-[200px]">
+                        <SelectValue placeholder="Filter by category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Categories</SelectItem>
+                        {assessmentTypes.map((type) => (
+                          <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Input
+                    placeholder="Search questions..."
+                    className="max-w-sm"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="py-3 px-4 text-left font-medium">Question</th>
+                        <th className="py-3 px-4 text-left font-medium">Category</th>
+                        <th className="py-3 px-4 text-left font-medium">Age Range</th>
+                        <th className="py-3 px-4 text-right font-medium">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {questions
+                        .filter(q => typeFilter === "all" || q.typeId === typeFilter)
+                        .filter(q => q.text.toLowerCase().includes(searchTerm.toLowerCase()))
+                        .map((question) => (
+                          <tr key={question.id} className="border-b hover:bg-gray-50">
+                            <td className="py-3 px-4">{question.text}</td>
+                            <td className="py-3 px-4">
+                              {assessmentTypes.find(t => t.id === question.typeId)?.name || "Unknown"}
+                            </td>
+                            <td className="py-3 px-4">{question.ageRange}</td>
+                            <td className="py-3 px-4 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <Button variant="ghost" size="icon">
+                                  <Edit className="h-4 w-4" />
+                                </Button>
+                                <Button variant="ghost" size="icon" onClick={() => {
+                                  toast({
+                                    title: "Question Deleted",
+                                    description: "The question has been deleted",
+                                  })
+                                }}>
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+
+        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+          <DialogContent className="sm:max-w-[600px]">
+            <form onSubmit={handleCreateAssessment}>
               <DialogHeader>
-                <DialogTitle>Assessment Details</DialogTitle>
+                <DialogTitle>Create New Assessment</DialogTitle>
                 <DialogDescription>
-                  Viewing assessment #{selectedAssessment.id}
+                  Create a new assessment for a patient. Fill in all the required fields.
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Child</h3>
-                    <p className="text-base">{selectedAssessment.childName}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Parent</h3>
-                    <p className="text-base">{selectedAssessment.parentName}</p>
-                  </div>
+                <div className="space-y-2">
+                  <Label htmlFor="parentUser">Parent/Guardian</Label>
+                  <Select value={selectedUserId} onValueChange={setSelectedUserId} required>
+                    <SelectTrigger id="parentUser">
+                      <SelectValue placeholder="Select parent user" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {users.filter(user => user.role === "Parent").map(user => (
+                        <SelectItem key={user.id} value={user.id}>
+                          {user.name} ({user.email})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Assessment Type</h3>
-                    <p className="text-base">{selectedAssessment.type}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Date</h3>
-                    <p className="text-base">{selectedAssessment.date}</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Status</h3>
-                    <p className="text-base">
-                      <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedAssessment.status)}`}>
-                        {selectedAssessment.status}
-                      </span>
+                <div className="space-y-2">
+                  <Label htmlFor="childName">Child</Label>
+                  <Select 
+                    value={selectedChildName} 
+                    onValueChange={setSelectedChildName} 
+                    disabled={availableChildren.length === 0}
+                    required
+                  >
+                    <SelectTrigger id="childName">
+                      <SelectValue placeholder={availableChildren.length === 0 ? "Select a parent first" : "Select child"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableChildren.map(childName => (
+                        <SelectItem key={childName} value={childName}>
+                          {childName}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {availableChildren.length === 0 && selectedUserId && (
+                    <p className="text-xs text-amber-600 flex items-center mt-1">
+                      <AlertCircle className="h-3 w-3 mr-1" />
+                      No children found for this parent
                     </p>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="assessmentType">Assessment Type</Label>
+                    <Select defaultValue={assessmentTypes[0].id}>
+                      <SelectTrigger id="assessmentType">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {assessmentTypes.map(type => (
+                          <SelectItem key={type.id} value={type.id}>
+                            {type.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Score</h3>
-                    <p className="text-base">{selectedAssessment.score !== null ? selectedAssessment.score : "Not scored yet"}</p>
+                  <div className="space-y-2">
+                    <Label htmlFor="assessmentDate">Assessment Date</Label>
+                    <Input id="assessmentDate" type="date" required />
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Notes</h3>
-                  <p className="text-base">{selectedAssessment.notes || "No notes available"}</p>
+                <div className="space-y-2">
+                  <Label>Assessment Status</Label>
+                  <RadioGroup defaultValue="scheduled">
+                    <div className="flex items-center space-x-6">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="scheduled" id="scheduled" />
+                        <Label htmlFor="scheduled">Scheduled</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="inProgress" id="inProgress" />
+                        <Label htmlFor="inProgress">In Progress</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="completed" id="completed" />
+                        <Label htmlFor="completed">Completed</Label>
+                      </div>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="notes">Notes</Label>
+                  <Textarea id="notes" placeholder="Enter any additional notes" />
                 </div>
               </div>
               <DialogFooter>
-                <Button variant="outline" onClick={() => setIsViewDialogOpen(false)}>
-                  Close
+                <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+                  Cancel
                 </Button>
-                <Button onClick={() => window.location.href = `/admin/assessments/${selectedAssessment.id}/edit`}>
-                  Edit Assessment
-                </Button>
+                <Button type="submit">Create Assessment</Button>
               </DialogFooter>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+            </form>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
+          <DialogContent className="sm:max-w-[600px]">
+            {selectedAssessment && (
+              <>
+                <DialogHeader>
+                  <DialogTitle>Assessment Details</DialogTitle>
+                  <DialogDescription>
+                    Viewing assessment #{selectedAssessment.id}
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Child</h3>
+                      <p className="text-base">{selectedAssessment.childName}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Parent</h3>
+                      <p className="text-base">{selectedAssessment.parentName}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Assessment Type</h3>
+                      <p className="text-base">{selectedAssessment.type}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Date</h3>
+                      <p className="text-base">{selectedAssessment.date}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Status</h3>
+                      <p className="text-base">
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedAssessment.status)}`}>
+                          {selectedAssessment.status}
+                        </span>
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Score</h3>
+                      <p className="text-base">{selectedAssessment.score !== null ? selectedAssessment.score : "Not scored yet"}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500">Notes</h3>
+                    <p className="text-base">{selectedAssessment.notes || "No notes available"}</p>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setIsViewDialogOpen(false)}>
+                    Close
+                  </Button>
+                  <Button onClick={() => window.location.href = `/admin/assessments/${selectedAssessment.id}/edit`}>
+                    Edit Assessment
+                  </Button>
+                </DialogFooter>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={isCreateTypeDialogOpen} onOpenChange={setIsCreateTypeDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create New Assessment Category</DialogTitle>
+              <DialogDescription>
+                Add a new category for screening assessments.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleCreateType}>
+              <div className="space-y-4 py-2">
+                <div className="space-y-2">
+                  <Label htmlFor="type-name">Category Name</Label>
+                  <Input
+                    id="type-name"
+                    placeholder="Enter category name"
+                    value={newType.name}
+                    onChange={(e) => setNewType({ ...newType, name: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="type-description">Description</Label>
+                  <Textarea
+                    id="type-description"
+                    placeholder="Enter description"
+                    value={newType.description}
+                    onChange={(e) => setNewType({ ...newType, description: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setIsCreateTypeDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit">Create Category</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={isCreateQuestionDialogOpen} onOpenChange={setIsCreateQuestionDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create New Question</DialogTitle>
+              <DialogDescription>
+                Add a new question for screening assessments.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleCreateQuestion}>
+              <div className="space-y-4 py-2">
+                <div className="space-y-2">
+                  <Label htmlFor="question-category">Category</Label>
+                  <Select 
+                    value={newQuestion.typeId} 
+                    onValueChange={(value) => setNewQuestion({ ...newQuestion, typeId: value })}
+                    required
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {assessmentTypes.map((type) => (
+                        <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="question-text">Question</Label>
+                  <Textarea
+                    id="question-text"
+                    placeholder="Enter question text"
+                    value={newQuestion.text}
+                    onChange={(e) => setNewQuestion({ ...newQuestion, text: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="question-age">Age Range</Label>
+                  <Select 
+                    value={newQuestion.ageRange} 
+                    onValueChange={(value) => setNewQuestion({ ...newQuestion, ageRange: value })}
+                    required
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select age range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0-12 months">0-12 months</SelectItem>
+                      <SelectItem value="12-18 months">12-18 months</SelectItem>
+                      <SelectItem value="18-24 months">18-24 months</SelectItem>
+                      <SelectItem value="24-36 months">24-36 months</SelectItem>
+                      <SelectItem value="3-4 years">3-4 years</SelectItem>
+                      <SelectItem value="4-5 years">4-5 years</SelectItem>
+                      <SelectItem value="5-6 years">5-6 years</SelectItem>
+                      <SelectItem value="6+ years">6+ years</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setIsCreateQuestionDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit">Create Question</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </main>
     </div>
   )
 }

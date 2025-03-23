@@ -41,7 +41,7 @@ export default function AdminLayout({
             </li>
             <li>
               <a href="/admin/assessments" className="flex items-center px-4 py-3 text-sm rounded-md hover:bg-gray-100">
-                Assessments
+                Screening Assessments
               </a>
             </li>
             <li>
