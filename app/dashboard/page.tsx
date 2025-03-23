@@ -31,6 +31,7 @@ import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import AppointmentBooking from "@/components/consultation/appointment-booking"
 
 // Define a type for the active section
 type ActiveSection = "dashboard" | "appointments" | "dependants" | "medical-records" | "profile";
@@ -191,6 +192,7 @@ export default function DashboardPage() {
     newPassword: "",
     confirmPassword: ""
   })
+  const [isBookingOpen, setIsBookingOpen] = useState(false)
   const activeChild = children[activeChildIndex]
 
   const upcomingSessions = [
@@ -445,6 +447,11 @@ export default function DashboardPage() {
     }
   };
 
+  // Function to handle booking
+  const handleBookAppointment = () => {
+    setIsBookingOpen(true)
+  }
+
   // Render the appropriate content based on the active section
   const renderContent = () => {
     switch (activeSection) {
@@ -534,8 +541,8 @@ export default function DashboardPage() {
                   <div className="md:flex-1">
                     <h3 className="text-xl font-bold mb-2">Book a new Appointment</h3>
                     <p className="mb-4">Schedule your next consultation or therapy session</p>
-                    <Button variant="secondary" asChild>
-                      <Link href="/consultation">Book Now</Link>
+                    <Button className="w-full shadow-sm" onClick={handleBookAppointment}>
+                      Book Now
                     </Button>
                   </div>
                   <div className="flex-shrink-0 bg-white rounded-full p-4">
@@ -644,8 +651,8 @@ export default function DashboardPage() {
                   <div className="space-y-6">
                     <div className="flex justify-between items-center">
                       <h3 className="text-lg font-medium">Upcoming Appointments</h3>
-                      <Button asChild>
-                        <Link href="/consultation">Book New Appointment</Link>
+                      <Button onClick={handleBookAppointment}>
+                        Book New Appointment
                       </Button>
                     </div>
 
@@ -927,8 +934,8 @@ export default function DashboardPage() {
                 <div className="space-y-6">
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-medium">Upcoming Appointments</h3>
-                    <Button asChild>
-                      <Link href="/consultation">Book New Appointment</Link>
+                    <Button onClick={handleBookAppointment}>
+                      Book New Appointment
                     </Button>
                   </div>
 
@@ -1753,6 +1760,27 @@ export default function DashboardPage() {
           <div className="lg:col-span-3 space-y-8">{renderContent()}</div>
         </div>
       </div>
+
+      {/* Booking Dialog */}
+      {isBookingOpen && (
+        <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
+          <DialogContent className="max-w-5xl w-full p-0">
+            <DialogHeader className="p-4 border-b">
+              <DialogTitle>Book Appointment</DialogTitle>
+            </DialogHeader>
+            <AppointmentBooking 
+              user={{
+                name: parentProfile.name,
+                email: parentProfile.email,
+                phone: parentProfile.phone
+              }}
+              children={children}
+              packages={purchasedPackages}
+              insideDialog={true}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   )
 }

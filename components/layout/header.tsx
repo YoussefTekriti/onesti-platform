@@ -6,26 +6,44 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Menu, X, Globe } from "lucide-react"
+import { Menu, X, Globe, ChevronDown } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu"
 
 // Define navigation menu in both languages
 const navigationEN = [
   { name: "I'm a Parent", href: "/#parent-journey" },
-  { name: "I'm a School", href: "/#professional-development" },
   { name: "I'm a Therapist", href: "/login" },
-  { name: "Packages", href: "/packages" },
-  { name: "Blogs", href: "/blogs" },
-  { name: "About Us", href: "/about" },
+  { name: "Learn", href: "/blogs" },
+  {
+    name: "Packages",
+    dropdown: [
+      { name: "Therapy Packages", href: "/packages" },
+      { name: "Assessments", href: "/assessments-catalog" },
+    ],
+  },
+  { name: "About Onesti", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ]
 
 const navigationAR = [
   { name: "أنا والد", href: "/#parent-journey" },
-  { name: "أنا مدرسة", href: "/#professional-development" },
   { name: "أنا معالج", href: "/login" },
-  { name: "الباقات", href: "/packages" },
-  { name: "المدونات", href: "/blogs" },
-  { name: "من نحن", href: "/about" },
+  { name: "التعلم", href: "/blogs" },
+  {
+    name: "الباقات",
+    dropdown: [
+      { name: "باقات العلاج", href: "/packages" },
+      { name: "التقييمات", href: "/assessments-catalog" },
+    ],
+  },
+  { name: "عن أونستي", href: "/about" },
+  { name: "اتصل بنا", href: "/contact" },
 ]
 
 export default function Header() {
@@ -123,16 +141,38 @@ export default function Header() {
         {/* Navigation - centered */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:gap-x-8">
           {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item.href)}
-              className={`text-sm font-semibold leading-6 ${
-                pathname === item.href.replace(/#.*$/, "") ? "text-onesti-purple" : "text-gray-900"
-              } hover:text-onesti-purple transition-colors`}
-            >
-              {item.name}
-            </Link>
+            item.dropdown ? (
+              <DropdownMenu key={item.name}>
+                <DropdownMenuTrigger className={`text-sm font-semibold leading-6 flex items-center ${
+                  pathname === item.href ? "text-onesti-purple" : "text-gray-900"
+                } hover:text-onesti-purple transition-colors`}>
+                  {item.name} <ChevronDown className="ml-1 h-4 w-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {item.dropdown.map((subItem) => (
+                    <DropdownMenuItem key={subItem.name} asChild>
+                      <Link 
+                        href={subItem.href}
+                        className="w-full"
+                      >
+                        {subItem.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={`text-sm font-semibold leading-6 ${
+                  pathname === item.href.replace(/#.*$/, "") ? "text-onesti-purple" : "text-gray-900"
+                } hover:text-onesti-purple transition-colors`}
+              >
+                {item.name}
+              </Link>
+            )
           ))}
         </div>
 
@@ -186,21 +226,42 @@ export default function Header() {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
-                  {/* Remove language toggle from mobile menu since it's always visible in the top right */}
-                  
                   {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={(e) => handleNavClick(e, item.href)}
-                      className={`block rounded-lg px-3 py-2 text-sm font-semibold leading-6 ${
-                        pathname === item.href.replace(/#.*$/, "")
-                          ? "text-onesti-purple bg-gray-50"
-                          : "text-gray-900 hover:bg-gray-50"
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
+                    item.dropdown ? (
+                      <div key={item.name} className="space-y-1">
+                        <div className="block rounded-lg px-3 py-2 text-sm font-semibold leading-6 text-gray-900">
+                          {item.name}
+                        </div>
+                        <div className="pl-4">
+                          {item.dropdown.map((subItem) => (
+                            <Link
+                              key={subItem.name}
+                              href={subItem.href}
+                              className="block rounded-lg px-3 py-2 text-sm font-medium leading-6 text-gray-700 hover:bg-gray-50 hover:text-onesti-purple"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              {subItem.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={(e) => {
+                          handleNavClick(e, item.href);
+                          setMobileMenuOpen(false);
+                        }}
+                        className={`block rounded-lg px-3 py-2 text-sm font-semibold leading-6 ${
+                          pathname === item.href.replace(/#.*$/, "")
+                            ? "text-onesti-purple bg-gray-50"
+                            : "text-gray-900 hover:bg-gray-50"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    )
                   ))}
                 </div>
                 <div className="py-6">

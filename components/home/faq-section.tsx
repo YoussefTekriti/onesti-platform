@@ -68,7 +68,7 @@ export default function FaqSection() {
           </div>
           <div className="hidden lg:block">
             <Image
-              src="/images/child-activity.png"
+              src="/images/child-activity.jpg"
               alt="Child engaged in sensory activity at therapy session"
               width={600}
               height={600}

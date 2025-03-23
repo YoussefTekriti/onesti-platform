@@ -17,16 +17,43 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import AdminHeader from "@/components/admin/admin-header"
-// import AdminSidebar from "@/components/admin/admin-sidebar"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { useToast } from "@/components/ui/use-toast"
+
+// Mock data for users/clients
+const users = [
+  { id: "u1", name: "Sarah Johnson", email: "sarah@example.com", type: "client", avatar: "/placeholder.svg?height=32&width=32" },
+  { id: "u2", name: "Michael Chen", email: "michael@example.com", type: "client", avatar: "/placeholder.svg?height=32&width=32" },
+  { id: "u3", name: "Emma Wilson", email: "emma@example.com", type: "client", avatar: "/placeholder.svg?height=32&width=32" },
+  { id: "u4", name: "James Rodriguez", email: "james@example.com", type: "client", avatar: "/placeholder.svg?height=32&width=32" },
+  { id: "u5", name: "Olivia Taylor", email: "olivia@example.com", type: "client", avatar: "/placeholder.svg?height=32&width=32" },
+  { id: "u6", name: "William Brown", email: "william@example.com", type: "client", avatar: "/placeholder.svg?height=32&width=32" },
+  { id: "u7", name: "Dr. Emily Parker", email: "emily@onesti.com", type: "therapist", specialty: "Speech Therapist", avatar: "/placeholder.svg?height=32&width=32" },
+  { id: "u8", name: "Dr. David Wilson", email: "david@onesti.com", type: "therapist", specialty: "Occupational Therapist", avatar: "/placeholder.svg?height=32&width=32" },
+  { id: "u9", name: "Dr. Jessica Lee", email: "jessica@onesti.com", type: "therapist", specialty: "Behavioral Therapist", avatar: "/placeholder.svg?height=32&width=32" },
+  { id: "u10", name: "Dr. Robert Brown", email: "robert@onesti.com", type: "therapist", specialty: "Speech Therapist", avatar: "/placeholder.svg?height=32&width=32" },
+];
+
+// Mock data for packages
+const packages = [
+  { id: "p1", name: "Thrive Path", sessions: 12, price: 1200 },
+  { id: "p2", name: "Empower Path", sessions: 8, price: 900 },
+  { id: "p3", name: "Nurture Path", sessions: 6, price: 750 },
+  { id: "p4", name: "Single Session", sessions: 1, price: 150 },
+];
 
 // Mock data for appointments
 const appointments = [
   {
     id: "a1",
+    clientId: "u1",
     client: {
       name: "Sarah Johnson",
       avatar: "/placeholder.svg?height=32&width=32",
     },
+    therapistId: "u7",
     therapist: {
       name: "Dr. Emily Parker",
       specialty: "Speech Therapist",
@@ -37,6 +64,8 @@ const appointments = [
     status: "confirmed",
     type: "Developmental",
     package: "Thrive Path",
+    packageId: "p1",
+    notes: "Initial consultation to assess speech development challenges"
   },
   {
     id: "a2",
@@ -193,10 +222,57 @@ const appointments = [
   },
 ]
 
+// Function to export table data to CSV
+const exportToCSV = (data) => {
+  // Column headers
+  const headers = ["Client", "Therapist", "Specialty", "Date", "Time", "Duration", "Type", "Package", "Status"];
+  
+  // Format data rows
+  const rows = data.map(appointment => [
+    appointment.client.name,
+    appointment.therapist.name,
+    appointment.therapist.specialty,
+    new Date(appointment.date).toLocaleDateString(),
+    appointment.time,
+    appointment.duration,
+    appointment.type,
+    appointment.package,
+    appointment.status
+  ]);
+  
+  // Combine headers and rows
+  const csvContent = [
+    headers.join(","),
+    ...rows.map(row => row.join(","))
+  ].join("\n");
+  
+  // Create download link
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', `appointments-${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 export default function AppointmentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [typeFilter, setTypeFilter] = useState("all")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [newAppointment, setNewAppointment] = useState({
+    clientId: "",
+    therapistId: "",
+    date: "",
+    time: "",
+    duration: "60 min",
+    type: "",
+    packageId: "",
+    notes: ""
+  })
+  const { toast } = useToast()
 
   // Filter appointments based on search term and filters
   const filteredAppointments = appointments.filter((appointment) => {
@@ -214,6 +290,43 @@ export default function AppointmentsPage() {
   // Get unique types for filter
   const types = [...new Set(appointments.map((a) => a.type))]
 
+  // Filter users to just get clients
+  const clients = users.filter(user => user.type === "client")
+  
+  // Filter users to just get therapists
+  const therapists = users.filter(user => user.type === "therapist")
+
+  // Handler for form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setNewAppointment(prev => ({ ...prev, [name]: value }))
+  }
+
+  // Handler for creating a new appointment
+  const handleCreateAppointment = (e) => {
+    e.preventDefault()
+    
+    // In a real application, you would make an API call here
+    // For now, we'll just show a toast notification
+    toast({
+      title: "Appointment Created",
+      description: `New appointment scheduled for ${new Date(newAppointment.date).toLocaleDateString()} at ${newAppointment.time}`,
+    })
+    
+    setIsModalOpen(false)
+    // Reset form
+    setNewAppointment({
+      clientId: "",
+      therapistId: "",
+      date: "",
+      time: "",
+      duration: "60 min",
+      type: "",
+      packageId: "",
+      notes: ""
+    })
+  }
+
   return (
     <div className="flex-1">
       <AdminHeader title="Appointment Management" description="View and manage scheduled sessions" />
@@ -226,13 +339,179 @@ export default function AppointmentsPage() {
               <CardDescription>Manage therapy sessions, consultations, and assessments</CardDescription>
             </div>
             <div className="mt-4 flex flex-col sm:mt-0 sm:flex-row sm:gap-2">
-              <Button asChild>
-                <Link href="/admin/appointments/new">
-                  <Plus className="mr-2 h-4 w-4" />
-                  New Appointment
-                </Link>
-              </Button>
-              <Button variant="outline">
+              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="mr-2 h-4 w-4" />
+                    New Appointment
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[600px]">
+                  <DialogHeader>
+                    <DialogTitle>Create New Appointment</DialogTitle>
+                    <DialogDescription>
+                      Schedule a new appointment for a client with a therapist.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <form onSubmit={handleCreateAppointment}>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="clientId" className="text-right">
+                          Client
+                        </Label>
+                        <Select 
+                          name="clientId" 
+                          value={newAppointment.clientId} 
+                          onValueChange={(value) => handleInputChange({ target: { name: 'clientId', value } })}
+                          required
+                        >
+                          <SelectTrigger className="col-span-3">
+                            <SelectValue placeholder="Select a client" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {clients.map(client => (
+                              <SelectItem key={client.id} value={client.id}>
+                                {client.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="therapistId" className="text-right">
+                          Therapist
+                        </Label>
+                        <Select 
+                          name="therapistId" 
+                          value={newAppointment.therapistId} 
+                          onValueChange={(value) => handleInputChange({ target: { name: 'therapistId', value } })}
+                          required
+                        >
+                          <SelectTrigger className="col-span-3">
+                            <SelectValue placeholder="Select a therapist" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {therapists.map(therapist => (
+                              <SelectItem key={therapist.id} value={therapist.id}>
+                                {therapist.name} ({therapist.specialty})
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="date" className="text-right">
+                          Date
+                        </Label>
+                        <Input
+                          id="date"
+                          name="date"
+                          type="date"
+                          value={newAppointment.date}
+                          onChange={handleInputChange}
+                          className="col-span-3"
+                          required
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="time" className="text-right">
+                          Time
+                        </Label>
+                        <Input
+                          id="time"
+                          name="time"
+                          type="time"
+                          value={newAppointment.time}
+                          onChange={handleInputChange}
+                          className="col-span-3"
+                          required
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="duration" className="text-right">
+                          Duration
+                        </Label>
+                        <Select 
+                          name="duration" 
+                          value={newAppointment.duration} 
+                          onValueChange={(value) => handleInputChange({ target: { name: 'duration', value } })}
+                          required
+                        >
+                          <SelectTrigger className="col-span-3">
+                            <SelectValue placeholder="Select duration" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="30 min">30 min</SelectItem>
+                            <SelectItem value="45 min">45 min</SelectItem>
+                            <SelectItem value="60 min">60 min</SelectItem>
+                            <SelectItem value="90 min">90 min</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="type" className="text-right">
+                          Type
+                        </Label>
+                        <Select 
+                          name="type" 
+                          value={newAppointment.type} 
+                          onValueChange={(value) => handleInputChange({ target: { name: 'type', value } })}
+                          required
+                        >
+                          <SelectTrigger className="col-span-3">
+                            <SelectValue placeholder="Select appointment type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Developmental">Developmental</SelectItem>
+                            <SelectItem value="ABA">ABA</SelectItem>
+                            <SelectItem value="Counseling">Counseling</SelectItem>
+                            <SelectItem value="Routine">Routine</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="packageId" className="text-right">
+                          Package
+                        </Label>
+                        <Select 
+                          name="packageId" 
+                          value={newAppointment.packageId} 
+                          onValueChange={(value) => handleInputChange({ target: { name: 'packageId', value } })}
+                          required
+                        >
+                          <SelectTrigger className="col-span-3">
+                            <SelectValue placeholder="Select package" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {packages.map(pkg => (
+                              <SelectItem key={pkg.id} value={pkg.id}>
+                                {pkg.name} ({pkg.sessions} sessions)
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="notes" className="text-right">
+                          Notes
+                        </Label>
+                        <Textarea
+                          id="notes"
+                          name="notes"
+                          value={newAppointment.notes}
+                          onChange={handleInputChange}
+                          className="col-span-3"
+                          placeholder="Add any additional notes here"
+                        />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button type="submit">Create Appointment</Button>
+                    </DialogFooter>
+                  </form>
+                </DialogContent>
+              </Dialog>
+              <Button variant="outline" onClick={() => exportToCSV(filteredAppointments)}>
                 <Download className="mr-2 h-4 w-4" />
                 Export
               </Button>

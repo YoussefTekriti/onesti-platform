@@ -86,7 +86,7 @@ export default function TherapistLayout({ children }: { children: React.ReactNod
                   <div className="flex items-center">
                     <div>
                       <Avatar className="inline-block h-10 w-10">
-                        <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
+                        <AvatarImage src="/placeholder.svg" alt="Avatar" />
                         <AvatarFallback>ST</AvatarFallback>
                       </Avatar>
                     </div>
@@ -142,7 +142,7 @@ export default function TherapistLayout({ children }: { children: React.ReactNod
               <div className="flex items-center">
                 <div>
                   <Avatar className="inline-block h-9 w-9">
-                    <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
+                    <AvatarImage src="/placeholder.svg" alt="Avatar" />
                     <AvatarFallback>ST</AvatarFallback>
                   </Avatar>
                 </div>

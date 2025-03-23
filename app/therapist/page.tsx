@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, Users, FileText, CheckCircle } from "lucide-react"
+import { Calendar, Clock, Users, FileText, CheckCircle, Plus } from "lucide-react"
 import Link from "next/link"
 
 export default function TherapistDashboard() {
@@ -43,12 +43,20 @@ export default function TherapistDashboard() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Therapist Dashboard</h1>
-        <Button asChild>
-          <Link href="/therapist/appointments">
-            <Calendar className="mr-2 h-4 w-4" />
-            View Schedule
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild variant="outline">
+            <Link href="/therapist/appointments/new">
+              <Plus className="mr-2 h-4 w-4" />
+              New Appointment
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href="/therapist/appointments">
+              <Calendar className="mr-2 h-4 w-4" />
+              View Schedule
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -89,7 +97,9 @@ export default function TherapistDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">3</div>
-            <p className="text-xs text-muted-foreground">Due within 48 hours</p>
+            <p className="text-xs text-muted-foreground">
+              <Link href="/therapist/notes" className="text-onesti-purple hover:underline">Complete now</Link>
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -103,36 +113,47 @@ export default function TherapistDashboard() {
           <CardContent>
             <div className="space-y-4">
               {upcomingAppointments.map((appointment) => (
-                <div key={appointment.id} className="flex items-start space-x-4 rounded-md border p-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100">
-                    <Calendar className="h-5 w-5 text-onesti-purple" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <p className="text-sm font-medium leading-none">{appointment.clientName}</p>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <span className="font-medium text-gray-700">{appointment.date}</span>
-                      <span className="mx-1">•</span>
-                      <span>{appointment.time}</span>
+                <Link 
+                  key={appointment.id} 
+                  href={`/therapist/appointments/${appointment.id}`} 
+                  className="block hover:bg-gray-50 transition-colors rounded-md"
+                >
+                  <div className="flex items-start space-x-4 rounded-md border p-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100">
+                      <Calendar className="h-5 w-5 text-onesti-purple" />
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500">{appointment.type}</span>
-                      <span
-                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                          appointment.status === "Confirmed"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-yellow-100 text-yellow-800"
-                        }`}
-                      >
-                        {appointment.status === "Confirmed" && <CheckCircle className="mr-1 h-3 w-3 text-green-500" />}
-                        {appointment.status}
-                      </span>
+                    <div className="flex-1 space-y-1">
+                      <p className="text-sm font-medium leading-none">{appointment.clientName}</p>
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <span className="font-medium text-gray-700">{appointment.date}</span>
+                        <span className="mx-1">•</span>
+                        <span>{appointment.time}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-gray-500">{appointment.type}</span>
+                        <span
+                          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                            appointment.status === "Confirmed"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {appointment.status === "Confirmed" && <CheckCircle className="mr-1 h-3 w-3 text-green-500" />}
+                          {appointment.status}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
-              <Button variant="outline" className="w-full" asChild>
-                <Link href="/therapist/appointments">View All Appointments</Link>
-              </Button>
+              <div className="flex gap-2 mt-4">
+                <Button variant="outline" className="w-full" asChild>
+                  <Link href="/therapist/appointments">View All Appointments</Link>
+                </Button>
+                <Button className="w-full" asChild>
+                  <Link href="/therapist/availability">Manage Availability</Link>
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -152,17 +173,28 @@ export default function TherapistDashboard() {
                   <div className="text-right">Last Session</div>
                 </div>
                 {recentClients.map((client) => (
-                  <div key={client.id} className="grid grid-cols-5 gap-2 border-t p-3 text-sm">
-                    <div className="col-span-2 font-medium">{client.name}</div>
-                    <div className="text-center">{client.age}</div>
-                    <div className="text-center">{client.sessions}</div>
-                    <div className="text-right text-gray-500">{client.lastSession}</div>
-                  </div>
+                  <Link 
+                    key={client.id} 
+                    href={`/therapist/clients/${client.id}`}
+                    className="block hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="grid grid-cols-5 gap-2 border-t p-3 text-sm">
+                      <div className="col-span-2 font-medium">{client.name}</div>
+                      <div className="text-center">{client.age}</div>
+                      <div className="text-center">{client.sessions}</div>
+                      <div className="text-right text-gray-500">{client.lastSession}</div>
+                    </div>
+                  </Link>
                 ))}
               </div>
-              <Button variant="outline" className="w-full" asChild>
-                <Link href="/therapist/clients">View All Clients</Link>
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" className="w-full" asChild>
+                  <Link href="/therapist/clients">View All Clients</Link>
+                </Button>
+                <Button className="w-full" asChild>
+                  <Link href="/therapist/clients/new">Add New Client</Link>
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>

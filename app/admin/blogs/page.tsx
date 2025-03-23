@@ -3,10 +3,12 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { PlusCircle, Eye, Edit, Trash2 } from "lucide-react"
+import { useState } from "react"
+import { useToast } from "@/components/ui/use-toast"
 
 export default function AdminBlogsPage() {
-  // Mock data for blog posts with categories relevant to Onesti
-  const blogs = [
+  const { toast } = useToast()
+  const [blogs, setBlogs] = useState([
     {
       id: 1,
       title: "Understanding Child Development Milestones",
@@ -15,6 +17,7 @@ export default function AdminBlogsPage() {
       slug: "child-development-milestones",
       author: "Dr. Sarah Johnson",
       category: "Child Development",
+      image: "/images/child-development.jpeg"
     },
     {
       id: 2,
@@ -24,6 +27,7 @@ export default function AdminBlogsPage() {
       slug: "sensory-processing-strategies",
       author: "Dr. Michael Chen",
       category: "Special Needs",
+      image: "/images/speech-therapy.jpeg"
     },
     {
       id: 3,
@@ -33,6 +37,7 @@ export default function AdminBlogsPage() {
       slug: "speech-development-milestones",
       author: "Dr. Lisa Patel",
       category: "Child Development",
+      image: "/images/therapy-session.jpeg"
     },
     {
       id: 4,
@@ -42,6 +47,7 @@ export default function AdminBlogsPage() {
       slug: "nutrition-child-development",
       author: "Dr. Emma Rodriguez",
       category: "Parenting Tips",
+      image: "/images/child-development.jpeg"
     },
     {
       id: 5,
@@ -51,8 +57,19 @@ export default function AdminBlogsPage() {
       slug: "early-intervention-benefits",
       author: "Dr. Darren Elder",
       category: "Therapy Approaches",
+      image: "/images/child-learning.jpeg"
     },
-  ]
+  ])
+
+  const handleDeleteBlog = (id: number) => {
+    if (confirm("Are you sure you want to delete this blog post?")) {
+      setBlogs(blogs.filter(blog => blog.id !== id))
+      toast({
+        title: "Blog Deleted",
+        description: "The blog post has been successfully deleted.",
+      })
+    }
+  }
 
   return (
     <div className="p-6">
@@ -79,7 +96,7 @@ export default function AdminBlogsPage() {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Title
+                  Post
                 </th>
                 <th
                   scope="col"
@@ -117,7 +134,14 @@ export default function AdminBlogsPage() {
               {blogs.map((blog) => (
                 <tr key={blog.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{blog.title}</div>
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 h-10 w-10">
+                        <img className="h-10 w-10 rounded-md object-cover" src={blog.image} alt={blog.title} />
+                      </div>
+                      <div className="ml-4">
+                        <div className="text-sm font-medium text-gray-900">{blog.title}</div>
+                      </div>
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-500">{blog.author}</div>
@@ -140,6 +164,7 @@ export default function AdminBlogsPage() {
                       <Link
                         href={`/blogs/${blog.slug}`}
                         className="text-blue-600 hover:text-blue-900 p-1 rounded-full hover:bg-blue-50"
+                        target="_blank"
                       >
                         <Eye className="h-4 w-4" />
                       </Link>
@@ -151,7 +176,7 @@ export default function AdminBlogsPage() {
                       </Link>
                       <button
                         className="text-red-600 hover:text-red-900 p-1 rounded-full hover:bg-red-50"
-                        onClick={() => confirm("Are you sure you want to delete this blog post?")}
+                        onClick={() => handleDeleteBlog(blog.id)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>

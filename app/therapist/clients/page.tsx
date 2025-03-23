@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowLeft, Search, User, Calendar, Clock, FileText } from "lucide-react"
+import { ArrowLeft, Search, User, Calendar, Clock, FileText, Plus } from "lucide-react"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
+import { useRouter } from "next/navigation"
+import Image from 'next/image'
 
 // Sample data
 const clients = [
@@ -65,6 +67,7 @@ const clients = [
 export default function TherapistClients() {
   const [searchTerm, setSearchTerm] = useState("")
   const [activeTab, setActiveTab] = useState("all")
+  const router = useRouter()
 
   // Filter clients based on search term and active tab
   const filteredClients = clients.filter((client) => {
@@ -80,19 +83,30 @@ export default function TherapistClients() {
     return matchesSearch
   })
 
+  // Handle adding a new client
+  const handleAddClient = () => {
+    router.push("/therapist/clients/new")
+  }
+
   return (
     <div className="space-y-6 pb-8">
-      <div className="flex items-center">
-        <Button variant="ghost" size="sm" asChild className="mr-4">
-          <Link href="/therapist">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Dashboard
-          </Link>
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Clients</h1>
-          <p className="text-muted-foreground">Manage your client list and view client details</p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <Button variant="ghost" size="sm" asChild className="mr-4">
+            <Link href="/therapist">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Dashboard
+            </Link>
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Clients</h1>
+            <p className="text-muted-foreground">Manage your client list and view client details</p>
+          </div>
         </div>
+        <Button onClick={handleAddClient} className="bg-onesti-purple hover:bg-purple-800 text-white">
+          <Plus className="mr-2 h-4 w-4" />
+          Add New Client
+        </Button>
       </div>
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -125,7 +139,7 @@ export default function TherapistClients() {
                     <div className="p-6 md:w-1/3 border-b md:border-b-0 md:border-r">
                       <div className="flex items-start space-x-4">
                         <Avatar className="h-12 w-12">
-                          <AvatarImage src="/placeholder-user.jpg" alt={client.name} />
+                          <AvatarImage src="/placeholder.svg" alt={client.name} />
                           <AvatarFallback>{client.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
@@ -133,7 +147,13 @@ export default function TherapistClients() {
                           <p className="text-sm text-gray-500">Age: {client.age}</p>
                           <p className="text-sm text-gray-500">Parent: {client.parent}</p>
                           <Badge
-                            className={`mt-2 ${client.status === "Active" ? "bg-green-100 text-green-800" : ""}`}
+                            className={`mt-2 ${
+                              client.status === "Active" 
+                                ? "bg-green-100 text-green-800 hover:bg-green-200" 
+                                : client.status === "New" 
+                                  ? "" 
+                                  : ""
+                            }`}
                             variant={
                               client.status === "Active" ? "default" : client.status === "New" ? "default" : "outline"
                             }
@@ -186,11 +206,24 @@ export default function TherapistClients() {
                       </div>
 
                       <div className="flex justify-end mt-4 pt-4 border-t">
-                        <Button variant="outline" size="sm" className="mr-2">
-                          View Notes
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="mr-2"
+                          asChild
+                        >
+                          <Link href={`/therapist/clients/${client.id}/notes`}>
+                            View Notes
+                          </Link>
                         </Button>
-                        <Button size="sm" className="bg-onesti-purple hover:bg-purple-800 text-white">
-                          View Profile
+                        <Button 
+                          size="sm" 
+                          className="bg-onesti-purple hover:bg-purple-800 text-white"
+                          asChild
+                        >
+                          <Link href={`/therapist/clients/${client.id}`}>
+                            View Profile
+                          </Link>
                         </Button>
                       </div>
                     </div>
@@ -210,6 +243,14 @@ export default function TherapistClients() {
                     ? "No clients match your search criteria."
                     : "You don't have any clients in this category."}
                 </p>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="mt-4"
+                  onClick={handleAddClient}
+                >
+                  Add New Client
+                </Button>
               </CardContent>
             </Card>
           )}
@@ -218,4 +259,3 @@ export default function TherapistClients() {
     </div>
   )
 }
-

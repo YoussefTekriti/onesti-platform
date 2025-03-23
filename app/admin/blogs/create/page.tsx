@@ -23,6 +23,9 @@ import {
   Superscript,
   Subscript,
   Check,
+  Send,
+  Plus,
+  Tag
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -55,6 +58,9 @@ export default function CreateBlogPage() {
   const [tableOfContents, setTableOfContents] = useState<Array<{ id: string; level: number; text: string }>>([])
   const [uploadedImage, setUploadedImage] = useState<File | null>(null)
   const [uploadedImagePreview, setUploadedImagePreview] = useState<string | null>(null)
+  const [tags, setTags] = useState<string[]>([])
+  const [newTag, setNewTag] = useState("")
+  const [publishMode, setPublishMode] = useState<"draft" | "publish">("draft")
 
   const editorRef = useRef<HTMLDivElement>(null)
   const formatToolbarRef = useRef<HTMLDivElement>(null)
@@ -120,6 +126,19 @@ export default function CreateBlogPage() {
     setAuthor("")
   }
 
+  // Handle adding a new tag
+  const addTag = () => {
+    if (newTag.trim() && !tags.includes(newTag.trim())) {
+      setTags([...tags, newTag.trim()]);
+      setNewTag("");
+    }
+  }
+
+  // Handle removing a tag
+  const removeTag = (tagToRemove: string) => {
+    setTags(tags.filter(tag => tag !== tagToRemove));
+  }
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -136,11 +155,12 @@ export default function CreateBlogPage() {
         category,
         author,
         featuredImage,
-        isPublished,
+        isPublished: publishMode === "publish",
+        tags,
       })
       setIsSubmitting(false)
       // Redirect to blogs list with success message
-      router.push("/admin/blogs?success=Blog post created successfully")
+      router.push(`/admin/blogs?success=Blog post ${publishMode === "publish" ? "published" : "saved as draft"} successfully`)
     }, 1500)
   }
 
@@ -885,14 +905,76 @@ export default function CreateBlogPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="published">Publish Immediately</Label>
-                      <Switch id="published" checked={isPublished} onCheckedChange={setIsPublished} />
+                    <Label htmlFor="tags">Tags</Label>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {tags.map((tag, index) => (
+                        <div 
+                          key={index} 
+                          className="flex items-center bg-muted rounded-md px-2 py-1 text-sm"
+                        >
+                          <Tag className="h-3 w-3 mr-1" />
+                          <span>{tag}</span>
+                          <Button 
+                            type="button" 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-4 w-4 ml-1"
+                            onClick={() => removeTag(tag)}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex space-x-2">
+                      <Input
+                        id="new-tag"
+                        value={newTag}
+                        onChange={(e) => setNewTag(e.target.value)}
+                        placeholder="Add a tag..."
+                        onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
+                      />
+                      <Button 
+                        type="button" 
+                        size="sm" 
+                        variant="outline"
+                        onClick={addTag}
+                        disabled={!newTag.trim()}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      {isPublished
-                        ? "Blog post will be published immediately after saving"
-                        : "Blog post will be saved as a draft"}
+                      Tags help readers find related content
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Publication Status</Label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        type="button"
+                        variant={publishMode === "draft" ? "default" : "outline"}
+                        className="w-full justify-start"
+                        onClick={() => setPublishMode("draft")}
+                      >
+                        <Save className="mr-2 h-4 w-4" />
+                        Save as Draft
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={publishMode === "publish" ? "default" : "outline"}
+                        className="w-full justify-start"
+                        onClick={() => setPublishMode("publish")}
+                      >
+                        <Send className="mr-2 h-4 w-4" />
+                        Publish Now
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {publishMode === "publish" 
+                        ? "This post will be visible to all users immediately upon saving" 
+                        : "This post will be saved and can be published later"}
                     </p>
                   </div>
                 </CardContent>
@@ -901,8 +983,12 @@ export default function CreateBlogPage() {
                     Cancel
                   </Button>
                   <Button type="submit" disabled={isSubmitting}>
-                    <Save className="mr-2 h-4 w-4" />
-                    {isSubmitting ? "Saving..." : isPublished ? "Publish Post" : "Save Draft"}
+                    {publishMode === "publish" ? <Send className="mr-2 h-4 w-4" /> : <Save className="mr-2 h-4 w-4" />}
+                    {isSubmitting 
+                      ? "Saving..." 
+                      : publishMode === "publish" 
+                        ? "Publish Post" 
+                        : "Save Draft"}
                   </Button>
                 </CardFooter>
               </Card>

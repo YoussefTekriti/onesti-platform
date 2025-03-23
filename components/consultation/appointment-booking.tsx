@@ -1,11 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ChevronLeft, ChevronRight, Clock, Calendar, Check } from "lucide-react"
+import { ChevronLeft, ChevronRight, Clock, Calendar, Check, AlertCircle } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 type Doctor = {
   id: string
@@ -24,6 +26,41 @@ type BookingConfirmation = {
   doctor: Doctor
   date: string
   time: string
+  usePackage?: Package
+  childName?: string
+}
+
+type User = {
+  name: string
+  email: string
+  phone: string
+}
+
+type Child = {
+  id: number
+  name: string
+  age: string
+  gender: string
+}
+
+type Package = {
+  id: number
+  name: string
+  sessions: {
+    total: number
+    used: number
+    remaining: number
+  }
+  validUntil: string
+  status: string
+  childId: number
+}
+
+type AppointmentBookingProps = {
+  user?: User
+  children?: Child[]
+  packages?: Package[]
+  insideDialog?: boolean
 }
 
 const doctors: Doctor[] = [
@@ -72,12 +109,31 @@ const timeSlots = {
   ],
 }
 
-export default function AppointmentBooking() {
+export default function AppointmentBooking({ user, children = [], packages = [], insideDialog = false }: AppointmentBookingProps) {
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(doctors[0])
   const [selectedDate, setSelectedDate] = useState<string>("SEP 7")
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(null)
   const [currentStep, setCurrentStep] = useState(1)
   const [bookingConfirmed, setBookingConfirmed] = useState<BookingConfirmation | null>(null)
+  const [selectedChild, setSelectedChild] = useState<Child | null>(children.length > 0 ? children[0] : null)
+  const [selectedPackage, setSelectedPackage] = useState<Package | null>(null)
+  const [paymentMethod, setPaymentMethod] = useState<'package' | 'new'>(packages.length > 0 ? 'package' : 'new')
+  
+  // Filter packages for the selected child
+  const childPackages = selectedChild 
+    ? packages.filter(pkg => pkg.childId === selectedChild.id && pkg.sessions.remaining > 0 && pkg.status === "Active") 
+    : []
+  
+  // Effect to set default package when child changes
+  useEffect(() => {
+    if (childPackages.length > 0) {
+      setSelectedPackage(childPackages[0])
+      setPaymentMethod('package')
+    } else {
+      setSelectedPackage(null)
+      setPaymentMethod('new')
+    }
+  }, [selectedChild, childPackages])
 
   const handleNext = () => {
     if (currentStep === 1 && selectedTimeSlot) {
@@ -85,10 +141,18 @@ export default function AppointmentBooking() {
     } else if (currentStep === 2) {
       // Simulate booking confirmation
       if (selectedDoctor && selectedTimeSlot) {
+        // If using a package, decrement session count (in a real app)
+        if (paymentMethod === 'package' && selectedPackage) {
+          // In a real app, you would call an API to update the package
+          console.log(`Using session from package: ${selectedPackage.name}`)
+        }
+
         setBookingConfirmed({
           doctor: selectedDoctor,
           date: selectedDate,
           time: selectedTimeSlot.time,
+          usePackage: paymentMethod === 'package' && selectedPackage ? selectedPackage : undefined,
+          childName: selectedChild?.name
         })
         setCurrentStep(3)
       }
@@ -103,9 +167,33 @@ export default function AppointmentBooking() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8">
-      {currentStep < 3 && (
+      {currentStep < 3 && !insideDialog && (
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Book an Appointment</h1>
+          <div className="mt-4 flex items-center">
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-full ${currentStep >= 1 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
+            >
+              1
+            </div>
+            <div className={`h-1 w-24 ${currentStep >= 2 ? "bg-blue-600" : "bg-gray-200"}`}></div>
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-full ${currentStep >= 2 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
+            >
+              2
+            </div>
+            <div className={`h-1 w-24 ${currentStep >= 3 ? "bg-blue-600" : "bg-gray-200"}`}></div>
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-full ${currentStep >= 3 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
+            >
+              3
+            </div>
+          </div>
+        </div>
+      )}
+
+      {currentStep < 3 && insideDialog && (
+        <div className="mb-8">
           <div className="mt-4 flex items-center">
             <div
               className={`flex h-10 w-10 items-center justify-center rounded-full ${currentStep >= 1 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
@@ -247,53 +335,141 @@ export default function AppointmentBooking() {
                         src={selectedDoctor?.image || "/placeholder.svg"}
                         alt={selectedDoctor?.name || "Doctor"}
                         fill
-                        alt={selectedDoctor?.name || "Doctor"}
-                        fill
-                        className="object-cover"
+                        sizes="64px"
                       />
                     </div>
                     <div>
-                      <h3 className="font-medium">{selectedDoctor?.name}</h3>
+                      <h3 className="font-bold">{selectedDoctor?.name}</h3>
                       <p className="text-sm text-gray-500">{selectedDoctor?.title}</p>
-                      <Button variant="link" className="p-0 h-auto text-blue-600" onClick={() => {}}>
-                        Edit
-                      </Button>
                     </div>
+                  </div>
+                  <div className="mt-4 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Date:</span>
+                      <span className="font-medium">{selectedDate}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Time:</span>
+                      <span className="font-medium">{selectedTimeSlot?.time}</span>
+                    </div>
+                    
+                    {/* Child selection for logged-in users */}
+                    {children.length > 0 && (
+                      <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Select Child</label>
+                        <Select 
+                          value={selectedChild?.id.toString()} 
+                          onValueChange={(value) => setSelectedChild(children.find(child => child.id.toString() === value) || null)}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select a child" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {children.map(child => (
+                              <SelectItem key={child.id} value={child.id.toString()}>
+                                {child.name} ({child.age})
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-medium mb-2">Appointment Details</h3>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <div className="flex items-center mb-3">
-                        <Calendar className="h-5 w-5 text-blue-600 mr-2" />
-                        <span className="font-medium">
-                          {selectedDate
-                            ? new Date(`2023 ${selectedDate.replace("SEP", "September")}`).toLocaleDateString("en-US", {
-                                weekday: "long",
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              })
-                            : "Select a date"}
-                        </span>
+                {children.length > 0 && selectedChild && (
+                  <div className="border rounded-lg p-4 mb-6">
+                    <h3 className="font-bold text-lg mb-2">Payment Method</h3>
+                    
+                    {childPackages.length > 0 ? (
+                      <>
+                        <div className="flex items-center mb-3">
+                          <input
+                            type="radio"
+                            id="usePackage"
+                            name="paymentMethod"
+                            className="h-4 w-4 text-blue-600"
+                            checked={paymentMethod === 'package'}
+                            onChange={() => setPaymentMethod('package')}
+                          />
+                          <label htmlFor="usePackage" className="ml-2 block text-sm text-gray-700">
+                            Use existing package
+                          </label>
+                        </div>
+                        
+                        {paymentMethod === 'package' && (
+                          <div className="ml-6 mb-4">
+                            <Select 
+                              value={selectedPackage?.id.toString()} 
+                              onValueChange={(value) => setSelectedPackage(packages.find(pkg => pkg.id.toString() === value) || null)}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select a package" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {childPackages.map(pkg => (
+                                  <SelectItem key={pkg.id} value={pkg.id.toString()}>
+                                    {pkg.name} ({pkg.sessions.remaining} sessions left)
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            
+                            {selectedPackage && (
+                              <div className="mt-2 text-sm text-gray-500">
+                                <p>Remaining sessions: <span className="font-medium text-green-600">{selectedPackage.sessions.remaining}</span></p>
+                                <p>Valid until: {selectedPackage.validUntil}</p>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            id="newPayment"
+                            name="paymentMethod"
+                            className="h-4 w-4 text-blue-600"
+                            checked={paymentMethod === 'new'}
+                            onChange={() => setPaymentMethod('new')}
+                          />
+                          <label htmlFor="newPayment" className="ml-2 block text-sm text-gray-700">
+                            Pay for this session
+                          </label>
+                        </div>
+                      </>
+                    ) : (
+                      <Alert className="mb-4">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertTitle>No active packages available</AlertTitle>
+                        <AlertDescription>
+                          You don't have any active packages with remaining sessions for {selectedChild.name}.
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                    
+                    {paymentMethod === 'new' && (
+                      <div className="mt-3 p-3 bg-gray-50 rounded-md text-sm">
+                        <p>Single session fee: <span className="font-medium">$75</span></p>
+                        <p className="mt-2 text-xs text-gray-500">Payment will be collected at checkout</p>
                       </div>
-                      <div className="flex items-center">
-                        <Clock className="h-5 w-5 text-blue-600 mr-2" />
-                        <span className="font-medium">
-                          {selectedTimeSlot ? selectedTimeSlot.time : "Select a time slot"}
-                        </span>
-                      </div>
-                    </div>
+                    )}
                   </div>
+                )}
 
-                  <div>
-                    <h3 className="text-lg font-medium mb-2">Your Specialist</h3>
-                    <p className="text-sm text-gray-600">
-                      You'll be meeting with {selectedDoctor?.name}, who specializes in {selectedDoctor?.title}.
-                    </p>
-                  </div>
+                <div className="space-y-4">
+                  <Button 
+                    onClick={handleNext} 
+                    className="w-full" 
+                    disabled={!selectedTimeSlot || (children.length > 0 && !selectedChild)}
+                  >
+                    {currentStep === 1 ? "Continue" : "Confirm Booking"}
+                  </Button>
+                  {currentStep > 1 && (
+                    <Button variant="outline" onClick={handleBack} className="w-full">
+                      Back
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -305,90 +481,140 @@ export default function AppointmentBooking() {
         <div className="max-w-2xl mx-auto">
           <Card>
             <CardContent className="p-6">
-              <h2 className="text-xl font-semibold mb-6">Confirm Your Details</h2>
-
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                    <input type="text" className="w-full p-2 border rounded-md" placeholder="John" />
+              <h2 className="text-2xl font-semibold mb-6 text-center">Confirm Your Appointment</h2>
+              
+              <div className="border rounded-lg p-6 mb-6">
+                <div className="flex items-center mb-6">
+                  <div className="relative h-20 w-20 rounded-full overflow-hidden mr-6">
+                    <Image
+                      src={selectedDoctor?.image || "/placeholder.svg"}
+                      alt={selectedDoctor?.name || "Doctor"}
+                      fill
+                      sizes="80px"
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                    <input type="text" className="w-full p-2 border rounded-md" placeholder="Doe" />
+                    <h3 className="text-lg font-bold">{selectedDoctor?.name}</h3>
+                    <p className="text-gray-500">{selectedDoctor?.title}</p>
                   </div>
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                  <input type="email" className="w-full p-2 border rounded-md" placeholder="john.doe@example.com" />
+                
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div>
+                    <p className="text-sm text-gray-500">Date</p>
+                    <p className="font-medium">{selectedDate}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Time</p>
+                    <p className="font-medium">{selectedTimeSlot?.time}</p>
+                  </div>
+                  {selectedChild && (
+                    <div>
+                      <p className="text-sm text-gray-500">Patient</p>
+                      <p className="font-medium">{selectedChild.name}</p>
+                    </div>
+                  )}
+                  {paymentMethod === 'package' && selectedPackage && (
+                    <div>
+                      <p className="text-sm text-gray-500">Using Package</p>
+                      <p className="font-medium">{selectedPackage.name}</p>
+                    </div>
+                  )}
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                  <input type="tel" className="w-full p-2 border rounded-md" placeholder="+1 (555) 123-4567" />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Reason for Visit</label>
-                  <textarea
-                    className="w-full p-2 border rounded-md"
-                    rows={3}
-                    placeholder="Please describe your reason for booking this appointment..."
-                  ></textarea>
-                </div>
-
-                <div className="flex items-start">
-                  <input type="checkbox" id="terms" className="h-4 w-4 mt-1 text-blue-600" />
-                  <label htmlFor="terms" className="ml-2 text-sm text-gray-700">
-                    I agree to the{" "}
-                    <Link href="/terms" className="text-blue-600 hover:underline">
-                      Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link href="/privacy" className="text-blue-600 hover:underline">
-                      Privacy Policy
-                    </Link>
-                  </label>
-                </div>
+                
+                {paymentMethod === 'package' && selectedPackage && (
+                  <div className="bg-green-50 p-3 rounded-md text-green-800 text-sm mb-6">
+                    <p className="flex items-center">
+                      <Check className="h-4 w-4 mr-2" />
+                      Session will be deducted from your existing package
+                    </p>
+                    <p className="mt-1 ml-6">
+                      {selectedPackage.sessions.remaining - 1} sessions will remain after this booking
+                    </p>
+                  </div>
+                )}
+                
+                {paymentMethod === 'new' && (
+                  <div className="border-t pt-4 mt-4">
+                    <div className="flex justify-between mb-2">
+                      <span>Session fee</span>
+                      <span>$75.00</span>
+                    </div>
+                    <div className="flex justify-between font-bold text-lg">
+                      <span>Total</span>
+                      <span>$75.00</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="space-y-4">
+                <Button onClick={handleNext} className="w-full">
+                  Confirm Booking
+                </Button>
+                <Button variant="outline" onClick={handleBack} className="w-full">
+                  Back
+                </Button>
               </div>
             </CardContent>
           </Card>
         </div>
       )}
 
-      {currentStep === 3 && (
-        <div className="max-w-2xl mx-auto">
+      {currentStep === 3 && bookingConfirmed && (
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="mb-8">
+            <div className="inline-flex h-24 w-24 items-center justify-center rounded-full bg-green-100 mb-6">
+              <Check className="h-12 w-12 text-green-600" />
+            </div>
+            <h1 className="text-3xl font-bold">Appointment Booked!</h1>
+            <p className="text-gray-500 mt-2">
+              Your appointment has been scheduled successfully
+            </p>
+          </div>
+          
           <Card>
-            <CardContent className="p-8 text-center">
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-                <Check className="h-10 w-10 text-green-600" />
+            <CardContent className="p-6">
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold mb-4">Appointment Details</h2>
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Doctor:</span>
+                    <span className="font-medium">{bookingConfirmed.doctor.name}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Date:</span>
+                    <span className="font-medium">{bookingConfirmed.date}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Time:</span>
+                    <span className="font-medium">{bookingConfirmed.time}</span>
+                  </div>
+                  {bookingConfirmed.childName && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Patient:</span>
+                      <span className="font-medium">{bookingConfirmed.childName}</span>
+                    </div>
+                  )}
+                  {bookingConfirmed.usePackage && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Package Used:</span>
+                      <span className="font-medium">{bookingConfirmed.usePackage.name}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-
-              <h2 className="text-3xl font-bold mb-2">Appointment booked Successfully!</h2>
-              <p className="text-lg text-gray-600 mb-2">Appointment booked with {bookingConfirmed?.doctor.name}</p>
-              <p className="text-lg text-gray-600 mb-6">
-                on {bookingConfirmed?.date} {bookingConfirmed?.time}
-              </p>
-
-              <Button className="bg-blue-500 hover:bg-blue-600">View Invoice</Button>
+              
+              <div className="space-y-4">
+                <Button asChild className="w-full">
+                  <Link href="/dashboard">Go to Dashboard</Link>
+                </Button>
+                <Button variant="outline" asChild className="w-full">
+                  <Link href="/dashboard?section=appointments">View All Appointments</Link>
+                </Button>
+              </div>
             </CardContent>
           </Card>
-        </div>
-      )}
-
-      {currentStep < 3 && (
-        <div className="mt-8 flex justify-between">
-          {currentStep > 1 ? (
-            <Button variant="outline" onClick={handleBack}>
-              Back
-            </Button>
-          ) : (
-            <div></div>
-          )}
-          <Button onClick={handleNext} disabled={currentStep === 1 && !selectedTimeSlot}>
-            {currentStep === 1 ? "Next" : "Confirm Booking"}
-          </Button>
         </div>
       )}
     </div>

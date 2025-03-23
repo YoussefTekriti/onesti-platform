@@ -1,6 +1,10 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { MilestoneSubscriptionDialog } from "@/components/milestone/milestone-subscription-dialog"
 
 // Import first three team members
 const teamMembers = [
@@ -25,6 +29,8 @@ const teamMembers = [
 ]
 
 export default function AboutPage() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-8 lg:py-20">
@@ -159,11 +165,14 @@ export default function AboutPage() {
 
         {/* CTA */}
         <div className="mx-auto mt-16 max-w-2xl text-center">
-          <Button asChild size="lg">
-            <Link href="/milestone-tracker">Get Started with Milestone Tracker</Link>
+          <Button size="lg" onClick={() => setIsDialogOpen(true)}>
+            Get Started with Milestone Tracker
           </Button>
         </div>
       </div>
+
+      {/* Milestone Subscription Dialog */}
+      <MilestoneSubscriptionDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </div>
   )
 }
