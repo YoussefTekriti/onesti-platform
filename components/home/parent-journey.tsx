@@ -72,12 +72,12 @@ export default function ParentJourney() {
                 <span className="text-white text-xl font-semibold">2</span>
               </div>
               <div className="text-left md:text-left text-center">
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Fill onesti's screening checklist</h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Fill Onesti's Screening Checklist</h3>
                 <p className="text-lg text-gray-600 mb-8">
                   Our screening checklists will help us identify any possible delays or challenges.
                 </p>
                 <Button asChild className="rounded-full bg-blue-50 text-primary hover:bg-blue-100 px-8 w-full md:w-auto">
-                  <Link href="/assessments">Start Assessment</Link>
+                  <Link href="/assessments">Start Screening</Link>
                 </Button>
               </div>
             </div>
