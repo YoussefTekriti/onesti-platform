@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -27,6 +27,11 @@ import RevenueChart from "@/components/admin/revenue-chart"
 
 export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState("overview")
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="flex-1">
@@ -35,10 +40,10 @@ export default function AdminDashboardPage() {
       <main className="p-6">
         <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid grid-cols-4 w-full max-w-xl mb-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            <TabsTrigger value="system">System</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
+            <TabsTrigger type="button" value="overview">Overview</TabsTrigger>
+            <TabsTrigger type="button" value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger type="button" value="system">System</TabsTrigger>
+            <TabsTrigger type="button" value="settings">Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
@@ -52,7 +57,7 @@ export default function AdminDashboardPage() {
                 <CardContent>
                   <RecentUsersTable />
                   <div className="mt-4 text-center">
-                    <Button asChild variant="outline" size="sm">
+                    <Button type="button" asChild variant="outline" size="sm">
                       <Link href="/admin/users">View All Users</Link>
                     </Button>
                   </div>
@@ -66,7 +71,7 @@ export default function AdminDashboardPage() {
                 <CardContent>
                   <RecentAppointmentsTable />
                   <div className="mt-4 text-center">
-                    <Button asChild variant="outline" size="sm">
+                    <Button type="button" asChild variant="outline" size="sm">
                       <Link href="/admin/appointments">View All Appointments</Link>
                     </Button>
                   </div>
@@ -90,25 +95,25 @@ export default function AdminDashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
-                    <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-center justify-center">
+                    <Button type="button" asChild variant="outline" className="h-auto py-4 flex flex-col items-center justify-center">
                       <Link href="/admin/packages">
                         <Package className="h-6 w-6 mb-2" />
                         <span>Manage Packages</span>
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-center justify-center">
+                    <Button type="button" asChild variant="outline" className="h-auto py-4 flex flex-col items-center justify-center">
                       <Link href="/admin/appointments">
                         <Calendar className="h-6 w-6 mb-2" />
                         <span>Manage Appointments</span>
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-center justify-center">
+                    <Button type="button" asChild variant="outline" className="h-auto py-4 flex flex-col items-center justify-center">
                       <Link href="/admin/users">
                         <Users className="h-6 w-6 mb-2" />
                         <span>Manage Users</span>
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-center justify-center">
+                    <Button type="button" asChild variant="outline" className="h-auto py-4 flex flex-col items-center justify-center">
                       <Link href="/admin/finance">
                         <DollarSign className="h-6 w-6 mb-2" />
                         <span>Financial Reports</span>

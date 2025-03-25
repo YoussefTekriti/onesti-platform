@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
@@ -15,44 +14,101 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu"
 
+// TypeScript interfaces for navigation
+interface BaseNavItem {
+  name: string;
+}
+
+interface NavItem extends BaseNavItem {
+  href: string;
+}
+
+interface NavItemWithDescription extends NavItem {
+  description: string;
+}
+
+interface NavSection {
+  section: string;
+  items: NavItemWithDescription[];
+}
+
+interface NavItemWithDropdown extends BaseNavItem {
+  dropdown: (NavSection | NavItem)[];
+}
+
+type NavigationItem = NavItem | NavItemWithDropdown;
+
 // Define navigation menu in both languages
-const navigationEN = [
+const navigationEN: NavigationItem[] = [
   { name: "I'm a Parent", href: "/#parent-journey" },
   { name: "I'm a Therapist", href: "/login" },
-  { name: "Learn", href: "/blogs" },
   {
-    name: "Packages",
+    name: "Solutions",
     dropdown: [
-      { name: "Therapy Packages", href: "/packages" },
-      { name: "Assessments", href: "/assessments-catalog" },
-    ],
+      { 
+        section: "OUR SOLUTIONS",
+        items: [
+          { name: "Assessments", href: "/assessments-catalog", description: "Comprehensive evaluation services" },
+          { name: "Therapy Packages", href: "/packages", description: "Customized therapy solutions" },
+          { name: "Programs", href: "/programs", description: "Structured development programs" },
+          { name: "Trainings", href: "/training", description: "Professional development courses" }
+        ]
+      }
+    ]
   },
+  { name: "Learning", href: "/blogs" },
   { name: "About Onesti", href: "/about" },
-  { name: "Contact", href: "/contact" },
+  { name: "Contact", href: "/contact" }
 ]
 
-const navigationAR = [
+const navigationAR: NavigationItem[] = [
   { name: "أنا والد", href: "/#parent-journey" },
   { name: "أنا معالج", href: "/login" },
-  { name: "التعلم", href: "/blogs" },
   {
-    name: "الباقات",
+    name: "الحلول",
     dropdown: [
-      { name: "باقات العلاج", href: "/packages" },
-      { name: "التقييمات", href: "/assessments-catalog" },
-    ],
+      {
+        section: "حلولنا",
+        items: [
+          { name: "التقييمات", href: "/assessments-catalog", description: "خدمات التقييم الشاملة" },
+          { name: "باقات العلاج", href: "/packages", description: "حلول علاجية مخصصة" },
+          { name: "البرامج", href: "/programs", description: "برامج تطوير منظمة" },
+          { name: "التدريبات", href: "/training", description: "دورات التطوير المهني" }
+        ]
+      }
+    ]
   },
+  { name: "التعلم", href: "/blogs" },
   { name: "عن أونستي", href: "/about" },
-  { name: "اتصل بنا", href: "/contact" },
+  { name: "اتصل بنا", href: "/contact" }
 ]
 
+// Type guard functions
+const isNavItemWithDropdown = (item: NavigationItem): item is NavItemWithDropdown => {
+  return 'dropdown' in item;
+}
+
+const isNavSection = (item: NavSection | NavItem): item is NavSection => {
+  return 'section' in item;
+}
+
+const isNavItem = (item: NavigationItem): item is NavItem => {
+  return 'href' in item;
+}
+
 export default function Header() {
+  const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { language, setLanguage } = useLanguage()
   const pathname = usePathname()
 
   // This would be replaced with actual auth state
   const isLoggedIn = false
+
+  // Only render client-side
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Toggle language between English and Arabic
   const toggleLanguage = () => {
@@ -64,6 +120,7 @@ export default function Header() {
 
   // Handle smooth scrolling for section links on the homepage
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!mounted) return
     // Only apply special handling for hash links on the homepage
     if (href.startsWith("/#") && pathname === "/") {
       e.preventDefault()
@@ -83,13 +140,17 @@ export default function Header() {
       <div className="absolute top-2 right-4 z-20 lg:top-6 lg:right-6">
         <div className="relative flex items-center bg-white rounded-full p-1 w-28 h-10 shadow-md border border-gray-200">
           {/* Sliding background */}
-          <div className={`absolute w-14 h-8 bg-onesti-purple rounded-full transition-transform duration-300 ${
-            language === "en" ? "transform translate-x-12" : "transform translate-x-0"
-          }`}></div>
+          <div 
+            suppressHydrationWarning 
+            className={`absolute w-14 h-8 bg-onesti-purple rounded-full transition-transform duration-300 ${
+              language === "en" ? "transform translate-x-12" : "transform translate-x-0"
+            }`}
+          ></div>
           
           {/* AR Button */}
           <button
             onClick={() => setLanguage("ar")}
+            suppressHydrationWarning
             className={`z-10 flex justify-center items-center rounded-full h-8 w-14 font-semibold transition-colors duration-300 ${
               language === "ar" ? "text-white" : "text-gray-500"
             }`}
@@ -101,6 +162,7 @@ export default function Header() {
           {/* EN Button */}
           <button
             onClick={() => setLanguage("en")}
+            suppressHydrationWarning
             className={`z-10 flex justify-center items-center rounded-full h-8 w-14 font-semibold transition-colors duration-300 ${
               language === "en" ? "text-white" : "text-gray-500"
             }`}
@@ -140,35 +202,64 @@ export default function Header() {
 
         {/* Navigation - centered */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:gap-x-8">
-          {navigation.map((item) => (
-            item.dropdown ? (
-              <DropdownMenu key={item.name}>
-                <DropdownMenuTrigger className={`text-sm font-semibold leading-6 flex items-center ${
-                  pathname === item.href ? "text-onesti-purple" : "text-gray-900"
-                } hover:text-onesti-purple transition-colors`}>
+          {mounted && navigation.map((item) => (
+            isNavItemWithDropdown(item) ? (
+              <div key={item.name} className="relative group">
+                <button className="text-sm font-semibold leading-6 flex items-center text-gray-900 hover:text-onesti-purple transition-colors py-2">
                   {item.name} <ChevronDown className="ml-1 h-4 w-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {item.dropdown.map((subItem) => (
-                    <DropdownMenuItem key={subItem.name} asChild>
-                      <Link 
-                        href={subItem.href}
-                        className="w-full"
-                      >
-                        {subItem.name}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </button>
+                
+                {/* Simple CSS dropdown that appears on hover */}
+                <div className="absolute z-10 left-0 mt-1 w-[400px] bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-left">
+                  <div className="p-4">
+                    {item.dropdown.map((section, idx) => (
+                      <div key={idx} className="space-y-4">
+                        {isNavSection(section) && (
+                          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            {section.section}
+                          </h3>
+                        )}
+                        <div className="grid gap-4">
+                          {isNavSection(section) ? (
+                            section.items.map((item) => (
+                              <Link
+                                key={item.name}
+                                href={item.href}
+                                className="group grid gap-1 p-3 hover:bg-gray-50 rounded-lg transition-colors"
+                              >
+                                <div className="font-semibold text-gray-900 group-hover:text-onesti-purple">
+                                  {item.name}
+                                </div>
+                                {item.description && (
+                                  <div className="text-sm text-gray-500">
+                                    {item.description}
+                                  </div>
+                                )}
+                              </Link>
+                            ))
+                          ) : (
+                            <Link
+                              href={section.href}
+                              className="block p-3 hover:bg-gray-50 rounded-lg transition-colors"
+                            >
+                              {section.name}
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             ) : (
               <Link
                 key={item.name}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
+                suppressHydrationWarning
                 className={`text-sm font-semibold leading-6 ${
                   pathname === item.href.replace(/#.*$/, "") ? "text-onesti-purple" : "text-gray-900"
-                } hover:text-onesti-purple transition-colors`}
+                } hover:text-onesti-purple transition-colors py-2`}
               >
                 {item.name}
               </Link>
@@ -179,27 +270,31 @@ export default function Header() {
         {/* Account - fixed width on right */}
         <div className="hidden lg:flex lg:items-center lg:w-64 lg:justify-end">
           {isLoggedIn ? (
-            <Link href="/dashboard" className={`text-sm font-semibold leading-6 text-gray-900 flex items-center`}>
-              {language === "en" ? (
-                <>Dashboard <span aria-hidden="true" className="ml-1">&rarr;</span></>
-              ) : (
-                <><span aria-hidden="true" className="mr-1">&larr;</span> لوحة التحكم</>
-              )}
+            <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900 flex items-center">
+              <span suppressHydrationWarning>
+                {language === "en" ? (
+                  <>Dashboard <span aria-hidden="true" className="ml-1">&rarr;</span></>
+                ) : (
+                  <><span aria-hidden="true" className="mr-1">&larr;</span> لوحة التحكم</>
+                )}
+              </span>
             </Link>
           ) : (
-            <Link href="/login" className={`text-sm font-semibold leading-6 text-gray-900 flex items-center`}>
-              {language === "en" ? (
-                <>Log in / Sign up <span aria-hidden="true" className="ml-1">&rarr;</span></>
-              ) : (
-                <><span aria-hidden="true" className="mr-1">&larr;</span> تسجيل الدخول / التسجيل</>
-              )}
+            <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900 flex items-center">
+              <span suppressHydrationWarning>
+                {language === "en" ? (
+                  <>Log in / Sign up <span aria-hidden="true" className="ml-1">&rarr;</span></>
+                ) : (
+                  <><span aria-hidden="true" className="mr-1">&larr;</span> تسجيل الدخول / التسجيل</>
+                )}
+              </span>
             </Link>
           )}
         </div>
       </nav>
 
       {/* Mobile menu */}
-      {mobileMenuOpen && (
+      {mounted && mobileMenuOpen && (
         <div className="lg:hidden">
           <div className="fixed inset-0 z-50 bg-black/20" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
           <div className={`fixed inset-y-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 ${language === "ar" ? "right-0" : "left-0"}`}>
@@ -227,21 +322,41 @@ export default function Header() {
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   {navigation.map((item) => (
-                    item.dropdown ? (
+                    isNavItemWithDropdown(item) ? (
                       <div key={item.name} className="space-y-1">
                         <div className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900">
                           {item.name}
                         </div>
                         <div className="pl-4">
-                          {item.dropdown.map((subItem) => (
-                            <Link
-                              key={subItem.name}
-                              href={subItem.href}
-                              className="block rounded-lg px-3 py-2 text-sm font-medium leading-6 text-gray-700 hover:bg-gray-50 hover:text-onesti-purple"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {subItem.name}
-                            </Link>
+                          {item.dropdown.map((section, idx) => (
+                            <div key={idx}>
+                              {isNavSection(section) ? (
+                                <>
+                                  <div className="px-3 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    {section.section}
+                                  </div>
+                                  {section.items.map(item => (
+                                    <Link
+                                      key={item.name}
+                                      href={item.href}
+                                      className="block rounded-lg px-3 py-2 text-sm font-medium leading-6 text-gray-700 hover:bg-gray-50 hover:text-onesti-purple"
+                                      onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                      {item.name}
+                                    </Link>
+                                  ))}
+                                </>
+                              ) : (
+                                <Link
+                                  key={section.name}
+                                  href={section.href}
+                                  className="block rounded-lg px-3 py-2 text-sm font-medium leading-6 text-gray-700 hover:bg-gray-50 hover:text-onesti-purple"
+                                  onClick={() => setMobileMenuOpen(false)}
+                                >
+                                  {section.name}
+                                </Link>
+                              )}
+                            </div>
                           ))}
                         </div>
                       </div>

@@ -450,8 +450,8 @@ export default function AppointmentBooking({ user, children = [], packages = [],
                     
                     {paymentMethod === 'new' && (
                       <div className="mt-3 p-3 bg-gray-50 rounded-md text-sm">
-                        <p>Single session fee: <span className="font-medium">$75</span></p>
-                        <p className="mt-2 text-xs text-gray-500">Payment will be collected at checkout</p>
+                        <p>Free consultation: <span className="font-medium">$0.00</span></p>
+                        <p className="mt-2 text-xs text-gray-500">This is a complimentary initial consultation</p>
                       </div>
                     )}
                   </div>
@@ -538,11 +538,11 @@ export default function AppointmentBooking({ user, children = [], packages = [],
                   <div className="border-t pt-4 mt-4">
                     <div className="flex justify-between mb-2">
                       <span>Session fee</span>
-                      <span>$75.00</span>
+                      <span>$0.00</span>
                     </div>
                     <div className="flex justify-between font-bold text-lg">
                       <span>Total</span>
-                      <span>$75.00</span>
+                      <span>$0.00</span>
                     </div>
                   </div>
                 )}

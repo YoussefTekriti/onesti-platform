@@ -5,8 +5,19 @@ import Image from "next/image"
 import { Facebook, Instagram, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useState, useEffect } from "react"
 
 export default function Footer() {
+  // Add mounting state to prevent hydration mismatches
+  const [mounted, setMounted] = useState(false);
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+  
+  // Set mounted to true after component mounts
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Function to open milestone tracker popup
   const openMilestonePopup = () => {
     // This assumes there's a milestone tracker popup trigger element with this data attribute
@@ -15,6 +26,11 @@ export default function Footer() {
       (popupTrigger as HTMLElement).click();
     }
   };
+
+  const handleSubscribe = () => {
+    setSubscribed(true);
+    setEmail("");
+  }
 
   return (
     <footer className="bg-gray-50 pt-12 pb-6">
@@ -154,21 +170,29 @@ export default function Footer() {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Join Our Newsletter</h3>
               <div className="space-y-4">
                 <div className="flex space-x-2">
-                  <Input type="email" placeholder="Enter Email" className="bg-white" id="footer-email" />
+                  {mounted ? (
+                    <Input 
+                      type="email" 
+                      placeholder="Enter Email" 
+                      className="bg-white" 
+                      id="footer-email" 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      suppressHydrationWarning
+                    />
+                  ) : (
+                    <div className="h-10 w-full rounded-md border bg-white px-3 py-2 text-muted-foreground">
+                      Enter Email
+                    </div>
+                  )}
                   <Button
                     className="bg-onesti-purple hover:bg-onesti-purple/90 text-white"
-                    onClick={() => {
-                      document.getElementById("subscription-success")?.classList.remove("hidden")
-                      const emailInput = document.getElementById("footer-email") as HTMLInputElement;
-                      if (emailInput) {
-                        emailInput.value = "";
-                      }
-                    }}
+                    onClick={handleSubscribe}
                   >
                     Submit
                   </Button>
                 </div>
-                <div id="subscription-success" className="hidden text-green-600 text-sm font-medium">
+                <div className={subscribed ? "text-green-600 text-sm font-medium" : "hidden text-green-600 text-sm font-medium"}>
                   Thank you for subscribing to our newsletter!
                 </div>
               </div>

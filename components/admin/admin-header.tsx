@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useState, useEffect } from "react"
 
 interface AdminHeaderProps {
   title: string
@@ -19,6 +20,14 @@ interface AdminHeaderProps {
 }
 
 export default function AdminHeader({ title, description }: AdminHeaderProps) {
+  // Add mounting state to prevent hydration mismatches
+  const [mounted, setMounted] = useState(false);
+  
+  // Set mounted to true after component mounts
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
   return (
     <header className="sticky top-0 z-10 border-b bg-background p-4">
       <div className="flex items-center justify-between">
@@ -29,7 +38,18 @@ export default function AdminHeader({ title, description }: AdminHeaderProps) {
         <div className="flex items-center gap-4">
           <div className="relative hidden md:block">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search..." className="w-[200px] lg:w-[300px] pl-8" />
+            {mounted ? (
+              <Input 
+                type="search" 
+                placeholder="Search..." 
+                className="w-[200px] lg:w-[300px] pl-8" 
+                suppressHydrationWarning 
+              />
+            ) : (
+              <div className="h-10 w-[200px] lg:w-[300px] rounded-md border bg-background pl-8 flex items-center text-muted-foreground">
+                Search...
+              </div>
+            )}
           </div>
 
           <DropdownMenu>

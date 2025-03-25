@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, Calendar, Eye, MessageSquare, Search } from "lucide-react"
@@ -211,7 +211,7 @@ function extractHeadings(content: string) {
 }
 
 // Modified component to include search functionality
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default function BlogPostPage({ params }: { params: any }) {
   const [searchTerm, setSearchTerm] = useState("")
   const router = useRouter()
   
@@ -225,11 +225,16 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     }
   }
   
+  // Safely unwrap params using React.use() for forward compatibility
+  // This pattern works with both the current and future Next.js versions
+  const unwrappedParams = typeof params === 'object' && params !== null ? params : React.use(params)
+  const slug = unwrappedParams.slug
+  
   // Move the data fetching logic here for client component
-  const post = getBlogPost(params.slug)
+  const post = getBlogPost(slug)
 
   if (!post) {
-    return <div className="container mx-auto px-4 py-12 text-center">
+    return <div className="container mx-auto px-4 py-12 text-center" suppressHydrationWarning>
       <h1 className="text-2xl font-bold mb-4">Resource Not Found</h1>
       <p className="mb-6">The learning resource you're looking for doesn't exist or has been removed.</p>
       <Link href="/blogs" className="inline-flex items-center text-primary hover:underline">
@@ -242,10 +247,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const headings = extractHeadings(post.content)
 
   // Filter related posts to exclude current post
-  const filteredRelatedPosts = relatedPosts.filter(related => related.slug !== params.slug).slice(0, 3);
+  const filteredRelatedPosts = relatedPosts.filter(related => related.slug !== slug).slice(0, 3);
 
   return (
-    <div className="bg-gray-50 py-8">
+    <div className="bg-gray-50 py-8" suppressHydrationWarning>
       <div className="container mx-auto px-4">
         <div className="mb-8">
           <Link

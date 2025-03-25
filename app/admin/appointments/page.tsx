@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowUpDown, Calendar, Clock, Download, Filter, MoreHorizontal, Plus, Search, Trash } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -23,7 +23,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 
 // Mock data for users/clients
-const users = [
+const users: (Client | Therapist)[] = [
   { id: "u1", name: "Sarah Johnson", email: "sarah@example.com", type: "client", avatar: "/placeholder.svg?height=32&width=32" },
   { id: "u2", name: "Michael Chen", email: "michael@example.com", type: "client", avatar: "/placeholder.svg?height=32&width=32" },
   { id: "u3", name: "Emma Wilson", email: "emma@example.com", type: "client", avatar: "/placeholder.svg?height=32&width=32" },
@@ -37,7 +37,16 @@ const users = [
 ];
 
 // Mock data for packages
-const packages = [
+interface Package {
+  id: string;
+  name: string;
+  sessions: number;
+  price: number;
+  isFree?: boolean;
+}
+
+const packages: Package[] = [
+  { id: "p0", name: "Free Consultation", sessions: 1, price: 0, isFree: true },
   { id: "p1", name: "Thrive Path", sessions: 12, price: 1200 },
   { id: "p2", name: "Empower Path", sessions: 8, price: 900 },
   { id: "p3", name: "Nurture Path", sessions: 6, price: 750 },
@@ -45,7 +54,45 @@ const packages = [
 ];
 
 // Mock data for appointments
-const appointments = [
+const appointments: Appointment[] = [
+  {
+    id: "a0",
+    client: {
+      name: "Olivia Martinez",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    therapist: {
+      name: "",
+      specialty: "",
+    },
+    date: "2023-04-01",
+    time: "11:30 AM",
+    duration: "30 min",
+    status: "pending",
+    type: "Free Consultation",
+    package: "Free Consultation",
+    packageId: "p0",
+    notes: "Initial free consultation requested through website"
+  },
+  {
+    id: "a00",
+    client: {
+      name: "Daniel Johnson",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
+    therapist: {
+      name: "Dr. Emily Parker",
+      specialty: "Speech Therapist",
+    },
+    date: "2023-04-02",
+    time: "2:15 PM",
+    duration: "30 min",
+    status: "confirmed",
+    type: "Free Consultation",
+    package: "Free Consultation",
+    packageId: "p0",
+    notes: "Parent requested information about speech therapy services"
+  },
   {
     id: "a1",
     clientId: "u1",
@@ -222,8 +269,43 @@ const appointments = [
   },
 ]
 
+// TypeScript interfaces
+interface Client {
+  id: string;
+  name: string;
+  email: string;
+  type: string;
+  avatar: string;
+}
+
+interface Therapist extends Client {
+  specialty: string;
+}
+
+interface Appointment {
+  id: string;
+  clientId?: string;
+  client: {
+    name: string;
+    avatar: string;
+  };
+  therapistId?: string;
+  therapist: {
+    name: string;
+    specialty: string;
+  };
+  date: string;
+  time: string;
+  duration: string;
+  status: string;
+  type: string;
+  package: string;
+  packageId?: string;
+  notes?: string;
+}
+
 // Function to export table data to CSV
-const exportToCSV = (data) => {
+const exportToCSV = (data: Appointment[]) => {
   // Column headers
   const headers = ["Client", "Therapist", "Specialty", "Date", "Time", "Duration", "Type", "Package", "Status"];
   
@@ -258,11 +340,45 @@ const exportToCSV = (data) => {
 };
 
 export default function AppointmentsPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
-  const [typeFilter, setTypeFilter] = useState("all")
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [newAppointment, setNewAppointment] = useState({
+  const [searchTerm, setSearchTerm] = useState<string>("")
+  const [statusFilter, setStatusFilter] = useState<string>("all")
+  const [typeFilter, setTypeFilter] = useState<string>("all")
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false)
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
+  const [editingAppointment, setEditingAppointment] = useState<{
+    id: string;
+    clientId: string;
+    therapistId: string;
+    date: string;
+    time: string;
+    duration: string;
+    type: string;
+    packageId: string;
+    status: string;
+    notes: string;
+  }>({
+    id: "",
+    clientId: "",
+    therapistId: "",
+    date: "",
+    time: "",
+    duration: "",
+    type: "",
+    packageId: "",
+    status: "",
+    notes: ""
+  })
+  const [newAppointment, setNewAppointment] = useState<{
+    clientId: string;
+    therapistId: string;
+    date: string;
+    time: string;
+    duration: string;
+    type: string;
+    packageId: string;
+    notes: string;
+  }>({
     clientId: "",
     therapistId: "",
     date: "",
@@ -291,26 +407,29 @@ export default function AppointmentsPage() {
   const types = [...new Set(appointments.map((a) => a.type))]
 
   // Filter users to just get clients
-  const clients = users.filter(user => user.type === "client")
+  const clients = users.filter((user): user is Client => user.type === "client")
   
   // Filter users to just get therapists
-  const therapists = users.filter(user => user.type === "therapist")
+  const therapists = users.filter((user): user is Therapist => user.type === "therapist")
 
   // Handler for form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setNewAppointment(prev => ({ ...prev, [name]: value }))
-  }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { target: { name: string; value: string } }) => {
+    const { name, value } = e.target;
+    setNewAppointment(prev => ({ ...prev, [name]: value }));
+  };
 
   // Handler for creating a new appointment
-  const handleCreateAppointment = (e) => {
-    e.preventDefault()
+  const handleCreateAppointment = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Get package details
+    const selectedPackage = packages.find(pkg => pkg.id === newAppointment.packageId);
     
     // In a real application, you would make an API call here
     // For now, we'll just show a toast notification
     toast({
       title: "Appointment Created",
-      description: `New appointment scheduled for ${new Date(newAppointment.date).toLocaleDateString()} at ${newAppointment.time}`,
+      description: `${selectedPackage?.isFree ? "Free consultation" : "Appointment"} scheduled for ${new Date(newAppointment.date).toLocaleDateString()} at ${newAppointment.time}`,
     })
     
     setIsModalOpen(false)
@@ -325,7 +444,54 @@ export default function AppointmentsPage() {
       packageId: "",
       notes: ""
     })
-  }
+  };
+
+  // Handler for editing an appointment
+  const handleEditClick = (appointment: Appointment) => {
+    setSelectedAppointment(appointment);
+    
+    // Find client and therapist IDs based on names
+    const clientId = users.find(u => u.type === "client" && u.name === appointment.client.name)?.id || "";
+    const therapistId = users.find(u => u.type === "therapist" && u.name === appointment.therapist.name)?.id || "";
+    
+    setEditingAppointment({
+      id: appointment.id,
+      clientId,
+      therapistId,
+      date: appointment.date,
+      time: appointment.time,
+      duration: appointment.duration,
+      type: appointment.type,
+      packageId: appointment.packageId || "p1", // Fallback
+      status: appointment.status,
+      notes: appointment.notes || ""
+    });
+    
+    setIsEditModalOpen(true);
+  };
+
+  // Handler for form input changes in edit dialog
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement> | { target: { name: string; value: string } }) => {
+    const { name, value } = e.target;
+    setEditingAppointment(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Handler for updating an appointment
+  const handleUpdateAppointment = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Get therapist details
+    const therapist = users.find(user => user.id === editingAppointment.therapistId) as Therapist | undefined;
+    
+    // In a real application, you would make an API call here
+    // For now, we'll just show a toast notification
+    toast({
+      title: "Appointment Updated",
+      description: `Appointment for ${selectedAppointment?.client.name} ${therapist ? `with ${therapist.name}` : ""} has been updated.`,
+    })
+    
+    setIsEditModalOpen(false);
+  };
 
   return (
     <div className="flex-1">
@@ -342,9 +508,9 @@ export default function AppointmentsPage() {
               <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogTrigger asChild>
                   <Button>
-                    <Plus className="mr-2 h-4 w-4" />
-                    New Appointment
-                  </Button>
+                  <Plus className="mr-2 h-4 w-4" />
+                  New Appointment
+              </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[600px]">
                   <DialogHeader>
@@ -462,6 +628,7 @@ export default function AppointmentsPage() {
                             <SelectValue placeholder="Select appointment type" />
                           </SelectTrigger>
                           <SelectContent>
+                            <SelectItem value="Free Consultation" className="font-medium text-onesti-purple">Free Consultation</SelectItem>
                             <SelectItem value="Developmental">Developmental</SelectItem>
                             <SelectItem value="ABA">ABA</SelectItem>
                             <SelectItem value="Counseling">Counseling</SelectItem>
@@ -483,11 +650,21 @@ export default function AppointmentsPage() {
                             <SelectValue placeholder="Select package" />
                           </SelectTrigger>
                           <SelectContent>
-                            {packages.map(pkg => (
-                              <SelectItem key={pkg.id} value={pkg.id}>
-                                {pkg.name} ({pkg.sessions} sessions)
-                              </SelectItem>
-                            ))}
+                            <SelectItem value="p0" className="font-semibold text-onesti-purple">
+                              Free Consultation (Complimentary)
+                            </SelectItem>
+                            <SelectItem value="p4">
+                              Single Session (1 session)
+                            </SelectItem>
+                            <SelectItem value="p3">
+                              Nurture Path (6 sessions)
+                            </SelectItem>
+                            <SelectItem value="p2">
+                              Empower Path (8 sessions)
+                            </SelectItem>
+                            <SelectItem value="p1">
+                              Thrive Path (12 sessions)
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -557,7 +734,8 @@ export default function AppointmentsPage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Types</SelectItem>
-                      {types.map((type) => (
+                      <SelectItem value="Free Consultation" className="font-medium text-onesti-purple">Free Consultation</SelectItem>
+                      {types.filter(type => type !== "Free Consultation").map((type) => (
                         <SelectItem key={type} value={type}>
                           {type}
                         </SelectItem>
@@ -674,14 +852,29 @@ export default function AppointmentsPage() {
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>View Details</DropdownMenuItem>
-                            <DropdownMenuItem>Edit Appointment</DropdownMenuItem>
-                            <DropdownMenuItem>Send Reminder</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => toast({ title: "View Details", description: `Viewing details for ${appointment.client.name}'s appointment` })}>
+                              View Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => handleEditClick(appointment)}>
+                              Edit Appointment
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => toast({ title: "Reminder Sent", description: `Reminder sent to ${appointment.client.name}` })}>
+                              Send Reminder
+                            </DropdownMenuItem>
                             {appointment.status === "confirmed" && (
-                              <DropdownMenuItem>Mark as Completed</DropdownMenuItem>
+                              <DropdownMenuItem onSelect={() => toast({ title: "Appointment Completed", description: `Marked ${appointment.client.name}'s appointment as completed` })}>
+                                Mark as Completed
+                              </DropdownMenuItem>
                             )}
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-destructive">
+                            <DropdownMenuItem 
+                              className="text-destructive"
+                              onSelect={() => toast({ 
+                                title: "Appointment Cancelled", 
+                                description: `${appointment.client.name}'s appointment has been cancelled`,
+                                variant: "destructive" 
+                              })}
+                            >
                               <Trash className="mr-2 h-4 w-4" />
                               Cancel Appointment
                             </DropdownMenuItem>
@@ -711,6 +904,205 @@ export default function AppointmentsPage() {
           </CardContent>
         </Card>
       </main>
+
+      {/* Edit Appointment Dialog */}
+      <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Edit Appointment</DialogTitle>
+            <DialogDescription>
+              Update the appointment details for {selectedAppointment?.client.name}.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleUpdateAppointment}>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-clientId" className="text-right">
+                  Client
+                </Label>
+                <Select 
+                  name="clientId" 
+                  value={editingAppointment.clientId} 
+                  onValueChange={(value) => handleEditInputChange({ target: { name: 'clientId', value } })}
+                  required
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select a client" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {clients.map(client => (
+                      <SelectItem key={client.id} value={client.id}>
+                        {client.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-therapistId" className="text-right">
+                  Therapist
+                </Label>
+                <Select 
+                  name="therapistId" 
+                  value={editingAppointment.therapistId} 
+                  onValueChange={(value) => handleEditInputChange({ target: { name: 'therapistId', value } })}
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select a therapist" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {therapists.map(therapist => (
+                      <SelectItem key={therapist.id} value={therapist.id}>
+                        {therapist.name} ({therapist.specialty})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-date" className="text-right">
+                  Date
+                </Label>
+                <Input
+                  id="edit-date"
+                  name="date"
+                  type="date"
+                  value={editingAppointment.date}
+                  onChange={handleEditInputChange}
+                  className="col-span-3"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-time" className="text-right">
+                  Time
+                </Label>
+                <Input
+                  id="edit-time"
+                  name="time"
+                  type="time"
+                  value={editingAppointment.time}
+                  onChange={handleEditInputChange}
+                  className="col-span-3"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-duration" className="text-right">
+                  Duration
+                </Label>
+                <Select 
+                  name="duration" 
+                  value={editingAppointment.duration} 
+                  onValueChange={(value) => handleEditInputChange({ target: { name: 'duration', value } })}
+                  required
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select duration" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="30 min">30 min</SelectItem>
+                    <SelectItem value="45 min">45 min</SelectItem>
+                    <SelectItem value="60 min">60 min</SelectItem>
+                    <SelectItem value="90 min">90 min</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-type" className="text-right">
+                  Type
+                </Label>
+                <Select 
+                  name="type" 
+                  value={editingAppointment.type} 
+                  onValueChange={(value) => handleEditInputChange({ target: { name: 'type', value } })}
+                  required
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select appointment type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Free Consultation">Free Consultation</SelectItem>
+                    <SelectItem value="Developmental">Developmental</SelectItem>
+                    <SelectItem value="ABA">ABA</SelectItem>
+                    <SelectItem value="Counseling">Counseling</SelectItem>
+                    <SelectItem value="Routine">Routine</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-packageId" className="text-right">
+                  Package
+                </Label>
+                <Select 
+                  name="packageId" 
+                  value={editingAppointment.packageId} 
+                  onValueChange={(value) => handleEditInputChange({ target: { name: 'packageId', value } })}
+                  required
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select package" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="p0" className="font-semibold text-onesti-purple">
+                      Free Consultation (Complimentary)
+                    </SelectItem>
+                    <SelectItem value="p4">
+                      Single Session (1 session)
+                    </SelectItem>
+                    <SelectItem value="p3">
+                      Nurture Path (6 sessions)
+                    </SelectItem>
+                    <SelectItem value="p2">
+                      Empower Path (8 sessions)
+                    </SelectItem>
+                    <SelectItem value="p1">
+                      Thrive Path (12 sessions)
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-status" className="text-right">
+                  Status
+                </Label>
+                <Select 
+                  name="status" 
+                  value={editingAppointment.status} 
+                  onValueChange={(value) => handleEditInputChange({ target: { name: 'status', value } })}
+                  required
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="confirmed">Confirmed</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="canceled">Canceled</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-notes" className="text-right">
+                  Notes
+                </Label>
+                <Textarea
+                  id="edit-notes"
+                  name="notes"
+                  value={editingAppointment.notes}
+                  onChange={handleEditInputChange}
+                  className="col-span-3"
+                  placeholder="Add any additional notes here"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit">Update Appointment</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
