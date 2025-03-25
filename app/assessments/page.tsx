@@ -827,13 +827,14 @@ const QuestionComponent = ({ question, onAnswer, answer }: any) => {
   switch (question.type) {
     case "radio":
       return (
-        <RadioGroup value={answer} onValueChange={(value) => onAnswer(question.id, value)}>
+        <RadioGroup value={answer || ""} onValueChange={(value) => onAnswer(question.id, value)}>
           {question.options.map((option: string) => (
             <div
               key={option}
               className={`flex cursor-pointer items-center justify-between rounded-lg border p-4 transition-colors hover:bg-muted/50 ${
                 answer === option ? "border-[#4b2e83] bg-[#4b2e83]/5" : ""
               }`}
+              onClick={() => onAnswer(question.id, option)}
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value={option} id={`option-${question.id}-${option}`} />
