@@ -1,11 +1,12 @@
 "use client"
 
+import React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Tab } from "@headlessui/react"
-import { Mail } from "lucide-react"
+import { Mail, ChevronRight } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,6 +15,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+
+// Add interface for program structure
+interface SpecialProgram {
+  title: string;
+  description: string;
+  content: string;
+}
 
 export default function TrainingPage() {
   return (
@@ -35,7 +43,7 @@ export default function TrainingPage() {
       <section className="py-12 container mx-auto px-4">
         <Tab.Group>
           <Tab.List className="flex space-x-1 rounded-xl bg-gray-100 p-1 mb-10">
-            {["Daycare Training", "Facilitator Training", "School Inclusion"].map((category) => (
+            {["Daycare Training", "Facilitator Training", "School Inclusion", "Special Programs"].map((category) => (
               <Tab
                 key={category}
                 className={({ selected }) =>
@@ -54,27 +62,26 @@ export default function TrainingPage() {
           <Tab.Panels>
             {/* Daycare Training Panel */}
             <Tab.Panel>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Module Cards */}
                 <TrainingCard 
                   title="My Milestones" 
-                  image="/placeholder-1.jpg"
                   description="Core level training for educators at daycare settings. Gain knowledge in different areas of early childhood development."
                 >
                   <AccordionItem value="core-level">
-                    <AccordionTrigger>Core Level: My Milestones</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Core Level: My Milestones</AccordionTrigger>
                     <AccordionContent>
                       <p>My Milestones is a core level training for educators at daycare settings. It helps participants gain basic knowledge in the different areas of early childhood development. This core training lays the foundation upon which all following modules are built. With this knowledge, early childhood educators will be able to create activities and learning opportunities that are age appropriate to cater for every child's developmental level.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="intermediate-level">
-                    <AccordionTrigger>Intermediate Level: Reset - Rewind - Rewire</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Intermediate Level: Reset - Rewind - Rewire</AccordionTrigger>
                     <AccordionContent>
                       <p>Reset-Rewind-Rewire is an intermediate level training of the My Milestones module. It helps participants apply their knowledge of developmental milestones learned in the core level, to break down the curricular activities and identify the targeted developmental skills. This insight will help participants identify possible skill delays in any of the developmental areas, in addition to applying modifications to adapt each activity to the developmental level of each child.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="advanced-level">
-                    <AccordionTrigger>Advanced Level: Note My Tempo & Tap to My Rhythm</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Advanced Level: Note My Tempo & Tap to My Rhythm</AccordionTrigger>
                     <AccordionContent>
                       <p>Note My Tempo & Tap to My Rhythm is an advanced level training of the My Milestones module. In this level participants will gain advanced knowledge in regards to delays in the different areas of development. They will also be introduced to the different types of disorders in each area and the appropriate type of intervention. This knowledge will allow the participants to implement the intervention objectives as per the intervention plan and modify activities accordingly.</p>
                     </AccordionContent>
@@ -83,23 +90,22 @@ export default function TrainingPage() {
 
                 <TrainingCard 
                   title="Feeling Plus" 
-                  image="/placeholder-2.jpg"
                   description="Training focused on children's social emotional development for educators at daycare settings."
                 >
                   <AccordionItem value="core-level">
-                    <AccordionTrigger>Core Level: Inside Out!</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Core Level: Inside Out!</AccordionTrigger>
                     <AccordionContent>
                       <p>Inside Out! is a core level training which addresses children's social emotional development. It is designed for educators at daycare settings. Children often struggle with the expression of emotion and translating these feelings into words and actions for us to understand. To better cater for every child's needs, it is important to learn more about children's emotional intelligence according to their age group, how it affects them, their peers as well as the classroom in general.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="intermediate-level">
-                    <AccordionTrigger>Intermediate Level: Social Emotional Learning</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Intermediate Level: Social Emotional Learning</AccordionTrigger>
                     <AccordionContent>
                       <p>Social Emotional Learning is the Intermediate level training of Feelings plus module. Through this training educators will learn how to implement different strategies to achieve social emotional learning within their curriculum. This will foster empathy and compassion in the classroom which makes room for more successful interactions, relationships, learning and overall functioning.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="advanced-level">
-                    <AccordionTrigger>Advanced Level: Tiny Signals, Mighty Impact</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Advanced Level: Tiny Signals, Mighty Impact</AccordionTrigger>
                     <AccordionContent>
                       <p>Tiny signals, mighty impact is an advanced level training for the Feelings plus module. In this training, educators will gain new insight into the different internal struggles children are prone to face such as anxiety, depression and fears. It will help them distinguish the different signs that are of concern when it comes to mental health in children. Educators will also learn how to effectively deal with each internal struggle. This knowledge will equip teachers to notice red flags and act accordingly to ensure that the students' mental well-being is taken care of.</p>
                     </AccordionContent>
@@ -108,23 +114,22 @@ export default function TrainingPage() {
 
                 <TrainingCard 
                   title="Active Me" 
-                  image="/placeholder-3.jpg"
                   description="Training addressing children's motor development for educators at daycare settings."
                 >
                   <AccordionItem value="intermediate-level">
-                    <AccordionTrigger>Intermediate Level: Active Me</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Intermediate Level: Active Me</AccordionTrigger>
                     <AccordionContent>
                       <p>Active ME Module is an intermediate level training which addresses children's motor development. Is it designed for educators at daycare settings. The prerequisite for the Active Me module is My Milestones module. This module helps educators gain knowledge in regard to different motor delays or deficiencies and how this affects the children's performance of different classroom activities and their independence in daily life routine activities. This knowledge will prepare the educators to efficiently welcome children with different motor needs to their classroom.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="pre-advanced-level">
-                    <AccordionTrigger>Pre Advanced Level</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Pre Advanced Level</AccordionTrigger>
                     <AccordionContent>
                       <p>Prior to the advancement into the Independent ME module of training, a complete environmental assessment is required for the facility. Upon which, the required adaptation and structural modifications will be determined. This is a prerequisite to the preparation of the inclusive setting for welcoming children with physical impairment or motor difficulties.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="advanced-level">
-                    <AccordionTrigger>Advanced Level: Independent ME</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Advanced Level: Independent ME</AccordionTrigger>
                     <AccordionContent>
                       <p>Independent ME is the advanced level training of the Active Me module. The Independent ME builds on the knowledge acquired in previous modules. In this module educators will learn the techniques required in order to either assist or stimulate the child's motor performance to the extent adequate with the motor delays or deficiency. In addition, they will be able to create an inclusive environment and adapt classroom activities that will help promote children's motor independence.</p>
                     </AccordionContent>
@@ -133,23 +138,22 @@ export default function TrainingPage() {
 
                 <TrainingCard 
                   title="My Backpack" 
-                  image="/placeholder-4.jpg"
                   description="Training focused on literacy for educators at daycare settings."
                 >
                   <AccordionItem value="core-level">
-                    <AccordionTrigger>Core Level: My Backpack</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Core Level: My Backpack</AccordionTrigger>
                     <AccordionContent>
                       <p>My backpack is a core level training for educators at daycare settings. It helps teachers identify the milestones related to literacy and use this information to create age appropriate activities and games to promote literacy. The prerequisite for the My backpack core module is My Milestones module 1.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="intermediate-level">
-                    <AccordionTrigger>Intermediate Level: Funfonix</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Intermediate Level: Funfonix</AccordionTrigger>
                     <AccordionContent>
                       <p>Funfonix is the intermediate level training of the My backpack module. In this level the participants will gain knowledge about phonics and list the steps required to teach phonics using an effective, multisensory and fun approach. Participants will be able to engage their students in activities related to phonics and make teaching an interactive learning experience.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="advanced-level">
-                    <AccordionTrigger>Advanced Level: Bridging the Gap</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Advanced Level: Bridging the Gap</AccordionTrigger>
                     <AccordionContent>
                       <p>Bridging the Gap is the advanced level training of the My backpack module. This training helps educators at daycare settings, to identify students at-risk of learning difficulties and how to use appropriate strategies to bridge academic gaps. Participants will be able to nurture independent learners by teaching self-correction strategies that draw students' attention to their miscues.</p>
                     </AccordionContent>
@@ -158,23 +162,22 @@ export default function TrainingPage() {
 
                 <TrainingCard 
                   title="Becoming Behavior" 
-                  image="/placeholder-5.jpg"
                   description="Training addressing children's behavior and emotional development for educators at daycare settings."
                 >
                   <AccordionItem value="core-level">
-                    <AccordionTrigger>Core Level: Becoming Behavior</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Core Level: Becoming Behavior</AccordionTrigger>
                     <AccordionContent>
                       <p>Becoming Behavior is a core level training for educators at daycare settings. It addresses children's behavior and emotional development. By learning the psycho-social stages, participants will be able to identify behaviors that occur as part of developmental phases. Participants will also learn to manage children's behavior in order to decrease the chances of it becoming an acquired negative behavior.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="intermediate-level">
-                    <AccordionTrigger>Intermediate Level: The What, The Why, & The How</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Intermediate Level: The What, The Why, & The How</AccordionTrigger>
                     <AccordionContent>
                       <p>The What, The Why, & The How, is the intermediate level training for the Becoming Behavior module. In this level participants will define challenging behaviors, distinguish between attitudes and behaviors, and identify the targeted behavior. Participants will also be able to identify the 4 main functions of behaviors and the components of the ABC data sheet.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="advanced-level">
-                    <AccordionTrigger>Advanced Level: Let's Act</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Advanced Level: Let's Act</AccordionTrigger>
                     <AccordionContent>
                       <p>Let's Act is the advanced level of the Becoming Behavior Module. In this level, participants will apply specific behavior modification strategies, according to the behavior intervention plan to help increase prosocial behaviors, and reduce challenging behaviors.</p>
                     </AccordionContent>
@@ -183,18 +186,17 @@ export default function TrainingPage() {
 
                 <TrainingCard 
                   title="Arabic Literacy" 
-                  image="/placeholder-6.jpg"
                   description="Intensive training for educators at daycare settings to introduce Arabic literacy."
                 >
                   <AccordionItem value="overview">
-                    <AccordionTrigger>Program Overview</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Program Overview</AccordionTrigger>
                     <AccordionContent>
                       <p>This is an intensive training for educators at daycare settings. In this module the participants will learn how to introduce Arabic literacy in daycares. Understanding and using the alphabet code is a demanding process that requires a very specific and cumulative sequence of skills which are developmental in nature and age appropriate. All skills and strategies are based on research using the English language. At ONESTI have adapted the literacy skills into the Arabic language.</p>
                       <p className="mt-4">All skills are taught using a multisensory approach via auditory, visual, kinesthetic and tactile modalities. In addition to hints and tricks that facilitate the learning process and help in memory retention.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="tiers">
-                    <AccordionTrigger>Training Tiers</AccordionTrigger>
+                    <AccordionTrigger className="text-left">Training Tiers</AccordionTrigger>
                     <AccordionContent>
                       <p>This training module includes two tiers:</p>
                       <ol className="list-decimal ml-5 mt-2 space-y-1">
@@ -230,33 +232,33 @@ export default function TrainingPage() {
                   </p>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                  <h3 className="text-xl font-semibold mb-4">This training includes four divisions</h3>
+                <div className="bg-gray-50 rounded-xl p-6 my-8">
+                  <h3 className="text-xl font-semibold mb-4">Divisions</h3>
                   
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="division1">
-                      <AccordionTrigger>Division 1 / The Connecting</AccordionTrigger>
+                      <AccordionTrigger className="text-left">Division 1 / The Connecting</AccordionTrigger>
                       <AccordionContent>
                         <p>This is an introductory segment of the facilitator training. It provides an overview of the training, in addition to setting the stage for connecting. The role of telepractice as a new mode of service provision in connection to this era of technology. The connection between service providers and families across the globe. The key connection of the relation of developmental areas that is critical to the comprehensiveness of the approach. The innovational role of the facilitator as an important connecting link in the dynamics of comprehensive intervention.</p>
                       </AccordionContent>
                     </AccordionItem>
                     
                     <AccordionItem value="division2">
-                      <AccordionTrigger>Division 2 / Ground Inspection</AccordionTrigger>
+                      <AccordionTrigger className="text-left">Division 2 / Ground Inspection</AccordionTrigger>
                       <AccordionContent>
                         <p>Prior to building any sturdy structure, the ground needs to be inspected, same as prior to any successful intervention, the groundwork is the knowledge of developmental milestones. For a keen and precise perspective, all facets need to be examined. Therefore, in relation to child development, environmental factors need to be thoroughly considered since they may either promote or act as a barrier to growth and development. With this precise perspective, we lay the groundwork for empowering the child to rise confidently, just as a strong foundation ensures a building's resilience.</p>
                       </AccordionContent>
                     </AccordionItem>
                     
                     <AccordionItem value="division3">
-                      <AccordionTrigger>Division 3 / Draw to Scale</AccordionTrigger>
+                      <AccordionTrigger className="text-left">Division 3 / Draw to Scale</AccordionTrigger>
                       <AccordionContent>
                         <p>Like precise architectural blueprints, providing accurate, individualized support tailored to each child's unique needs and abilities sets the foundation for success. That's why the awareness of red flags for delays and knowledge about disorders are critical for individualizing intervention for each child. The accuracy of the intervention plan and carefully selected objectives allows children to rise and reach their full potential, fostering growth across all areas of development, just as a well-designed construction stands tall and sturdy.</p>
                       </AccordionContent>
                     </AccordionItem>
                     
                     <AccordionItem value="division4">
-                      <AccordionTrigger>Division 4 / The Truss</AccordionTrigger>
+                      <AccordionTrigger className="text-left">Division 4 / The Truss</AccordionTrigger>
                       <AccordionContent>
                         <p>Building a strong foundation is like constructing a sturdy truss, this segment equips facilitators with comprehensive knowledge about the significant role of intervention, not only in progress achieved in regards to development but also in its reflection on the improvement of every child's and family's quality of life. Facilitators learn about their critical role in the intervention process and how the acquired knowledge enables them to nurture every child's individual needs. Just as a truss supports structures, this foundation ensures the child's development soars securely, allowing them to rise confidently towards their full potential.</p>
                       </AccordionContent>
@@ -362,6 +364,33 @@ export default function TrainingPage() {
                 </div>
               </div>
             </Tab.Panel>
+
+            {/* Special Programs Panel */}
+            <Tab.Panel>
+              <div className="max-w-5xl mx-auto">
+                <h2 className="text-2xl font-bold mb-6 text-center">Specialized Training Programs</h2>
+                <p className="text-center text-gray-700 max-w-3xl mx-auto mb-12">
+                  Our specialized programs are designed to address specific developmental areas and skills.
+                  Each program focuses on unique aspects of child development and provides targeted interventions.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6">
+                  {specialPrograms.map((program, index) => (
+                    <SpecialProgramCard key={index} program={program} index={index} />
+                  ))}
+                </div>
+
+                <div className="mt-16 text-center">
+                  <p className="text-sm text-gray-500 mb-4">For more information about any of our specialized programs</p>
+                  <Link href="/contact">
+                    <Button className="bg-[#4b2e83] hover:bg-[#4b2e83]/90">
+                      <Mail className="mr-2 h-4 w-4" />
+                      Contact Professional Development
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
       </section>
@@ -369,42 +398,131 @@ export default function TrainingPage() {
   )
 }
 
+// Special Programs data
+const specialPrograms = [
+  {
+    title: "ALPHABET",
+    description: "Develop early literacy skills through interactive and multisensory approaches to letter recognition and phonetic awareness.",
+    content: "Our ALPHABET program focuses on building a strong foundation in pre-literacy and early literacy skills. Through multisensory activities, children develop letter recognition, phonological awareness, and the building blocks for reading and writing."
+  },
+  {
+    title: "SPEAK",
+    description: "Enhance communication skills through targeted speech and language development activities.",
+    content: "SPEAK helps children develop and improve their verbal communication skills. The program addresses articulation, vocabulary expansion, sentence formation, and conversational skills through engaging and age-appropriate activities."
+  },
+  {
+    title: "BRAVE TO BEHAVE",
+    description: "Build positive behaviors and emotional regulation through structured activities and support.",
+    content: "Brave to Behave is designed to help children develop self-regulation, emotional awareness, and positive social behaviors. Through structured activities and consistent support, children learn to navigate challenging situations with confidence."
+  },
+  {
+    title: "REACH UP",
+    description: "Develop fine and gross motor skills through targeted physical activities and exercises.",
+    content: "The REACH UP program focuses on developing children's motor skills through purposeful play and structured activities. The program helps children strengthen muscles, improve coordination, and build the physical skills needed for daily activities."
+  },
+  {
+    title: "SENSES IN HARMONY",
+    description: "Integrate sensory processing through activities that engage multiple senses in a controlled environment.",
+    content: "Senses in Harmony helps children with sensory processing challenges. Through carefully designed sensory experiences, children learn to process and respond to sensory information more effectively, improving focus, behavior, and learning abilities."
+  },
+  {
+    title: "POOPEE TIME",
+    description: "Support toilet training with positive reinforcement and consistent routines.",
+    content: "Our POOPEE TIME program provides a structured, positive approach to toilet training. Using consistency, positive reinforcement, and age-appropriate strategies, we help children develop independence and confidence in their toileting skills."
+  },
+  {
+    title: "INDEPENDENT ME",
+    description: "Foster autonomy and self-help skills essential for daily living and school readiness.",
+    content: "Independent ME focuses on developing children's self-help skills and autonomy. From dressing and feeding to organizing materials and following routines, this program helps children build the independence needed for success at home and school."
+  },
+  {
+    title: "I CUE",
+    description: "Develop attention, focus, and responding to verbal and non-verbal cues.",
+    content: "I CUE helps children improve their attention, focus, and ability to follow directions. Through engaging activities, children learn to recognize and respond to verbal and non-verbal cues, enhancing their learning abilities and social interactions."
+  },
+  {
+    title: "BON APPETIT",
+    description: "Address feeding challenges and promote healthy eating habits through therapeutic interventions.",
+    content: "Bon Appetit addresses feeding challenges and promotes healthy eating habits. Using sensory, motor, and behavioral approaches, this program helps children expand their food repertoire and develop positive associations with mealtime."
+  },
+  {
+    title: "PEACEFUL 'ZZZZ'",
+    description: "Establish healthy sleep routines and practices for improved rest and development.",
+    content: "PEACEFUL 'ZZZZ' focuses on establishing healthy sleep routines and addressing sleep challenges. This program helps families implement consistent bedtime practices that promote quality sleep, essential for children's learning, behavior, and overall health."
+  },
+  {
+    title: "WELL-BE-ING",
+    description: "Support overall health, wellness, and positive mental health practices.",
+    content: "Our WELL-BE-ING program promotes children's overall health and wellness. Through activities that support positive mental health, physical well-being, and emotional balance, children develop resilience and the foundation for lifelong well-being."
+  }
+];
+
+// Fix SpecialProgramCard function with proper types
+function SpecialProgramCard({ program, index }: { program: SpecialProgram; index: number }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="relative"
+    >
+      <div 
+        className="cursor-pointer"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="bg-[#4b2e83] p-5 rounded-t-lg flex justify-between items-center">
+          <h3 className="text-lg font-semibold text-white">{program.title}</h3>
+          <motion.div
+            animate={{ rotate: isExpanded ? 90 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ChevronRight className="h-5 w-5 text-white" />
+          </motion.div>
+        </div>
+        <div className="bg-white border border-gray-200 border-t-0 p-4 rounded-b-lg">
+          <p className="text-sm text-gray-600">{program.description}</p>
+          
+          <motion.div
+            animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+            initial={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <p className="text-sm text-gray-700">{program.content}</p>
+              <Button className="mt-4 w-full bg-gray-100 hover:bg-gray-200 text-[#4b2e83]">
+                Learn More
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function TrainingCard({ 
   title, 
-  image, 
   description, 
   children 
 }: { 
   title: string, 
-  image: string, 
   description: string, 
   children: React.ReactNode 
 }) {
   return (
-    <Card className="overflow-hidden h-full">
-      <div className="relative h-48 w-full">
-        {image.startsWith('/placeholder') ? (
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-100 to-indigo-100 flex items-center justify-center">
-            <p className="text-xl font-semibold text-[#4b2e83]">{title}</p>
-          </div>
-        ) : (
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className="object-cover"
-          />
-        )}
+    <Card className="overflow-hidden h-full flex flex-col border border-gray-200">
+      <div className="bg-[#4b2e83] p-6 text-center">
+        <h3 className="text-xl font-semibold text-white">{title}</h3>
       </div>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent>
+      <div className="p-4 flex-grow">
+        <p className="text-sm text-gray-600 mb-4">{description}</p>
         <Accordion type="single" collapsible className="w-full">
           {children}
         </Accordion>
-      </CardContent>
+      </div>
     </Card>
   )
 } 
