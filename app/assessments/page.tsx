@@ -1040,7 +1040,7 @@ export default function AssessmentsPage() {
                 </ol>
               </div>
 
-              <h2 className="text-xl font-semibold">Choose a Screening</h2>
+              <h2 className="text-xl font-semibold">Choose a Screening Checklist</h2>
               <div className="space-y-8">
                 {assessmentCategories.map((set) => (
                   <div key={set.id} className="space-y-6">
