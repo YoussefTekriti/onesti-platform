@@ -46,10 +46,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Packages Tailored for Your Child
+              Programs Tailored for Your Child
             </h2>
             <p className="mt-4 text-lg leading-8 text-gray-600">
-              Choose a supportive, personalized therapy plan that matches your child's developmental journey—and your
+              Choose a supportive, personalized intervention plan that matches your child's developmental journey—and your
               peace of mind.
             </p>
           </div>
@@ -72,7 +72,7 @@ export default function Home() {
                       <CardDescription>Comprehensive support for developmental delays or conditions</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$840</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -89,7 +89,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" asChild>
-                        <Link href="/packages">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -101,7 +101,7 @@ export default function Home() {
                       <CardDescription>Balanced support for developmental needs</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$600</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -118,7 +118,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/packages">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -130,7 +130,7 @@ export default function Home() {
                       <CardDescription>Essential support for developmental needs</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$320</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -147,7 +147,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/packages">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -155,7 +155,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/packages">View All Packages</Link>
+                    <Link href="/programs">View All Programs</Link>
                   </Button>
                 </div>
               </TabsContent>
@@ -169,7 +169,7 @@ export default function Home() {
                       <CardDescription>Comprehensive support for routine-based challenges</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$420</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -186,7 +186,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" asChild>
-                        <Link href="/packages?category=routine">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -198,7 +198,7 @@ export default function Home() {
                       <CardDescription>Balanced support for routine-based challenges</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$300</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -215,7 +215,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/packages?category=routine">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -227,7 +227,7 @@ export default function Home() {
                       <CardDescription>Essential support for routine-based challenges</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$160</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -244,7 +244,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/packages?category=routine">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -252,7 +252,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/packages?category=routine">View All Packages</Link>
+                    <Link href="/programs">View All Programs</Link>
                   </Button>
                 </div>
               </TabsContent>
@@ -266,7 +266,7 @@ export default function Home() {
                       <CardDescription>Comprehensive support for complex behavioral needs</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$1,200</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -283,7 +283,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" asChild>
-                        <Link href="/packages?category=aba">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -295,7 +295,7 @@ export default function Home() {
                       <CardDescription>Balanced support for moderate behavioral needs</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$840</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -312,7 +312,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/packages?category=aba">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -324,7 +324,7 @@ export default function Home() {
                       <CardDescription>Essential support for single behavioral issues</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$450</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -341,7 +341,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/packages?category=aba">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -349,7 +349,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/packages?category=aba">View All Packages</Link>
+                    <Link href="/programs">View All Programs</Link>
                   </Button>
                 </div>
               </TabsContent>
@@ -363,7 +363,7 @@ export default function Home() {
                       <CardDescription>Comprehensive counseling support</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$480</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -380,7 +380,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" asChild>
-                        <Link href="/packages?category=counseling">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -392,7 +392,7 @@ export default function Home() {
                       <CardDescription>Multiple sessions at your convenience</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
                         <span className="text-3xl font-bold tracking-tight">$270</span>
-                        <span className="ml-1 text-xl font-semibold">/package</span>
+                        <span className="ml-1 text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -409,7 +409,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/packages?category=counseling">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -438,7 +438,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/packages?category=counseling">View Details</Link>
+                        <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -446,7 +446,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/packages?category=counseling">View All Packages</Link>
+                    <Link href="/programs">View All Programs</Link>
                   </Button>
                 </div>
               </TabsContent>

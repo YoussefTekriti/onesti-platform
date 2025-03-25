@@ -26,32 +26,8 @@ To find balance and clear my head, I find peace in nature. I go on hikes, I cont
     personalInterests: "Hiking, nature, spending time with family",
   },
   {
-    id: 2,
-    name: "Dr. Ahmad Oueini",
-    role: "Head of the Diagnostic Unit",
-    bio: "Doctorate in Education with concentration in psychological counseling, multiple Master's degrees in education and psychology. Licensed Educational Psychologist with certifications in various teaching methodologies. Author of textbooks and over 35 articles in international journals.",
-    image: "/placeholder.svg?height=400&width=400",
-    specialties: ["Educational Psychology", "Psychoeducational Assessment", "Learning Disabilities"],
-    education: "Doctorate in Education, Multiple Master's degrees in Education and Psychology",
-    experience: "20+ years",
-    fullBio: `Licensed Educational Psychologist by the Ministry of Health (License #46511/3/2019)
-
-Certified LiPS (Lindamood Phonemic Sequencing program) tutor
-Certified in Simultaneous Multisensory Teaching (Canadian Dyslexia Centre)
-Certified in Dunn & Dunn Learning Style (New York)
-Certified in DALF-C2, highest level of French proficiency
-President of Alphabete Learning Center for psychoeducational assessment, intervention and training. Associate professor of education and psychology at the Lebanese American University and former chairperson of the Department of Education.
-
-Author of 2 English textbooks for grades 11 and 12: Insight and Stepping Stones. Author of over 35 articles published in international refereed journals and book chapters on topics ranging from war and stress, effective techniques of motivating students, environmentalism, career counseling, diglossia problems, learning style, and dyslexia in Arabic.
-
-Teacher trainer on such topics as dyslexia, language skills, learning style, classroom management, anger management, decision-making, using humor in the classroom, increasing your child's IQ.
-
-Regular on several TV and radio shows: MTV Alive, Zaven-Bonjourein 93.3 FM as an educational consultant on such topics as parenting skills, intelligence, school failure, learning difficulties, and study skills.`,
-    personalInterests: "Music, reading, movies, traveling, and spending quality time with my twins Lucy and Steve",
-  },
-  {
     id: 11,
-    name: "Dr. Rasha Halat",
+    name: "Katia Hazoury",
     role: "Co-founder & Technical Advisor of Academic Department",
     bio: "MA in Special Education, Reading Specialist, Teacher Trainer, Educational Evaluator, Published Researcher and Author. With over 20 years of experience in education, specializing in educational administration, team leadership, program development, and academic research.",
     image: "/placeholder.svg?height=400&width=400",
@@ -82,25 +58,6 @@ I am a dynamic, detail-oriented, a go-getter, and a humanist.
 
 I am also a mother of two kids and I enjoy cooking and walking. People say that I am funny. You can only discover that during my sessions.`,
     personalInterests: "Cooking, walking, spending time with my two children",
-  },
-  {
-    id: 3,
-    name: "Mona Saab",
-    role: "Head of the ABA Department",
-    bio: "M.A., BCBA, ABA supervisor, workshop facilitator, and PCM instructor. With a background in education and counseling, Mona specializes in helping children acquire pre-academic/academic skills and developmental milestones, as well as replacing problem behavior with adaptive behavior.",
-    image: "/placeholder.svg?height=400&width=400",
-    specialties: ["Applied Behavior Analysis", "Functional Analysis", "Skill-Based Treatment"],
-    education: "Master's degree in Counseling Children and Young People, BCBA Certification",
-    experience: "12+ years",
-    fullBio: `I hold a Bachelor's degree in English Language (American University of Beirut) and a Teaching Diploma with a dual emphasis in Early Childhood Education and Teaching Math & Science/Elementary (Lebanese American University). Following a spate of explosions and the 2006 war, having borne witness to the trauma that ensued, I pursued a Master's degree in Counseling Children and Young People (University of Nottingham). After stumbling upon the science of behavior/learning, I completed the BACB Course Sequence through FIT's online program, and became board certified in 2012.
-
-I am now a Board Certified Behavior Analyst (BCBA), working with children (both neurotypical and those with special needs) and their families, to facilitate their acquisition of pre-academic/academic skills and developmental milestones, as well working on replacing problem behavior with adaptive behavior. I also offer workshops on various topics, ranging from functions of behavior to evidence-based approaches to the treatment of Autism Spectrum Disorder and other developmental disabilities. Moreover, I develop individual education plans/behavior protocols, and train/supervise family members, paraprofessionals, and RBT/BCaBA/BCBA candidates in their implementation.
-
-I have, over the years, been implementing the Orton-Gillingham and other Science of Reading aligned approaches in working with students with Dyslexia/reading difficulties. I have also received training in such assessment/curriculum programs as VB-MAPP (Verbal Behavior Milestones Assessment and Placement Program), EFL (Essential for Living), and PEAK Training System, in addition to attending workshops related to such areas as pediatric feeding disorders and the functional analysis of problem behavior. I have received training in Dr Greg Hanley's Practical Functional Assessment (PFA) and Interview-Informed, Synthesized Contingency Analysis (IISCA), and was amongst the first in Lebanon to administer it (and subsequently develop Skill-Based Treatment of Problem Behavior). I am also a certified Professional Crisis Management (PCM) Instructor (PS).
-
-In 2017, I co-founded the Association for Behavior Analysis – Lebanon (ABAL), the Lebanese chapter of the Association for Behavior Analysis International (ABAI). I was subsequently elected as ABAL's first President.`,
-    personalInterests:
-      "Reading, watching TV shows, eating sweets, spending time with friends, scuba diving, and being with my two daughters",
   },
   {
     id: 4,
@@ -153,6 +110,49 @@ My work is not only a passion but I also consider it my favorite hobby. I will e
     personalInterests: "Hand-crafts, design, creating sensory tools",
   },
   {
+    id: 2,
+    name: "Dr. Ahmad Oueini",
+    role: "Head of the Diagnostic Unit",
+    bio: "Doctorate in Education with concentration in psychological counseling, multiple Master's degrees in education and psychology. Licensed Educational Psychologist with certifications in various teaching methodologies. Author of textbooks and over 35 articles in international journals.",
+    image: "/placeholder.svg?height=400&width=400",
+    specialties: ["Educational Psychology", "Psychoeducational Assessment", "Learning Disabilities"],
+    education: "Doctorate in Education, Multiple Master's degrees in Education and Psychology",
+    experience: "20+ years",
+    fullBio: `Licensed Educational Psychologist by the Ministry of Health (License #46511/3/2019)
+
+Certified LiPS (Lindamood Phonemic Sequencing program) tutor
+Certified in Simultaneous Multisensory Teaching (Canadian Dyslexia Centre)
+Certified in Dunn & Dunn Learning Style (New York)
+Certified in DALF-C2, highest level of French proficiency
+President of Alphabete Learning Center for psychoeducational assessment, intervention and training. Associate professor of education and psychology at the Lebanese American University and former chairperson of the Department of Education.
+
+Author of 2 English textbooks for grades 11 and 12: Insight and Stepping Stones. Author of over 35 articles published in international refereed journals and book chapters on topics ranging from war and stress, effective techniques of motivating students, environmentalism, career counseling, diglossia problems, learning style, and dyslexia in Arabic.
+
+Teacher trainer on such topics as dyslexia, language skills, learning style, classroom management, anger management, decision-making, using humor in the classroom, increasing your child's IQ.
+
+Regular on several TV and radio shows: MTV Alive, Zaven-Bonjourein 93.3 FM as an educational consultant on such topics as parenting skills, intelligence, school failure, learning difficulties, and study skills.`,
+    personalInterests: "Music, reading, movies, traveling, and spending quality time with my twins Lucy and Steve",
+  },
+  {
+    id: 3,
+    name: "Mona Saab",
+    role: "Head of the ABA Department",
+    bio: "M.A., BCBA, ABA supervisor, workshop facilitator, and PCM instructor. With a background in education and counseling, Mona specializes in helping children acquire pre-academic/academic skills and developmental milestones, as well as replacing problem behavior with adaptive behavior.",
+    image: "/placeholder.svg?height=400&width=400",
+    specialties: ["Applied Behavior Analysis", "Functional Analysis", "Skill-Based Treatment"],
+    education: "Master's degree in Counseling Children and Young People, BCBA Certification",
+    experience: "12+ years",
+    fullBio: `I hold a Bachelor's degree in English Language (American University of Beirut) and a Teaching Diploma with a dual emphasis in Early Childhood Education and Teaching Math & Science/Elementary (Lebanese American University). Following a spate of explosions and the 2006 war, having borne witness to the trauma that ensued, I pursued a Master's degree in Counseling Children and Young People (University of Nottingham). After stumbling upon the science of behavior/learning, I completed the BACB Course Sequence through FIT's online program, and became board certified in 2012.
+
+I am now a Board Certified Behavior Analyst (BCBA), working with children (both neurotypical and those with special needs) and their families, to facilitate their acquisition of pre-academic/academic skills and developmental milestones, as well working on replacing problem behavior with adaptive behavior. I also offer workshops on various topics, ranging from functions of behavior to evidence-based approaches to the treatment of Autism Spectrum Disorder and other developmental disabilities. Moreover, I develop individual education plans/behavior protocols, and train/supervise family members, paraprofessionals, and RBT/BCaBA/BCBA candidates in their implementation.
+
+I have, over the years, been implementing the Orton-Gillingham and other Science of Reading aligned approaches in working with students with Dyslexia/reading difficulties. I have also received training in such assessment/curriculum programs as VB-MAPP (Verbal Behavior Milestones Assessment and Placement Program), EFL (Essential for Living), and PEAK Training System, in addition to attending workshops related to such areas as pediatric feeding disorders and the functional analysis of problem behavior. I have received training in Dr Greg Hanley's Practical Functional Assessment (PFA) and Interview-Informed, Synthesized Contingency Analysis (IISCA), and was amongst the first in Lebanon to administer it (and subsequently develop Skill-Based Treatment of Problem Behavior). I am also a certified Professional Crisis Management (PCM) Instructor (PS).
+
+In 2017, I co-founded the Association for Behavior Analysis – Lebanon (ABAL), the Lebanese chapter of the Association for Behavior Analysis International (ABAI). I was subsequently elected as ABAL's first President.`,
+    personalInterests:
+      "Reading, watching TV shows, eating sweets, spending time with friends, scuba diving, and being with my two daughters",
+  },
+  {
     id: 7,
     name: "Marylynn Deeb",
     role: "Psychosocial Counselor",
@@ -198,23 +198,23 @@ Now … after 10 fruitful years of working with children, I have the ultimate co
 My career is built on blending intellectual insight with compassionate care, aiming to significantly impact my clients' communication and overall well-being. I have observed the critical role that parents play in therapy, often becoming key partners in the process. This experience has driven me to join the ONESTI team, where I collaborate with other professionals to provide exceptional support and care.
 
 Outside of my professional work, I used to serve as an EMT and an ambulance driver at the Lebanese Red Cross.`,
-    personalInterests: "Previously served as an EMT and ambulance driver at the Lebanese Red Cross",
+    personalInterests: "Emergency medical services, ambulance driving",
   },
   {
     id: 10,
     name: "Mireille Der Arakelian",
     role: "Educational Psychologist",
-    bio: "Bachelor's degree in Psychology and a Master's degree in Educational Psychology. Worked as a support teacher and currently works as a school psychologist delivering character education sessions and providing consultations.",
+    bio: "MA in Clinical Psychology in progress and a BA in Psychology. Started career as a pre-school teacher, then became a shadow teacher for special needs students, and now specializes in educational psychology.",
     image: "/placeholder.svg?height=400&width=400",
-    specialties: ["Educational Psychology", "Character Education", "Career Counseling"],
-    education: "Bachelor's in Psychology, Master's in Educational Psychology",
-    experience: "5+ years",
-    fullBio: `After I received my BA in psychology, I worked as a support teacher for students aged between 5 and 8 where I taught different subjects for 5 years at Lebanon Evangelical School for Boys and Girls.
+    specialties: ["Educational Psychology", "ADHD Support", "Cognitive Assessment"],
+    education: "BA in Psychology, MA in Clinical Psychology (in progress)",
+    experience: "6+ years",
+    fullBio: `I started my career as a pre-school teacher and fell in love with children, I later worked as a shadow teacher for special needs students.
 
-Currently I'm working as a school psychologist at AGBU Schools in Lebanon where I deliver sessions related to character education, provide consultations to teachers, parents, and students, guide students in deciding their future pathways through career counseling, and observe students in different settings upon teachers' requests to make the necessary arrangements regarding each student.
+With a passion for psychology, I continued my education and am now in the process of completing my Master's degree in Clinical Psychology.
 
-I chose educational psychology because of my passion for improving the learning experience of students by making a meaningful impact on their academic and emotional well-being. My goal is to create inclusive and engaging environments that help students reach their full potential.`,
-    personalInterests: "Basketball and playing the piano",
+I conducted multiple workshops in my community on a variety of topics including: dealing with ADHD, and how to talk about puberty with your children.`,
+    personalInterests: "Community education, conducting workshops on psychological topics",
   },
 ]
 

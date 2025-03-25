@@ -15,20 +15,12 @@ export default function HeroSection() {
               Your Child's Unique Needs.
             </h1>
             <p className="text-xl text-gray-600 mb-8">Start your journey with ONESTI</p>
-            <p className="text-xl font-medium text-onesti-purple mb-6">Unlock personalized care designed specifically for your child's unique needs.</p>
+            <p className="text-xl font-medium text-onesti-purple mb-6">Unlock personalized intervention designed specifically for your child.</p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 asChild
                 size="lg"
                 className="bg-onesti-purple text-white hover:bg-onesti-lightblue hover:text-white hover:border-onesti-lightblue"
-              >
-                <Link href="/assessments">Start Assessment</Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="bg-transparent text-onesti-purple border-onesti-purple hover:bg-onesti-lightblue hover:text-white hover:border-onesti-lightblue"
               >
                 <Link href="/consultation">Free Consultation</Link>
               </Button>
