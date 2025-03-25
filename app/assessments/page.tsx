@@ -996,7 +996,7 @@ export default function AssessmentsPage() {
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Screenings</h1>
           <p className="mt-4 text-lg leading-8 text-gray-600">
-            Identify potential developmental areas of concern for your child with our free screenings
+            Identify your child strengths and weaknesses with our free screenings
           </p>
         </div>
 
