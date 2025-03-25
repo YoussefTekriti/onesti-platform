@@ -1,9 +1,8 @@
 "use client"
 
 import React, { useState } from "react"
-import { motion } from "framer-motion"
+import { Tab } from "@headlessui/react"
 import Link from "next/link"
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 // Define the program data
@@ -12,76 +11,74 @@ const programsData = [
     id: "alphabet",
     title: "ALPHABEႵ",
     description: "A comprehensive program designed to develop early literacy skills, focusing on alphabet recognition, phonics, and pre-reading fundamentals.",
-    color: "#4b2e83",
+    content: "ALPHABEႵ focuses on developing early literacy skills through engaging activities and structured learning. The program helps children recognize letters, understand phonics, and build a foundation for reading success."
   },
   {
     id: "speak",
     title: "SPEAK",
     description: "Speech development program aimed at improving communication skills, vocabulary expansion, and speech clarity for children of all abilities.",
-    color: "#5d3d9a",
+    content: "Our SPEAK program addresses various aspects of speech and language development. Through targeted activities and exercises, children improve articulation, expand vocabulary, and develop stronger communication skills."
   },
   {
     id: "brave-to-behave",
     title: "BRAVE TO BEHAVE",
     description: "Behavior management program that helps children develop self-regulation, emotional control, and positive behavioral patterns.",
-    color: "#6f4eb1",
+    content: "BRAVE TO BEHAVE helps children understand and regulate their emotions and behaviors. The program teaches coping strategies, emotional identification, and appropriate expression of feelings in various situations."
   },
   {
     id: "reach-up",
     title: "REACH UP",
     description: "Gross motor skills program focusing on developing strength, coordination, and physical abilities through targeted activities.",
-    color: "#815fc8",
+    content: "REACH UP develops physical abilities through fun and engaging activities. The program improves gross motor coordination, strength, balance, and overall physical confidence."
   },
   {
     id: "senses-in-harmony",
     title: "SENSES IN HARMONY",
     description: "Sensory integration program designed to help children process and respond appropriately to sensory information in their environment.",
-    color: "#9370df",
+    content: "SENSES IN HARMONY helps children who experience sensory processing difficulties. The program provides strategies and activities to improve sensory integration, reduce sensitivity, and develop appropriate responses to various sensory inputs."
   },
   {
     id: "poopee-time",
     title: "POOPEE TIME",
     description: "Toilet training program that provides structured guidance for developing independence in bathroom routines and hygiene.",
-    color: "#a581f6",
+    content: "Our POOPEE TIME program offers a structured approach to toilet training that respects each child's developmental readiness. It includes practical strategies for parents and caregivers to support this important milestone."
   },
   {
     id: "independent-me",
     title: "INDEPENDENT ME",
     description: "Self-help skills program promoting independence in daily activities, from dressing to personal organization.",
-    color: "#8763d6",
+    content: "INDEPENDENT ME focuses on developing essential self-help skills that promote autonomy and confidence. Children learn dressing, organization, and self-care skills appropriate for their developmental level."
   },
   {
     id: "i-cue",
     title: "I CUE",
     description: "Social cues recognition program helping children understand and respond appropriately to social signals and interactions.",
-    color: "#7955cd",
+    content: "I CUE helps children recognize and interpret social cues, facial expressions, and body language. The program develops social awareness and appropriate response strategies for various social situations."
   },
   {
     id: "bon-appetit",
     title: "BON APPETIT",
     description: "Feeding program addressing picky eating, food aversions, and developing healthy eating habits and mealtime routines.",
-    color: "#6b46c4",
+    content: "BON APPETIT addresses feeding challenges through a positive, developmentally appropriate approach. The program helps establish healthy mealtime routines and expand food acceptance for children with feeding difficulties."
   },
   {
     id: "peaceful-zzzz",
     title: "PEACEFUL \"ZZZZ\"",
     description: "Sleep training program providing strategies for establishing healthy sleep patterns and bedtime routines.",
-    color: "#5d38bb",
+    content: "PEACEFUL \"ZZZZ\" offers evidence-based strategies to establish healthy sleep habits. The program addresses common sleep challenges and helps families develop consistent, effective bedtime routines."
   },
   {
     id: "well-be-ing",
     title: "WELL-BE-ING",
     description: "Holistic wellness program focusing on overall physical and emotional wellbeing through balanced development.",
-    color: "#4f29b2",
+    content: "WELL-BE-ING takes a holistic approach to child development, addressing physical, emotional, and social aspects of wellness. The program provides strategies that promote overall health and balanced development."
   },
 ]
 
 export default function ProgramsPage() {
-  const [activeProgram, setActiveProgram] = useState<string | null>(null)
-
-  const handleProgramClick = (id: string) => {
-    setActiveProgram(activeProgram === id ? null : id)
-  }
+  // Split programs into two rows
+  const firstRowPrograms = programsData.slice(0, 6);
+  const secondRowPrograms = programsData.slice(6);
 
   return (
     <div className="min-h-screen bg-white">
@@ -99,18 +96,97 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      {/* Programs grid */}
+      {/* Programs tabs */}
       <section className="py-12 container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {programsData.map((program) => (
-            <ProgramCard 
-              key={program.id}
-              program={program}
-              isActive={activeProgram === program.id}
-              onClick={() => handleProgramClick(program.id)}
-            />
-          ))}
-        </div>
+        <Tab.Group>
+          <div className="flex flex-col mb-10">
+            {/* First row of tabs */}
+            <Tab.List className="flex rounded-t-xl bg-gray-100 p-1">
+              {firstRowPrograms.map((program) => (
+                <Tab
+                  key={program.id}
+                  className={({ selected }) =>
+                    `flex-1 whitespace-nowrap px-6 py-3 text-base font-medium leading-5 transition-all duration-200
+                    ${
+                      selected
+                        ? "bg-white text-[#4b2e83] shadow"
+                        : "text-gray-600 hover:bg-white/[0.12] hover:text-[#4b2e83]"
+                    }`
+                  }
+                >
+                  {program.title}
+                </Tab>
+              ))}
+            </Tab.List>
+            
+            {/* Second row of tabs */}
+            <Tab.List className="flex rounded-b-xl bg-gray-100 p-1 border-t border-gray-200">
+              {secondRowPrograms.map((program) => (
+                <Tab
+                  key={program.id}
+                  className={({ selected }) =>
+                    `flex-1 whitespace-nowrap px-6 py-3 text-base font-medium leading-5 transition-all duration-200
+                    ${
+                      selected
+                        ? "bg-white text-[#4b2e83] shadow"
+                        : "text-gray-600 hover:bg-white/[0.12] hover:text-[#4b2e83]"
+                    }`
+                  }
+                >
+                  {program.title}
+                </Tab>
+              ))}
+            </Tab.List>
+          </div>
+            
+          <Tab.Panels className="mt-8">
+            {programsData.map((program) => (
+              <Tab.Panel
+                key={program.id}
+                className="rounded-xl bg-white p-6 border border-gray-200"
+              >
+                <div className="mb-4">
+                  <h2 className="text-2xl font-bold text-[#4b2e83]">{program.title}</h2>
+                  <p className="text-gray-600 mt-2">{program.description}</p>
+                </div>
+                <div className="my-6 border-t border-gray-200 pt-6">
+                  <h3 className="text-lg font-semibold mb-3">Program Details</h3>
+                  <p className="text-gray-700 mb-4">{program.content}</p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h4 className="font-medium text-[#4b2e83] mb-2">Who Can Benefit</h4>
+                      <ul className="list-disc ml-5 space-y-1 text-sm text-gray-600">
+                        <li>Children with developmental delays or concerns</li>
+                        <li>Children who need support in specific skill areas</li>
+                        <li>Children of various ages and ability levels</li>
+                        <li>Families seeking structured intervention approaches</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h4 className="font-medium text-[#4b2e83] mb-2">Program Features</h4>
+                      <ul className="list-disc ml-5 space-y-1 text-sm text-gray-600">
+                        <li>Individualized assessment and planning</li>
+                        <li>Evidence-based techniques and strategies</li>
+                        <li>Regular progress monitoring</li>
+                        <li>Parent and caregiver involvement</li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-8 text-center">
+                    <Link href={`/packages#${program.id}`}>
+                      <Button className="bg-[#4b2e83] hover:bg-[#4b2e83]/90">
+                        View Related Packages
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </Tab.Panel>
+            ))}
+          </Tab.Panels>
+        </Tab.Group>
 
         {/* CTA Section */}
         <div className="mt-16 text-center">
@@ -127,70 +203,5 @@ export default function ProgramsPage() {
         </div>
       </section>
     </div>
-  )
-}
-
-// Program Card Component
-interface ProgramCardProps {
-  program: {
-    id: string
-    title: string
-    description: string
-    color: string
-  }
-  isActive: boolean
-  onClick: () => void
-}
-
-function ProgramCard({ program, isActive, onClick }: ProgramCardProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="h-full"
-    >
-      <Card 
-        className={`overflow-hidden h-full flex flex-col border border-gray-200 cursor-pointer transform transition-all duration-300 ${
-          isActive ? "shadow-lg scale-[1.02]" : "hover:shadow-md hover:scale-[1.01]"
-        }`}
-        onClick={onClick}
-      >
-        <div 
-          className="p-6 text-center" 
-          style={{ backgroundColor: program.color }}
-        >
-          <h3 className="text-xl font-semibold text-white">{program.title}</h3>
-        </div>
-        <div className="p-6 flex-grow">
-          <p className="text-gray-700">{program.description}</p>
-          
-          {isActive && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              transition={{ duration: 0.3 }}
-              className="mt-4 pt-4 border-t border-gray-200"
-            >
-              <h4 className="font-medium text-[#4b2e83] mb-2">Program Benefits</h4>
-              <ul className="list-disc ml-5 space-y-1 text-sm text-gray-600">
-                <li>Individualized approach tailored to each child's needs</li>
-                <li>Evidence-based techniques and strategies</li>
-                <li>Regular progress monitoring and adjustments</li>
-                <li>Parent and caregiver involvement and training</li>
-              </ul>
-              
-              <div className="mt-4 text-right">
-                <Link href={`/programs/${program.id}`}>
-                  <Button className="bg-white text-[#4b2e83] hover:bg-gray-100 border border-[#4b2e83]">
-                    Learn More
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-          )}
-        </div>
-      </Card>
-    </motion.div>
   )
 } 
