@@ -15,15 +15,15 @@ const teamMembers = [
     image: "/placeholder.svg?height=400&width=400",
   },
   {
-    id: 2,
-    name: "Dr. Ahmad Oueini",
-    role: "Head of the Diagnostic Unit",
+    id: 11,
+    name: "Katia Hazoury",
+    role: "Co-founder & Technical Advisor of Academic Department",
     image: "/placeholder.svg?height=400&width=400",
   },
   {
-    id: 11,
-    name: "Dr. Rasha Halat",
-    role: "Co-founder & Technical Advisor of Academic Department",
+    id: 4,
+    name: "Maritza Abou Halka",
+    role: "Co-founder & Managing Partner",
     image: "/placeholder.svg?height=400&width=400",
   },
 ]
