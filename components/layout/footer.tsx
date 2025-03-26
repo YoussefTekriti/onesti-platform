@@ -82,15 +82,15 @@ export default function Footer() {
             
             {/* Social Media */}
             <div className="flex space-x-4 mt-4">
-              <Link href="#" className="text-gray-400 hover:text-onesti-purple">
+              <Link href="https://www.facebook.com/Onestiglobal" target="_blank" className="text-gray-400 hover:text-onesti-purple">
                 <span className="sr-only">Facebook</span>
                 <Facebook className="h-6 w-6" />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-onesti-purple">
+              <Link href="https://www.instagram.com/onestiglobal/" target="_blank" className="text-gray-400 hover:text-onesti-purple">
                 <span className="sr-only">Instagram</span>
                 <Instagram className="h-6 w-6" />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-onesti-purple">
+              <Link href="https://www.linkedin.com/company/onesti-global/" target="_blank" className="text-gray-400 hover:text-onesti-purple">
                 <span className="sr-only">LinkedIn</span>
                 <Linkedin className="h-6 w-6" />
               </Link>
@@ -202,7 +202,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-xs text-gray-500">Copyright © 2023 Dreamguys. All Rights Reserved</p>
+          <p className="text-xs text-gray-500">Copyright © 2023 ONESTI. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Link href="/privacy" className="text-xs text-gray-500 hover:text-onesti-purple">
               Privacy Policy
