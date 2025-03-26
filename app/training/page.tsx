@@ -6,7 +6,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Tab } from "@headlessui/react"
-import { Mail, ChevronRight } from "lucide-react"
+import { Mail } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,13 +15,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-
-// Add interface for program structure
-interface SpecialProgram {
-  title: string;
-  description: string;
-  content: string;
-}
 
 export default function TrainingPage() {
   return (
@@ -43,7 +36,7 @@ export default function TrainingPage() {
       <section className="py-12 container mx-auto px-4">
         <Tab.Group>
           <Tab.List className="flex space-x-1 rounded-xl bg-gray-100 p-1 mb-10">
-            {["Daycare Training", "Facilitator Training", "School Inclusion", "Special Programs"].map((category) => (
+            {["Daycare Training", "Facilitator Training", "School Inclusion"].map((category) => (
               <Tab
                 key={category}
                 className={({ selected }) =>
@@ -364,143 +357,11 @@ export default function TrainingPage() {
                 </div>
               </div>
             </Tab.Panel>
-
-            {/* Special Programs Panel */}
-            <Tab.Panel>
-              <div className="max-w-5xl mx-auto">
-                <h2 className="text-2xl font-bold mb-6 text-center">Specialized Training Programs</h2>
-                <p className="text-center text-gray-700 max-w-3xl mx-auto mb-12">
-                  Our specialized programs are designed to address specific developmental areas and skills.
-                  Each program focuses on unique aspects of child development and provides targeted interventions.
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6">
-                  {specialPrograms.map((program, index) => (
-                    <SpecialProgramCard key={index} program={program} index={index} />
-                  ))}
-                </div>
-
-                <div className="mt-16 text-center">
-                  <p className="text-sm text-gray-500 mb-4">For more information about any of our specialized programs</p>
-                  <Link href="/contact">
-                    <Button className="bg-[#4b2e83] hover:bg-[#4b2e83]/90">
-                      <Mail className="mr-2 h-4 w-4" />
-                      Contact Professional Development
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
       </section>
     </div>
   )
-}
-
-// Special Programs data
-const specialPrograms = [
-  {
-    title: "ALPHABET",
-    description: "Develop early literacy skills through interactive and multisensory approaches to letter recognition and phonetic awareness.",
-    content: "Our ALPHABET program focuses on building a strong foundation in pre-literacy and early literacy skills. Through multisensory activities, children develop letter recognition, phonological awareness, and the building blocks for reading and writing."
-  },
-  {
-    title: "SPEAK",
-    description: "Enhance communication skills through targeted speech and language development activities.",
-    content: "SPEAK helps children develop and improve their verbal communication skills. The program addresses articulation, vocabulary expansion, sentence formation, and conversational skills through engaging and age-appropriate activities."
-  },
-  {
-    title: "BRAVE TO BEHAVE",
-    description: "Build positive behaviors and emotional regulation through structured activities and support.",
-    content: "Brave to Behave is designed to help children develop self-regulation, emotional awareness, and positive social behaviors. Through structured activities and consistent support, children learn to navigate challenging situations with confidence."
-  },
-  {
-    title: "REACH UP",
-    description: "Develop fine and gross motor skills through targeted physical activities and exercises.",
-    content: "The REACH UP program focuses on developing children's motor skills through purposeful play and structured activities. The program helps children strengthen muscles, improve coordination, and build the physical skills needed for daily activities."
-  },
-  {
-    title: "SENSES IN HARMONY",
-    description: "Integrate sensory processing through activities that engage multiple senses in a controlled environment.",
-    content: "Senses in Harmony helps children with sensory processing challenges. Through carefully designed sensory experiences, children learn to process and respond to sensory information more effectively, improving focus, behavior, and learning abilities."
-  },
-  {
-    title: "POOPEE TIME",
-    description: "Support toilet training with positive reinforcement and consistent routines.",
-    content: "Our POOPEE TIME program provides a structured, positive approach to toilet training. Using consistency, positive reinforcement, and age-appropriate strategies, we help children develop independence and confidence in their toileting skills."
-  },
-  {
-    title: "INDEPENDENT ME",
-    description: "Foster autonomy and self-help skills essential for daily living and school readiness.",
-    content: "Independent ME focuses on developing children's self-help skills and autonomy. From dressing and feeding to organizing materials and following routines, this program helps children build the independence needed for success at home and school."
-  },
-  {
-    title: "I CUE",
-    description: "Develop attention, focus, and responding to verbal and non-verbal cues.",
-    content: "I CUE helps children improve their attention, focus, and ability to follow directions. Through engaging activities, children learn to recognize and respond to verbal and non-verbal cues, enhancing their learning abilities and social interactions."
-  },
-  {
-    title: "BON APPETIT",
-    description: "Address feeding challenges and promote healthy eating habits through therapeutic interventions.",
-    content: "Bon Appetit addresses feeding challenges and promotes healthy eating habits. Using sensory, motor, and behavioral approaches, this program helps children expand their food repertoire and develop positive associations with mealtime."
-  },
-  {
-    title: "PEACEFUL 'ZZZZ'",
-    description: "Establish healthy sleep routines and practices for improved rest and development.",
-    content: "PEACEFUL 'ZZZZ' focuses on establishing healthy sleep routines and addressing sleep challenges. This program helps families implement consistent bedtime practices that promote quality sleep, essential for children's learning, behavior, and overall health."
-  },
-  {
-    title: "WELL-BE-ING",
-    description: "Support overall health, wellness, and positive mental health practices.",
-    content: "Our WELL-BE-ING program promotes children's overall health and wellness. Through activities that support positive mental health, physical well-being, and emotional balance, children develop resilience and the foundation for lifelong well-being."
-  }
-];
-
-// Fix SpecialProgramCard function with proper types
-function SpecialProgramCard({ program, index }: { program: SpecialProgram; index: number }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="relative"
-    >
-      <div 
-        className="cursor-pointer"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <div className="bg-[#4b2e83] p-5 rounded-t-lg flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-white">{program.title}</h3>
-          <motion.div
-            animate={{ rotate: isExpanded ? 90 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <ChevronRight className="h-5 w-5 text-white" />
-          </motion.div>
-        </div>
-        <div className="bg-white border border-gray-200 border-t-0 p-4 rounded-b-lg">
-          <p className="text-sm text-gray-600">{program.description}</p>
-          
-          <motion.div
-            animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
-            initial={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <p className="text-sm text-gray-700">{program.content}</p>
-              <Button className="mt-4 w-full bg-gray-100 hover:bg-gray-200 text-[#4b2e83]">
-                Learn More
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </motion.div>
-  );
 }
 
 function TrainingCard({ 
