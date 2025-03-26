@@ -56,39 +56,39 @@ export default function Home() {
 
           <div className="mt-10">
             <Tabs defaultValue="developmental">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="developmental">Developmental</TabsTrigger>
-                <TabsTrigger value="routine">Routine-Based</TabsTrigger>
-                <TabsTrigger value="aba">ABA</TabsTrigger>
-                <TabsTrigger value="counseling">Counseling</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1">
+                <TabsTrigger value="developmental" className="px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm">Developmental</TabsTrigger>
+                <TabsTrigger value="routine" className="px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm">Routine-Based</TabsTrigger>
+                <TabsTrigger value="aba" className="px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm">ABA</TabsTrigger>
+                <TabsTrigger value="counseling" className="px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm">Counseling</TabsTrigger>
               </TabsList>
 
               <TabsContent value="developmental" className="mt-6">
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                   {/* Thrive Package */}
                   <Card className="flex flex-col">
-                    <CardHeader>
-                      <CardTitle>Developmental Thrive Path</CardTitle>
-                      <CardDescription>Comprehensive support for developmental delays or conditions</CardDescription>
-                      <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$840</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                    <CardHeader className="pb-3 sm:pb-6">
+                      <CardTitle className="text-lg sm:text-xl">Developmental Thrive Path</CardTitle>
+                      <CardDescription className="text-xs sm:text-sm mt-1">Comprehensive support for developmental delays or conditions</CardDescription>
+                      <div className="mt-3 sm:mt-4 flex items-baseline text-gray-900">
+                        <span className="text-2xl sm:text-3xl font-bold tracking-tight">$840</span>
+                        <span className="ml-1 text-lg sm:text-xl font-semibold">/program</span>
                       </div>
                     </CardHeader>
-                    <CardContent className="flex-grow">
-                      <ul className="space-y-2">
+                    <CardContent className="flex-grow py-2 sm:py-4">
+                      <ul className="space-y-1 sm:space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">12 therapy sessions</span>
+                          <span className="text-xs sm:text-sm text-gray-700">12 therapy sessions</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">Multidisciplinary review</span>
+                          <span className="text-xs sm:text-sm text-gray-700">Multidisciplinary review</span>
                         </li>
                       </ul>
                     </CardContent>
-                    <CardFooter>
-                      <Button className="w-full" asChild>
+                    <CardFooter className="pt-2 sm:pt-4">
+                      <Button className="w-full text-sm sm:text-base" asChild>
                         <Link href="/programs">View Details</Link>
                       </Button>
                     </CardFooter>
@@ -161,7 +161,7 @@ export default function Home() {
               </TabsContent>
 
               <TabsContent value="routine" className="mt-6">
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                   {/* Thrive Package */}
                   <Card className="flex flex-col">
                     <CardHeader>
@@ -258,7 +258,7 @@ export default function Home() {
               </TabsContent>
 
               <TabsContent value="aba" className="mt-6">
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                   {/* Thrive Package */}
                   <Card className="flex flex-col">
                     <CardHeader>
@@ -355,7 +355,7 @@ export default function Home() {
               </TabsContent>
 
               <TabsContent value="counseling" className="mt-6">
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                   {/* Extended Support */}
                   <Card className="flex flex-col">
                     <CardHeader>
