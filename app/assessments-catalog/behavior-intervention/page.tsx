@@ -11,108 +11,171 @@ const assessments = [
     name: "Verbal Behavior Milestones Assessment and Placement Program",
     price: "$450.00",
     description:
-      "A developmental, criterion-referenced tool that tracks milestones (listening, requesting, labeling, imitation, play, visual performance, etc.). Serves as both a curriculum guide and a skill tracking system.",
+      "This assessment will help identify your child's delays in milestones across different developmental domains.",
     benefits: [
-      "Children 18 to 48 months with red flags in developmental milestones",
-      "Older children not meeting expected milestones",
+      "Children from 18 months through 48 months of age for whom red flags have been indicated in their developmental milestones",
+      "Chronologically older children who have not yet met developmental milestones"
     ],
     ageRange: "18 to 48 months (or older with developmental delays)",
     sessions: "2–4 sessions",
     method: "Ideally onsite (hybrid/online possible)",
     administrator: "Qualified behavior analyst",
+    outcome: "Upon completion, you will receive a detailed report and a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: MessageSquare,
     color: "bg-blue-100 text-blue-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Verbal Behavior Milestones Assessment",
+        description: "A developmental, criterion-referenced assessment tool, curriculum guide, and skill tracking system (includes progress monitoring throughout intervention) across domains (e.g. listening, requesting, labeling, imitation, play, visual performance, etc.)"
+      }
+    ]
   },
   {
     id: "basic-language",
-    name: "Assessment of Basic Language and Learning Skills",
+    name: "Assessment of Basic Language and Learning Skills (ABLLS)",
     price: "$450.00",
     description:
-      "Evaluates deficiencies in language, academic, motor, and self-help skills. Uses a criterion-referenced assessment tool integrated with curriculum guidance and skill tracking.",
-    benefits: ["Children with language and learning challenges"],
+      "This assessment will help identify your child's deficiencies in language, academic, motor, and self-help skills.",
+    benefits: [
+      "Children from birth to 12 years of age for whom red flags have been indicated in their developmental milestones"
+    ],
     ageRange: "Birth to 12 years",
     sessions: "2–4 sessions",
     method: "Ideally onsite (hybrid/online possible)",
     administrator: "Qualified behavior analyst",
+    outcome: "Upon completion, you will receive a detailed report and a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: Brain,
     color: "bg-purple-100 text-purple-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Assessment of Basic Language and Learning Skills",
+        description: "A criterion-referenced assessment tool, curriculum guide, and skill tracking system. Used to identify deficiencies in language, academic, motor, and self-help skills."
+      }
+    ]
   },
   {
     id: "functional-living",
     name: "Assessment of Functional Living Skills",
     price: "$250.00",
     description:
-      "Measures independent living skills across various domains (self-management, toileting, grooming, meals, leisure, etc.). Functions as both a skill tracking system and a curriculum guide.",
-    benefits: ["Children and adults with special needs"],
+      "This assessment will help assess your child's independent living skills.",
+    benefits: [
+      "Children and adults with special needs (2 years of age throughout lifespan) who need to further develop their repertoires of independent living skills across domains (e.g. self-management, toileting, grooming, meals, leisure, etc.) and settings (e.g. home, school, community, etc.)"
+    ],
     ageRange: "2 years through the lifespan",
     sessions: "2–4 sessions",
     method: "Ideally onsite (hybrid/online possible)",
     administrator: "Qualified behavior analyst",
+    outcome: "Upon completion, you will receive a detailed report and a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: Activity,
     color: "bg-green-100 text-green-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Assessment of Functional Living Skills",
+        description: "A measure that is used for assessment, skill tracking system, and serves as a curriculum guide for the development of independent living skills."
+      }
+    ]
   },
   {
     id: "essential-living",
-    name: "Essential for Living",
-    price: "$200.00",
+    name: "Essential for Living (EFL)",
+    price: "$200.00 + purchase of protocol and shipping",
     description:
-      "A curriculum-based, functional life-skills assessment and tracking instrument. Evaluates skills such as requesting, tolerating, and following directions.",
-    benefits: ["Individuals with moderate-to-severe disabilities with limited repertoires across functional domains"],
+      "This assessment will help evaluate your child's functional skills across domains.",
+    benefits: [
+      "Designed for individuals with moderate-to-severe disabilities who exhibit limited repertoires and problem behavior across domains (e.g. requests and related skills, tolerating skills, following directions, etc.)",
+      "Applicable across all ages (lifespan)"
+    ],
     ageRange: "All ages",
     sessions: "2–4 sessions",
     method: "Ideally onsite (hybrid/online possible)",
     administrator: "Qualified behavior analyst",
+    outcome: "Upon completion, you will receive a detailed report and a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: Sparkles,
     color: "bg-amber-100 text-amber-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Essential for Living",
+        description: "A functional, life-skills curriculum-based assessment and tracking instrument."
+      }
+    ]
   },
   {
     id: "advanced-knowledge",
-    name: "Promoting the Emergence of Advanced Knowledge",
-    price: "$300.00",
+    name: "Promoting the Emergence of Advanced Knowledge (PEAK)",
+    price: "$350.00",
     description:
-      "A criterion-referenced instrument addressing language and cognitive deficits. Provides both assessment data and a treatment protocol.",
-    benefits: ["Children and adults with special needs"],
+      "This assessment will help evaluate your child's language and cognitive deficits.",
+    benefits: [
+      "Children and adults with special needs from 18 months of age through adolescence (into adulthood)"
+    ],
     ageRange: "18 months through adolescence (and into adulthood)",
     sessions: "2–3 sessions",
     method: "Ideally onsite (hybrid/online possible)",
     administrator: "Qualified behavior analyst",
+    outcome: "Upon completion, a meeting will be scheduled with the Onesti team to discuss the findings and plan of intervention.",
     icon: Brain,
     color: "bg-red-100 text-red-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Promoting the Emergence of Advanced Knowledge",
+        description: "A criterion-referenced assessment instrument and treatment protocol for addressing language and cognitive deficits."
+      }
+    ]
   },
   {
     id: "good-learner",
-    name: "Inventory of Good Learner Repertoires",
+    name: "Inventory of Good Learner Repertoires (IGLR)",
     price: "$250.00",
     description:
-      "A criterion-referenced assessment, curriculum guide, and skill tracking system that measures the ease with which an individual may be taught. Identifies preferred learning styles, necessary supports, resilience, and flexibility.",
-    benefits: ["All children—as it helps educators and interventionists tailor teaching approaches"],
+      "This assessment measures the different facets which directly and indirectly affect learning. The results are used to inform best practice with respect to interventions.",
+    benefits: [
+      "All children can benefit, in that it allows interventionists/teachers to identify how best to teach individual learners",
+      "It assesses learner preferences, necessary supports, resilience and regulation, flexibility, etc."
+    ],
     ageRange: "All children",
     sessions: "2–3 sessions",
     method: "Ideally onsite (hybrid/online possible)",
     administrator: "Qualified behavior analyst",
+    outcome: "Upon completion, a meeting will be scheduled with the ONESTI team to discuss the findings and plan of intervention.",
     icon: Puzzle,
     color: "bg-blue-100 text-blue-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Inventory of Good Learner Repertoires",
+        description: "A criterion-referenced assessment tool, curriculum guide, and skill tracking system to measure the ease with which an individual may be taught. It is used to identify preferred learning channels style, dependence upon various supports, resilience upon encountering challenges, and potential to learn in less supportive environments."
+      }
+    ]
   },
   {
     id: "functional-assessment",
-    name: "Practical Functional Assessment Skill-Based Treatment of Problem Behavior",
-    price: "Contact for pricing",
+    name: "Practical Functional Assessment/Skill-Based Treatment (PFA/SBT)",
+    price: "$300.00",
     description:
-      "Determines the antecedents and consequences responsible for problem behavior. Informs highly effective and humane treatment approaches.",
-    benefits: ["All children (neurotypical or with special needs) exhibiting severe problem behavior"],
+      "This assessment will help evaluate the functions of problem behavior (triggers, maintaining variables, etc.). This, in turn, allows the behavior analyst to design and implement a behavior plan.",
+    benefits: [
+      "All children (whether neurotypical or those with special needs) who exhibit severe problem behavior can benefit"
+    ],
     ageRange: "All children",
     sessions: "3 sessions",
     method: "Ideally onsite (hybrid/online possible)",
     administrator: "Qualified behavior analyst",
+    outcome: "Upon completion, a meeting will be scheduled with the Onesti team to discuss the findings and behavioral protocol.",
     icon: Brain,
     color: "bg-purple-100 text-purple-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Practical Functional Assessment/Skill-Based Treatment",
+        description: "This assessment tool is used to determine the occasioning contexts (antecedents) and outcomes (consequences) responsible for problem behavior. It is used to inform highly effective and humane treatment for problem behavior."
+      }
+    ]
   },
   {
     id: "adi-r",
@@ -120,15 +183,24 @@ const assessments = [
     price: "Coming soon",
     description:
       "A structured clinical interview with parents/caregivers focusing on social reciprocity, communication, and repetitive behaviors.",
-    benefits: ["Children and adults flagged as at-risk for ASD"],
+    benefits: [
+      "Children and adults with mental age above 2 years (most accurate for children aged 4 years and above) flagged (through screening) as being at-risk for an ASD diagnosis"
+    ],
     ageRange: "Mental age above 2 years (most accurate for children aged 4 and above)",
     sessions: "To be determined",
     method: "Onsite, hybrid, or online",
     administrator: "Qualified diagnostic assessor",
+    outcome: "Will be available soon!",
     icon: MessageSquare,
     color: "bg-green-100 text-green-700",
     image: "/placeholder.svg?height=300&width=500",
     comingSoon: true,
+    details: [
+      {
+        title: "Autism Diagnostic Interview-Revised",
+        description: "A clinical diagnostic instrument by means of a structured interview with parents/caregivers of individuals referred for possible Autism Spectrum Disorder. It focuses on behavior in three main areas: quality of social reciprocity; communication and language; restricted interests and repetitive/stereotyped behavior."
+      }
+    ]
   },
   {
     id: "ados-2",
@@ -136,29 +208,48 @@ const assessments = [
     price: "Coming soon",
     description:
       "A standardized, semi-structured assessment of communication, social reciprocity, play, and repetitive behaviors.",
-    benefits: ["Children and adults flagged as at-risk for ASD"],
+    benefits: [
+      "Children and adults from 12 months (lifespan), although (most accurate for children aged 30 months and above) flagged (through screening) as being at-risk for an ASD diagnosis"
+    ],
     ageRange: "From 12 months (most accurate for children aged 30 months and above)",
     sessions: "1–2 sessions",
     method: "Ideally onsite",
     administrator: "Qualified ADOS assessor",
+    outcome: "Will be available soon!",
     icon: Sparkles,
     color: "bg-amber-100 text-amber-700",
     image: "/placeholder.svg?height=300&width=500",
     comingSoon: true,
+    details: [
+      {
+        title: "Autism Diagnostic Observation Schedule",
+        description: "A standardized semi-structured assessment of communication, social reciprocity, play, and restricted interests and repetitive/stereotyped behavior in children. It helps providers diagnose Autism Spectrum Disorder in children and adults."
+      }
+    ]
   },
   {
     id: "mchat",
     name: "The Modified Checklist for Autism in Toddlers",
     price: "$75.00",
-    description: "A screener consisting of 20 questions that identify toddlers at risk for ASD.",
-    benefits: ["Toddlers at risk for ASD"],
+    description: 
+      "This screener will identify children who are at risk of a potential ASD diagnosis and inform next steps.",
+    benefits: [
+      "Intended for toddlers between 16 and 30 months of age showing red flags or delays in developmental milestones"
+    ],
     ageRange: "16 to 30 months",
     sessions: "1 session",
     method: "Onsite, hybrid, or online",
     administrator: "Qualified behavior analyst",
+    outcome: "Upon completion, the interventionist will advise parents as to the risk of ASD, and may or may not refer the child for a diagnostic assessment (i.e. ADI-R or ADOS-2).",
     icon: Puzzle,
     color: "bg-red-100 text-red-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Modified Checklist for Autism in Toddlers",
+        description: "A series of 20 questions about a child's behavior. Determines whether further evaluation is needed."
+      }
+    ]
   },
 ]
 
@@ -179,8 +270,8 @@ export default function BehaviorInterventionPage() {
               <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
                 <Link href="#assessments">View Assessments</Link>
               </Button>
-              <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
-                <Link href="/consultation">Book a Consultation</Link>
+              <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
+                <Link href="/assessments-catalog">Back to Categories</Link>
               </Button>
             </div>
           </div>
@@ -275,6 +366,20 @@ export default function BehaviorInterventionPage() {
 
                     <p className="text-gray-600 mb-6">{assessment.description}</p>
 
+                    {assessment.details && assessment.details.length > 0 && (
+                      <div className="mb-6">
+                        <h4 className="font-semibold text-gray-900 mb-2">Assessment Details:</h4>
+                        <div className="space-y-4">
+                          {assessment.details.map((detail, idx) => (
+                            <div key={idx} className="border-l-2 border-[#4b2e83] pl-3">
+                              <h5 className="font-medium text-[#4b2e83]">{detail.title}</h5>
+                              <p className="text-sm text-gray-600">{detail.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                       <div>
                         <h4 className="font-semibold text-gray-900 mb-2">Who Benefits:</h4>
@@ -303,6 +408,11 @@ export default function BehaviorInterventionPage() {
                           <p>
                             <span className="font-medium">Administrator:</span> {assessment.administrator}
                           </p>
+                          {assessment.outcome && (
+                            <p>
+                              <span className="font-medium">Outcome:</span> {assessment.outcome}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -325,54 +435,173 @@ export default function BehaviorInterventionPage() {
       </div>
 
       {/* FAQ Section */}
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Find answers to common questions about our behavior intervention assessment services.
-          </p>
-        </div>
+      <div className="bg-gray-50 py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              Find answers to common questions about our behavior intervention assessment services.
+            </p>
+          </div>
 
-        <div className="mx-auto mt-16 max-w-2xl divide-y divide-gray-900/10">
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              What is the difference between the various behavior assessments?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              Each assessment focuses on different aspects of behavior and development. Some are designed for specific
-              age groups or challenges, while others are more comprehensive. During an initial consultation, our
-              specialists can help determine which assessment is most appropriate for your needs.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              Why are assessments ideally conducted onsite?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              Onsite assessments allow our specialists to directly observe behaviors in a controlled environment, which
-              often provides more accurate results. However, we understand that this isn't always possible, which is why
-              we offer hybrid and online options for many assessments.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              What happens after the assessment is completed?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              After completing the assessment, our team will analyze the results and prepare a detailed report. We'll
-              then schedule a follow-up meeting to discuss the findings, answer any questions, and develop a plan for
-              intervention or support.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              How long does the entire assessment process take?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              The timeline varies depending on the specific assessment, but most require 2-4 sessions spread over a few
-              weeks. After the final session, it typically takes 1-2 weeks to prepare the report and schedule the
-              follow-up meeting.
-            </p>
+          <div className="mx-auto mt-16 max-w-3xl">
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      What is the difference between the various behavior assessments?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      Each assessment focuses on different aspects of behavior and development. Some are designed for specific
+                      age groups or challenges, while others are more comprehensive. During an initial consultation, our
+                      specialists can help determine which assessment is most appropriate for your needs.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      Why are assessments ideally conducted onsite?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      Onsite assessments allow our specialists to directly observe behaviors in a controlled environment, which
+                      often provides more accurate results. However, we understand that this isn't always possible, which is why
+                      we offer hybrid and online options for many assessments.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      What happens after the assessment is completed?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      After completing the assessment, our team will analyze the results and prepare a detailed report. We'll
+                      then schedule a follow-up meeting to discuss the findings, answer any questions, and develop a plan for
+                      intervention or support.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      How long does the entire assessment process take?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      The timeline varies depending on the specific assessment, but most require 2-4 sessions spread over a few
+                      weeks. After the final session, it typically takes 1-2 weeks to prepare the report and schedule the
+                      follow-up meeting.
+                    </p>
+                  </div>
+                </details>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -383,13 +612,13 @@ export default function BehaviorInterventionPage() {
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Ready to get started?
             <br />
-            Book an assessment today.
+            Explore our assessment options.
           </h2>
           <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
             <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
               <Link href="/consultation">Book Now</Link>
             </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
+            <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
               <Link href="/contact">Contact Us</Link>
             </Button>
           </div>

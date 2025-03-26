@@ -452,50 +452,174 @@ export default function SpeechLanguagePage() {
       </div>
 
       {/* FAQ Section */}
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Find answers to common questions about our speech and language assessment services.
-          </p>
-        </div>
+      <div className="bg-gray-50 py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              Find answers to common questions about our speech and language assessment services.
+            </p>
+          </div>
 
-        <div className="mx-auto mt-16 max-w-2xl divide-y divide-gray-900/10">
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              How do I know if my child needs a speech or language assessment?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              Consider an assessment if your child has difficulty being understood, seems to struggle understanding
-              language, has a limited vocabulary, or is not meeting communication milestones. If you're unsure, our team
-              can help determine if an assessment would be beneficial during an initial consultation.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              What happens during a speech and language assessment?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              The assessment typically involves standardized testing, clinical observations, and parent interviews.
-              Depending on the specific assessment, your child may be asked to name pictures, follow directions, answer
-              questions, or engage in conversation to evaluate different aspects of speech and language.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">How should we prepare for the assessment?</h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              Ensure your child is well-rested and has eaten before the assessment. Bring any relevant medical records,
-              previous evaluations, or reports from teachers. For online assessments, make sure you have a quiet space
-              with good lighting and a stable internet connection.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">What happens after the assessment?</h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              After completing the assessment, our team will analyze the results and prepare a detailed report. We'll
-              then schedule a follow-up meeting to discuss the findings, answer any questions, and develop a plan for
-              intervention or support if needed.
-            </p>
+          <div className="mx-auto mt-16 max-w-3xl">
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      How do I know if my child needs a speech or language assessment?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      Consider an assessment if your child has difficulty being understood, seems to struggle understanding
+                      language, has a limited vocabulary, or is not meeting communication milestones. If you're unsure, our team
+                      can help determine if an assessment would be beneficial during an initial consultation.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      What happens during a speech and language assessment?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      The assessment typically involves standardized testing, observations of communication skills, and
+                      parent/caregiver interviews. The speech-language pathologist will evaluate areas such as articulation,
+                      language comprehension, expression, voice quality, fluency, and social communication skills as appropriate.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      How long does the assessment process take?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      Most speech and language assessments require 1-2 sessions, each lasting about 60-90 minutes. After the
+                      assessment, it typically takes 1-2 weeks to prepare the report and schedule a follow-up meeting to discuss
+                      results and recommendations.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      What happens after the assessment?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      After the assessment, our speech-language pathologist will prepare a detailed report outlining your child's
+                      communication strengths and challenges, along with specific recommendations. We'll schedule a follow-up
+                      meeting to review the findings and discuss appropriate intervention options, including therapy services if
+                      needed.
+                    </p>
+                  </div>
+                </details>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -506,13 +630,13 @@ export default function SpeechLanguagePage() {
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Ready to get started?
             <br />
-            Purchase an assessment today.
+            Explore our assessment options.
           </h2>
           <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
             <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
-              <Link href="#assessments">View Assessments</Link>
+              <Link href="/consultation">Book Now</Link>
             </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
+            <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
               <Link href="/contact">Contact Us</Link>
             </Button>
           </div>

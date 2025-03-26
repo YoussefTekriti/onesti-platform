@@ -431,7 +431,7 @@ export default function AssessmentsPage() {
             <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
               <Link href="#categories">View Categories</Link>
             </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
+            <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
               <Link href="/contact">Contact Us</Link>
             </Button>
           </div>

@@ -7,119 +7,152 @@ import { CheckoutModal } from "@/components/assessments/checkout-modal"
 // Assessment data
 const assessments = [
   {
-    id: "sensory-profiling",
-    name: "Sensory Profiling",
-    price: "$300.00",
-    description:
-      "Evaluates a child's sensory processing patterns in different contexts (home, school, community). Assesses sensory systems (auditory, visual, touch, movement, body position, oral) and behaviors (conduct, social-emotional, attention). Identifies whether the child is seeking, avoiding, sensitive, or under-registering sensory input.",
-    benefits: ["Children showing sensory distress or inappropriate reactions to sensory stimuli"],
-    ageRange: "Birth through 14 years, 11 months",
-    sessions: "2–3 sessions",
-    method: "Online, hybrid, or onsite",
-    administrator: "Qualified OT certified in sensory intervention",
-    outcome: "Detailed report + sensory diet recommendations",
-    icon: Brain,
-    color: "bg-blue-100 text-blue-700",
-    image: "/placeholder.svg?height=300&width=500",
-  },
-  {
     id: "developmental-motor",
-    name: "Developmental Motor Scales Assessment",
+    name: "Developmental Motor Scales",
     price: "$200.00",
     description:
-      "Measures early motor development abilities: reflexes, stationary skills, locomotion, object manipulation, grasping, and visual-motor integration.",
-    benefits: ["Babies and children with potential motor difficulties"],
+      "This assessment will help identify any delays in your child's early motor development.",
+    benefits: [
+      "Babies and children from birth to 5 years old presenting with Motor difficulties"
+    ],
     ageRange: "Birth to 5 years",
     sessions: "1–2 sessions",
     method: "Online, hybrid, or onsite",
     administrator: "Qualified occupational therapist",
-    outcome: "Detailed report on motor milestones",
+    outcome: "Upon completion, you will receive a detailed report and a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: Activity,
     color: "bg-purple-100 text-purple-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Developmental Motor Scales",
+        description: "Measures interrelated abilities in early motor development. It is designed to assess motor abilities in children: reflexes, stationary, locomotion, object manipulation, grasping, and visual motor integration."
+      }
+    ]
   },
   {
     id: "visual-motor",
-    name: "Visual Motor Integration Assessment",
+    name: "Visual Motor Integration",
     price: "$200.00",
     description:
-      "Screens for visual perception, fine motor skills, and hand-eye coordination—all prerequisites to future learning. Involves copying geometric forms to identify visual-motor deficits.",
+      "This assessment will help identify any deficits in your child's visual perception, fine motor skills, and hand-eye coordination which are prerequisites to future learning.",
     benefits: [
-      "Individuals with deficits in visual perception or fine motor skills (particularly critical for ages 2–8)",
+      "Individuals 2-8 years to 100 years old who present deficits in visual perception, fine motor skills, and hand-eye coordination"
     ],
     ageRange: "2 years to 100 years old",
     sessions: "1–2 sessions",
     method: "Online, hybrid, or onsite",
     administrator: "Qualified occupational therapist",
-    outcome: "Detailed report on visual-motor integration abilities",
+    outcome: "Upon completion, you will receive a detailed report and a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: Eye,
     color: "bg-green-100 text-green-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Visual Motor Integration",
+        description: "This Developmental Test of Visual-Motor Integration is a norm-referenced instrument that permits screening for visual-motor deficits that can underlie learning, behavior, and neuropsychological problems. It requires examinees to copy a sequence of geometric forms using paper and pencil."
+      }
+    ]
   },
   {
     id: "functional-independence",
-    name: "The Functional Independence Measure",
+    name: "Functional Independence Measure",
     price: "$250.00",
     description:
-      "Assesses a child's autonomy in performing daily life activities. Identifies challenges or difficulties in self-care, mobility, and other functional tasks.",
-    benefits: ["Children with difficulties performing routine activities independently"],
-    ageRange: "6 months to 7 years old",
+      "This assessment will help identify the difficulties that your child has when performing daily life activities.",
+    benefits: [
+      "Any child between 6 months and 7 years presenting with challenges or difficulties in performing daily life activities"
+    ],
+    ageRange: "6 months to 7 years",
     sessions: "2–3 sessions",
     method: "Online, hybrid, or onsite",
     administrator: "Qualified occupational therapist",
-    outcome: "Detailed report outlining functional strengths and weaknesses",
+    outcome: "Upon completion, you will receive a detailed report and a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: Sparkles,
     color: "bg-amber-100 text-amber-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Functional Independence Measure",
+        description: "An instrument for the clinical evaluation of autonomy in children."
+      }
+    ]
+  },
+  {
+    id: "sensory-profile",
+    name: "Sensory Profile 2",
+    price: "$300.00",
+    description:
+      "This assessment will help identify your child's sensory processing patterns underlying the presence of any sensory distress or inappropriate reaction towards any kind of sensory stimulus which adversely affects your child's performance in daily life activities.",
+    benefits: [
+      "Children from birth through 14 years, 11 months presenting signs of sensory distress or inappropriate behavior towards any kind of sensory stimulus that affect their performance in daily life"
+    ],
+    ageRange: "Birth through 14 years, 11 months",
+    sessions: "2–3 sessions",
+    method: "Online, hybrid, or onsite",
+    administrator: "Qualified occupational therapist certified in sensory intervention",
+    outcome: "Upon completion, you will receive a detailed report and a sensory diet will be recommended. A meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
+    icon: Brain,
+    color: "bg-blue-100 text-blue-700",
+    image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Sensory Profile 2",
+        description: "The Sensory Profile 2 family of assessments provides standardized tools to help evaluate a child's sensory processing patterns in the context of home, school, and community-based activities. It evaluates sensory system scores (auditory, visual, touch, movement body position, oral), behavior scores (conduct, social-emotional, attentional), sensory-pattern scores (seeking, avoiding, sensitivity, registration), and school factor scores (supports, awareness, tolerance, availability)."
+      }
+    ]
   },
   {
     id: "visual-perception",
-    name: "The Developmental Test of Visual Perception",
+    name: "Developmental Test of Visual Perception",
     price: "$200.00",
     description:
-      "Evaluates visual perception skills (eye-motor coordination, figure-ground, form constancy, spatial relationships). Provides perceptual age equivalents and a total perceptual quotient (similar to an IQ approach).",
-    benefits: ["Children with academic difficulties (geometry, math, reading, writing)"],
-    ageRange: "3 years 4 months to 10 years old",
+      "This assessment will help evaluate the different aspects related to your child's visual perception skills which are prerequisites to academic performance.",
+    benefits: [
+      "Children from 3 years and 4 months to 10 years of age",
+      "Children with academic difficulties in the areas of geometry and math",
+      "Children with difficulties in reading and writing",
+      "Children with difficulty in reproduction of simple pictures or copying from board to paper"
+    ],
+    ageRange: "3 years 4 months to 10 years",
     sessions: "1–2 sessions",
     method: "Online, hybrid, or onsite",
     administrator: "Qualified occupational therapist",
-    outcome: "Detailed report on visual perceptual abilities",
+    outcome: "Upon completion, you will receive a detailed report and a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: Eye,
     color: "bg-red-100 text-red-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Developmental Test of Visual Perception",
+        description: "A set of tests designed to assess aspects of visual perception skills in children. The tests aim to assess eye-motor coordination, perception of figure-ground, perception of form constancy, perception of position in space, and perception of spatial relationships. Raw scores for each sub-test can be converted to a perceptual age equivalent, representing the age at which the average child achieves this score, and a total perceptual quotient can then be derived in a manner similar to that used for determining an intelligence quotient."
+      }
+    ]
   },
   {
     id: "scholarly-tools",
-    name: "The Manipulation of Scholarly Tools",
+    name: "Manipulation of Scholarly Tools",
     price: "$150.00",
     description:
-      "Observes and assesses manual skills needed for using school tools (cutting, gluing, tracing, etc.). Evaluates prehension, dexterity, bimanual coordination, and overall functional manipulations.",
-    benefits: ["School-age children who have difficulty using or manipulating school supplies"],
-    ageRange: "Grade 2 to Grade 6 (approximately)",
+      "This assessment will help evaluate the underlying causes related to your child's difficulty in using or manipulating school related supplies or ability to perform required motor tasks.",
+    benefits: [
+      "Any school-age child facing any difficulty in using or manipulating school related supplies or problem with fine motor or hand dexterity"
+    ],
+    ageRange: "Grade 2 to Grade 6 (with adaptation)",
     sessions: "1–2 sessions",
     method: "Online, hybrid, or onsite",
     administrator: "Qualified occupational therapist",
-    outcome: "Detailed report on fine motor and coordination skills for school tasks",
+    outcome: "Upon completion, you will receive a detailed report and a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: HandMetal,
     color: "bg-blue-100 text-blue-700",
     image: "/placeholder.svg?height=300&width=500",
-  },
-  {
-    id: "occupational-bundle",
-    name: "The Occupational Assessment Bundle",
-    price: "$450.00",
-    description:
-      "Holistic evaluation of a child's motor, cognitive, and daily living skills. Uses standardized tests to identify strengths, challenges, and areas for development in fine/gross motor abilities, problem-solving, and ADLs (dressing, feeding, hygiene).",
-    benefits: ["Children with developmental delays, learning difficulties, or challenges in performing daily tasks"],
-    ageRange: "Children of all ages",
-    sessions: "3–4 sessions",
-    method: "Online, hybrid, or onsite",
-    administrator: "Licensed occupational therapist with pediatric expertise",
-    outcome: "Comprehensive report covering multiple skill areas",
-    icon: Puzzle,
-    color: "bg-purple-100 text-purple-700",
-    image: "/placeholder.svg?height=300&width=500",
-  },
+    details: [
+      {
+        title: "Manipulation of Scholarly Tools",
+        description: "This test aims at harmonizing and formalizing the observation of manual skills in the use of school tools by school-age children suspected of being 'clumsy'. This observation takes place as part of the assessment of functional manipulations, in order to determine the effectiveness of prehension, dexterity, bimanual coordination and the ability to perform school life motor tasks: cutting, gluing, trimming, tracing…"
+      }
+    ]
+  }
 ]
 
 export default function OccupationalTherapyPage() {
@@ -139,8 +172,8 @@ export default function OccupationalTherapyPage() {
               <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
                 <Link href="#assessments">View Assessments</Link>
               </Button>
-              <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
-                <Link href="/consultation">Book a Consultation</Link>
+              <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
+                <Link href="/assessments-catalog">Back to Categories</Link>
               </Button>
             </div>
           </div>
@@ -233,6 +266,20 @@ export default function OccupationalTherapyPage() {
 
                     <p className="text-gray-600 mb-6">{assessment.description}</p>
 
+                    {assessment.details && assessment.details.length > 0 && (
+                      <div className="mb-6">
+                        <h4 className="font-semibold text-gray-900 mb-2">Assessment Details:</h4>
+                        <div className="space-y-4">
+                          {assessment.details.map((detail, idx) => (
+                            <div key={idx} className="border-l-2 border-[#4b2e83] pl-3">
+                              <h5 className="font-medium text-[#4b2e83]">{detail.title}</h5>
+                              <p className="text-sm text-gray-600">{detail.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                       <div>
                         <h4 className="font-semibold text-gray-900 mb-2">Who Benefits:</h4>
@@ -284,50 +331,173 @@ export default function OccupationalTherapyPage() {
       </div>
 
       {/* FAQ Section */}
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Find answers to common questions about our occupational therapy assessment services.
-          </p>
-        </div>
+      <div className="bg-gray-50 py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              Find answers to common questions about our occupational therapy assessment services.
+            </p>
+          </div>
 
-        <div className="mx-auto mt-16 max-w-2xl divide-y divide-gray-900/10">
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              How do I know if my child needs an occupational therapy assessment?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              Consider an assessment if your child has difficulty with fine motor skills, sensory processing, self-care
-              tasks, or shows delays in developmental milestones. If you're unsure, our team can help determine if an
-              assessment would be beneficial during an initial consultation.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              What happens during an occupational therapy assessment?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              The assessment typically involves standardized testing, clinical observations, and parent interviews.
-              Depending on the specific assessment, your child may be asked to perform various tasks that evaluate motor
-              skills, sensory processing, visual perception, or functional abilities.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">How should we prepare for the assessment?</h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              Ensure your child is well-rested and has eaten before the assessment. Bring any relevant medical records
-              or previous evaluations. For online assessments, make sure you have a quiet space with good lighting and a
-              stable internet connection.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">What happens after the assessment?</h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              After completing the assessment, our team will analyze the results and prepare a detailed report. We'll
-              then schedule a follow-up meeting to discuss the findings, answer any questions, and develop a plan for
-              intervention or support if needed.
-            </p>
+          <div className="mx-auto mt-16 max-w-3xl">
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      How do I know if my child needs an occupational therapy assessment?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      Consider an assessment if your child has difficulty with fine motor skills, sensory processing, self-care
+                      tasks, or shows delays in developmental milestones. If you're unsure, our team can help determine if an
+                      assessment is needed during an initial consultation.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      What happens during an occupational therapy assessment?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      Assessments typically involve standardized testing, observation of skills and behaviors, and parent/caregiver
+                      interviews. The therapist will evaluate areas such as fine and gross motor skills, sensory processing,
+                      visual-motor integration, and functional performance in daily activities.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      How long does the assessment process take?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      Most occupational therapy assessments require 1-2 sessions, each lasting about 60-90 minutes. After the
+                      assessment, it typically takes 1-2 weeks to prepare the comprehensive report and schedule a follow-up
+                      meeting to discuss results and recommendations.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      What happens after the assessment?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      After the assessment, our occupational therapist will prepare a detailed report outlining your child's
+                      strengths and challenges, along with specific recommendations. We'll schedule a follow-up meeting to review
+                      the findings and discuss appropriate intervention options, including therapy services if needed.
+                    </p>
+                  </div>
+                </details>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -338,13 +508,13 @@ export default function OccupationalTherapyPage() {
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Ready to get started?
             <br />
-            Book an assessment today.
+            Explore our assessment options.
           </h2>
           <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
             <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
               <Link href="/consultation">Book Now</Link>
             </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
+            <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
               <Link href="/contact">Contact Us</Link>
             </Button>
           </div>

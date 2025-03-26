@@ -11,50 +11,72 @@ const assessments = [
     name: "Anxiety Assessment",
     price: "$150.00",
     description:
-      "Screens for a range of anxiety-related disorders (generalized, separation, social, panic). Identifies presence and severity of anxiety symptoms.",
+      "This assessment will help identify the presence of anxiety symptoms in children and adolescents and assess the severity of anxiety-related difficulties.",
     benefits: [
-      "Children and adolescents who exhibit symptoms of anxiety (excessive worry, fear, or avoidance behaviors)",
+      "Children and adolescents aged 8 to 18 years experiencing symptoms of anxiety"
     ],
     ageRange: "8 to 18 years",
     sessions: "1–2 sessions",
     method: "Online, hybrid, or onsite",
     administrator: "Qualified psychologist",
-    outcome: "Detailed results on anxiety symptom severity",
+    outcome: "Upon completion, a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: Brain,
     color: "bg-blue-100 text-blue-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Anxiety Assessment",
+        description: "A screening tool designed to assess anxiety-related disorders in children and adolescents. It evaluates various domains of anxiety, including generalized anxiety disorder, separation anxiety disorder, social anxiety disorder, and panic disorder, aiding in the identification of anxiety symptoms in young individuals."
+      }
+    ]
   },
   {
     id: "depression",
     name: "Depression Assessment",
     price: "$150.00",
     description:
-      "Evaluates depressive symptoms (mood, behavior, physical symptoms, interpersonal relationships). Provides a quantitative measure of depression severity.",
-    benefits: ["Children and adolescents experiencing low mood, loss of interest, or other depressive symptoms"],
+      "This assessment will help identify the presence of depressive symptoms in children and adolescents. It also measures the severity of depression and related difficulties.",
+    benefits: [
+      "Children and adolescents aged 6 to 17 years with depressive symptoms"
+    ],
     ageRange: "6 to 17 years",
     sessions: "1–2 sessions",
     method: "Online, hybrid, or onsite",
     administrator: "Qualified psychologist",
-    outcome: "Insight into depression severity and related impairments",
+    outcome: "Upon completion, a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: HeartHandshake,
     color: "bg-purple-100 text-purple-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Depression Assessment",
+        description: "An assessment tool for measuring depression symptoms in children and adolescents. It evaluates various aspects of depression, including mood, behavior, physical symptoms, and interpersonal relationships, providing a quantitative measure of depressive symptoms."
+      }
+    ]
   },
   {
     id: "self-esteem",
     name: "Self-Esteem Assessment",
     price: "$150.00",
     description:
-      "A self-report questionnaire measuring self-worth, self-acceptance, and self-confidence. Provides a quantitative measure of overall self-esteem.",
-    benefits: ["Adolescents and adults seeking to understand or improve their self-esteem levels"],
+      "This assessment will provide a quantitative measure of an individual's overall self-esteem in adolescents and adults.",
+    benefits: [
+      "Adolescents and adults seeking to understand or improve their self-esteem levels"
+    ],
     ageRange: "Adolescents and adults",
     sessions: "1–2 sessions",
     method: "Online, hybrid, or onsite",
     administrator: "Qualified psychologist",
-    outcome: "Detailed measure of self-esteem",
+    outcome: "Upon completion, a meeting will be scheduled with the Onesti team to discuss the findings and plan for intervention.",
     icon: Sparkles,
     color: "bg-green-100 text-green-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Self-Esteem Assessment",
+        description: "A self-report questionnaire used to assess an individual's level of self-esteem. The scale evaluates feelings of self-worth, self-acceptance, and self-confidence, providing a quantitative measure of overall self-esteem. It is suitable for individuals across a wide age range, from adolescence to adulthood."
+      }
+    ]
   },
 ]
 
@@ -75,8 +97,8 @@ export default function SocialEmotionalPage() {
               <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
                 <Link href="#assessments">View Assessments</Link>
               </Button>
-              <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
-                <Link href="/consultation">Book a Consultation</Link>
+              <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
+                <Link href="/assessments-catalog">Back to Categories</Link>
               </Button>
             </div>
           </div>
@@ -169,6 +191,20 @@ export default function SocialEmotionalPage() {
 
                     <p className="text-gray-600 mb-6">{assessment.description}</p>
 
+                    {assessment.details && assessment.details.length > 0 && (
+                      <div className="mb-6">
+                        <h4 className="font-semibold text-gray-900 mb-2">Assessment Details:</h4>
+                        <div className="space-y-4">
+                          {assessment.details.map((detail, idx) => (
+                            <div key={idx} className="border-l-2 border-[#4b2e83] pl-3">
+                              <h5 className="font-medium text-[#4b2e83]">{detail.title}</h5>
+                              <p className="text-sm text-gray-600">{detail.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                       <div>
                         <h4 className="font-semibold text-gray-900 mb-2">Who Benefits:</h4>
@@ -220,49 +256,174 @@ export default function SocialEmotionalPage() {
       </div>
 
       {/* FAQ Section */}
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Find answers to common questions about our social emotional assessment services.
-          </p>
-        </div>
+      <div className="bg-gray-50 py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              Find answers to common questions about our social emotional assessment services.
+            </p>
+          </div>
 
-        <div className="mx-auto mt-16 max-w-2xl divide-y divide-gray-900/10">
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              How do I know if my child needs a social emotional assessment?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              Consider an assessment if your child shows signs of excessive worry, sadness, withdrawal, or changes in
-              behavior that affect their daily functioning. If you're unsure, our team can help determine if an
-              assessment would be beneficial during an initial consultation.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">
-              What happens during a social emotional assessment?
-            </h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              The assessment typically involves standardized questionnaires, interviews, and sometimes observations.
-              Depending on the specific assessment, your child may be asked to answer questions about their thoughts,
-              feelings, and behaviors.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">Are the results confidential?</h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              Yes, all assessment results are confidential. We only share information with your written consent, except
-              in situations where there is a risk of harm to self or others, as required by law.
-            </p>
-          </div>
-          <div className="py-6">
-            <h3 className="text-lg font-semibold leading-7 text-gray-900">What happens after the assessment?</h3>
-            <p className="mt-3 text-base leading-7 text-gray-600">
-              After completing the assessment, our team will analyze the results and prepare a detailed report. We'll
-              then schedule a follow-up meeting to discuss the findings, answer any questions, and develop a plan for
-              intervention or support if needed.
-            </p>
+          <div className="mx-auto mt-16 max-w-3xl">
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      How do I know if my child needs a social emotional assessment?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      Consider an assessment if your child shows signs of excessive worry, sadness, withdrawal, or changes in
+                      behavior that affect their daily functioning. If you're unsure, our team can help determine if an
+                      assessment would be beneficial during an initial consultation.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      What happens during a social emotional assessment?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      The assessment typically involves standardized questionnaires, interviews with parents/caregivers, and
+                      sometimes direct observation or activities with the child. We evaluate areas such as emotional regulation,
+                      social skills, anxiety levels, mood, behavior patterns, and overall psychological well-being.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      How long does the assessment process take?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      Most social emotional assessments require 1-2 sessions. After the assessment, it typically takes 1-2 weeks 
+                      to analyze the results and prepare a comprehensive report. We'll then schedule a follow-up meeting to 
+                      discuss findings and recommendations.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white">
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between p-6">
+                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                      What happens after the assessment?
+                    </h3>
+                    <span className="relative h-5 w-5 flex-shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-100 group-open:opacity-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute inset-0 h-5 w-5 opacity-0 group-open:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 pt-0">
+                    <p className="text-base leading-7 text-gray-600">
+                      After the assessment, our psychologist will prepare a detailed report outlining your child's emotional
+                      strengths and challenges, along with specific recommendations. We'll schedule a follow-up meeting to review
+                      the findings and discuss appropriate intervention options, which may include individual therapy, family
+                      therapy, or other support services.
+                    </p>
+                  </div>
+                </details>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -273,13 +434,13 @@ export default function SocialEmotionalPage() {
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Ready to get started?
             <br />
-            Book an assessment today.
+            Explore our assessment options.
           </h2>
           <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
             <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
               <Link href="/consultation">Book Now</Link>
             </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white/10" size="lg" asChild>
+            <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
               <Link href="/contact">Contact Us</Link>
             </Button>
           </div>
