@@ -13,97 +13,242 @@ import { Input } from "@/components/ui/input"
 // Assessment data
 const assessments = [
   {
-    id: "comprehensive-language",
-    name: "Comprehensive Language Assessment",
-    price: "$350.00",
+    id: "speech-assessment-bundle",
+    name: "Speech Assessment Bundle",
+    price: "$250.00",
     description:
-      "A thorough evaluation of receptive and expressive language skills, including vocabulary, grammar, syntax, and pragmatic language use.",
+      "This bundle includes three types of assessments that will help identify your child's weaknesses in the different areas related to speech development.",
     benefits: [
-      "Children with suspected language delays or disorders",
-      "Children struggling with understanding or expressing language",
+      "Individuals of all ages who present difficulty in pronouncing certain phonemes",
+      "Individuals with difficulty chewing food",
+      "Children with weak oral facial muscle tone",
+      "Children who have difficulty pronouncing certain speech sounds correctly",
+      "Children who present difficulty identifying sounds and present speech delays"
     ],
-    ageRange: "2 to 18 years",
-    sessions: "2–3 sessions",
+    ageRange: "3 years and above",
+    sessions: "1 session per assessment (3 total)",
     method: "Online, hybrid, or onsite",
-    administrator: "Licensed speech-language pathologist",
-    outcome: "Detailed report on language abilities and recommendations",
+    administrator: "Qualified speech and language therapist",
+    outcome: "A detailed report and a meeting with the Onesti team to discuss findings and intervention plans",
     icon: MessageSquareText,
     color: "bg-blue-100 text-blue-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Oral Motor Skills Assessment",
+        description: "Evaluates the movement of muscles of the face (e.g. lips and jaw) and oral area (e.g. tongue and soft palate), especially the movements related to speech."
+      },
+      {
+        title: "Articulation Assessment",
+        description: "Evaluates the ability to produce clear and accurate speech sounds such as consonant sounds at the beginning, middle, and end of words."
+      },
+      {
+        title: "Auditory Discrimination Assessment",
+        description: "Screens children for early auditory and phonological skills."
+      }
+    ]
   },
   {
-    id: "articulation-phonology",
-    name: "Articulation and Phonology Assessment",
-    price: "$250.00",
+    id: "early-communication",
+    name: "Early Communication Assessment",
+    price: "$150.00",
     description:
-      "Evaluates speech sound production, including articulation of individual sounds and phonological patterns in connected speech.",
+      "This assessment will help identify the presence of delays in your child's communication and speech milestones.",
     benefits: [
-      "Children with unclear speech or difficulty pronouncing certain sounds",
-      "Children whose speech is difficult to understand by others",
+      "Children under 3 years of age presenting delays in communication and speech milestones"
     ],
-    ageRange: "3 to 12 years",
-    sessions: "1–2 sessions",
+    ageRange: "Birth to 36 months",
+    sessions: "2 sessions",
     method: "Online, hybrid, or onsite",
-    administrator: "Licensed speech-language pathologist",
-    outcome: "Detailed report on speech sound abilities and recommendations",
-    icon: Brain,
+    administrator: "Qualified speech and language therapist",
+    outcome: "A detailed report and a meeting with the Onesti team to discuss findings and intervention plans",
+    icon: MessageSquareText,
     color: "bg-purple-100 text-purple-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Early Communication Assessment",
+        description: "Assesses the earliest communication behaviors and emerging language abilities for infants and toddlers up to 36 months old."
+      }
+    ]
   },
   {
-    id: "fluency",
-    name: "Fluency Assessment",
-    price: "$200.00",
+    id: "spoken-language",
+    name: "Spoken Language Assessment",
+    price: "$250.00",
     description:
-      "Evaluates the frequency and type of disfluencies (stuttering), as well as any secondary behaviors and the impact on communication.",
+      "This assessment will help identify any delays in the different components related to your child's spoken language skills.",
     benefits: [
-      "Children and adults who stutter or have other fluency disorders",
-      "Individuals experiencing blocks, repetitions, or prolongations in their speech",
+      "Children who have difficulty acquiring new vocabulary",
+      "Children who struggle to express ideas and thoughts in correct grammatical form"
     ],
-    ageRange: "3 years through adulthood",
-    sessions: "1–2 sessions",
+    ageRange: "4 years to 8 years, 11 months",
+    sessions: "2-3 sessions",
     method: "Online, hybrid, or onsite",
-    administrator: "Licensed speech-language pathologist",
-    outcome: "Detailed report on fluency patterns and recommendations",
+    administrator: "Qualified speech and language therapist",
+    outcome: "A detailed report and a meeting with the Onesti team to discuss findings and intervention plans",
     icon: Sparkles,
     color: "bg-green-100 text-green-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Spoken Language Assessment",
+        description: "Assesses children's spoken language skills from the ability to combine sounds and words, to constructing meaningful sentences in addition to understanding vocabulary and morphological comprehension."
+      }
+    ]
   },
   {
-    id: "social-communication",
-    name: "Social Communication Assessment",
-    price: "$300.00",
+    id: "oral-language",
+    name: "Oral Language Assessment",
+    price: "$250.00",
     description:
-      "Evaluates pragmatic language skills, including conversation skills, nonverbal communication, and social understanding.",
+      "This assessment will help identify any delays in the different components related to your child's listening comprehension skills.",
     benefits: [
-      "Children with difficulty in social interactions",
-      "Individuals with autism spectrum disorder or social communication disorder",
+      "Children 4 years or above who have difficulty following directives",
+      "Children who find it difficult to participate in or follow a conversation"
     ],
-    ageRange: "4 to 18 years",
-    sessions: "2–3 sessions",
+    ageRange: "4 years and above",
+    sessions: "2-3 sessions",
     method: "Online, hybrid, or onsite",
-    administrator: "Licensed speech-language pathologist",
-    outcome: "Detailed report on social communication abilities and recommendations",
+    administrator: "Qualified speech and language therapist",
+    outcome: "A detailed report and a meeting with the Onesti team to discuss findings and intervention plans",
     icon: HeartHandshake,
     color: "bg-amber-100 text-amber-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Oral Language Assessment",
+        description: "Assesses the listening comprehension of spoken language. It evaluates the ability to integrate and apply knowledge in three structural categories of language: Lexical/Semantic, Syntactic, Supralinguistic. (i.e., Can a student sufficiently understand and retain information heard in class?)"
+      }
+    ]
   },
   {
-    id: "early-language",
-    name: "Early Language Development Assessment",
+    id: "written-language",
+    name: "Written Language Assessment",
     price: "$250.00",
     description:
-      "Evaluates early communication skills, including gestures, sounds, words, and early sentence formation in young children.",
-    benefits: ["Toddlers with suspected language delays", "Children who are late to start talking or using gestures"],
-    ageRange: "12 months to 3 years",
-    sessions: "1–2 sessions",
+      "This assessment will help identify any delays in the different components related to your child's written language skills.",
+    benefits: [
+      "Children 5 years or above having a hard time understanding and acquiring written language"
+    ],
+    ageRange: "5 years and above",
+    sessions: "2-3 sessions",
     method: "Online, hybrid, or onsite",
-    administrator: "Licensed speech-language pathologist",
-    outcome: "Detailed report on early language development and recommendations",
+    administrator: "Qualified speech and language therapist",
+    outcome: "A detailed report and a meeting with the Onesti team to discuss findings and intervention plans",
     icon: MessageSquareText,
     color: "bg-red-100 text-red-700",
     image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Written Language Assessment",
+        description: "Measures the written language skills. It evaluates skills such as reading skills, reading comprehension, vocabulary comprehension, spelling, sentence writing, logical sentencing and ability to construct a story."
+      }
+    ]
   },
+  {
+    id: "phonological-processing",
+    name: "Phonological Processing Assessment",
+    price: "$100.00",
+    description:
+      "This assessment will help identify any delays related to your child's phonological processing abilities which are fundamental to the acquisition of reading skills.",
+    benefits: [
+      "Children 4-6 years old having problems saying words correctly",
+      "Children who struggle with identifying rhymes",
+      "Children who find spelling difficult"
+    ],
+    ageRange: "4-6 years",
+    sessions: "1 session",
+    method: "Online, hybrid, or onsite",
+    administrator: "Qualified speech and language therapist",
+    outcome: "A detailed report and a meeting with the Onesti team to discuss findings and intervention plans",
+    icon: Brain,
+    color: "bg-blue-100 text-blue-700",
+    image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Phonological Processing Assessment",
+        description: "Evaluates phonological processing abilities which is a prerequisite to reading fluency. This measure evaluates phonological awareness, phonological memory, and naming."
+      }
+    ]
+  },
+  {
+    id: "articulation-assessment",
+    name: "Articulation Assessment",
+    price: "$100.00",
+    description:
+      "This assessment will help identify the underlying causes for any difficulties related to your child's articulation development.",
+    benefits: [
+      "Individuals 3 years or above who present weak oral facial muscle tone",
+      "Children who have difficulty pronouncing certain speech sounds correctly"
+    ],
+    ageRange: "3 years and above",
+    sessions: "1 session",
+    method: "Online, hybrid, or onsite",
+    administrator: "Qualified speech and language therapist",
+    outcome: "A detailed report and a meeting with the Onesti team to discuss findings and intervention plans",
+    icon: MessageSquareText,
+    color: "bg-purple-100 text-purple-700",
+    image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Articulation Assessment",
+        description: "Evaluates the ability to produce clear and accurate speech sounds such as consonant sounds at the beginning, middle, and end of words."
+      }
+    ]
+  },
+  {
+    id: "auditory-discrimination",
+    name: "Auditory Discrimination Assessment",
+    price: "$100.00",
+    description:
+      "This assessment will help identify any delays related to your child's auditory and phonological processing abilities which are fundamental to the acquisition of speech skills.",
+    benefits: [
+      "Children from 3 years 6 months to 6 years 11 months who present difficulty identifying sounds",
+      "Children with speech delays"
+    ],
+    ageRange: "3 years 6 months to 6 years 11 months",
+    sessions: "1 session",
+    method: "Online, hybrid, or onsite",
+    administrator: "Qualified speech and language therapist",
+    outcome: "A detailed report and a meeting with the Onesti team to discuss findings and intervention plans",
+    icon: Sparkles,
+    color: "bg-green-100 text-green-700",
+    image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Auditory Discrimination Assessment",
+        description: "Screens children for early auditory and phonological skills."
+      }
+    ]
+  },
+  {
+    id: "feeding-assessment",
+    name: "Feeding Assessment",
+    price: "$250.00",
+    description:
+      "This comprehensive assessment, that is administered by certified feeding therapists, will help identify the underlying causes for any feeding difficulties starting from infancy to 6 years of age.",
+    benefits: [
+      "Infants and children up to 6 years of age with feeding difficulties",
+      "Children with oral structure issues affecting feeding and swallowing",
+      "Children with sensory intolerance to certain foods",
+      "Children with positioning limitations affecting feeding"
+    ],
+    ageRange: "Infancy to 6 years",
+    sessions: "1-2 sessions for babies, 2-3 sessions for toddlers and older children",
+    method: "Online, hybrid, or onsite",
+    administrator: "Certified feeding therapist",
+    outcome: "A detailed report and a meeting with the Onesti team to discuss findings and intervention plans",
+    icon: HeartHandshake,
+    color: "bg-amber-100 text-amber-700",
+    image: "/placeholder.svg?height=300&width=500",
+    details: [
+      {
+        title: "Comprehensive Feeding Assessment",
+        description: "The comprehensive assessment identifies and describes impairments in body structure and function, including which swallowing phases are affected; limitations in activity and participation, including the impact on overall health (including nutrition and hydration) and the child's ability to participate in routine activities; contextual factors that serve as barriers to or facilitators of successful nutritional intake; positioning limitations and motor skills; and sensory preferences and avoidance."
+      }
+    ]
+  }
 ]
 
 export default function SpeechLanguagePage() {
@@ -240,6 +385,20 @@ export default function SpeechLanguagePage() {
                     </div>
 
                     <p className="text-gray-600 mb-6">{assessment.description}</p>
+
+                    {assessment.details && assessment.details.length > 0 && (
+                      <div className="mb-6">
+                        <h4 className="font-semibold text-gray-900 mb-2">Assessment Details:</h4>
+                        <div className="space-y-4">
+                          {assessment.details.map((detail, idx) => (
+                            <div key={idx} className="border-l-2 border-[#4b2e83] pl-3">
+                              <h5 className="font-medium text-[#4b2e83]">{detail.title}</h5>
+                              <p className="text-sm text-gray-600">{detail.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                       <div>
