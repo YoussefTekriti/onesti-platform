@@ -49,6 +49,7 @@ const navigationEN: NavigationItem[] = [
         section: "OUR SOLUTIONS",
         items: [
           { name: "Assessments", href: "/assessments-catalog", description: "Comprehensive evaluation services" },
+          { name: "Screenings", href: "/assessments", description: "Developmental screening services" },
           { name: "Therapy Packages", href: "/packages", description: "Customized therapy solutions" },
           { name: "Programs", href: "/programs", description: "Structured development programs" },
           { name: "Trainings", href: "/training", description: "Professional development courses" }
@@ -71,6 +72,7 @@ const navigationAR: NavigationItem[] = [
         section: "حلولنا",
         items: [
           { name: "التقييمات", href: "/assessments-catalog", description: "خدمات التقييم الشاملة" },
+          { name: "الفحوصات", href: "/assessments", description: "خدمات فحص التطور" },
           { name: "باقات العلاج", href: "/packages", description: "حلول علاجية مخصصة" },
           { name: "البرامج", href: "/programs", description: "برامج تطوير منظمة" },
           { name: "التدريبات", href: "/training", description: "دورات التطوير المهني" }
