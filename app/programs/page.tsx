@@ -5,6 +5,18 @@ import { Tab } from "@headlessui/react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
+// Hide scrollbar but keep functionality
+const hideScrollbarStyle = `
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+`;
+
 // Define the program data
 const programsData = [
   {
@@ -106,6 +118,7 @@ export default function ProgramsPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <style jsx global>{hideScrollbarStyle}</style>
       {/* Hero section */}
       <section className="bg-white py-12 md:py-16">
         <div className="container mx-auto px-4">
@@ -125,42 +138,46 @@ export default function ProgramsPage() {
         <Tab.Group>
           <div className="flex flex-col mb-10">
             {/* First row of tabs */}
-            <Tab.List className="flex rounded-t-xl bg-gray-100 p-1">
-              {firstRowPrograms.map((program) => (
-                <Tab
-                  key={program.id}
-                  className={({ selected }) =>
-                    `flex-1 whitespace-nowrap px-6 py-3 text-base font-medium leading-5 transition-all duration-200
-                    ${
-                      selected
-                        ? "bg-white text-onesti-purple shadow"
-                        : "text-gray-600 hover:bg-white/[0.12] hover:text-onesti-purple"
-                    }`
-                  }
-                >
-                  {program.title}
-                </Tab>
-              ))}
-            </Tab.List>
+            <div className="overflow-x-auto pb-1 hide-scrollbar">
+              <Tab.List className="flex min-w-max rounded-t-xl bg-gray-100 p-1">
+                {firstRowPrograms.map((program) => (
+                  <Tab
+                    key={program.id}
+                    className={({ selected }) =>
+                      `whitespace-nowrap px-3 sm:px-6 py-2 text-sm sm:text-base font-medium leading-5 transition-all duration-200 mx-1 first:ml-0 last:mr-0 rounded-t-lg
+                      ${
+                        selected
+                          ? "bg-white text-onesti-purple shadow"
+                          : "text-gray-600 hover:bg-white/[0.12] hover:text-onesti-purple"
+                      }`
+                    }
+                  >
+                    {program.title}
+                  </Tab>
+                ))}
+              </Tab.List>
+            </div>
             
             {/* Second row of tabs */}
-            <Tab.List className="flex rounded-b-xl bg-gray-100 p-1 border-t border-gray-200">
-              {secondRowPrograms.map((program) => (
-                <Tab
-                  key={program.id}
-                  className={({ selected }) =>
-                    `flex-1 whitespace-nowrap px-6 py-3 text-base font-medium leading-5 transition-all duration-200
-                    ${
-                      selected
-                        ? "bg-white text-onesti-purple shadow"
-                        : "text-gray-600 hover:bg-white/[0.12] hover:text-onesti-purple"
-                    }`
-                  }
-                >
-                  {program.title}
-                </Tab>
-              ))}
-            </Tab.List>
+            <div className="overflow-x-auto pb-1 hide-scrollbar">
+              <Tab.List className="flex min-w-max rounded-b-xl bg-gray-100 p-1 border-t border-gray-200">
+                {secondRowPrograms.map((program) => (
+                  <Tab
+                    key={program.id}
+                    className={({ selected }) =>
+                      `whitespace-nowrap px-3 sm:px-6 py-2 text-sm sm:text-base font-medium leading-5 transition-all duration-200 mx-1 first:ml-0 last:mr-0 rounded-b-lg
+                      ${
+                        selected
+                          ? "bg-white text-onesti-purple shadow"
+                          : "text-gray-600 hover:bg-white/[0.12] hover:text-onesti-purple"
+                      }`
+                    }
+                  >
+                    {program.title}
+                  </Tab>
+                ))}
+              </Tab.List>
+            </div>
           </div>
             
           <Tab.Panels className="mt-8">
