@@ -17,7 +17,7 @@ const availablePackages = [
   {
     id: "developmental-thrive",
     name: "Developmental Thrive Path",
-    description: "Comprehensive support for developmental delays or conditions",
+    description: "Comprehensive support for developmental delays or challenges",
     url: "/packages", // Updated URL
   },
   {
@@ -39,6 +39,9 @@ const availablePackages = [
     url: "/packages", // Updated URL
   },
 ]
+
+// Developmental screening disclaimer text
+const developmentalScreeningDisclaimer = "This is a screening tool to check for any delays in development. Answer each statement by clicking YES if the statement is observed and NO if it is not. If you're not sure that your child has acquired the skill or that the statement applies SOMETIMES then answer the statement with NO.";
 
 // Map screening categories to recommended packages
 const assessmentPackageMap = {
@@ -804,7 +807,7 @@ const ResultsPopup = ({
               <Link href="/consultation">Book a Consultation</Link>
             </Button>
             <Button asChild className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 w-full sm:w-auto">
-              <Link href="/packages">View Packages</Link>
+              <Link href="/packages">View Sessions</Link>
             </Button>
           </div>
 
@@ -1088,60 +1091,64 @@ export default function AssessmentsPage() {
           )}
 
           {selectedCategory && !showResults && !isValidating && !showResultsPopup && (
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>
-                      {
-                        assessmentCategories
-                          .find((c) => c.screenings.find((s) => s.id === selectedCategory))
-                          ?.screenings.find((s) => s.id === selectedCategory)?.name
-                      }{" "}
-                      Screening
-                    </CardTitle>
-                    <CardDescription>
-                      Question {currentStep} of {currentQuestions.length}
-                    </CardDescription>
-                  </div>
-                  <Button variant="ghost" size="sm" onClick={handleStartOver}>
-                    Cancel
-                  </Button>
+            <div className="mx-auto max-w-xl">
+              <Button
+                variant="ghost"
+                className="mb-4"
+                onClick={handleStartOver}
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Categories
+              </Button>
+
+              {selectedCategory === "developmental" && currentStep === 1 && (
+                <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                  <p className="text-sm text-amber-800">{developmentalScreeningDisclaimer}</p>
                 </div>
-                <Progress value={progress} className="mt-2 bg-[#6EC1E4]/20" />
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-medium">{currentQuestions[currentStep - 1]?.text}</h3>
-                    <div className="grid gap-2">
+              )}
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    {assessmentCategories
+                      .flatMap((set) => set.screenings)
+                      .find((s) => s.id === selectedCategory)?.name || "Screening"}
+                  </CardTitle>
+                  <CardDescription>
+                    Question {currentStep} of {currentQuestions.length}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {currentQuestions.length > 0 && currentStep <= currentQuestions.length && (
+                    <div className="space-y-4">
+                      <p className="text-base leading-7">{currentQuestions[currentStep - 1].text}</p>
                       <QuestionComponent
                         question={currentQuestions[currentStep - 1]}
                         onAnswer={handleAnswer}
-                        answer={answers[currentQuestions[currentStep - 1]?.id]}
+                        answer={answers[currentQuestions[currentStep - 1].id]}
                       />
                     </div>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button
-                  variant="outline"
-                  onClick={handlePrevious}
-                  disabled={currentStep === 1}
-                  className="border-[#4b2e83] text-[#4b2e83]"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" /> Previous
-                </Button>
-                <Button
-                  onClick={handleNext}
-                  disabled={!isCurrentQuestionAnswered()}
-                  className="bg-[#4b2e83] hover:bg-[#4b2e83]/90"
-                >
-                  {currentStep === currentQuestions.length ? "Finish" : "Next"} <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </CardFooter>
-            </Card>
+                  )}
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  <Button
+                    variant="outline"
+                    onClick={handlePrevious}
+                    disabled={currentStep === 1}
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    onClick={handleNext}
+                    disabled={!isCurrentQuestionAnswered()}
+                    className="bg-[#4b2e83] hover:bg-[#4b2e83]/90"
+                  >
+                    {currentStep === currentQuestions.length ? "Complete" : "Next"}
+                  </Button>
+                </CardFooter>
+              </Card>
+
+              <Progress value={progress} className="mt-6 h-2" />
+            </div>
           )}
 
           {isValidating && <ValidationMessage onComplete={handleValidationComplete} />}
@@ -1322,7 +1329,7 @@ export default function AssessmentsPage() {
                     <Link href="/consultation">Book a Consultation</Link>
                   </Button>
                   <Button asChild className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 w-full sm:w-auto">
-                    <Link href="/packages">View Packages</Link>
+                    <Link href="/packages">View Sessions</Link>
                   </Button>
                 </CardFooter>
               </Card>

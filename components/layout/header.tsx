@@ -41,46 +41,44 @@ type NavigationItem = NavItem | NavItemWithDropdown;
 // Define navigation menu in both languages
 const navigationEN: NavigationItem[] = [
   { name: "I'm a Parent", href: "/#parent-journey" },
-  { name: "I'm a Therapist", href: "/login" },
+  { name: "Programs", href: "/programs" },
+  { name: "Learning", href: "/blogs" },
   {
-    name: "Solutions",
+    name: "Services",
     dropdown: [
       { 
-        section: "OUR SOLUTIONS",
+        section: "OUR SERVICES",
         items: [
           { name: "Assessments", href: "/assessments-catalog", description: "Comprehensive evaluation services" },
           { name: "Screenings", href: "/assessments", description: "Developmental screening services" },
-          { name: "Therapy Packages", href: "/packages", description: "Customized therapy solutions" },
-          { name: "Programs", href: "/programs", description: "Structured development programs" },
+          { name: "Packages", href: "/packages", description: "Customized therapy solutions" },
           { name: "Trainings", href: "/training", description: "Professional development courses" }
         ]
       }
     ]
   },
-  { name: "Learning", href: "/blogs" },
   { name: "About Onesti", href: "/about" },
   { name: "Contact", href: "/contact" }
 ]
 
 const navigationAR: NavigationItem[] = [
   { name: "أنا والد", href: "/#parent-journey" },
-  { name: "أنا معالج", href: "/login" },
+  { name: "البرامج", href: "/programs" },
+  { name: "التعلم", href: "/blogs" },
   {
-    name: "الحلول",
+    name: "الخدمات",
     dropdown: [
       {
-        section: "حلولنا",
+        section: "خدماتنا",
         items: [
           { name: "التقييمات", href: "/assessments-catalog", description: "خدمات التقييم الشاملة" },
           { name: "الفحوصات", href: "/assessments", description: "خدمات فحص التطور" },
-          { name: "باقات العلاج", href: "/packages", description: "حلول علاجية مخصصة" },
-          { name: "البرامج", href: "/programs", description: "برامج تطوير منظمة" },
+          { name: "الباقات", href: "/packages", description: "حلول علاجية مخصصة" },
           { name: "التدريبات", href: "/training", description: "دورات التطوير المهني" }
         ]
       }
     ]
   },
-  { name: "التعلم", href: "/blogs" },
   { name: "عن أونستي", href: "/about" },
   { name: "اتصل بنا", href: "/contact" }
 ]

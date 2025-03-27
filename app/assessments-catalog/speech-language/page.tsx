@@ -441,7 +441,7 @@ export default function SpeechLanguagePage() {
                         onClick={() => handleBuyNow(assessment.id)}
                       >
                         <CreditCard className="mr-2 h-4 w-4" /> Buy Now
-                      </Button>
+                        </Button>
                     </div>
                   </div>
                 </div>
@@ -454,21 +454,21 @@ export default function SpeechLanguagePage() {
       {/* FAQ Section */}
       <div className="bg-gray-50 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Find answers to common questions about our speech and language assessment services.
-            </p>
-          </div>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Find answers to common questions about our speech and language assessment services.
+          </p>
+        </div>
 
           <div className="mx-auto mt-16 max-w-3xl">
             <div className="space-y-4">
               <div className="rounded-2xl border border-gray-200 bg-white">
                 <details className="group">
                   <summary className="flex cursor-pointer items-center justify-between p-6">
-                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
-                      How do I know if my child needs a speech or language assessment?
-                    </h3>
+            <h3 className="text-lg font-semibold leading-7 text-gray-900">
+              How do I know if my child needs a speech or language assessment?
+            </h3>
                     <span className="relative h-5 w-5 flex-shrink-0">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -494,20 +494,20 @@ export default function SpeechLanguagePage() {
                   </summary>
                   <div className="px-6 pb-6 pt-0">
                     <p className="text-base leading-7 text-gray-600">
-                      Consider an assessment if your child has difficulty being understood, seems to struggle understanding
-                      language, has a limited vocabulary, or is not meeting communication milestones. If you're unsure, our team
-                      can help determine if an assessment would be beneficial during an initial consultation.
-                    </p>
-                  </div>
+              Consider an assessment if your child has difficulty being understood, seems to struggle understanding
+              language, has a limited vocabulary, or is not meeting communication milestones. If you're unsure, our team
+              can help determine if an assessment would be beneficial during an initial consultation.
+            </p>
+          </div>
                 </details>
               </div>
 
               <div className="rounded-2xl border border-gray-200 bg-white">
                 <details className="group">
                   <summary className="flex cursor-pointer items-center justify-between p-6">
-                    <h3 className="text-lg font-semibold leading-7 text-gray-900">
-                      What happens during a speech and language assessment?
-                    </h3>
+            <h3 className="text-lg font-semibold leading-7 text-gray-900">
+              What happens during a speech and language assessment?
+            </h3>
                     <span className="relative h-5 w-5 flex-shrink-0">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -536,8 +536,8 @@ export default function SpeechLanguagePage() {
                       The assessment typically involves standardized testing, observations of communication skills, and
                       parent/caregiver interviews. The speech-language pathologist will evaluate areas such as articulation,
                       language comprehension, expression, voice quality, fluency, and social communication skills as appropriate.
-                    </p>
-                  </div>
+            </p>
+          </div>
                 </details>
               </div>
 
@@ -575,8 +575,8 @@ export default function SpeechLanguagePage() {
                       Most speech and language assessments require 1-2 sessions, each lasting about 60-90 minutes. After the
                       assessment, it typically takes 1-2 weeks to prepare the report and schedule a follow-up meeting to discuss
                       results and recommendations.
-                    </p>
-                  </div>
+            </p>
+          </div>
                 </details>
               </div>
 

@@ -21,19 +21,21 @@ const packages = [
   {
     id: "developmental-thrive",
     name: "Developmental Thrive Path",
-    description: "Comprehensive support for developmental delays or conditions",
-    price: 840,
-    regionalPrice: 600,
+    description: "Comprehensive support for developmental delays or challenges",
+    price: 840,  // Global price for the entire package
+    displayPrice: 70, // Price shown per session
+    regionalPrice: 600, // Regional discount price
+    sessionCount: 12,
     features: [
       "In-depth initial assessment with a multidisciplinary review",
-      "12 therapy sessions to be used at the child's requirement",
-      "Personalized dashboard with progress tracking",
-      "One Facilitator Coaching session",
+      "12 therapy sessions to be used flexibly",
+      "The 1plan Personalized intervention with targeted objectives",
+      "Parent support strategies to implement plan objectives in daily life",
+      "Access to an interactive personalized dashboard with progress tracking",
       "Calendar integration with reminders",
       "4 video reviews with detailed feedback",
-      "Secure messaging and live chat with therapists",
       "Regular parent and therapist coordination meetings",
-      "Dedicated case manager for coordination",
+      "Dedicated Technical Advisor for coordination",
     ],
     recommended: true,
   },
@@ -41,17 +43,20 @@ const packages = [
     id: "developmental-empower",
     name: "Developmental Empower Path",
     description: "Balanced support for developmental needs",
-    price: 600,
-    regionalPrice: 400,
+    price: 600,  // Global price for the entire package
+    displayPrice: 75, // Price shown per session
+    regionalPrice: 400, // Regional discount price
+    sessionCount: 8,
     features: [
       "In-depth initial assessment with a multidisciplinary review",
       "8 therapy sessions to be used flexibly",
-      "Bi-monthly progress/coordination meetings",
-      "Personalized dashboard with progress tracking",
+      "The 1plan Personalized intervention with targeted objectives",
+      "Parent support strategies to implement plan objectives in daily life",
+      "Regular progress/coordination meetings",
+      "Access to an interactive personalized dashboard with progress tracking",
       "Calendar integration with reminders",
       "2 video reviews with detailed feedback",
-      "Parental guidance sessions",
-      "Dedicated case manager for coordination",
+      "Dedicated Technical Advisor for coordination",
     ],
     recommended: false,
   },
@@ -59,15 +64,18 @@ const packages = [
     id: "developmental-nurture",
     name: "Developmental Nurture Path",
     description: "Essential support for developmental needs",
-    price: 320,
-    regionalPrice: 200,
+    price: 320,  // Global price for the entire package
+    displayPrice: 80, // Price shown per session
+    regionalPrice: 200, // Regional discount price
+    sessionCount: 4,
     features: [
       "In-depth initial assessment with a multidisciplinary review",
       "4 therapy sessions to be used flexibly",
-      "One progress/coordination meeting/Month",
-      "Personalized dashboard with progress tracking",
+      "The 1plan Personalized intervention with targeted objectives",
+      "Parent support strategies to implement plan objectives in daily life",
+      "Access to an interactive personalized dashboard with progress tracking",
       "Calendar integration with reminders",
-      "Dedicated case manager for coordination",
+      "Dedicated Technical Advisor for coordination",
     ],
     recommended: false,
   },
@@ -87,14 +95,16 @@ const routinePackages = [
     id: "routine-thrive",
     name: "Routine Thrive Path",
     description: "Comprehensive support for routine-based challenges",
-    price: 420,
-    regionalPrice: 300,
+    price: 420,  // Global price for the entire package
+    displayPrice: 70, // Price shown per session
+    regionalPrice: 300, // Regional discount price
+    sessionCount: 10,
     features: [
-      "In-depth initial assessment with a multidisciplinary review",
-      "6 therapy sessions",
-      "Personalized dashboard with progress tracking",
-      "Parent education hub with resources",
-      "Personalized therapy plan with targeted objectives",
+      "10 intervention sessions",
+      "A report detailing results of the screening checklist",
+      "The 1plan which includes the targeted objectives",
+      "Access to an interactive personalized dashboard with progress tracking",
+      "6 video review for feedback",
     ],
     recommended: true,
   },
@@ -102,12 +112,16 @@ const routinePackages = [
     id: "routine-empower",
     name: "Routine Empower Path",
     description: "Balanced support for routine-based challenges",
-    price: 300,
-    regionalPrice: 200,
+    price: 300,  // Global price for the entire package
+    displayPrice: 75, // Price shown per session
+    regionalPrice: 200, // Regional discount price
+    sessionCount: 8,
     features: [
-      "In-depth initial assessment with a multidisciplinary review",
-      "4 therapy sessions",
-      "Access to basic digital progress tracking",
+      "8 intervention sessions",
+      "A report detailing results of the screening checklist",
+      "The 1plan Personalized intervention with targeted objectives",
+      "Access to an interactive personalized dashboard with progress tracking",
+      "4 video review for feedback",
     ],
     recommended: false,
   },
@@ -115,12 +129,16 @@ const routinePackages = [
     id: "routine-nurture",
     name: "Routine Nurture Path",
     description: "Essential support for routine-based challenges",
-    price: 160,
-    regionalPrice: 100,
+    price: 160,  // Global price for the entire package
+    displayPrice: 80, // Price shown per session
+    regionalPrice: 100, // Regional discount price
+    sessionCount: 4,
     features: [
-      "In-depth initial assessment with a multidisciplinary review",
-      "2 therapy sessions",
-      "Access to basic digital progress tracking",
+      "4 intervention sessions",
+      "A report detailing results of the screening checklist",
+      "The 1plan Personalized intervention with targeted objectives",
+      "Access to an interactive personalized dashboard with progress tracking",
+      "2 Video review for feedback",
     ],
     recommended: false,
   },
@@ -129,72 +147,129 @@ const routinePackages = [
 // Add ABA therapy packages
 const abaPackages = [
   {
-    id: "aba-thrive",
-    name: "ABA Thrive Path",
-    description: "Comprehensive support for complex behavioral needs",
-    price: 1200,
-    regionalPrice: 800,
+    id: "aba-school-starter",
+    name: "ABA Intensive Starter Path",
+    description: "Intensive support for complex behavioral needs (first month of intervention)",
+    price: 576,  // Global price for the entire package (12 hours × $48)
+    displayPrice: 48, // Price shown per hour
+    regionalPrice: 576, // Regional discount price
+    sessionCount: 12,
     features: [
-      "Multidisciplinary assessment",
-      "10 ABA sessions + additional therapist input",
+      "12 hours of ABA intervention",
       "Personalized behavior intervention plan",
+      "Detailed feedback and recommendations",
+      "Implementation of customized reinforcement plan",
       "Regular progress monitoring",
-      "Parent training sessions",
+      "Documentation of milestones and achievements",
     ],
     recommended: true,
   },
   {
-    id: "aba-empower",
-    name: "ABA Empower Path",
-    description: "Balanced support for moderate behavioral needs",
-    price: 840,
-    regionalPrice: 540,
+    id: "aba-school-followup",
+    name: "Follow-up & Reinforcement Path",
+    description: "Second month of intervention",
+    price: 432,  // Global price for the entire package (8 hours × $54)
+    displayPrice: 54, // Price shown per hour
+    regionalPrice: 432, // Regional discount price
+    sessionCount: 8,
     features: [
-      "Multidisciplinary assessment",
-      "6 therapy sessions",
-      "Behavior intervention plan",
-      "Progress monitoring",
+      "8 hours of ABA intervention",
+      "Quality Assurance Measures",
+      "Detailed feedback and recommendations",
+      "Data-driven program modifications",
+      "Assessment of behavioral intervention effectiveness",
+      "Evaluation of need for additional behavioral assessments/interventions",
+      "Regular progress monitoring",
+      "Documentation of milestones and achievements",
     ],
     recommended: false,
   },
   {
-    id: "aba-nurture",
-    name: "ABA Nurture Path",
-    description: "Essential support for single behavioral issues",
-    price: 450,
-    regionalPrice: 300,
-    features: ["ABA behavior assessment", "3 therapy sessions", "Basic behavior plan"],
+    id: "aba-school-supervision",
+    name: "Supervision & Refinement Path",
+    description: "Third month of Intervention",
+    price: 260,  // Global price for the entire package (4 hours × $65)
+    displayPrice: 65, // Price shown per hour
+    regionalPrice: 260, // Regional discount price
+    sessionCount: 4,
+    features: [
+      "4 hours of ABA intervention",
+      "Quality Assurance Measures",
+      "Detailed feedback and recommendations",
+      "Data-driven program modifications",
+      "Assessment of behavioral intervention effectiveness",
+      "Evaluation of need for additional behavioral assessments/interventions",
+      "Regular progress monitoring",
+      "Documentation of milestones and achievements",
+    ],
+    recommended: false,
+  },
+  {
+    id: "aba-home-intensive",
+    name: "Intensive Home Program",
+    description: "Comprehensive home-based ABA support",
+    price: 578,  // Global price for the entire package (17 hours × $34)
+    displayPrice: 34, // Price shown per hour
+    regionalPrice: 578, // Regional discount price
+    sessionCount: 17,
+    features: [
+      "17 hours of ABA intervention",
+      "Personalized behavior intervention plan",
+      "Implementation of customized reinforcement plan",
+      "Data-driven program modifications",
+      "Assessment of behavioral intervention effectiveness",
+      "Evaluation of need for additional behavioral assessments/interventions",
+      "Strategic planning for support reduction",
+      "Regular progress monitoring",
+      "Documentation of milestones and achievements",
+    ],
     recommended: false,
   },
 ]
 
-// Add counseling packages
+// Add counseling and single sessions packages
 const counselingPackages = [
   {
     id: "counseling-extended",
     name: "Extended Support",
     description: "Comprehensive counseling support",
-    price: 480,
-    regionalPrice: 420,
-    features: ["6 counseling sessions", "Brief weekly check-ins via email or chat", "Access to resources"],
+    price: 480,  // Global price for the entire package
+    displayPrice: 80, // Price shown per session
+    regionalPrice: 420, // Regional discount price
+    sessionCount: 6,
+    features: [
+      "6 counseling sessions",
+      "Weekly check-ins via email or chat",
+      "Personalized guidance and support",
+    ],
     recommended: true,
   },
   {
     id: "counseling-bundle",
     name: "Session Bundle",
     description: "Multiple sessions at your convenience",
-    price: 270,
-    regionalPrice: 195,
-    features: ["Package of 3 counseling sessions", "Can be scheduled at your convenience"],
+    price: 270,  // Global price for the entire package
+    displayPrice: 90, // Price shown per session
+    regionalPrice: 195, // Regional discount price
+    sessionCount: 3,
+    features: [
+      "3 counseling sessions",
+      "Flexible scheduling at your convenience",
+    ],
     recommended: false,
   },
   {
     id: "counseling-single",
     name: "Single Session",
     description: "One-time counseling support",
-    price: 90,
-    regionalPrice: 70,
-    features: ["One-time counseling session", "Focused on immediate concerns"],
+    price: 90,  // Global price for the entire package
+    displayPrice: 100, // Price shown per session for homepage display
+    regionalPrice: 70, // Regional discount price
+    sessionCount: 1,
+    features: [
+      "One-time counseling session",
+      "Focused on immediate concerns",
+    ],
     recommended: false,
   },
 ]
@@ -241,6 +316,26 @@ export default function PackagesPage() {
       return total + (pkg?.price || 0)
     }, 0)
   }
+
+  // Add a function to calculate the real cart total based on global prices
+  const calculateRealCartTotal = () => {
+    return cart.reduce((total, pkgId) => {
+      const allPackages = getAllPackages();
+      const pkg = allPackages.find(p => p.id === pkgId);
+      // Return the total package price, not the session price
+      return pkg ? total + pkg.price : total;
+    }, 0);
+  };
+
+  // Update the display total to show the total price based on display price
+  const calculateDisplayTotal = () => {
+    return cart.reduce((total, pkgId) => {
+      const allPackages = getAllPackages();
+      const pkg = allPackages.find(p => p.id === pkgId);
+      // For display, use the display price
+      return pkg ? total + pkg.displayPrice : total;
+    }, 0);
+  };
 
   // Calculate payment amounts based on selected option
   const calculatePayment = (price: number) => {
@@ -357,7 +452,7 @@ export default function PackagesPage() {
               
               <div className="flex justify-between items-center font-semibold mb-3">
                 <span>Total:</span>
-                <span>${calculateCartTotal()}</span>
+                <span>${calculateRealCartTotal()}</span>
               </div>
               
               <Button 
@@ -419,8 +514,8 @@ export default function PackagesPage() {
                           <h3 className="text-xl font-bold">{packageItem.name}</h3>
                           <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
                           <div className="my-4">
-                            <span className="text-3xl font-bold">${packageItem.price}</span>
-                            <span className="ml-1 text-gray-500">/package</span>
+                            <span className="text-3xl font-bold">${packageItem.displayPrice}</span>
+                            <span className="ml-1 text-gray-500">/session</span>
                           </div>
                           <ul className="space-y-2.5 my-6">
                             {packageItem.features.map((feature, index) => (
@@ -484,7 +579,7 @@ export default function PackagesPage() {
                       })}
                       <div className="flex justify-between items-center font-semibold mt-4 pt-2 border-t">
                         <span>Total:</span>
-                        <span>${calculateCartTotal()}</span>
+                        <span>${calculateRealCartTotal()}</span>
                       </div>
                     </div>
                   )}
@@ -510,7 +605,7 @@ export default function PackagesPage() {
                           </Label>
                           <p className="text-sm text-muted-foreground">Full payment with 10% discount</p>
                           <p className="font-medium text-primary">
-                            ${Math.round(calculateCartTotal() * 0.9)}
+                            ${Math.round(calculateRealCartTotal() * 0.9)}
                           </p>
                         </div>
                       </div>
@@ -525,7 +620,7 @@ export default function PackagesPage() {
                           </Label>
                           <p className="text-sm text-muted-foreground">Split into 2 monthly payments</p>
                           <p className="font-medium text-primary">
-                            ${Math.round(calculateCartTotal() / 2)}/month
+                            ${Math.round(calculateRealCartTotal() / 2)}/month
                           </p>
                         </div>
                       </div>
@@ -540,7 +635,7 @@ export default function PackagesPage() {
                           </Label>
                           <p className="text-sm text-muted-foreground">Split into 4 weekly payments</p>
                           <p className="font-medium text-primary">
-                            ${Math.round(calculateCartTotal() / 4)}/week
+                            ${Math.round(calculateRealCartTotal() / 4)}/week
                           </p>
                         </div>
                       </div>
@@ -666,7 +761,7 @@ export default function PackagesPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle>Payment</CardTitle>
-                    <CardDescription>Complete your payment to activate your therapy package</CardDescription>
+                    <CardDescription>Complete your payment to activate your therapy sessions</CardDescription>
                   </div>
                   <Button
                     variant="ghost"
@@ -737,7 +832,7 @@ export default function PackagesPage() {
                         <div className="flex justify-between border-t pt-2">
                           <span className="font-medium">Total:</span>
                           <span className="font-medium">
-                            ${customizing ? "150" : currentPackages.find((p) => p.id === selectedPackage)?.price}/month
+                            ${customizing ? "150" : currentPackages.find((p) => p.id === selectedPackage)?.price}/session
                           </span>
                         </div>
                       </div>
@@ -793,7 +888,7 @@ export default function PackagesPage() {
                           </div>
                         </div>
                         <p className="mt-4 text-sm text-muted-foreground">
-                          Please include your name and "Therapy Package" in the transfer description.
+                          Please include your name and "Therapy Sessions" in the transfer description.
                         </p>
                       </div>
                     </TabsContent>
@@ -833,7 +928,7 @@ export default function PackagesPage() {
                   <CheckCircle className="h-6 w-6 text-green-600" />
                 </div>
                 <CardTitle>Purchase Complete!</CardTitle>
-                <CardDescription>Your therapy package has been activated successfully</CardDescription>
+                <CardDescription>Your therapy sessions have been activated successfully</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="rounded-lg bg-muted p-4">
@@ -881,12 +976,12 @@ export default function PackagesPage() {
                               .toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                       </span>
                     </div>
-                    <div className="flex justify-between border-t pt-2">
+                    <div className="flex justify-between">
                       <span className="font-medium">Total Amount:</span>
                       <span className="font-medium">
                         ${paymentOption === 'upfront' 
-                          ? Math.round(calculateCartTotal() * 0.9)
-                          : calculateCartTotal()}
+                          ? Math.round(calculateRealCartTotal() * 0.9)
+                          : calculateRealCartTotal()}
                       </span>
                     </div>
                   </div>

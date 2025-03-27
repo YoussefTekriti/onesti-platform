@@ -163,6 +163,48 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* Onesti Methodology */}
+        <div className="mx-auto mt-16 max-w-2xl lg:mx-0 lg:max-w-none">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900">Our Approach</h2>
+          <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3">
+            <div className="rounded-2xl border border-gray-200 overflow-hidden">
+              <div className="bg-[#4b2e83] p-6 flex justify-center items-center h-48">
+                <h3 className="text-6xl font-bold text-white">O</h3>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900">Online</h3>
+                <p className="mt-4 text-gray-600">
+                  Many scientific research studies have proven that telepractice is as effective as in-person therapy for many children and adults.
+                </p>
+              </div>
+            </div>
+            
+            <div className="rounded-2xl border border-gray-200 overflow-hidden">
+              <div className="bg-[#4b2e83] p-6 flex justify-center items-center h-48">
+                <h3 className="text-6xl font-bold text-white">NE</h3>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900">Natural Environment</h3>
+                <p className="mt-4 text-gray-600">
+                  Parents are coached about including intervention activities throughout the child's day, with content individualized to meet their needs.
+                </p>
+              </div>
+            </div>
+            
+            <div className="rounded-2xl border border-gray-200 overflow-hidden">
+              <div className="bg-[#4b2e83] p-6 flex justify-center items-center h-48">
+                <h3 className="text-6xl font-bold text-white">STI</h3>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900">Specialized Therapy Intervention</h3>
+                <p className="mt-4 text-gray-600">
+                  It is important to note that not only does development occur on a continuum with individual variations, but also intervention approaches.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="mx-auto mt-16 max-w-2xl text-center">
           <Button size="lg" onClick={() => setIsDialogOpen(true)}>

@@ -69,21 +69,21 @@ export default function Home() {
                   <Card className="flex flex-col">
                     <CardHeader className="pb-3 sm:pb-6">
                       <CardTitle className="text-lg sm:text-xl">Developmental Thrive Path</CardTitle>
-                      <CardDescription className="text-xs sm:text-sm mt-1">Comprehensive support for developmental delays or conditions</CardDescription>
+                      <CardDescription className="text-xs sm:text-sm mt-1">Comprehensive support for developmental delays or challenges</CardDescription>
                       <div className="mt-3 sm:mt-4 flex items-baseline text-gray-900">
-                        <span className="text-2xl sm:text-3xl font-bold tracking-tight">$840</span>
-                        <span className="ml-1 text-lg sm:text-xl font-semibold">/program</span>
+                        <span className="text-2xl sm:text-3xl font-bold tracking-tight">$70</span>
+                        <span className="ml-1 text-lg sm:text-xl font-semibold">/session</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow py-2 sm:py-4">
                       <ul className="space-y-1 sm:space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-xs sm:text-sm text-gray-700">12 therapy sessions</span>
+                          <span className="text-xs sm:text-sm text-gray-700">12 therapy sessions to be used flexibly</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-xs sm:text-sm text-gray-700">Multidisciplinary review</span>
+                          <span className="text-xs sm:text-sm text-gray-700">The 1plan Personalized intervention</span>
                         </li>
                       </ul>
                     </CardContent>
@@ -100,19 +100,19 @@ export default function Home() {
                       <CardTitle>Developmental Empower Path</CardTitle>
                       <CardDescription>Balanced support for developmental needs</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$600</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$75</span>
+                        <span className="ml-1 text-xl font-semibold">/session</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <ul className="space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">8 therapy sessions</span>
+                          <span className="text-sm text-gray-700">8 therapy sessions to be used flexibly</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">Progress tracking</span>
+                          <span className="text-sm text-gray-700">The 1plan Personalized intervention</span>
                         </li>
                       </ul>
                     </CardContent>
@@ -129,19 +129,19 @@ export default function Home() {
                       <CardTitle>Developmental Nurture Path</CardTitle>
                       <CardDescription>Essential support for developmental needs</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$320</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$80</span>
+                        <span className="ml-1 text-xl font-semibold">/session</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <ul className="space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">4 therapy sessions</span>
+                          <span className="text-sm text-gray-700">4 therapy sessions to be used flexibly</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">Initial assessment</span>
+                          <span className="text-sm text-gray-700">The 1plan Personalized intervention</span>
                         </li>
                       </ul>
                     </CardContent>
@@ -155,7 +155,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/packages">View All Packages</Link>
+                    <Link href="/packages">View All Sessions</Link>
                   </Button>
                 </div>
               </TabsContent>
@@ -168,19 +168,19 @@ export default function Home() {
                       <CardTitle>Routine Thrive Path</CardTitle>
                       <CardDescription>Comprehensive support for routine-based challenges</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$420</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$70</span>
+                        <span className="ml-1 text-xl font-semibold">/session</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <ul className="space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">6 therapy sessions</span>
+                          <span className="text-sm text-gray-700">10 intervention sessions</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">Personalized therapy plan</span>
+                          <span className="text-sm text-gray-700">The 1plan which includes the targeted objectives</span>
                         </li>
                       </ul>
                     </CardContent>
@@ -197,19 +197,19 @@ export default function Home() {
                       <CardTitle>Routine Empower Path</CardTitle>
                       <CardDescription>Balanced support for routine-based challenges</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$300</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$75</span>
+                        <span className="ml-1 text-xl font-semibold">/session</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <ul className="space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">4 therapy sessions</span>
+                          <span className="text-sm text-gray-700">8 intervention sessions</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">Digital progress tracking</span>
+                          <span className="text-sm text-gray-700">The 1plan Personalized intervention</span>
                         </li>
                       </ul>
                     </CardContent>
@@ -226,19 +226,19 @@ export default function Home() {
                       <CardTitle>Routine Nurture Path</CardTitle>
                       <CardDescription>Essential support for routine-based challenges</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$160</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$80</span>
+                        <span className="ml-1 text-xl font-semibold">/session</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <ul className="space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">2 therapy sessions</span>
+                          <span className="text-sm text-gray-700">4 intervention sessions</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">Initial assessment</span>
+                          <span className="text-sm text-gray-700">The 1plan Personalized intervention</span>
                         </li>
                       </ul>
                     </CardContent>
@@ -252,32 +252,32 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/packages">View All Packages</Link>
+                    <Link href="/packages">View All Sessions</Link>
                   </Button>
                 </div>
               </TabsContent>
 
               <TabsContent value="aba" className="mt-6">
                 <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                  {/* Thrive Package */}
+                  {/* Intensive Starter Path */}
                   <Card className="flex flex-col">
                     <CardHeader>
-                      <CardTitle>ABA Thrive Path</CardTitle>
-                      <CardDescription>Comprehensive support for complex behavioral needs</CardDescription>
+                      <CardTitle>ABA Intensive Starter Path</CardTitle>
+                      <CardDescription>Intensive support for complex behavioral needs</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$1,200</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$48</span>
+                        <span className="ml-1 text-xl font-semibold">/hour</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <ul className="space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">10 ABA sessions</span>
+                          <span className="text-sm text-gray-700">12 hours of ABA intervention</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">Behavior intervention plan</span>
+                          <span className="text-sm text-gray-700">Personalized behavior intervention plan</span>
                         </li>
                       </ul>
                     </CardContent>
@@ -288,25 +288,25 @@ export default function Home() {
                     </CardFooter>
                   </Card>
 
-                  {/* Empower Package */}
+                  {/* Follow-up & Reinforcement Path */}
                   <Card className="flex flex-col">
                     <CardHeader>
-                      <CardTitle>ABA Empower Path</CardTitle>
-                      <CardDescription>Balanced support for moderate behavioral needs</CardDescription>
+                      <CardTitle>Follow-up & Reinforcement Path</CardTitle>
+                      <CardDescription>Second month of intervention</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$840</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$54</span>
+                        <span className="ml-1 text-xl font-semibold">/hour</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <ul className="space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">6 therapy sessions</span>
+                          <span className="text-sm text-gray-700">8 hours of ABA intervention</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">Progress monitoring</span>
+                          <span className="text-sm text-gray-700">Data-driven program modifications</span>
                         </li>
                       </ul>
                     </CardContent>
@@ -317,25 +317,25 @@ export default function Home() {
                     </CardFooter>
                   </Card>
 
-                  {/* Nurture Package */}
+                  {/* Intensive Home Program */}
                   <Card className="flex flex-col">
                     <CardHeader>
-                      <CardTitle>ABA Nurture Path</CardTitle>
-                      <CardDescription>Essential support for single behavioral issues</CardDescription>
+                      <CardTitle>Intensive Home Program</CardTitle>
+                      <CardDescription>Comprehensive home-based ABA support</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$450</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$34</span>
+                        <span className="ml-1 text-xl font-semibold">/hour</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <ul className="space-y-2">
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">3 therapy sessions</span>
+                          <span className="text-sm text-gray-700">17 hours of ABA intervention</span>
                         </li>
                         <li className="flex items-start">
                           <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
-                          <span className="text-sm text-gray-700">Basic behavior plan</span>
+                          <span className="text-sm text-gray-700">Personalized behavior intervention plan</span>
                         </li>
                       </ul>
                     </CardContent>
@@ -349,7 +349,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/packages">View All Packages</Link>
+                    <Link href="/packages">View All Sessions</Link>
                   </Button>
                 </div>
               </TabsContent>
@@ -362,8 +362,8 @@ export default function Home() {
                       <CardTitle>Extended Support</CardTitle>
                       <CardDescription>Comprehensive counseling support</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$480</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$80</span>
+                        <span className="ml-1 text-xl font-semibold">/session</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -391,8 +391,8 @@ export default function Home() {
                       <CardTitle>Session Bundle</CardTitle>
                       <CardDescription>Multiple sessions at your convenience</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$270</span>
-                        <span className="ml-1 text-xl font-semibold">/program</span>
+                        <span className="text-3xl font-bold tracking-tight">$90</span>
+                        <span className="ml-1 text-xl font-semibold">/session</span>
                       </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
@@ -420,7 +420,7 @@ export default function Home() {
                       <CardTitle>Single Session</CardTitle>
                       <CardDescription>One-time counseling support</CardDescription>
                       <div className="mt-4 flex items-baseline text-gray-900">
-                        <span className="text-3xl font-bold tracking-tight">$90</span>
+                        <span className="text-3xl font-bold tracking-tight">$100</span>
                         <span className="ml-1 text-xl font-semibold">/session</span>
                       </div>
                     </CardHeader>
@@ -446,7 +446,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/packages">View All Packages</Link>
+                    <Link href="/packages">View All Sessions</Link>
                   </Button>
                 </div>
               </TabsContent>
