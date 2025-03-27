@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { Tab } from "@headlessui/react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 // Hide scrollbar but keep functionality
 const hideScrollbarStyle = `
@@ -14,6 +15,40 @@ const hideScrollbarStyle = `
   
   .hide-scrollbar::-webkit-scrollbar {
     display: none;  /* Chrome, Safari and Opera */
+  }
+
+  .tabs-container {
+    position: relative;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  .scroll-left {
+    left: 0;
+  }
+
+  .scroll-right {
+    right: 0;
+  }
+
+  @media (min-width: 768px) {
+    .scroll-indicator {
+      display: none;
+    }
   }
 `;
 
@@ -115,6 +150,30 @@ export default function ProgramsPage() {
   // Split programs into two rows
   const firstRowPrograms = programsData.slice(0, 6);
   const secondRowPrograms = programsData.slice(6);
+  const [showLeftScroll, setShowLeftScroll] = useState(false);
+  const [showRightScroll, setShowRightScroll] = useState(true);
+
+  // Function to scroll the tabs
+  const scrollTabs = (containerId: string, direction: 'left' | 'right') => {
+    const container = document.getElementById(containerId);
+    if (container) {
+      const scrollAmount = direction === 'left' ? -200 : 200;
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      
+      // Check scroll position after scrolling
+      setTimeout(() => {
+        setShowLeftScroll(container.scrollLeft > 10);
+        setShowRightScroll(container.scrollLeft < container.scrollWidth - container.clientWidth - 10);
+      }, 300);
+    }
+  };
+
+  // Function to handle scroll events
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    setShowLeftScroll(container.scrollLeft > 10);
+    setShowRightScroll(container.scrollLeft < container.scrollWidth - container.clientWidth - 10);
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -135,48 +194,104 @@ export default function ProgramsPage() {
 
       {/* Programs tabs */}
       <section className="py-12 container mx-auto px-4">
+        <p className="text-center text-sm text-gray-500 md:hidden mb-3">
+          Swipe horizontally to explore all programs
+        </p>
+        
         <Tab.Group>
           <div className="flex flex-col mb-10">
             {/* First row of tabs */}
-            <div className="overflow-x-auto pb-1 hide-scrollbar">
-              <Tab.List className="flex min-w-max rounded-t-xl bg-gray-100 p-1">
-                {firstRowPrograms.map((program) => (
-                  <Tab
-                    key={program.id}
-                    className={({ selected }) =>
-                      `whitespace-nowrap px-3 sm:px-6 py-2 text-sm sm:text-base font-medium leading-5 transition-all duration-200 mx-1 first:ml-0 last:mr-0 rounded-t-lg
-                      ${
-                        selected
-                          ? "bg-white text-onesti-purple shadow"
-                          : "text-gray-600 hover:bg-white/[0.12] hover:text-onesti-purple"
-                      }`
-                    }
-                  >
-                    {program.title}
-                  </Tab>
-                ))}
-              </Tab.List>
+            <div className="tabs-container relative">
+              {showLeftScroll && (
+                <button 
+                  className="scroll-indicator scroll-left" 
+                  onClick={() => scrollTabs('first-row-tabs', 'left')}
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+              )}
+              
+              <div 
+                id="first-row-tabs"
+                className="overflow-x-auto pb-1 hide-scrollbar"
+                onScroll={handleScroll}
+              >
+                <Tab.List className="flex min-w-max rounded-t-xl bg-gray-100 p-1">
+                  {firstRowPrograms.map((program) => (
+                    <Tab
+                      key={program.id}
+                      className={({ selected }) =>
+                        `whitespace-nowrap px-3 sm:px-6 py-2 text-xs sm:text-sm font-medium leading-5 transition-all duration-200 mx-1 first:ml-0 last:mr-0 rounded-t-lg
+                        ${
+                          selected
+                            ? "bg-white text-onesti-purple shadow"
+                            : "text-gray-600 hover:bg-white/[0.12] hover:text-onesti-purple"
+                        }`
+                      }
+                    >
+                      {program.title}
+                    </Tab>
+                  ))}
+                </Tab.List>
+              </div>
+              
+              {showRightScroll && (
+                <button 
+                  className="scroll-indicator scroll-right" 
+                  onClick={() => scrollTabs('first-row-tabs', 'right')}
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              )}
             </div>
             
             {/* Second row of tabs */}
-            <div className="overflow-x-auto pb-1 hide-scrollbar">
-              <Tab.List className="flex min-w-max rounded-b-xl bg-gray-100 p-1 border-t border-gray-200">
-                {secondRowPrograms.map((program) => (
-                  <Tab
-                    key={program.id}
-                    className={({ selected }) =>
-                      `whitespace-nowrap px-3 sm:px-6 py-2 text-sm sm:text-base font-medium leading-5 transition-all duration-200 mx-1 first:ml-0 last:mr-0 rounded-b-lg
-                      ${
-                        selected
-                          ? "bg-white text-onesti-purple shadow"
-                          : "text-gray-600 hover:bg-white/[0.12] hover:text-onesti-purple"
-                      }`
-                    }
-                  >
-                    {program.title}
-                  </Tab>
-                ))}
-              </Tab.List>
+            <div className="tabs-container relative">
+              {showLeftScroll && (
+                <button 
+                  className="scroll-indicator scroll-left" 
+                  onClick={() => scrollTabs('second-row-tabs', 'left')}
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+              )}
+              
+              <div 
+                id="second-row-tabs"
+                className="overflow-x-auto pb-1 hide-scrollbar"
+                onScroll={handleScroll}
+              >
+                <Tab.List className="flex min-w-max rounded-b-xl bg-gray-100 p-1 border-t border-gray-200">
+                  {secondRowPrograms.map((program) => (
+                    <Tab
+                      key={program.id}
+                      className={({ selected }) =>
+                        `whitespace-nowrap px-3 sm:px-6 py-2 text-xs sm:text-sm font-medium leading-5 transition-all duration-200 mx-1 first:ml-0 last:mr-0 rounded-b-lg
+                        ${
+                          selected
+                            ? "bg-white text-onesti-purple shadow"
+                            : "text-gray-600 hover:bg-white/[0.12] hover:text-onesti-purple"
+                        }`
+                      }
+                    >
+                      {program.title}
+                    </Tab>
+                  ))}
+                </Tab.List>
+              </div>
+              
+              {showRightScroll && (
+                <button 
+                  className="scroll-indicator scroll-right" 
+                  onClick={() => scrollTabs('second-row-tabs', 'right')}
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              )}
             </div>
           </div>
             

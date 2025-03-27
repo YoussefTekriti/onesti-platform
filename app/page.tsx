@@ -89,7 +89,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter className="pt-2 sm:pt-4">
                       <Button className="w-full text-sm sm:text-base" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -118,7 +118,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -147,7 +147,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -155,7 +155,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/programs">View All Programs</Link>
+                    <Link href="/packages">View All Packages</Link>
                   </Button>
                 </div>
               </TabsContent>
@@ -186,7 +186,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -215,7 +215,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -244,7 +244,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -252,7 +252,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/programs">View All Programs</Link>
+                    <Link href="/packages">View All Packages</Link>
                   </Button>
                 </div>
               </TabsContent>
@@ -283,7 +283,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -312,7 +312,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -341,7 +341,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -349,7 +349,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/programs">View All Programs</Link>
+                    <Link href="/packages">View All Packages</Link>
                   </Button>
                 </div>
               </TabsContent>
@@ -380,7 +380,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -409,7 +409,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -438,7 +438,7 @@ export default function Home() {
                     </CardContent>
                     <CardFooter>
                       <Button className="w-full" variant="outline" asChild>
-                        <Link href="/programs">View Details</Link>
+                        <Link href="/packages">View Details</Link>
                       </Button>
                     </CardFooter>
                   </Card>
@@ -446,7 +446,7 @@ export default function Home() {
 
                 <div className="mt-8 text-center">
                   <Button size="lg" asChild>
-                    <Link href="/programs">View All Programs</Link>
+                    <Link href="/packages">View All Packages</Link>
                   </Button>
                 </div>
               </TabsContent>
