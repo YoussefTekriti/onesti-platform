@@ -42,7 +42,7 @@ type NavigationItem = NavItem | NavItemWithDropdown;
 const navigationEN: NavigationItem[] = [
   { name: "I'm a Parent", href: "/#parent-journey" },
   { name: "Programs", href: "/programs" },
-  { name: "Learning", href: "/blogs" },
+  { name: "Learn", href: "/blogs" },
   {
     name: "Services",
     dropdown: [
@@ -64,7 +64,7 @@ const navigationEN: NavigationItem[] = [
 const navigationAR: NavigationItem[] = [
   { name: "أنا والد", href: "/#parent-journey" },
   { name: "البرامج", href: "/programs" },
-  { name: "التعلم", href: "/blogs" },
+  { name: "تعلم", href: "/blogs" },
   {
     name: "الخدمات",
     dropdown: [
@@ -136,17 +136,17 @@ export default function Header() {
 
   return (
     <header className="bg-white shadow-sm relative">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-3 lg:p-6 lg:px-8" aria-label="Global">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:p-6 lg:px-8" aria-label="Global">
         {/* Logo - fixed width on left */}
-        <div className="flex lg:w-64">
+        <div className="flex w-32 lg:w-64">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Onesti</span>
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image001.jpg-lRBjbexqlJ9PjqISbLsUVR8QmtOJt5.jpeg"
               alt="Onesti Logo"
-              width={130}
-              height={45}
-              className="h-7 lg:h-10 w-auto"
+              width={150}
+              height={50}
+              className="h-8 lg:h-10 w-auto"
             />
           </Link>
         </div>
@@ -221,13 +221,13 @@ export default function Header() {
         {/* Mobile header controls */}
         <div className="flex items-center lg:hidden">
           {/* Language toggle for mobile */}
-          <div className="mr-2">
-            <div className="relative flex items-center bg-white rounded-full p-1 w-20 h-8 shadow-sm border border-gray-200">
+          <div className="mr-4">
+            <div className="relative flex items-center bg-white rounded-full p-1 w-24 h-9 shadow-lg border border-gray-200">
               {/* Sliding background */}
               <div 
                 suppressHydrationWarning 
-                className={`absolute w-10 h-6 bg-onesti-purple rounded-full transition-transform duration-300 ${
-                  language === "en" ? "transform translate-x-9" : "transform translate-x-0"
+                className={`absolute w-12 h-7 bg-onesti-purple rounded-full transition-transform duration-300 ${
+                  language === "en" ? "transform translate-x-11" : "transform translate-x-0"
                 }`}
               ></div>
               
@@ -235,9 +235,9 @@ export default function Header() {
               <button
                 onClick={() => setLanguage("ar")}
                 suppressHydrationWarning
-                className={`z-10 flex justify-center items-center rounded-full h-6 w-10 font-semibold transition-colors duration-300 ${
+                className={`z-10 flex justify-center items-center rounded-full h-7 w-12 font-semibold transition-colors duration-300 ${
                   language === "ar" ? "text-white" : "text-gray-500"
-                } text-xs`}
+                } text-sm`}
                 aria-label="Switch to Arabic"
               >
                 عربي
@@ -247,9 +247,9 @@ export default function Header() {
               <button
                 onClick={() => setLanguage("en")}
                 suppressHydrationWarning
-                className={`z-10 flex justify-center items-center rounded-full h-6 w-10 font-semibold transition-colors duration-300 ${
+                className={`z-10 flex justify-center items-center rounded-full h-7 w-12 font-semibold transition-colors duration-300 ${
                   language === "en" ? "text-white" : "text-gray-700 hover:text-gray-900"
-                } text-xs`}
+                } text-sm`}
                 aria-label="Switch to English"
               >
                 EN
@@ -260,7 +260,7 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-md p-2 text-white bg-onesti-purple shadow-md"
+            className="inline-flex items-center justify-center rounded-md p-2.5 text-white bg-[#4b2e83] hover:bg-[#4b2e83]/90 shadow-md"
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
@@ -333,39 +333,39 @@ export default function Header() {
       {mounted && mobileMenuOpen && (
         <div className="lg:hidden">
           <div className="fixed inset-0 z-50 bg-black/60" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
-          <div className={`fixed inset-y-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 ${language === "ar" ? "right-0" : "left-0"}`}>
-            <div className="flex items-center justify-between">
+          <div className={`fixed inset-y-0 z-50 w-4/5 max-w-[300px] overflow-y-auto bg-white px-4 py-5 shadow-xl ${language === "ar" ? "right-0" : "left-0"}`}>
+            <div className="flex items-center justify-between mb-4">
               <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
                 <span className="sr-only">Onesti</span>
                 <Image
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image001.jpg-lRBjbexqlJ9PjqISbLsUVR8QmtOJt5.jpeg"
                   alt="Onesti Logo"
-                  width={150}
-                  height={50}
-                  className="h-8 w-auto"
+                  width={120}
+                  height={40}
+                  className="h-7 w-auto"
                 />
               </Link>
               <button
                 type="button"
-                className="rounded-full p-2.5 text-gray-700 bg-gray-100"
+                className="rounded-full p-2 text-gray-700 bg-gray-100 hover:bg-gray-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
-                <X className="h-6 w-6" aria-hidden="true" />
+                <X className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
+            <div className="flow-root">
+              <div className="divide-y divide-gray-200">
+                <div className="space-y-1 py-3">
                   {navigation.map((item) => (
                     isNavItemWithDropdown(item) ? (
-                      <div key={item.name} className="space-y-1">
-                        <div className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 bg-gray-50">
+                      <div key={item.name} className="space-y-1 mb-2">
+                        <div className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-gray-900 bg-gray-50">
                           {item.name}
                         </div>
-                        <div className="pl-4">
+                        <div className="pl-3">
                           {item.dropdown.map((section, idx) => (
-                            <div key={idx}>
+                            <div key={idx} className="mb-1">
                               {isNavSection(section) ? (
                                 <>
                                   <div className="px-3 py-1 text-xs font-semibold text-onesti-purple uppercase tracking-wider">
@@ -375,7 +375,7 @@ export default function Header() {
                                     <Link
                                       key={item.name}
                                       href={item.href}
-                                      className="block rounded-lg px-3 py-2 text-sm font-medium leading-6 text-gray-700 hover:bg-gray-50 hover:text-onesti-purple"
+                                      className="block rounded-md px-3 py-1.5 text-sm font-medium leading-6 text-gray-700 hover:bg-gray-50 hover:text-onesti-purple"
                                       onClick={() => setMobileMenuOpen(false)}
                                     >
                                       {item.name}
@@ -386,7 +386,7 @@ export default function Header() {
                                 <Link
                                   key={section.name}
                                   href={section.href}
-                                  className="block rounded-lg px-3 py-2 text-sm font-medium leading-6 text-gray-700 hover:bg-gray-50 hover:text-onesti-purple"
+                                  className="block rounded-md px-3 py-1.5 text-sm font-medium leading-6 text-gray-700 hover:bg-gray-50 hover:text-onesti-purple"
                                   onClick={() => setMobileMenuOpen(false)}
                                 >
                                   {section.name}
@@ -404,7 +404,7 @@ export default function Header() {
                           handleNavClick(e, item.href);
                           setMobileMenuOpen(false);
                         }}
-                        className={`block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 ${
+                        className={`block rounded-md px-3 py-2 text-base font-semibold leading-7 ${
                           pathname === item.href.replace(/#.*$/, "")
                             ? "text-onesti-purple bg-gray-50"
                             : "text-gray-900 hover:bg-gray-50"
@@ -415,11 +415,11 @@ export default function Header() {
                     )
                   ))}
                 </div>
-                <div className="py-6">
+                <div className="py-3">
                   {isLoggedIn ? (
                     <Link
                       href="/dashboard"
-                      className="block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {language === "en" ? "Dashboard" : "لوحة التحكم"}
@@ -427,7 +427,7 @@ export default function Header() {
                   ) : (
                     <Link
                       href="/login"
-                      className="block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {language === "en" ? "Log in / Sign up" : "تسجيل الدخول / التسجيل"}
