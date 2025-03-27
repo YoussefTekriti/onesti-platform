@@ -136,68 +136,19 @@ export default function Header() {
 
   return (
     <header className="bg-white shadow-sm relative">
-      {/* Language toggle switch positioned at top right */}
-      <div className="absolute top-2 right-4 z-20 lg:top-6 lg:right-6">
-        <div className="relative flex items-center bg-white rounded-full p-1 w-28 h-10 shadow-md border border-gray-200">
-          {/* Sliding background */}
-          <div 
-            suppressHydrationWarning 
-            className={`absolute w-14 h-8 bg-onesti-purple rounded-full transition-transform duration-300 ${
-              language === "en" ? "transform translate-x-12" : "transform translate-x-0"
-            }`}
-          ></div>
-          
-          {/* AR Button */}
-          <button
-            onClick={() => setLanguage("ar")}
-            suppressHydrationWarning
-            className={`z-10 flex justify-center items-center rounded-full h-8 w-14 font-semibold transition-colors duration-300 ${
-              language === "ar" ? "text-white" : "text-gray-500"
-            }`}
-            aria-label="Switch to Arabic"
-          >
-            عربي
-          </button>
-          
-          {/* EN Button */}
-          <button
-            onClick={() => setLanguage("en")}
-            suppressHydrationWarning
-            className={`z-10 flex justify-center items-center rounded-full h-8 w-14 font-semibold transition-colors duration-300 ${
-              language === "en" ? "text-white" : "text-gray-500"
-            }`}
-            aria-label="Switch to English"
-          >
-            EN
-          </button>
-        </div>
-      </div>
-
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-3 lg:p-6 lg:px-8" aria-label="Global">
         {/* Logo - fixed width on left */}
-        <div className="flex w-40 lg:w-64">
+        <div className="flex lg:w-64">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Onesti</span>
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image001.jpg-lRBjbexqlJ9PjqISbLsUVR8QmtOJt5.jpeg"
               alt="Onesti Logo"
-              width={150}
-              height={50}
-              className="h-10 w-auto"
+              width={130}
+              height={45}
+              className="h-7 lg:h-10 w-auto"
             />
           </Link>
-        </div>
-
-        {/* Mobile menu button */}
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <Menu className="h-6 w-6" aria-hidden="true" />
-          </button>
         </div>
 
         {/* Navigation - centered */}
@@ -267,8 +218,93 @@ export default function Header() {
           ))}
         </div>
 
+        {/* Mobile header controls */}
+        <div className="flex items-center lg:hidden">
+          {/* Language toggle for mobile */}
+          <div className="mr-2">
+            <div className="relative flex items-center bg-white rounded-full p-1 w-20 h-8 shadow-sm border border-gray-200">
+              {/* Sliding background */}
+              <div 
+                suppressHydrationWarning 
+                className={`absolute w-10 h-6 bg-onesti-purple rounded-full transition-transform duration-300 ${
+                  language === "en" ? "transform translate-x-9" : "transform translate-x-0"
+                }`}
+              ></div>
+              
+              {/* AR Button */}
+              <button
+                onClick={() => setLanguage("ar")}
+                suppressHydrationWarning
+                className={`z-10 flex justify-center items-center rounded-full h-6 w-10 font-semibold transition-colors duration-300 ${
+                  language === "ar" ? "text-white" : "text-gray-500"
+                } text-xs`}
+                aria-label="Switch to Arabic"
+              >
+                عربي
+              </button>
+              
+              {/* EN Button */}
+              <button
+                onClick={() => setLanguage("en")}
+                suppressHydrationWarning
+                className={`z-10 flex justify-center items-center rounded-full h-6 w-10 font-semibold transition-colors duration-300 ${
+                  language === "en" ? "text-white" : "text-gray-700 hover:text-gray-900"
+                } text-xs`}
+                aria-label="Switch to English"
+              >
+                EN
+              </button>
+            </div>
+          </div>
+          
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-md p-2 text-white bg-onesti-purple shadow-md"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <span className="sr-only">Open main menu</span>
+            <Menu className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+
         {/* Account - fixed width on right */}
         <div className="hidden lg:flex lg:items-center lg:w-64 lg:justify-end">
+          {/* Language toggle for desktop */}
+          <div className="relative flex items-center bg-white rounded-full p-1 w-28 h-10 shadow-md border border-gray-200 mr-4">
+            {/* Sliding background */}
+            <div 
+              suppressHydrationWarning 
+              className={`absolute w-14 h-8 bg-onesti-purple rounded-full transition-transform duration-300 ${
+                language === "en" ? "transform translate-x-12" : "transform translate-x-0"
+              }`}
+            ></div>
+            
+            {/* AR Button */}
+            <button
+              onClick={() => setLanguage("ar")}
+              suppressHydrationWarning
+              className={`z-10 flex justify-center items-center rounded-full h-8 w-14 font-semibold transition-colors duration-300 ${
+                language === "ar" ? "text-white" : "text-gray-500"
+              }`}
+              aria-label="Switch to Arabic"
+            >
+              عربي
+            </button>
+            
+            {/* EN Button */}
+            <button
+              onClick={() => setLanguage("en")}
+              suppressHydrationWarning
+              className={`z-10 flex justify-center items-center rounded-full h-8 w-14 font-semibold transition-colors duration-300 ${
+                language === "en" ? "text-white" : "text-gray-500"
+              }`}
+              aria-label="Switch to English"
+            >
+              EN
+            </button>
+          </div>
+
           {isLoggedIn ? (
             <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900 flex items-center">
               <span suppressHydrationWarning>
@@ -296,7 +332,7 @@ export default function Header() {
       {/* Mobile menu */}
       {mounted && mobileMenuOpen && (
         <div className="lg:hidden">
-          <div className="fixed inset-0 z-50 bg-black/20" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
+          <div className="fixed inset-0 z-50 bg-black/60" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
           <div className={`fixed inset-y-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 ${language === "ar" ? "right-0" : "left-0"}`}>
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
@@ -311,7 +347,7 @@ export default function Header() {
               </Link>
               <button
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                className="rounded-full p-2.5 text-gray-700 bg-gray-100"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
@@ -324,7 +360,7 @@ export default function Header() {
                   {navigation.map((item) => (
                     isNavItemWithDropdown(item) ? (
                       <div key={item.name} className="space-y-1">
-                        <div className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900">
+                        <div className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 bg-gray-50">
                           {item.name}
                         </div>
                         <div className="pl-4">
@@ -332,7 +368,7 @@ export default function Header() {
                             <div key={idx}>
                               {isNavSection(section) ? (
                                 <>
-                                  <div className="px-3 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                  <div className="px-3 py-1 text-xs font-semibold text-onesti-purple uppercase tracking-wider">
                                     {section.section}
                                   </div>
                                   {section.items.map(item => (
