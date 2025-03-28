@@ -25,16 +25,17 @@ const hideScrollbarStyle = `
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 24px;
-    height: 24px;
-    background-color: rgba(255, 255, 255, 0.8);
+    width: 28px;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 10;
     cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
 
   .scroll-left {
@@ -45,9 +46,26 @@ const hideScrollbarStyle = `
     right: 0;
   }
 
+  .tab-text {
+    font-size: 11px;
+  }
+
+  @media (min-width: 480px) {
+    .tab-text {
+      font-size: 12px;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .tab-text {
+      font-size: 14px;
+    }
+  }
+
   @media (min-width: 768px) {
     .scroll-indicator {
-      display: none;
+      width: 32px;
+      height: 32px;
     }
   }
 `;
@@ -60,6 +78,20 @@ const programsData = [
     description: "An online program designed to fill academic gaps and provide intervention for students with learning disabilities in spelling, reading, language, comprehension, memory, and math.",
     content: "ALPHABEႵ is an online program among other programs at ONESTI that aims at filling the academic gaps that students have. It also provides intervention and remediation to struggling students and to those who have learning disabilities in spelling, reading, language, reading comprehension, memory, and math. It is a very unique program because it starts with screening that helps identify the weaknesses then develops a plan targeting the student's needs. It is also comprehensive because it tackles all needed aspects in intervention: academic, behavioral, communication, motor, and social-emotional. This is provided through an individualized education program (IEP). In addition, it helps parents understand their child's needs and be involved in the intervention.",
     additionalContent: "If you are noticing any gaps in your child's academic skills, do not wait! Fill ONESTI's developmental screening checklist and contact our professionals to learn more about your child's academic development and what you can do NOW to help."
+  },
+  {
+    id: "routine",
+    title: "ROUTINE",
+    description: "A comprehensive routine-based intervention program that helps children establish structured daily habits, promoting predictability and reducing anxiety through consistent patterns.",
+    content: "ROUTINE is designed to help children establish structured daily habits that support their development and reduce anxiety through predictable patterns. The program begins with an assessment of current routines and identifies areas where improvements can support behavioral, emotional, and developmental goals. Our specialists work with families to create visual schedules, transition strategies, and sensory-friendly routines that make daily activities more manageable and enjoyable. Through consistent implementation of these structured routines, children gain independence, build time-management skills, and experience reduced anxiety around transitions and expectations. The program places special emphasis on morning routines, mealtimes, homework sessions, and bedtime rituals - critical periods that often present challenges for children and families.",
+    additionalContent: "If your child struggles with transitions, becomes anxious with changes in routine, or has difficulty completing daily tasks, our ROUTINE program can help establish the consistency and structure they need. Fill ONESTI's developmental screening checklist and contact our professionals to learn more about how structured routines can support your child's development."
+  },
+  {
+    id: "aba",
+    title: "ABA",
+    description: "An intensive Applied Behavior Analysis program that uses evidence-based techniques to improve social skills, communication, learning abilities, and adaptive behaviors in children with developmental challenges.",
+    content: "Our comprehensive ABA program utilizes the principles of Applied Behavior Analysis to create individualized interventions for children with developmental challenges. Through a detailed assessment process, our Board Certified Behavior Analysts identify specific skills to target and create a customized intervention plan. The program focuses on teaching functional communication, social interaction, adaptive living skills, and reducing challenging behaviors through positive reinforcement strategies. Parents and caregivers receive extensive training to ensure consistency across environments and to promote skill generalization. Our approach emphasizes naturalistic teaching opportunities embedded throughout the child's day, making learning engaging and meaningful. Data collection and regular progress monitoring allow us to continually refine the intervention approach based on each child's unique response to treatment.",
+    additionalContent: "Early intervention with evidence-based ABA techniques can significantly improve outcomes for children with developmental delays, autism spectrum disorder, and other behavioral challenges. Contact our ABA specialists to discuss how our program can support your child's developmental journey and help them reach their full potential."
   },
   {
     id: "speak",
@@ -147,9 +179,9 @@ const programsData = [
 ]
 
 export default function ProgramsPage() {
-  // Split programs into two rows
-  const firstRowPrograms = programsData.slice(0, 6);
-  const secondRowPrograms = programsData.slice(6);
+  // Split programs into two rows - rearranged for better balance (7 in each row)
+  const firstRowPrograms = programsData.slice(0, 7);
+  const secondRowPrograms = programsData.slice(7);
   const [showLeftScroll, setShowLeftScroll] = useState(false);
   const [showRightScroll, setShowRightScroll] = useState(true);
 
@@ -157,7 +189,12 @@ export default function ProgramsPage() {
   const scrollTabs = (containerId: string, direction: 'left' | 'right') => {
     const container = document.getElementById(containerId);
     if (container) {
-      const scrollAmount = direction === 'left' ? -200 : 200;
+      // Adjust scroll amount based on screen width
+      const screenWidth = window.innerWidth;
+      const scrollAmount = direction === 'left' 
+        ? (screenWidth < 640 ? -100 : -200)
+        : (screenWidth < 640 ? 100 : 200);
+        
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       
       // Check scroll position after scrolling
@@ -208,7 +245,7 @@ export default function ProgramsPage() {
                   onClick={() => scrollTabs('first-row-tabs', 'left')}
                   aria-label="Scroll left"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-4 w-4 text-onesti-purple" />
                 </button>
               )}
               
@@ -222,7 +259,7 @@ export default function ProgramsPage() {
                     <Tab
                       key={program.id}
                       className={({ selected }) =>
-                        `whitespace-nowrap px-3 sm:px-6 py-2 text-xs sm:text-sm font-medium leading-5 transition-all duration-200 mx-1 first:ml-0 last:mr-0 rounded-t-lg
+                        `whitespace-nowrap px-2 sm:px-3 md:px-4 py-2 transition-all duration-200 mx-0.5 first:ml-0 last:mr-0 rounded-t-lg
                         ${
                           selected
                             ? "bg-white text-onesti-purple shadow"
@@ -230,7 +267,7 @@ export default function ProgramsPage() {
                         }`
                       }
                     >
-                      {program.title}
+                      <span className="tab-text font-medium">{program.title}</span>
                     </Tab>
                   ))}
                 </Tab.List>
@@ -242,7 +279,7 @@ export default function ProgramsPage() {
                   onClick={() => scrollTabs('first-row-tabs', 'right')}
                   aria-label="Scroll right"
                 >
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-4 w-4 text-onesti-purple" />
                 </button>
               )}
             </div>
@@ -255,7 +292,7 @@ export default function ProgramsPage() {
                   onClick={() => scrollTabs('second-row-tabs', 'left')}
                   aria-label="Scroll left"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-4 w-4 text-onesti-purple" />
                 </button>
               )}
               
@@ -269,7 +306,7 @@ export default function ProgramsPage() {
                     <Tab
                       key={program.id}
                       className={({ selected }) =>
-                        `whitespace-nowrap px-3 sm:px-6 py-2 text-xs sm:text-sm font-medium leading-5 transition-all duration-200 mx-1 first:ml-0 last:mr-0 rounded-b-lg
+                        `whitespace-nowrap px-2 sm:px-3 md:px-4 py-2 transition-all duration-200 mx-0.5 first:ml-0 last:mr-0 rounded-b-lg
                         ${
                           selected
                             ? "bg-white text-onesti-purple shadow"
@@ -277,7 +314,7 @@ export default function ProgramsPage() {
                         }`
                       }
                     >
-                      {program.title}
+                      <span className="tab-text font-medium">{program.title}</span>
                     </Tab>
                   ))}
                 </Tab.List>
@@ -289,7 +326,7 @@ export default function ProgramsPage() {
                   onClick={() => scrollTabs('second-row-tabs', 'right')}
                   aria-label="Scroll right"
                 >
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-4 w-4 text-onesti-purple" />
                 </button>
               )}
             </div>
@@ -371,6 +408,20 @@ export default function ProgramsPage() {
                           <Link href="/contact">
                             <Button className="bg-onesti-purple hover:bg-onesti-purple/90 text-white w-full sm:w-auto px-6">
                               Learn More About ABA
+                            </Button>
+                          </Link>
+                        )}
+                        {program.id === "routine" && (
+                          <Link href="/developmental-screening">
+                            <Button className="bg-onesti-purple hover:bg-onesti-purple/90 text-white w-full sm:w-auto px-6">
+                              Developmental Screening Checklist
+                            </Button>
+                          </Link>
+                        )}
+                        {program.id === "aba" && (
+                          <Link href="/contact">
+                            <Button className="bg-onesti-purple hover:bg-onesti-purple/90 text-white w-full sm:w-auto px-6">
+                              Contact ABA Specialists
                             </Button>
                           </Link>
                         )}
