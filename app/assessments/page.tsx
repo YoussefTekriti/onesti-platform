@@ -41,7 +41,7 @@ const availablePackages = [
 ]
 
 // Developmental screening disclaimer text
-const developmentalScreeningDisclaimer = "This is a screening tool to check for any delays in development. Answer each statement by clicking YES if the statement is observed and NO if it is not. If you're not sure that your child has acquired the skill or that the statement applies SOMETIMES then answer the statement with NO.";
+const developmentalScreeningDisclaimer = "This friendly screening helps you identify potential areas where your child might benefit from extra support. For each statement, select YES if you've observed this behavior regularly, or NO if you haven't seen it or only notice it sometimes. Your honest observations will help us provide the most helpful guidance.";
 
 // Map screening categories to recommended packages
 const assessmentPackageMap = {
@@ -603,33 +603,46 @@ const assessmentQuestions = {
 
 // Validation Message Component
 const ValidationMessage = ({ onComplete }: { onComplete: () => void }) => {
-  const [dots, setDots] = useState("")
+  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setDots((prev) => (prev.length < 3 ? prev + "." : ""))
-    }, 500)
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          onComplete();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-    setTimeout(() => {
-      clearInterval(interval)
-      onComplete()
-    }, 3000)
-
-    return () => clearInterval(interval)
-  }, [onComplete])
+    return () => clearInterval(timer);
+  }, [onComplete]);
 
   return (
-    <Card className="border-[#4b2e83]/20">
-      <CardHeader>
-        <CardTitle>Validating Responses</CardTitle>
-        <CardDescription>Please wait while we analyze your answers{dots}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Progress value={100} className="bg-[#6EC1E4]/20" />
-      </CardContent>
-    </Card>
-  )
-}
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center space-y-6">
+        <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-[#f4f1f9]">
+          <CheckCircle className="h-8 w-8 text-[#4b2e83]" />
+        </div>
+        <h2 className="text-2xl font-bold text-[#4b2e83]">Thank You!</h2>
+        <p className="text-gray-600">
+          We're processing your responses to provide helpful insights about your child's development.
+        </p>
+        <div className="mt-4">
+          <div className="h-2 w-full bg-[#e9e4f5] rounded-full overflow-hidden">
+            <div
+              className="h-full bg-[#4b2e83] transition-all duration-1000 ease-in-out"
+              style={{ width: `${((5 - countdown) / 5) * 100}%` }}
+            ></div>
+          </div>
+          <p className="mt-2 text-sm text-gray-500">Preparing your results in {countdown} seconds...</p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Results Popup Component
 const ResultsPopup = ({
@@ -641,244 +654,161 @@ const ResultsPopup = ({
   onClose: () => void
   onStartOver: () => void
 }) => {
-  // Get the recommended package for this screening
-  const recommendedPackageId =
-    assessmentPackageMap[selectedCategory as keyof typeof assessmentPackageMap] || "developmental-thrive"
-  const recommendedPackage = availablePackages.find((pkg) => pkg.id === recommendedPackageId) || availablePackages[0]
-
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">Screening Results</h2>
-            <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-              <X className="h-6 w-6" />
-            </button>
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
+      <div className="bg-white rounded-lg shadow-lg max-w-lg w-full overflow-hidden">
+        <div className="bg-[#4b2e83] py-5 px-6">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold text-white">Screening Complete</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-full text-white hover:bg-white/20"
+              onClick={onClose}
+            >
+              <X className="h-5 w-5" />
+            </Button>
           </div>
-
-          <div className="space-y-6">
-            {/* Show different results based on the screening category */}
-            {selectedCategory === "behavior" && (
-              <div className="rounded-lg bg-amber-50 p-4 text-amber-800">
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-medium">Behavior Support Recommended</h3>
-                    <p className="mt-1 text-sm">
-                      Your responses indicate that your child may benefit from our Behavior Modification program. This
-                      approach addresses challenging behaviors through structured interventions and parent training.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {selectedCategory === "potty" && (
-              <div className="rounded-lg bg-amber-50 p-4 text-amber-800">
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-medium">Potty Training Support Recommended</h3>
-                    <p className="mt-1 text-sm">
-                      Your responses indicate that your child may benefit from our Potty Training program. This approach
-                      provides strategies and support for successful toilet training.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {selectedCategory !== "behavior" && selectedCategory !== "potty" && (
-              <div className="rounded-lg bg-amber-50 p-4 text-amber-800">
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-medium">Development Support Recommended</h3>
-                    <p className="mt-1 text-sm">
-                      Your child's responses indicate areas where additional support could be beneficial. This doesn't
-                      necessarily mean there's a problem, but it may be worth discussing with a specialist.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div>
-              <h3 className="font-medium">Summary</h3>
-              <div className="mt-4 space-y-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="mt-0.5 h-5 w-5 text-green-500" />
-                  <div>
-                    <p className="font-medium">Strengths</p>
-                    <p className="text-sm text-muted-foreground">
-                      {selectedCategory === "behavior"
-                        ? "Your child shows good response to structure and routine."
-                        : selectedCategory === "potty"
-                          ? "Your child shows interest in the bathroom and toilet."
-                          : selectedCategory === "independence"
-                            ? "Your child shows initiative in self-help skills."
-                            : selectedCategory === "eating"
-                              ? "Your child has a good appetite for certain foods."
-                              : selectedCategory === "sleep"
-                                ? "Your child has a consistent bedtime routine."
-                                : selectedCategory === "academic"
-                                  ? "Your child shows interest in learning activities."
-                                  : "Your child shows age-appropriate developmental skills in several areas."}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="mt-0.5 h-5 w-5 text-amber-500" />
-                  <div>
-                    <p className="font-medium">Areas of Concern</p>
-                    <p className="text-sm text-muted-foreground">
-                      {selectedCategory === "behavior"
-                        ? "Your child shows some challenging behaviors during transitions and when told 'no'."
-                        : selectedCategory === "potty"
-                          ? "Your child may need more consistency in potty training routines."
-                          : selectedCategory === "independence"
-                            ? "Your child may need more opportunities to practice self-help skills."
-                            : selectedCategory === "eating"
-                              ? "Your child shows selectivity with certain food textures."
-                              : selectedCategory === "sleep"
-                                ? "Your child has difficulty staying asleep through the night."
-                                : selectedCategory === "academic"
-                                  ? "Your child may need more support with pre-reading skills."
-                                  : "Your child may benefit from additional support in some developmental areas."}
-                    </p>
-                  </div>
-                </div>
-              </div>
+        </div>
+        
+        <div className="p-6 space-y-6">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+              <CheckCircle className="h-6 w-6 text-green-600" />
             </div>
-
             <div>
-              <h3 className="font-medium">Recommended Package</h3>
-              <div className="mt-4 rounded-lg border p-4">
-                <h4 className="font-medium">{recommendedPackage.name}</h4>
-                <p className="mt-2 text-sm text-muted-foreground">{recommendedPackage.description}</p>
-                <Button className="mt-4 bg-[#4b2e83] hover:bg-[#4b2e83]/90" asChild>
-                  <Link href={recommendedPackage.url}>View Package Details</Link>
-                </Button>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-medium">Next Steps</h3>
-              <ul className="mt-4 space-y-2 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
-                    1
-                  </span>
-                  <span>Schedule a consultation with a specialist for a more detailed evaluation.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
-                    2
-                  </span>
-                  <span>
-                    {selectedCategory === "behavior"
-                      ? "Review our behavior management resources in our Resource Library."
-                      : selectedCategory === "potty"
-                        ? "Try the suggested activities in our 'Potty Training Success' article."
-                        : selectedCategory === "independence"
-                          ? "Try the suggested activities in our 'Fostering Independence' article."
-                          : selectedCategory === "eating"
-                            ? "Try the suggested activities in our 'Healthy Eating Habits' article."
-                            : selectedCategory === "sleep"
-                              ? "Try the suggested activities in our 'Better Sleep Routines' article."
-                              : selectedCategory === "academic"
-                                ? "Try the suggested activities in our 'School Readiness' article."
-                                : "Review our developmental resources in our Resource Library."}
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
-                    3
-                  </span>
-                  <span>Explore our recommended therapy package for comprehensive support.</span>
-                </li>
-              </ul>
+              <h3 className="text-lg font-medium">Thank You For Completing The Screening</h3>
+              <p className="text-sm text-gray-500">
+                You've taken an important step in supporting your child's development
+              </p>
             </div>
           </div>
-
-          <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 w-full sm:w-auto">
-              <Link href="/consultation">Book a Consultation</Link>
-            </Button>
-            <Button asChild className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 w-full sm:w-auto">
-              <Link href="/packages">View Sessions</Link>
-            </Button>
+          
+          <div className="rounded-lg bg-[#f4f1f9] p-4 border border-[#e9e4f5]">
+            <h3 className="font-medium text-[#4b2e83] mb-2">What's Next?</h3>
+            <p className="text-sm">
+              Your responses have been processed and we've prepared personalized insights based on your input. 
+              These insights can help guide your understanding of your child's development and provide direction 
+              for next steps.
+            </p>
           </div>
-
-          <div className="mt-6 flex justify-between">
-            <Button variant="outline" className="border-[#4b2e83] text-[#4b2e83]" onClick={onStartOver}>
-              Take Another Screening
-            </Button>
-            <Button variant="outline" className="border-[#4b2e83] text-[#4b2e83]" asChild>
-              <Link href="/dashboard">View in Dashboard</Link>
-            </Button>
-          </div>
+        </div>
+        
+        <div className="bg-[#f9f8fc] p-6 border-t border-[#e9e4f5] flex flex-col sm:flex-row gap-3 justify-end">
+          <Button
+            variant="outline"
+            className="border-[#4b2e83] text-[#4b2e83]"
+            onClick={onStartOver}
+          >
+            Take Another Screening
+          </Button>
+          <Button
+            className="bg-[#4b2e83] hover:bg-[#4b2e83]/90"
+            onClick={onClose}
+          >
+            View My Results
+          </Button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // Question component to render different question types
 const QuestionComponent = ({ question, onAnswer, answer }: any) => {
-  switch (question.type) {
-    case "radio":
-      return (
-        <RadioGroup value={answer || ""} onValueChange={(value) => onAnswer(question.id, value)}>
-          {question.options.map((option: string) => (
-            <div
-              key={option}
-              className={`flex cursor-pointer items-center justify-between rounded-lg border p-4 transition-colors hover:bg-muted/50 ${
-                answer === option ? "border-[#4b2e83] bg-[#4b2e83]/5" : ""
-              }`}
-              onClick={() => onAnswer(question.id, option)}
+  if (question.type === "radio") {
+    return (
+      <RadioGroup
+        value={answer}
+        onValueChange={(value) => onAnswer(question.id, value)}
+        className="space-y-3"
+      >
+        {question.options.map((option: string) => (
+          <div
+            key={option}
+            className={`flex items-center space-x-3 rounded-lg border p-4 transition-all cursor-pointer ${
+              answer === option 
+                ? "border-[#4b2e83] bg-[#f4f1f9]" 
+                : "hover:border-[#4b2e83]/30 hover:bg-[#f9f8fc]"
+            }`}
+            onClick={() => onAnswer(question.id, option)}
+          >
+            <RadioGroupItem
+              value={option}
+              id={`${question.id}-${option}`}
+              className="border-[#4b2e83] text-[#4b2e83]"
+            />
+            <Label
+              htmlFor={`${question.id}-${option}`}
+              className={`w-full cursor-pointer font-medium ${answer === option ? "text-[#4b2e83]" : ""}`}
             >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value={option} id={`option-${question.id}-${option}`} />
-                <Label htmlFor={`option-${question.id}-${option}`}>{option}</Label>
-              </div>
-              {answer === option && <CheckCircle className="h-5 w-5 text-[#4b2e83]" />}
-            </div>
-          ))}
-        </RadioGroup>
-      )
-    case "textarea":
-      return (
+              {option}
+            </Label>
+          </div>
+        ))}
+      </RadioGroup>
+    )
+  }
+
+  if (question.type === "textarea") {
+    return (
+      <div className="space-y-2">
+        <Label htmlFor={`question-${question.id}`} className="text-sm text-muted-foreground">
+          Share your observations
+        </Label>
         <Textarea
-          placeholder={question.placeholder}
+          id={`question-${question.id}`}
           value={answer || ""}
           onChange={(e) => onAnswer(question.id, e.target.value)}
-          className="min-h-[100px]"
+          placeholder="Type your answer here..."
+          className="min-h-[100px] border-[#e9e4f5] focus-visible:ring-[#4b2e83]"
         />
-      )
-    case "slider":
-      return (
-        <div className="space-y-4">
+      </div>
+    )
+  }
+
+  if (question.type === "slider") {
+    const value = answer ? [parseInt(answer)] : [3]
+    return (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>Not at all</span>
+            <span>Moderate</span>
+            <span>Very much</span>
+          </div>
           <Slider
-            defaultValue={[question.defaultValue]}
-            max={question.max}
-            min={question.min}
-            step={question.step}
-            value={answer ? [Number.parseInt(answer)] : [question.defaultValue]}
+            value={value}
+            min={1}
+            max={5}
+            step={1}
             onValueChange={(value) => onAnswer(question.id, value[0].toString())}
             className="py-4"
           />
-          <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">{question.labels[0]}</span>
-            <span className="text-sm font-medium">{answer || question.defaultValue}</span>
-            <span className="text-sm text-muted-foreground">{question.labels[1]}</span>
-          </div>
         </div>
-      )
-    default:
-      return null
+        <div className="flex justify-between pt-2">
+          {[1, 2, 3, 4, 5].map((num) => (
+            <Button
+              key={num}
+              type="button"
+              variant={value[0] === num ? "default" : "outline"}
+              size="sm"
+              className={`h-8 w-8 p-0 rounded-full ${
+                value[0] === num 
+                  ? "bg-[#4b2e83] text-white" 
+                  : "border-[#e9e4f5] text-muted-foreground hover:bg-[#f4f1f9] hover:text-[#4b2e83] hover:border-[#4b2e83]"
+              }`}
+              onClick={() => onAnswer(question.id, num.toString())}
+            >
+              {num}
+            </Button>
+          ))}
+        </div>
+      </div>
+    )
   }
+
+  return null
 }
 
 export default function AssessmentsPage() {
@@ -998,25 +928,25 @@ export default function AssessmentsPage() {
     <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-2xl text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Screenings</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Developmental Screenings</h1>
           <p className="mt-4 text-lg leading-8 text-gray-600">
-            Identify your child strengths and weaknesses with our free screenings
+            Quick, easy assessments to help you understand your child's development and get personalized guidance
           </p>
         </div>
 
         <div className="mx-auto mt-12 max-w-7xl">
           {!selectedCategory && !showResults && (
             <div className="space-y-8">
-              <div className="rounded-lg bg-muted p-6">
-                <h2 className="text-xl font-semibold">How It Works</h2>
+              <div className="rounded-lg bg-muted p-6 border border-[#e9e4f5]">
+                <h2 className="text-xl font-semibold text-[#4b2e83]">How These Screenings Help Your Family</h2>
                 <ol className="mt-4 space-y-4">
                   <li className="flex gap-3">
                     <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
                       1
                     </span>
                     <div>
-                      <p className="font-medium">Choose a screening category</p>
-                      <p className="text-sm text-muted-foreground">Select from our range of developmental areas</p>
+                      <p className="font-medium">Choose a screening that matches your concerns</p>
+                      <p className="text-sm text-muted-foreground">Each screening focuses on different aspects of your child's development</p>
                     </div>
                   </li>
                   <li className="flex gap-3">
@@ -1024,9 +954,9 @@ export default function AssessmentsPage() {
                       2
                     </span>
                     <div>
-                      <p className="font-medium">Answer simple questions</p>
+                      <p className="font-medium">Answer simple yes/no questions about your observations</p>
                       <p className="text-sm text-muted-foreground">
-                        Complete a short questionnaire about your child's abilities
+                        Share what you've noticed about your child's everyday activities and behaviors
                       </p>
                     </div>
                   </li>
@@ -1035,49 +965,50 @@ export default function AssessmentsPage() {
                       3
                     </span>
                     <div>
-                      <p className="font-medium">Get instant results</p>
+                      <p className="font-medium">Receive helpful insights and next steps</p>
                       <p className="text-sm text-muted-foreground">
-                        Receive a summary and recommendations based on your answers
+                        Get personalized guidance based on your responses to support your child's growth
                       </p>
                     </div>
                   </li>
                 </ol>
               </div>
 
-              <h2 className="text-xl font-semibold">Choose a Screening Checklist</h2>
+              <h2 className="text-xl font-semibold text-[#4b2e83]">Select a Screening That's Right for Your Child</h2>
               <div className="space-y-8">
                 {assessmentCategories.map((set) => (
                   <div key={set.id} className="space-y-6">
-                    <h2 className="text-2xl font-semibold">{set.name}</h2>
+                    <h2 className="text-2xl font-semibold text-[#4b2e83]">{set.name}</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                       {set.screenings.map((screening) => (
                         <Card
                           key={screening.id}
-                          className="cursor-pointer transition-colors hover:bg-muted/50 overflow-hidden"
+                          className="cursor-pointer transition-all hover:shadow-md hover:border-[#4b2e83]/30 overflow-hidden group"
                           onClick={() => handleCategorySelect(screening.id)}
                         >
-                          <div className="relative h-48 w-full">
+                          <div className="relative h-48 w-full overflow-hidden">
                             <Image
                               src={screening.image || "/placeholder.svg"}
                               alt={screening.name}
                               fill
-                              className="object-cover"
+                              className="object-cover transition-transform group-hover:scale-105"
                             />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                           </div>
                           <CardHeader>
                             <div className="flex items-center gap-3">
-                              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#1E73BE]/10">
-                                <screening.icon className="h-5 w-5 text-[#1E73BE]" />
+                              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#4b2e83]/10">
+                                <screening.icon className="h-5 w-5 text-[#4b2e83]" />
                               </div>
                               <CardTitle>{screening.name}</CardTitle>
                             </div>
-                            <CardDescription>{screening.description}</CardDescription>
+                            <CardDescription className="mt-2">{screening.description}</CardDescription>
                           </CardHeader>
                           <CardFooter>
                             <div className="flex w-full items-center justify-between">
-                              <span className="text-sm text-muted-foreground">{screening.questions} questions</span>
-                              <Button size="sm" className="bg-[#4b2e83] hover:bg-[#4b2e83]/90">
-                                Start Screening
+                              <span className="text-sm text-muted-foreground">{screening.questions} quick questions</span>
+                              <Button size="sm" className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 transition-all">
+                                Begin Screening
                               </Button>
                             </div>
                           </CardFooter>
@@ -1094,21 +1025,21 @@ export default function AssessmentsPage() {
             <div className="mx-auto max-w-xl">
               <Button
                 variant="ghost"
-                className="mb-4"
+                className="mb-4 text-[#4b2e83] hover:text-[#4b2e83]/80 hover:bg-[#4b2e83]/10"
                 onClick={handleStartOver}
               >
-                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Categories
+                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Screening Categories
               </Button>
 
               {selectedCategory === "developmental" && currentStep === 1 && (
-                <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                  <p className="text-sm text-amber-800">{developmentalScreeningDisclaimer}</p>
+                <div className="mb-6 p-4 bg-[#f4f1f9] border border-[#e9e4f5] rounded-lg">
+                  <p className="text-sm text-[#4b2e83]">{developmentalScreeningDisclaimer}</p>
                 </div>
               )}
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>
+              <Card className="border border-[#e9e4f5] shadow-sm">
+                <CardHeader className="bg-[#f9f8fc] border-b border-[#e9e4f5]">
+                  <CardTitle className="text-[#4b2e83]">
                     {assessmentCategories
                       .flatMap((set) => set.screenings)
                       .find((s) => s.id === selectedCategory)?.name || "Screening"}
@@ -1117,10 +1048,10 @@ export default function AssessmentsPage() {
                     Question {currentStep} of {currentQuestions.length}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-6">
                   {currentQuestions.length > 0 && currentStep <= currentQuestions.length && (
-                    <div className="space-y-4">
-                      <p className="text-base leading-7">{currentQuestions[currentStep - 1].text}</p>
+                    <div className="space-y-6">
+                      <p className="text-base leading-7 font-medium">{currentQuestions[currentStep - 1].text}</p>
                       <QuestionComponent
                         question={currentQuestions[currentStep - 1]}
                         onAnswer={handleAnswer}
@@ -1129,11 +1060,12 @@ export default function AssessmentsPage() {
                     </div>
                   )}
                 </CardContent>
-                <CardFooter className="flex justify-between">
+                <CardFooter className="flex justify-between border-t border-[#e9e4f5] bg-[#f9f8fc] pt-4">
                   <Button
                     variant="outline"
                     onClick={handlePrevious}
                     disabled={currentStep === 1}
+                    className="border-[#4b2e83] text-[#4b2e83]"
                   >
                     Previous
                   </Button>
@@ -1142,12 +1074,18 @@ export default function AssessmentsPage() {
                     disabled={!isCurrentQuestionAnswered()}
                     className="bg-[#4b2e83] hover:bg-[#4b2e83]/90"
                   >
-                    {currentStep === currentQuestions.length ? "Complete" : "Next"}
+                    {currentStep === currentQuestions.length ? "Complete Screening" : "Next Question"}
                   </Button>
                 </CardFooter>
               </Card>
 
-              <Progress value={progress} className="mt-6 h-2" />
+              <div className="mt-6">
+                <div className="flex justify-between text-sm text-[#4b2e83] mb-2">
+                  <span>Progress</span>
+                  <span>{Math.round(progress)}%</span>
+                </div>
+                <Progress value={progress} className="h-2 bg-[#e9e4f5]" />
+              </div>
             </div>
           )}
 
@@ -1163,10 +1101,10 @@ export default function AssessmentsPage() {
 
           {showResults && (
             <div className="space-y-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Screening Results</CardTitle>
-                  <CardDescription>
+              <Card className="border border-[#e9e4f5] shadow-sm overflow-hidden">
+                <div className="bg-[#4b2e83] py-5 px-6 text-white">
+                  <h2 className="text-xl font-semibold">Your Child's Screening Results</h2>
+                  <p className="text-white/80 mt-1 text-sm">
                     Based on your responses to the{" "}
                     {
                       assessmentCategories
@@ -1174,21 +1112,23 @@ export default function AssessmentsPage() {
                         ?.screenings.find((s) => s.id === selectedCategory)?.name
                     }{" "}
                     screening
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
+                  </p>
+                </div>
+                <CardContent className="pt-6">
                   <div className="space-y-6">
                     {/* Show different results based on the screening category */}
                     {selectedCategory === "behavior" && (
-                      <div className="rounded-lg bg-amber-50 p-4 text-amber-800">
+                      <div className="rounded-lg bg-[#f4f1f9] p-4 border border-[#e9e4f5]">
                         <div className="flex items-start gap-3">
-                          <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
+                          <div className="mt-0.5 h-8 w-8 flex-shrink-0 rounded-full bg-[#4b2e83]/10 flex items-center justify-center">
+                            <AlertCircle className="h-5 w-5 text-[#4b2e83]" />
+                          </div>
                           <div>
-                            <h3 className="font-medium">Behavior Support Recommended</h3>
+                            <h3 className="font-medium text-[#4b2e83]">Behavior Support May Help Your Child</h3>
                             <p className="mt-1 text-sm">
-                              Your responses indicate that your child may benefit from our Behavior Modification
-                              program. This approach addresses challenging behaviors through structured interventions
-                              and parent training.
+                              Your responses suggest your child might benefit from our Brave to Behave program. This 
+                              supportive approach helps children develop emotional regulation skills and positive behaviors
+                              through child-friendly activities and parent guidance.
                             </p>
                           </div>
                         </div>
@@ -1196,14 +1136,17 @@ export default function AssessmentsPage() {
                     )}
 
                     {selectedCategory === "potty" && (
-                      <div className="rounded-lg bg-amber-50 p-4 text-amber-800">
+                      <div className="rounded-lg bg-[#f4f1f9] p-4 border border-[#e9e4f5]">
                         <div className="flex items-start gap-3">
-                          <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
+                          <div className="mt-0.5 h-8 w-8 flex-shrink-0 rounded-full bg-[#4b2e83]/10 flex items-center justify-center">
+                            <AlertCircle className="h-5 w-5 text-[#4b2e83]" />
+                          </div>
                           <div>
-                            <h3 className="font-medium">Potty Training Support Recommended</h3>
+                            <h3 className="font-medium text-[#4b2e83]">Potty Training Support May Help Your Child</h3>
                             <p className="mt-1 text-sm">
-                              Your responses indicate that your child may benefit from our Potty Training program. This
-                              approach provides strategies and support for successful toilet training.
+                              Your responses suggest your child might benefit from our PooPee Time program. This 
+                              supportive approach provides gentle, effective strategies for successful toilet training
+                              based on your child's unique developmental readiness.
                             </p>
                           </div>
                         </div>
@@ -1211,135 +1154,152 @@ export default function AssessmentsPage() {
                     )}
 
                     {selectedCategory !== "behavior" && selectedCategory !== "potty" && (
-                      <div className="rounded-lg bg-amber-50 p-4 text-amber-800">
+                      <div className="rounded-lg bg-[#f4f1f9] p-4 border border-[#e9e4f5]">
                         <div className="flex items-start gap-3">
-                          <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
+                          <div className="mt-0.5 h-8 w-8 flex-shrink-0 rounded-full bg-[#4b2e83]/10 flex items-center justify-center">
+                            <AlertCircle className="h-5 w-5 text-[#4b2e83]" />
+                          </div>
                           <div>
-                            <h3 className="font-medium">Development Support Recommended</h3>
+                            <h3 className="font-medium text-[#4b2e83]">Developmental Support May Benefit Your Child</h3>
                             <p className="mt-1 text-sm">
-                              Your child's responses indicate areas where additional support could be beneficial. This
-                              doesn't necessarily mean there's a problem, but it may be worth discussing with a
-                              specialist.
+                              Your responses suggest your child might benefit from some additional support in certain areas.
+                              This doesn't necessarily indicate a concern, but providing some targeted assistance now
+                              could help your child build important skills and confidence.
                             </p>
                           </div>
                         </div>
                       </div>
                     )}
 
-                    <div>
-                      <h3 className="font-medium">Summary</h3>
-                      <div className="mt-4 space-y-4">
-                        <div className="flex items-start gap-3">
-                          <CheckCircle className="mt-0.5 h-5 w-5 text-green-500" />
-                          <div>
-                            <p className="font-medium">Strengths</p>
-                            <p className="text-sm text-muted-foreground">
-                              {selectedCategory === "behavior"
-                                ? "Your child shows good response to structure and routine."
-                                : selectedCategory === "potty"
-                                  ? "Your child shows interest in the bathroom and toilet."
-                                  : selectedCategory === "independence"
-                                    ? "Your child shows initiative in self-help skills."
-                                    : selectedCategory === "eating"
-                                      ? "Your child has a good appetite for certain foods."
-                                      : selectedCategory === "sleep"
-                                        ? "Your child has a consistent bedtime routine."
-                                        : selectedCategory === "academic"
-                                          ? "Your child shows interest in learning activities."
-                                          : "Your child shows age-appropriate developmental skills in several areas."}
-                            </p>
+                    <div className="mt-8">
+                      <h3 className="font-medium text-[#4b2e83] mb-4">Your Child's Profile</h3>
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div className="rounded-lg border border-[#e9e4f5] p-4 bg-[#f9f8fc]">
+                          <div className="flex items-start gap-3">
+                            <div className="mt-0.5 h-8 w-8 flex-shrink-0 rounded-full bg-[#4b2e83]/10 flex items-center justify-center">
+                              <CheckCircle className="h-5 w-5 text-green-600" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-[#4b2e83]">Your Child's Strengths</p>
+                              <p className="text-sm mt-2">
+                                {selectedCategory === "behavior"
+                                  ? "Your child shows good response to structure and routine."
+                                  : selectedCategory === "potty"
+                                    ? "Your child shows interest in the bathroom and toilet."
+                                    : selectedCategory === "independence"
+                                      ? "Your child shows initiative in self-help skills."
+                                      : selectedCategory === "eating"
+                                        ? "Your child has a good appetite for certain foods."
+                                        : selectedCategory === "sleep"
+                                          ? "Your child has a consistent bedtime routine."
+                                          : selectedCategory === "academic"
+                                            ? "Your child shows interest in learning activities."
+                                            : "Your child shows age-appropriate developmental skills in several areas."}
+                              </p>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex items-start gap-3">
-                          <AlertCircle className="mt-0.5 h-5 w-5 text-amber-500" />
-                          <div>
-                            <p className="font-medium">Areas of Concern</p>
-                            <p className="text-sm text-muted-foreground">
-                              {selectedCategory === "behavior"
-                                ? "Your child shows some challenging behaviors during transitions and when told 'no'."
-                                : selectedCategory === "potty"
-                                  ? "Your child may need more consistency in potty training routines."
-                                  : selectedCategory === "independence"
-                                    ? "Your child may need more opportunities to practice self-help skills."
-                                    : selectedCategory === "eating"
-                                      ? "Your child shows selectivity with certain food textures."
-                                      : selectedCategory === "sleep"
-                                        ? "Your child has difficulty staying asleep through the night."
-                                        : selectedCategory === "academic"
-                                          ? "Your child may need more support with pre-reading skills."
-                                          : "Your child may benefit from additional support in some developmental areas."}
-                            </p>
+                        <div className="rounded-lg border border-[#e9e4f5] p-4 bg-[#f9f8fc]">
+                          <div className="flex items-start gap-3">
+                            <div className="mt-0.5 h-8 w-8 flex-shrink-0 rounded-full bg-[#4b2e83]/10 flex items-center justify-center">
+                              <AlertCircle className="h-5 w-5 text-amber-500" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-[#4b2e83]">Areas for Growth</p>
+                              <p className="text-sm mt-2">
+                                {selectedCategory === "behavior"
+                                  ? "Your child shows some challenging behaviors during transitions and when told 'no'."
+                                  : selectedCategory === "potty"
+                                    ? "Your child may need more consistency in potty training routines."
+                                    : selectedCategory === "independence"
+                                      ? "Your child may need more opportunities to practice self-help skills."
+                                      : selectedCategory === "eating"
+                                        ? "Your child shows selectivity with certain food textures."
+                                        : selectedCategory === "sleep"
+                                          ? "Your child has difficulty staying asleep through the night."
+                                          : selectedCategory === "academic"
+                                            ? "Your child may need more support with pre-reading skills."
+                                            : "Your child may benefit from additional support in some developmental areas."}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div>
-                      <h3 className="font-medium">Recommended Package</h3>
-                      <div className="mt-4 rounded-lg border p-4">
-                        <h4 className="font-medium">{recommendedPackage.name}</h4>
-                        <p className="mt-2 text-sm text-muted-foreground">{recommendedPackage.description}</p>
-                        <Button className="mt-4 bg-[#4b2e83] hover:bg-[#4b2e83]/90" asChild>
-                          <Link href={recommendedPackage.url}>View Package Details</Link>
+                    <div className="mt-8">
+                      <h3 className="font-medium text-[#4b2e83] mb-4">Recommended Support Plan</h3>
+                      <div className="rounded-lg border border-[#e9e4f5] p-4 bg-[#f9f8fc]">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="h-10 w-10 flex-shrink-0 rounded-full bg-[#4b2e83]/10 flex items-center justify-center">
+                            <CheckCircle className="h-6 w-6 text-[#4b2e83]" />
+                          </div>
+                          <h4 className="font-medium text-[#4b2e83] text-lg">{recommendedPackage.name}</h4>
+                        </div>
+                        <p className="text-sm mb-4">{recommendedPackage.description}</p>
+                        <Button className="w-full mt-2 bg-[#4b2e83] hover:bg-[#4b2e83]/90" asChild>
+                          <Link href={recommendedPackage.url}>View Support Plan Details</Link>
                         </Button>
                       </div>
                     </div>
 
-                    <div>
-                      <h3 className="font-medium">Next Steps</h3>
-                      <ul className="mt-4 space-y-2 text-sm">
-                        <li className="flex items-start gap-2">
-                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
-                            1
-                          </span>
-                          <span>Schedule a consultation with a specialist for a more detailed evaluation.</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
-                            2
-                          </span>
-                          <span>
-                            {selectedCategory === "behavior"
-                              ? "Review our behavior management resources in our Resource Library."
-                              : selectedCategory === "potty"
-                                ? "Try the suggested activities in our 'Potty Training Success' article."
-                                : selectedCategory === "independence"
-                                  ? "Try the suggested activities in our 'Fostering Independence' article."
-                                  : selectedCategory === "eating"
-                                    ? "Try the suggested activities in our 'Healthy Eating Habits' article."
-                                    : selectedCategory === "sleep"
-                                      ? "Try the suggested activities in our 'Better Sleep Routines' article."
-                                      : selectedCategory === "academic"
-                                        ? "Try the suggested activities in our 'School Readiness' article."
-                                        : "Review our developmental resources in our Resource Library."}
-                          </span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
-                            3
-                          </span>
-                          <span>Explore our recommended therapy package for comprehensive support.</span>
-                        </li>
-                      </ul>
+                    <div className="mt-8">
+                      <h3 className="font-medium text-[#4b2e83] mb-4">Helpful Next Steps</h3>
+                      <div className="rounded-lg border border-[#e9e4f5] p-4 bg-[#f9f8fc]">
+                        <ul className="space-y-4">
+                          <li className="flex items-start gap-3">
+                            <div className="flex h-6 w-6 mt-0.5 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
+                              1
+                            </div>
+                            <span className="text-sm">Schedule a friendly consultation with one of our specialists to discuss your child's screening results in more detail.</span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                            <div className="flex h-6 w-6 mt-0.5 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
+                              2
+                            </div>
+                            <span className="text-sm">
+                              {selectedCategory === "behavior"
+                                ? "Browse our family-friendly behavior support resources in our Resource Library."
+                                : selectedCategory === "potty"
+                                  ? "Try the gentle, effective approaches in our 'Potty Training Success' article."
+                                  : selectedCategory === "independence"
+                                    ? "Explore the fun activities in our 'Building Independence' guide."
+                                    : selectedCategory === "eating"
+                                      ? "Check out our parent-tested tips in our 'Healthy Eating Habits' guide."
+                                      : selectedCategory === "sleep"
+                                        ? "Review our 'Better Sleep for the Whole Family' strategies."
+                                        : selectedCategory === "academic"
+                                          ? "Discover playful learning activities in our 'School Readiness' article."
+                                          : "Browse our developmental resources in our Family Resource Library."}
+                            </span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                            <div className="flex h-6 w-6 mt-0.5 items-center justify-center rounded-full bg-[#4b2e83] text-xs font-semibold text-white">
+                              3
+                            </div>
+                            <span className="text-sm">Learn more about our recommended support plan, which provides personalized guidance for your child's specific needs.</span>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
-                <CardFooter className="flex flex-col sm:flex-row gap-4 justify-center">
+                <CardFooter className="flex flex-col sm:flex-row gap-4 justify-center border-t border-[#e9e4f5] bg-[#f9f8fc] py-6">
                   <Button asChild className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 w-full sm:w-auto">
-                    <Link href="/consultation">Book a Consultation</Link>
+                    <Link href="/consultation">Schedule a Free Consultation</Link>
                   </Button>
                   <Button asChild className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 w-full sm:w-auto">
-                    <Link href="/packages">View Sessions</Link>
+                    <Link href="/packages">Explore Support Plans</Link>
                   </Button>
                 </CardFooter>
               </Card>
 
-              <div className="flex justify-center mt-6">
+              <div className="flex justify-center mt-8">
                 <Button variant="outline" className="border-[#4b2e83] text-[#4b2e83] mx-2" onClick={handleStartOver}>
                   Take Another Screening
                 </Button>
                 <Button variant="outline" className="border-[#4b2e83] text-[#4b2e83] mx-2" asChild>
-                  <Link href="/dashboard">View in Dashboard</Link>
+                  <Link href="/dashboard">Save Results to Dashboard</Link>
                 </Button>
               </div>
             </div>

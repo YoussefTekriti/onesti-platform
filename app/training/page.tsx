@@ -6,8 +6,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Tab } from "@headlessui/react"
-import { Mail } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Mail, ChevronRight, GraduationCap, School, Users, ImageIcon } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
   Accordion,
@@ -17,45 +17,65 @@ import {
 } from "@/components/ui/accordion"
 
 export default function TrainingPage() {
+  const [selectedTab, setSelectedTab] = useState(0)
+
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero section that matches site style */}
-      <section className="bg-white py-12 md:py-16">
+      {/* Hero section with enhanced design */}
+      <section className="relative bg-gradient-to-b from-[#4b2e83]/10 to-white py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-center text-[#4b2e83] mb-4">
-            Professional Training Programs
-          </h1>
-          <div className="w-24 h-1 bg-[#4b2e83] mx-auto mb-8"></div>
-          <p className="text-center text-gray-700 max-w-3xl mx-auto">
-            Comprehensive training modules designed to empower educators, facilitators, and schools
-            to create inclusive environments for all children.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold text-[#4b2e83] mb-6">
+              Professional Training Programs
+            </h1>
+            <div className="w-24 h-1 bg-[#4b2e83] mx-auto mb-8"></div>
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+              Comprehensive training modules designed to empower educators, facilitators, and schools
+              to create inclusive environments for all children.
+            </p>
+          </motion.div>
         </div>
       </section>
 
       <section className="py-12 container mx-auto px-4">
-        <Tab.Group>
-          <Tab.List className="flex space-x-1 rounded-xl bg-gray-100 p-1 mb-10">
-            {["Daycare Training", "Facilitator Training", "School Inclusion"].map((category) => (
+        <Tab.Group selectedIndex={selectedTab} onChange={setSelectedTab}>
+          <Tab.List className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 mb-12">
+            {[
+              { name: "Daycare Training", icon: Users },
+              { name: "Facilitator Training", icon: GraduationCap },
+              { name: "School Inclusion", icon: School }
+            ].map(({ name, icon: Icon }) => (
               <Tab
-                key={category}
+                key={name}
                 className={({ selected }) =>
-                  `w-full rounded-lg py-3 text-base font-medium leading-5 transition-all duration-200
+                  `flex-1 flex items-center justify-center space-x-2 rounded-xl py-4 px-6 text-base font-medium leading-5 transition-all duration-200 border-2
                   ${
                     selected
-                      ? "bg-white text-[#4b2e83] shadow"
-                      : "text-gray-600 hover:bg-white/[0.12] hover:text-[#4b2e83]"
+                      ? "bg-[#4b2e83] text-white border-[#4b2e83]"
+                      : "text-gray-600 border-gray-200 hover:border-[#4b2e83] hover:text-[#4b2e83]"
                   }`
                 }
               >
-                {category}
+                <Icon className="w-5 h-5" />
+                <span>{name}</span>
               </Tab>
             ))}
           </Tab.List>
+
           <Tab.Panels>
             {/* Daycare Training Panel */}
             <Tab.Panel>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
                 {/* Module Cards */}
                 <TrainingCard 
                   title="My Milestones" 
@@ -64,7 +84,7 @@ export default function TrainingPage() {
                   <AccordionItem value="core-level">
                     <AccordionTrigger className="text-left">Core Level: My Milestones</AccordionTrigger>
                     <AccordionContent>
-                      <p>My Milestones is a core level training for educators at daycare settings. It helps participants gain basic knowledge in the different areas of early childhood development. This core training lays the foundation upon which all following modules are built. With this knowledge, early childhood educators will be able to create activities and learning opportunities that are age appropriate to cater for every child's developmental level.</p>
+                      <p className="text-gray-700 leading-relaxed">My Milestones is a core level training for educators at daycare settings. It helps participants gain basic knowledge in the different areas of early childhood development. This core training lays the foundation upon which all following modules are built. With this knowledge, early childhood educators will be able to create activities and learning opportunities that are age appropriate to cater for every child's developmental level.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="intermediate-level">
@@ -199,17 +219,22 @@ export default function TrainingPage() {
                     </AccordionContent>
                   </AccordionItem>
                 </TrainingCard>
-              </div>
+              </motion.div>
 
-              <div className="mt-12 text-center">
-                <p className="text-sm text-gray-500 mb-4">For more information about any of our daycare training programs</p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mt-16 text-center"
+              >
+                <p className="text-gray-600 mb-6">For more information about any of our daycare training programs</p>
                 <Link href="/contact">
-                  <Button className="bg-[#4b2e83] hover:bg-[#4b2e83]/90">
-                    <Mail className="mr-2 h-4 w-4" />
+                  <Button size="lg" className="bg-[#4b2e83] hover:bg-[#4b2e83]/90">
+                    <Mail className="mr-2 h-5 w-5" />
                     Contact Professional Development
                   </Button>
                 </Link>
-              </div>
+              </motion.div>
             </Tab.Panel>
             
             {/* Facilitator Training Panel */}
@@ -366,24 +391,49 @@ export default function TrainingPage() {
 
 function TrainingCard({ 
   title, 
-  description, 
+  description,
+  imagePath,
   children 
 }: { 
-  title: string, 
-  description: string, 
+  title: string
+  description: string
+  imagePath?: string
   children: React.ReactNode 
 }) {
+  const [isExpanded, setIsExpanded] = useState(false)
+
   return (
-    <Card className="overflow-hidden h-full flex flex-col border border-gray-200">
-      <div className="bg-[#4b2e83] p-6 text-center">
-        <h3 className="text-xl font-semibold text-white">{title}</h3>
-      </div>
-      <div className="p-4 flex-grow">
-        <p className="text-sm text-gray-600 mb-4">{description}</p>
-        <Accordion type="single" collapsible className="w-full">
-          {children}
-        </Accordion>
-      </div>
-    </Card>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4 }}
+    >
+      <Card className="h-full flex flex-col overflow-hidden group hover:shadow-lg transition-shadow duration-300">
+        <div className="relative h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+          {imagePath ? (
+            <div className="w-full h-full relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#4b2e83]/20 to-[#4b2e83]/5 z-10"></div>
+              <div className="absolute inset-0 flex items-center justify-center z-20">
+                <ImageIcon className="h-16 w-16 text-white/40" />
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center text-[#4b2e83]/40">
+              <ImageIcon className="h-16 w-16" />
+              <p className="text-sm mt-2">{title}</p>
+            </div>
+          )}
+        </div>
+        <CardHeader>
+          <CardTitle className="text-xl text-[#4b2e83]">{title}</CardTitle>
+          <CardDescription className="line-clamp-2">{description}</CardDescription>
+        </CardHeader>
+        <CardContent className="flex-grow">
+          <Accordion type="single" collapsible>
+            {children}
+          </Accordion>
+        </CardContent>
+      </Card>
+    </motion.div>
   )
 } 

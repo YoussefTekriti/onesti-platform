@@ -254,11 +254,11 @@ export default function TeamPage() {
         {/* Team Grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {teamMembers.map((member) => (
-            <div key={member.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div key={member.id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full">
               <div className="aspect-square relative">
                 <Image src={member.image || "/placeholder.svg"} alt={member.name} fill className="object-cover" />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
                 <div className="mb-4">
                   <h3 className="text-xl font-bold">{member.name}</h3>
                   <p className="text-primary">{member.role}</p>
@@ -282,9 +282,11 @@ export default function TeamPage() {
                   <h4 className="font-semibold text-sm text-gray-900 mb-2">Experience:</h4>
                   <p className="text-sm text-gray-600">{member.experience}</p>
                 </div>
-                <Button asChild variant="outline" className="w-full">
-                  <Link href={`/team/${member.id}`}>View Full Profile</Link>
-                </Button>
+                <div className="mt-auto">
+                  <Button asChild variant="outline" className="w-full">
+                    <Link href={`/team/${member.id}`}>View Full Profile</Link>
+                  </Button>
+                </div>
               </div>
             </div>
           ))}

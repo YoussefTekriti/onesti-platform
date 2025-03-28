@@ -192,6 +192,39 @@ Currently I'm working as a school psychologist at AGBU Schools in Lebanon where 
 I chose educational psychology because of my passion for improving the learning experience of students by making a meaningful impact on their academic and emotional well-being. My goal is to create inclusive and engaging environments that help students reach their full potential. While my profession brings me a lot of fulfillment, I do enjoy basketball as well as playing the piano during my free time.`,
     personalInterests: "Basketball and playing the piano",
   },
+  {
+    id: 11,
+    name: "Katia Hazoury",
+    role: "Co-founder & Technical Advisor of Academic Department",
+    bio: "MA in Special Education, Reading Specialist, Teacher Trainer, Educational Evaluator, Published Researcher and Author. With more than 20 years of experience in the field of education, specializing in educational administration, program development, and academic research.",
+    image: "/placeholder.svg?height=400&width=400",
+    specialties: ["Special Education", "Reading Intervention", "Educational Program Development"],
+    education: "MA in Special Education",
+    experience: "20+ years",
+    fullBio: `With more than 20 years of experience in the field of education, I am adept in educational administration, team leadership, proposal and report writing, program evaluation, curricular and program development, academic research translation and book writing.
+
+I have worked closely with school administrators, teachers, coordinators, parents, and specialists (physicians, psychologists, speech therapists, and OTs).
+
+Moreover, while my on-the-job experience has afforded me a well-rounded skill set, including analytical and problem solving abilities, I am known to empower my teams, and motivate them to give their best in the face of constraints and crises.
+
+Highlights of my achievements include:
+
+• Created the remedial reading program My First Letters, a pioneering tool to help struggling readers in Arabic
+• Established a special education department at schools
+• Adapted to Arabic a 162 page online course to initiate teachers and parents on the basics of dyslexia
+• Founded centers to assess and remediate students with learning disabilities
+• Managed special education departments in various schools in Lebanon and Arab countries
+• Co-authored 3 published research articles
+• Taught a graduate course at a prestigious university in Lebanon
+• Wrote countless reports, program evaluations, proposals, and funding requests
+
+In addition to my extensive work experience, I have a solid educational foundation and a passion for languages and helping others, from children to adults.
+
+I am a dynamic, detail-oriented, a go-getter, and a humanist.
+
+I am also a mother of two kids and I enjoy cooking and walking. People say that I am funny. You can only discover that during my sessions.`,
+    personalInterests: "Cooking, walking, spending time with my two children",
+  },
 ]
 
 export default function TeamMemberPage({ params }: { params: { id: string } }) {

@@ -92,14 +92,16 @@ const tags = [
   "Online Sessions",
 ]
 
-export default function BlogsPage({ searchParams }: { searchParams: { category?: string; tag?: string; q?: string } }) {
+export default function BlogsPage({ searchParams }: { searchParams?: { category?: string; tag?: string; q?: string } }) {
   const clientSearchParams = useSearchParams()
+  const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("")
   const [category, setCategory] = useState<string | null>(null)
   const [tag, setTag] = useState<string | null>(null)
   
   // Initialize params from URL when component mounts or when URL changes
   useEffect(() => {
+    // Use clientSearchParams (from useSearchParams hook) instead of possibly stale prop values
     const q = clientSearchParams.get('q')
     const categoryParam = clientSearchParams.get('category')
     const tagParam = clientSearchParams.get('tag')
@@ -155,21 +157,27 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
   // Handle search form submission
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Update URL with search parameter
+    
+    // Update URL with search parameter using router.push
+    let searchUrl = '/blogs';
+    const params = new URLSearchParams();
+    
     if (searchTerm) {
-      window.history.pushState(
-        {}, 
-        '', 
-        `/blogs?q=${encodeURIComponent(searchTerm)}${category ? `&category=${category}` : ''}${tag ? `&tag=${tag}` : ''}`
-      );
-    } else {
-      // Remove search parameter if search is cleared
-      window.history.pushState(
-        {}, 
-        '', 
-        `/blogs${category ? `?category=${category}` : ''}${!category && tag ? `?tag=${tag}` : ''}${category && tag ? `&tag=${tag}` : ''}`
-      );
+      params.set('q', searchTerm);
     }
+    if (category) {
+      params.set('category', category);
+    }
+    if (tag) {
+      params.set('tag', tag);
+    }
+    
+    const queryString = params.toString();
+    if (queryString) {
+      searchUrl += `?${queryString}`;
+    }
+    
+    router.push(searchUrl);
   };
 
   return (
@@ -210,7 +218,7 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
               <div className="mb-12">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">{featuredBlog.title}</h2>
 
-                <div className="bg-white rounded-lg overflow-hidden shadow-sm">
+                <div className="bg-white rounded-lg overflow-hidden shadow-sm flex flex-col">
                   <div className="relative h-[400px] w-full">
                     <Image
                       src={featuredBlog.image || "/placeholder.svg"}
@@ -222,7 +230,7 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
                     <Badge className="absolute top-4 left-4 bg-white text-primary">{featuredBlog.category}</Badge>
                   </div>
 
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-grow">
                     <div className="flex items-center mb-4">
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 mr-1 text-gray-500" />
@@ -232,7 +240,7 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
 
                     <p className="text-gray-700 mb-6">{featuredBlog.subtitle}</p>
 
-                    <div className="flex items-center justify-between">
+                    <div className="mt-auto flex items-center justify-between">
                       <span className="text-sm font-medium text-primary">{featuredBlog.author}</span>
                       <Link href={`/blogs/${featuredBlog.slug}`}>
                         <Button variant="outline" size="sm">
@@ -248,7 +256,7 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
             {/* Other Blog Posts */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredPosts.map((blog) => (
-                <div key={blog.id} className="bg-white rounded-lg overflow-hidden shadow-sm">
+                <div key={blog.id} className="bg-white rounded-lg overflow-hidden shadow-sm h-full flex flex-col">
                   <Link href={`/blogs/${blog.slug}`} className="block">
                     <div className="relative w-full h-48">
                       <Image
@@ -261,7 +269,7 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
                     </div>
                   </Link>
 
-                  <div className="p-5">
+                  <div className="p-5 flex flex-col flex-grow">
                     <div className="flex items-center justify-between text-gray-500 text-sm mb-2">
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 mr-1" />
@@ -276,7 +284,7 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
 
                     <p className="text-gray-600 text-sm mb-4 line-clamp-3">{blog.excerpt}</p>
 
-                    <div className="flex justify-end">
+                    <div className="mt-auto flex justify-end">
                       <Link href={`/blogs/${blog.slug}`} className="text-primary text-sm font-medium hover:underline">
                         Read More
                       </Link>
@@ -302,38 +310,53 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
           <div className="lg:col-span-1">
             {/* Search Box */}
             <div className="bg-white p-6 rounded-lg shadow-sm mb-8">
-              <form onSubmit={handleSearch}>
+              <form onSubmit={handleSearch} className="mt-6 mb-8">
                 <div className="relative">
                   <input
-                    type="text"
-                    placeholder="Search..."
+                    type="search"
+                    placeholder="Search for resources..."
+                    className="w-full p-3 pl-10 pr-14 bg-white border border-gray-300 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
-                  <button type="submit" className="absolute inset-y-0 right-0 px-3 flex items-center">
-                    <Search className="h-5 w-5 text-blue-500" />
-                  </button>
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <Search className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <Button type="submit" size="sm" className="h-8 rounded-md">
+                      Search
+                    </Button>
+                  </div>
                 </div>
+                
+                {searchTerm && (
+                  <div className="mt-2 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSearchTerm("");
+                        // Update URL to remove search
+                        const params = new URLSearchParams();
+                        if (category) {
+                          params.set('category', category);
+                        }
+                        if (tag) {
+                          params.set('tag', tag);
+                        }
+                        const queryString = params.toString();
+                        if (queryString) {
+                          router.push(`/blogs?${queryString}`);
+                        } else {
+                          router.push('/blogs');
+                        }
+                      }}
+                      className="text-sm text-gray-500 hover:text-primary"
+                    >
+                      Clear search
+                    </button>
+                  </div>
+                )}
               </form>
-              {searchTerm && (
-                <div className="mt-2 flex justify-end">
-                  <button 
-                    onClick={() => {
-                      setSearchTerm("");
-                      // Update URL to remove search
-                      window.history.pushState(
-                        {}, 
-                        '', 
-                        `/blogs${category ? `?category=${category}` : ''}${!category && tag ? `?tag=${tag}` : ''}${category && tag ? `&tag=${tag}` : ''}`
-                      );
-                    }}
-                    className="text-sm text-gray-500 hover:text-primary"
-                  >
-                    Clear search
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* Categories */}
@@ -359,7 +382,7 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
               <h3 className="text-xl font-bold mb-4 text-gray-900">Latest Resources</h3>
               <div className="space-y-4">
                 {blogPosts.slice(0, 4).map((post) => (
-                  <Link href={`/blogs/${post.slug}`} key={post.id} className="flex gap-3 group">
+                  <Link href={`/blogs/${post.slug}`} key={post.id} className="flex gap-3 group h-20">
                     <div className="relative w-20 h-20 flex-shrink-0 overflow-hidden rounded-md">
                       <Image
                         src={post.image || "/placeholder.svg"}
@@ -368,8 +391,8 @@ export default function BlogsPage({ searchParams }: { searchParams: { category?:
                         className="object-cover"
                       />
                     </div>
-                    <div>
-                      <div className="text-gray-500 text-xs mb-1">{post.date}</div>
+                    <div className="flex flex-col justify-between py-0.5">
+                      <div className="text-gray-500 text-xs">{post.date}</div>
                       <h4 className="text-sm font-medium group-hover:text-primary line-clamp-2">
                         {post.title}
                       </h4>

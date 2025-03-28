@@ -27,15 +27,15 @@ const packages = [
     regionalPrice: 600, // Regional discount price
     sessionCount: 12,
     features: [
-      "In-depth initial assessment with a multidisciplinary review",
-      "12 therapy sessions to be used flexibly",
-      "The 1plan Personalized intervention with targeted objectives",
-      "Parent support strategies to implement plan objectives in daily life",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "Calendar integration with reminders",
-      "4 video reviews with detailed feedback",
-      "Regular parent and therapist coordination meetings",
-      "Dedicated Technical Advisor for coordination",
+      "In-depth initial assessment with a supportive multidisciplinary team",
+      "12 flexible therapy sessions tailored to your child's needs",
+      "Individualized intervention plan with clear, achievable goals",
+      "Parent coaching with practical strategies you can use at home",
+      "Easy-to-use interactive dashboard to track your child's progress",
+      "Calendar integration with helpful reminders",
+      "4 video reviews with detailed, supportive feedback",
+      "Regular parent-therapist meetings to ensure we're meeting your family's needs",
+      "Dedicated coordinator to answer questions and provide guidance",
     ],
     recommended: true,
   },
@@ -48,15 +48,15 @@ const packages = [
     regionalPrice: 400, // Regional discount price
     sessionCount: 8,
     features: [
-      "In-depth initial assessment with a multidisciplinary review",
-      "8 therapy sessions to be used flexibly",
-      "The 1plan Personalized intervention with targeted objectives",
-      "Parent support strategies to implement plan objectives in daily life",
-      "Regular progress/coordination meetings",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "Calendar integration with reminders",
-      "2 video reviews with detailed feedback",
-      "Dedicated Technical Advisor for coordination",
+      "In-depth initial assessment with a supportive multidisciplinary team",
+      "8 flexible therapy sessions tailored to your child's needs",
+      "Individualized intervention plan with clear, achievable goals",
+      "Parent coaching with practical strategies you can use at home",
+      "Regular check-ins to discuss progress and adjust approaches",
+      "Easy-to-use interactive dashboard to track your child's progress",
+      "Calendar integration with helpful reminders",
+      "2 video reviews with detailed, supportive feedback",
+      "Dedicated coordinator to answer questions and provide guidance",
     ],
     recommended: false,
   },
@@ -69,13 +69,13 @@ const packages = [
     regionalPrice: 200, // Regional discount price
     sessionCount: 4,
     features: [
-      "In-depth initial assessment with a multidisciplinary review",
-      "4 therapy sessions to be used flexibly",
-      "The 1plan Personalized intervention with targeted objectives",
-      "Parent support strategies to implement plan objectives in daily life",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "Calendar integration with reminders",
-      "Dedicated Technical Advisor for coordination",
+      "Supportive initial assessment to understand your child's needs",
+      "4 therapy sessions tailored to your child's specific goals",
+      "Individualized intervention plan with clear, achievable objectives",
+      "Parent coaching with practical strategies you can use at home",
+      "Easy-to-use interactive dashboard to track your child's progress",
+      "Calendar integration with helpful reminders",
+      "Dedicated coordinator to answer questions and provide guidance",
     ],
     recommended: false,
   },
@@ -95,16 +95,16 @@ const routinePackages = [
     id: "routine-thrive",
     name: "Routine Thrive Path",
     description: "Comprehensive support for routine-based challenges",
-    price: 420,  // Global price for the entire package
+    price: 700,  // Global price for the entire package
     displayPrice: 70, // Price shown per session
-    regionalPrice: 300, // Regional discount price
+    regionalPrice: 500, // Regional discount price
     sessionCount: 10,
     features: [
-      "10 intervention sessions",
-      "A report detailing results of the screening checklist",
-      "The 1plan which includes the targeted objectives",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "6 video review for feedback",
+      "10 supportive intervention sessions",
+      "Easy-to-understand report explaining your child's routine challenges",
+      "Individualized plan with practical strategies for daily routines",
+      "User-friendly dashboard to track progress and celebrate wins",
+      "3 video reviews with helpful feedback and suggestions",
     ],
     recommended: true,
   },
@@ -112,16 +112,16 @@ const routinePackages = [
     id: "routine-empower",
     name: "Routine Empower Path",
     description: "Balanced support for routine-based challenges",
-    price: 300,  // Global price for the entire package
+    price: 450,  // Global price for the entire package
     displayPrice: 75, // Price shown per session
-    regionalPrice: 200, // Regional discount price
-    sessionCount: 8,
+    regionalPrice: 300, // Regional discount price
+    sessionCount: 6,
     features: [
-      "8 intervention sessions",
-      "A report detailing results of the screening checklist",
-      "The 1plan Personalized intervention with targeted objectives",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "4 video review for feedback",
+      "6 supportive intervention sessions",
+      "Easy-to-understand report explaining your child's routine challenges",
+      "Individualized plan with practical strategies for daily routines",
+      "User-friendly dashboard to track progress and celebrate wins",
+      "2 video reviews with helpful feedback and suggestions",
     ],
     recommended: false,
   },
@@ -129,16 +129,16 @@ const routinePackages = [
     id: "routine-nurture",
     name: "Routine Nurture Path",
     description: "Essential support for routine-based challenges",
-    price: 160,  // Global price for the entire package
+    price: 320,  // Global price for the entire package
     displayPrice: 80, // Price shown per session
-    regionalPrice: 100, // Regional discount price
+    regionalPrice: 200, // Regional discount price
     sessionCount: 4,
     features: [
-      "4 intervention sessions",
-      "A report detailing results of the screening checklist",
-      "The 1plan Personalized intervention with targeted objectives",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "2 Video review for feedback",
+      "4 supportive intervention sessions",
+      "Easy-to-understand report explaining your child's routine challenges",
+      "Individualized plan with practical strategies for daily routines",
+      "User-friendly dashboard to track progress and celebrate wins",
+      "1 video review with helpful feedback and suggestions",
     ],
     recommended: false,
   },
@@ -149,79 +149,78 @@ const abaPackages = [
   {
     id: "aba-school-starter",
     name: "ABA Intensive Starter Path",
-    description: "Intensive support for complex behavioral needs (first month of intervention)",
+    description: "Supportive behavior program (first month of intervention)",
     price: 576,  // Global price for the entire package (12 hours × $48)
     displayPrice: 48, // Price shown per hour
     regionalPrice: 576, // Regional discount price
     sessionCount: 12,
     features: [
-      "12 hours of ABA intervention",
-      "Personalized behavior intervention plan",
-      "Detailed feedback and recommendations",
-      "Implementation of customized reinforcement plan",
-      "Regular progress monitoring",
-      "Documentation of milestones and achievements",
+      "12 hours of gentle, effective ABA intervention",
+      "Personalized behavior plan focused on your child's specific needs",
+      "Clear, helpful feedback and practical recommendations",
+      "Positive reinforcement strategies that work with your child's interests",
+      "Regular progress updates in family-friendly language",
+      "Celebration of milestones and achievements, no matter how small",
     ],
     recommended: true,
   },
   {
     id: "aba-school-followup",
     name: "Follow-up & Reinforcement Path",
-    description: "Second month of intervention",
+    description: "Continuing support (second month of intervention)",
     price: 432,  // Global price for the entire package (8 hours × $54)
     displayPrice: 54, // Price shown per hour
     regionalPrice: 432, // Regional discount price
     sessionCount: 8,
     features: [
-      "8 hours of ABA intervention",
-      "Quality Assurance Measures",
-      "Detailed feedback and recommendations",
-      "Data-driven program modifications",
-      "Assessment of behavioral intervention effectiveness",
-      "Evaluation of need for additional behavioral assessments/interventions",
-      "Regular progress monitoring",
-      "Documentation of milestones and achievements",
+      "8 hours of supportive ABA intervention",
+      "Quality assurance to ensure consistent, effective support",
+      "Clear, helpful feedback and practical recommendations",
+      "Data-informed adjustments to better meet your child's needs",
+      "Assessment of progress and celebration of improvements",
+      "Evaluation to determine if additional support would be beneficial",
+      "Regular progress updates in family-friendly language",
+      "Celebration of milestones and achievements",
     ],
     recommended: false,
   },
   {
     id: "aba-school-supervision",
     name: "Supervision & Refinement Path",
-    description: "Third month of Intervention",
+    description: "Transition support (third month of intervention)",
     price: 260,  // Global price for the entire package (4 hours × $65)
     displayPrice: 65, // Price shown per hour
     regionalPrice: 260, // Regional discount price
     sessionCount: 4,
     features: [
-      "4 hours of ABA intervention",
-      "Quality Assurance Measures",
-      "Detailed feedback and recommendations",
-      "Data-driven program modifications",
-      "Assessment of behavioral intervention effectiveness",
-      "Evaluation of need for additional behavioral assessments/interventions",
-      "Regular progress monitoring",
-      "Documentation of milestones and achievements",
+      "4 hours of supportive ABA intervention",
+      "Quality assurance to ensure consistent, effective support",
+      "Clear, helpful feedback and practical recommendations",
+      "Data-informed adjustments to better meet your child's needs",
+      "Assessment of progress and celebration of improvements",
+      "Evaluation to determine if additional support would be beneficial",
+      "Regular progress updates in family-friendly language",
+      "Celebration of milestones and achievements",
     ],
     recommended: false,
   },
   {
     id: "aba-home-intensive",
     name: "Intensive Home Program",
-    description: "Comprehensive home-based ABA support",
+    description: "Comprehensive home-based support for your family",
     price: 578,  // Global price for the entire package (17 hours × $34)
     displayPrice: 34, // Price shown per hour
     regionalPrice: 578, // Regional discount price
     sessionCount: 17,
     features: [
-      "17 hours of ABA intervention",
-      "Personalized behavior intervention plan",
-      "Implementation of customized reinforcement plan",
-      "Data-driven program modifications",
-      "Assessment of behavioral intervention effectiveness",
-      "Evaluation of need for additional behavioral assessments/interventions",
-      "Strategic planning for support reduction",
-      "Regular progress monitoring",
-      "Documentation of milestones and achievements",
+      "17 hours of in-home ABA support",
+      "Personalized behavior plan that works in your family environment",
+      "Positive reinforcement strategies tailored to your child's interests",
+      "Ongoing adjustments based on your child's progress and needs",
+      "Assessment of what's working well and areas for improvement",
+      "Planning for gradual reduction in support as your child gains skills",
+      "Regular progress updates in clear, family-friendly language",
+      "Celebration of milestones and achievements, no matter how small",
     ],
     recommended: false,
   },
@@ -408,9 +407,9 @@ export default function PackagesPage() {
     <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-2xl text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Packages & Payment</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Support Packages</h1>
           <p className="mt-4 text-lg leading-8 text-gray-600">
-            Choose a therapy package that fits your child's needs and your budget
+            Find the right support plan for your child's needs and your family's journey
           </p>
         </div>
 
@@ -419,9 +418,9 @@ export default function PackagesPage() {
           <div className="fixed bottom-4 right-4 z-50">
             <div className="bg-white rounded-lg shadow-lg border p-4 w-72 max-w-[calc(100vw-2rem)]">
               <div className="flex justify-between items-center mb-3">
-                <h3 className="font-semibold">Cart Summary</h3>
+                <h3 className="font-semibold">Your Selected Plans</h3>
                 <span className="text-sm bg-primary text-white rounded-full px-2 py-0.5">
-                  {cart.length} {cart.length === 1 ? 'item' : 'items'}
+                  {cart.length} {cart.length === 1 ? 'plan' : 'plans'}
                 </span>
               </div>
               
@@ -449,25 +448,29 @@ export default function PackagesPage() {
                   })}
                 </div>
               )}
-              
-              <div className="flex justify-between items-center font-semibold mb-3">
+
+              <div className="flex justify-between font-medium text-sm mb-3">
                 <span>Total:</span>
                 <span>${calculateRealCartTotal()}</span>
               </div>
-              
-              <Button 
-                className="w-full" 
-                onClick={() => {
-                  if (selectedPackage) {
-                    handleProceedToPayment();
-                  } else if (cart.length > 0) {
-                    setSelectedPackage(cart[0]);
-                    handleProceedToPayment();
-                  }
-                }}
-              >
-                Proceed to Checkout
-              </Button>
+
+              <div className="grid grid-cols-2 gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="text-xs" 
+                  onClick={handleStartOver}
+                >
+                  Continue Shopping
+                </Button>
+                <Button 
+                  size="sm"
+                  className="text-xs"
+                  onClick={handleProceedToPayment}
+                >
+                  Proceed to Checkout
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -506,7 +509,7 @@ export default function PackagesPage() {
                     >
                       {packageItem.recommended && (
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
-                          Recommended
+                          Most Popular Choice
                         </div>
                       )}
                       <div className="flex flex-col justify-between h-full">
@@ -515,7 +518,7 @@ export default function PackagesPage() {
                           <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
                           <div className="my-4">
                             <span className="text-3xl font-bold">${packageItem.displayPrice}</span>
-                            <span className="ml-1 text-gray-500">/session</span>
+                            <span className="ml-1 text-gray-500">per session</span>
                           </div>
                           <ul className="space-y-2.5 my-6">
                             {packageItem.features.map((feature, index) => (
@@ -530,7 +533,7 @@ export default function PackagesPage() {
                           className="w-full mt-6"
                           onClick={() => handlePackageSelect(packageItem.id)}
                         >
-                          Select Package
+                          Select This Package
                         </Button>
                       </div>
                     </div>
@@ -546,8 +549,8 @@ export default function PackagesPage() {
           {selectedPackage && !customizing && !showPayment && !purchaseComplete && (
             <Card>
               <CardHeader>
-                <CardTitle>Package Selection</CardTitle>
-                <CardDescription>Review your selected package before proceeding to payment</CardDescription>
+                <CardTitle>Review Your Selection</CardTitle>
+                <CardDescription>A quick look at the support package you've chosen for your child</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
@@ -587,7 +590,7 @@ export default function PackagesPage() {
                   <div className="rounded-lg border p-4">
                     <h3 className="font-medium">Choose Your Payment Option</h3>
                     <p className="mt-2 text-sm text-muted-foreground">
-                      Select a payment plan that works best for your budget
+                      Select a flexible payment plan that works best for your family
                     </p>
 
                     <RadioGroup
@@ -603,7 +606,7 @@ export default function PackagesPage() {
                           <Label htmlFor="upfront" className="text-base font-medium">
                             Pay Upfront
                           </Label>
-                          <p className="text-sm text-muted-foreground">Full payment with 10% discount</p>
+                          <p className="text-sm text-muted-foreground">Full payment with 10% family discount</p>
                           <p className="font-medium text-primary">
                             ${Math.round(calculateRealCartTotal() * 0.9)}
                           </p>
@@ -616,9 +619,9 @@ export default function PackagesPage() {
                         <RadioGroupItem value="monthly" id="monthly" className="mt-1" />
                         <div className="space-y-2">
                           <Label htmlFor="monthly" className="text-base font-medium">
-                            Pay Monthly
+                            Monthly Plan
                           </Label>
-                          <p className="text-sm text-muted-foreground">Split into 2 monthly payments</p>
+                          <p className="text-sm text-muted-foreground">Easy 2-month payment plan</p>
                           <p className="font-medium text-primary">
                             ${Math.round(calculateRealCartTotal() / 2)}/month
                           </p>
@@ -631,9 +634,9 @@ export default function PackagesPage() {
                         <RadioGroupItem value="weekly" id="weekly" className="mt-1" />
                         <div className="space-y-2">
                           <Label htmlFor="weekly" className="text-base font-medium">
-                            Pay Weekly
+                            Weekly Plan
                           </Label>
-                          <p className="text-sm text-muted-foreground">Split into 4 weekly payments</p>
+                          <p className="text-sm text-muted-foreground">Manageable weekly payments</p>
                           <p className="font-medium text-primary">
                             ${Math.round(calculateRealCartTotal() / 4)}/week
                           </p>
@@ -647,7 +650,7 @@ export default function PackagesPage() {
                 <Button variant="outline" onClick={handleStartOver}>
                   Back to Packages
                 </Button>
-                <Button onClick={handleProceedToPayment}>Proceed to Payment</Button>
+                <Button onClick={handleProceedToPayment}>Continue to Payment</Button>
               </CardFooter>
             </Card>
           )}
@@ -657,8 +660,8 @@ export default function PackagesPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle>Customize Your Package</CardTitle>
-                    <CardDescription>Tailor your therapy package to meet your specific needs</CardDescription>
+                    <CardTitle>Personalize Your Support Plan</CardTitle>
+                    <CardDescription>Tailor your child's support to match their unique needs</CardDescription>
                   </div>
                   <Button variant="ghost" size="sm" onClick={() => setCustomizing(false)}>
                     Back
@@ -668,51 +671,51 @@ export default function PackagesPage() {
               <CardContent>
                 <div className="space-y-6">
                   <div>
-                    <Label htmlFor="focus-area">Area of Focus</Label>
+                    <Label htmlFor="focus-area">Area Your Child Needs Support With</Label>
                     <Select defaultValue="speech">
                       <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Select focus area" />
+                        <SelectValue placeholder="Select area of support" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="speech">Speech & Language</SelectItem>
-                        <SelectItem value="motor">Motor Skills</SelectItem>
-                        <SelectItem value="cognitive">Cognitive Development</SelectItem>
-                        <SelectItem value="social">Social-Emotional</SelectItem>
+                        <SelectItem value="speech">Communication & Language</SelectItem>
+                        <SelectItem value="motor">Movement & Coordination</SelectItem>
+                        <SelectItem value="cognitive">Learning & Problem Solving</SelectItem>
+                        <SelectItem value="social">Social Skills & Emotions</SelectItem>
                         <SelectItem value="sensory">Sensory Processing</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div>
-                    <Label htmlFor="session-frequency">Session Frequency</Label>
+                    <Label htmlFor="session-frequency">How Often Would Sessions Work Best</Label>
                     <Select defaultValue="weekly">
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Select frequency" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="weekly">Weekly (Recommended)</SelectItem>
-                        <SelectItem value="biweekly">Bi-weekly</SelectItem>
-                        <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="weekly">Weekly (Most effective)</SelectItem>
+                        <SelectItem value="biweekly">Every other week</SelectItem>
+                        <SelectItem value="monthly">Once a month</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div>
-                    <Label htmlFor="session-length">Session Length</Label>
+                    <Label htmlFor="session-length">Session Length That Works For Your Child</Label>
                     <Select defaultValue="45">
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Select length" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="30">30 minutes</SelectItem>
-                        <SelectItem value="45">45 minutes (Recommended)</SelectItem>
+                        <SelectItem value="45">45 minutes (Most effective)</SelectItem>
                         <SelectItem value="60">60 minutes</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div>
-                    <Label htmlFor="budget">Budget Constraints</Label>
+                    <Label htmlFor="budget">Your Family's Monthly Budget</Label>
                     <div className="mt-1">
                       <Input type="range" min="50" max="300" step="10" defaultValue="150" className="w-full" />
                       <div className="mt-2 flex justify-between text-sm">
@@ -724,11 +727,11 @@ export default function PackagesPage() {
                   </div>
 
                   <div className="rounded-lg bg-muted p-4">
-                    <h3 className="font-medium">Recommended Package Based on Your Selections</h3>
+                    <h3 className="font-medium">Your Personalized Recommendation</h3>
                     <div className="mt-4 space-y-3">
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">Focus Area:</span>
-                        <span className="text-sm font-medium">Speech & Language</span>
+                        <span className="text-sm font-medium">Communication & Language</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">Sessions:</span>
@@ -736,10 +739,10 @@ export default function PackagesPage() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">Specialist:</span>
-                        <span className="text-sm font-medium">Speech-Language Pathologist</span>
+                        <span className="text-sm font-medium">Communication Specialist</span>
                       </div>
                       <div className="flex justify-between border-t pt-2">
-                        <span className="font-medium">Monthly Cost:</span>
+                        <span className="font-medium">Monthly Investment:</span>
                         <span className="font-medium">$150</span>
                       </div>
                     </div>
@@ -760,8 +763,8 @@ export default function PackagesPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle>Payment</CardTitle>
-                    <CardDescription>Complete your payment to activate your therapy sessions</CardDescription>
+                    <CardTitle>Payment Information</CardTitle>
+                    <CardDescription>Secure your child's support plan with a simple payment process</CardDescription>
                   </div>
                   <Button
                     variant="ghost"
@@ -780,7 +783,7 @@ export default function PackagesPage() {
               <CardContent>
                 <div className="space-y-6">
                   <div className="rounded-lg bg-muted p-4">
-                    <h3 className="font-medium">Order Summary</h3>
+                    <h3 className="font-medium">Your Support Plan</h3>
                     
                     {cart.length > 0 ? (
                       <div className="mt-4 space-y-2">
@@ -798,8 +801,8 @@ export default function PackagesPage() {
                         <div className="flex justify-between">
                           <span className="text-sm text-muted-foreground">Payment Option:</span>
                           <span className="text-sm font-medium">
-                            {paymentOption === 'upfront' ? 'Pay Upfront (10% off)' : 
-                             paymentOption === 'monthly' ? 'Monthly Payments' : 'Weekly Payments'}
+                            {paymentOption === 'upfront' ? 'Upfront (10% family discount)' : 
+                             paymentOption === 'monthly' ? 'Monthly Plan' : 'Weekly Plan'}
                           </span>
                         </div>
                         
@@ -807,7 +810,7 @@ export default function PackagesPage() {
                           <span className="font-medium">Total:</span>
                           <span className="font-medium">
                             {paymentOption === 'upfront' 
-                              ? `$${Math.round(calculateCartTotal() * 0.9)} (Saved $${Math.round(calculateCartTotal() * 0.1)})`
+                              ? `$${Math.round(calculateCartTotal() * 0.9)} (You save $${Math.round(calculateCartTotal() * 0.1)})`
                               : paymentOption === 'monthly'
                                 ? `$${calculateCartTotal()} ($${Math.round(calculateCartTotal() / 2)}/month × 2)`
                                 : `$${calculateCartTotal()} ($${Math.round(calculateCartTotal() / 4)}/week × 4)`
@@ -818,15 +821,15 @@ export default function PackagesPage() {
                     ) : (
                       <div className="mt-4 space-y-2">
                         <div className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">Package:</span>
+                          <span className="text-sm text-muted-foreground">Support Plan:</span>
                           <span className="text-sm font-medium">
                             {customizing
-                              ? "Customized Package"
+                              ? "Personalized Support Plan"
                               : currentPackages.find((p) => p.id === selectedPackage)?.name}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">Billing Cycle:</span>
+                          <span className="text-sm text-muted-foreground">Payment Schedule:</span>
                           <span className="text-sm font-medium">Monthly</span>
                         </div>
                         <div className="flex justify-between border-t pt-2">
@@ -888,7 +891,7 @@ export default function PackagesPage() {
                           </div>
                         </div>
                         <p className="mt-4 text-sm text-muted-foreground">
-                          Please include your name and "Therapy Sessions" in the transfer description.
+                          Please include your family name and "Support Plan" in the transfer description.
                         </p>
                       </div>
                     </TabsContent>
@@ -915,7 +918,7 @@ export default function PackagesPage() {
               </CardContent>
               <CardFooter>
                 <Button className="w-full" onClick={handleCompletePurchase}>
-                  <CreditCard className="mr-2 h-4 w-4" /> Complete Purchase
+                  <CreditCard className="mr-2 h-4 w-4" /> Complete Your Registration
                 </Button>
               </CardFooter>
             </Card>
@@ -927,15 +930,15 @@ export default function PackagesPage() {
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                   <CheckCircle className="h-6 w-6 text-green-600" />
                 </div>
-                <CardTitle>Purchase Complete!</CardTitle>
-                <CardDescription>Your therapy sessions have been activated successfully</CardDescription>
+                <CardTitle>You're All Set!</CardTitle>
+                <CardDescription>Your child's support plan has been successfully activated</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="rounded-lg bg-muted p-4">
                   <div className="space-y-3">
                     {cart.length > 1 ? (
                       <>
-                        <h4 className="font-medium">Purchased Packages:</h4>
+                        <h4 className="font-medium">Your Support Plans:</h4>
                         {cart.map((pkgId, index) => {
                           const allPackages = getAllPackages();
                           const pkg = allPackages.find(p => p.id === pkgId);
@@ -949,29 +952,29 @@ export default function PackagesPage() {
                       </>
                     ) : (
                       <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">Package:</span>
+                        <span className="text-sm text-muted-foreground">Support Plan:</span>
                         <span className="text-sm font-medium">
                           {customizing
-                            ? "Customized Package"
+                            ? "Personalized Support Plan"
                             : currentPackages.find((p) => p.id === selectedPackage)?.name}
                         </span>
                       </div>
                     )}
                     <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Billing Cycle:</span>
+                      <span className="text-sm text-muted-foreground">Payment Schedule:</span>
                       <span className="text-sm font-medium">
                         {paymentOption === 'upfront' 
-                          ? 'One-time Payment (10% discount applied)' 
+                          ? 'One-time Payment (Family discount applied)' 
                           : paymentOption === 'monthly'
                             ? 'Monthly (2 payments)'
                             : 'Weekly (4 payments)'}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Next Billing Date:</span>
+                      <span className="text-sm text-muted-foreground">Next Payment Date:</span>
                       <span className="text-sm font-medium">
                         {paymentOption === 'upfront' 
-                          ? 'N/A (Paid in full)' 
+                          ? 'Paid in full' 
                           : new Date(Date.now() + (paymentOption === 'monthly' ? 30 : 7) * 24 * 60 * 60 * 1000)
                               .toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                       </span>
@@ -989,10 +992,10 @@ export default function PackagesPage() {
 
                 <div className="mt-6 space-y-4 text-center">
                   <p className="text-sm text-muted-foreground">
-                    A confirmation email has been sent to your registered email address with all the details.
+                    A confirmation email will arrive shortly with all your plan details.
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Your first therapy session will be scheduled soon. Please check your dashboard for updates.
+                    Our team will reach out soon to schedule your child's first session. You can also view your upcoming sessions in your dashboard.
                   </p>
                 </div>
               </CardContent>
@@ -1012,39 +1015,28 @@ export default function PackagesPage() {
       <Dialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Confirm Package Selection</DialogTitle>
+            <DialogTitle>Add Package to Your Plan</DialogTitle>
             <DialogDescription>
-              You've selected the {packageToConfirm && getPackagesByCategory().find(p => p.id === packageToConfirm)?.name} package.
+              Would you like to add this package to your plan or proceed directly to checkout?
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
-            <p className="mb-2">Would you like to proceed to checkout or add more packages to your cart?</p>
-            {cart.length > 0 && (
-              <div className="mt-4 p-3 bg-muted rounded-md">
-                <p className="font-medium">Current Cart: {cart.length} package(s)</p>
-                <ul className="mt-2 space-y-1 text-sm">
-                  {cart.map((pkgId, index) => {
-                    const allPackages = getAllPackages();
-                    const pkg = allPackages.find(p => p.id === pkgId);
-                    return (
-                      <li key={index} className="flex justify-between">
-                        <span>{pkg?.name || 'Package'}</span>
-                        <span>${pkg?.price || 0}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
+            <p className="text-sm text-muted-foreground">
+              This package will provide personalized support for your child's development needs.
+            </p>
           </div>
-          <DialogFooter className="flex flex-col sm:flex-row gap-2">
-            <Button variant="outline" onClick={addToCartOnly} className="sm:order-1">
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              Add to Cart
-            </Button>
-            <Button onClick={confirmPackageSelection} className="sm:order-2">
-              Proceed to Checkout
-            </Button>
+          <DialogFooter>
+            <div className="flex w-full space-x-2">
+              <Button variant="outline" className="flex-1" onClick={() => setConfirmDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="outline" className="flex-1" onClick={addToCartOnly}>
+                Add to Plan
+              </Button>
+              <Button className="flex-1" onClick={confirmPackageSelection}>
+                Add & Checkout
+              </Button>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>
