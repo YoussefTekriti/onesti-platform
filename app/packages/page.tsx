@@ -15,9 +15,22 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 // import TestimonialsSection from "@/components/packages/testimonials-section"
 // import CostCalculator from "@/components/packages/cost-calculator"
 
-// Update the packages array to reflect the new service offerings and pricing structure
+// Add type definition for package items to include the contactForPricing property
+type PackageItem = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  displayPrice: number;
+  regionalPrice: number;
+  sessionCount: number;
+  features: string[];
+  recommended: boolean;
+  contactForPricing?: boolean;
+};
 
-const packages = [
+// Update the packages array to reflect the new service offerings and pricing structure
+const packages: PackageItem[] = [
   {
     id: "developmental-thrive",
     name: "Developmental Thrive Path",
@@ -90,7 +103,7 @@ const serviceCategories = [
 ]
 
 // Add routine intervention packages
-const routinePackages = [
+const routinePackages: PackageItem[] = [
   {
     id: "routine-thrive",
     name: "Routine Thrive Path",
@@ -145,89 +158,94 @@ const routinePackages = [
 ]
 
 // Add ABA therapy packages
-const abaPackages = [
+const abaPackages: PackageItem[] = [
   {
     id: "aba-school-starter",
     name: "ABA Intensive Starter Path",
-    description: "Supportive behavior program (first month of intervention)",
-    price: 576,  // Global price for the entire package (12 hours × $48)
-    displayPrice: 48, // Price shown per hour
-    regionalPrice: 576, // Regional discount price
+    description: "Intensive support for complex behavioral needs (first month of intervention)",
+    price: 0,  // Setting to 0 to indicate contact for pricing
+    displayPrice: 0, // Setting to 0 to indicate contact for pricing
+    regionalPrice: 0, // Setting to 0 to indicate contact for pricing
     sessionCount: 12,
     features: [
-      "12 hours of gentle, effective ABA intervention",
-      "Personalized behavior plan focused on your child's specific needs",
-      "Clear, helpful feedback and practical recommendations",
-      "Positive reinforcement strategies that work with your child's interests",
-      "Regular progress updates in family-friendly language",
-      "Celebration of milestones and achievements, no matter how small",
+      "12 hours of ABA intervention",
+      "Personalized behavior intervention plan",
+      "Detailed feedback and recommendations",
+      "Implementation of customized reinforcement plan",
+      "Regular progress monitoring",
+      "Documentation of milestones and achievements"
     ],
     recommended: true,
+    contactForPricing: true
   },
   {
     id: "aba-school-followup",
     name: "Follow-up & Reinforcement Path",
-    description: "Continuing support (second month of intervention)",
-    price: 432,  // Global price for the entire package (8 hours × $54)
-    displayPrice: 54, // Price shown per hour
-    regionalPrice: 432, // Regional discount price
+    description: "Second month of intervention",
+    price: 0,  // Setting to 0 to indicate contact for pricing
+    displayPrice: 0, // Setting to 0 to indicate contact for pricing
+    regionalPrice: 0, // Setting to 0 to indicate contact for pricing
     sessionCount: 8,
     features: [
-      "8 hours of supportive ABA intervention",
-      "Quality assurance to ensure consistent, effective support",
-      "Clear, helpful feedback and practical recommendations",
-      "Data-informed adjustments to better meet your child's needs",
-      "Assessment of progress and celebration of improvements",
-      "Evaluation to determine if additional support would be beneficial",
-      "Regular progress updates in family-friendly language",
-      "Celebration of milestones and achievements",
+      "8 hours of ABA intervention",
+      "Quality Assurance Measures",
+      "Detailed feedback and recommendations",
+      "Data-driven program modifications",
+      "Assessment of behavioral intervention effectiveness",
+      "Evaluation of need for additional behavioral assessments/interventions",
+      "Regular progress monitoring",
+      "Documentation of milestones and achievements"
     ],
     recommended: false,
+    contactForPricing: true
   },
   {
     id: "aba-school-supervision",
     name: "Supervision & Refinement Path",
-    description: "Transition support (third month of intervention)",
-    price: 260,  // Global price for the entire package (4 hours × $65)
-    displayPrice: 65, // Price shown per hour
-    regionalPrice: 260, // Regional discount price
-    sessionCount: 4,
+    description: "Third month of Intervention",
+    price: 0,  // Setting to 0 to indicate contact for pricing
+    displayPrice: 0, // Setting to 0 to indicate contact for pricing
+    regionalPrice: 0, // Setting to 0 to indicate contact for pricing
+    sessionCount: 6,
     features: [
-      "4 hours of supportive ABA intervention",
-      "Quality assurance to ensure consistent, effective support",
-      "Clear, helpful feedback and practical recommendations",
-      "Data-informed adjustments to better meet your child's needs",
-      "Assessment of progress and celebration of improvements",
-      "Evaluation to determine if additional support would be beneficial",
-      "Regular progress updates in family-friendly language",
-      "Celebration of milestones and achievements",
+      "6 hours of ABA intervention",
+      "Quality Assurance Measures",
+      "Detailed feedback and recommendations",
+      "Data-driven program modifications",
+      "Assessment of behavioral intervention effectiveness",
+      "Evaluation of need for additional behavioral assessments/interventions",
+      "Regular progress monitoring",
+      "Documentation of milestones and achievements"
     ],
     recommended: false,
+    contactForPricing: true
   },
   {
     id: "aba-home-intensive",
     name: "Intensive Home Program",
     description: "Comprehensive home-based support for your family",
-    price: 578,  // Global price for the entire package (17 hours × $34)
-    displayPrice: 34, // Price shown per hour
-    regionalPrice: 578, // Regional discount price
-    sessionCount: 17,
+    price: 0,  // Setting to 0 to indicate contact for pricing
+    displayPrice: 0, // Setting to 0 to indicate contact for pricing
+    regionalPrice: 0, // Setting to 0 to indicate contact for pricing
+    sessionCount: 15,
     features: [
-      "17 hours of in-home ABA support",
-      "Personalized behavior plan that works in your family environment",
-      "Positive reinforcement strategies tailored to your child's interests",
-      "Ongoing adjustments based on your child's progress and needs",
-      "Assessment of what's working well and areas for improvement",
-      "Planning for gradual reduction in support as your child gains skills",
-      "Regular progress updates in clear, family-friendly language",
-      "Celebration of milestones and achievements, no matter how small",
+      "15 hours of ABA intervention",
+      "Personalized behavior intervention plan",
+      "Implementation of customized reinforcement plan",
+      "Data-driven program modifications",
+      "Assessment of behavioral intervention effectiveness",
+      "Evaluation of need for additional behavioral assessments/interventions",
+      "Strategic planning for support reduction",
+      "Regular progress monitoring",
+      "Documentation of milestones and achievements"
     ],
     recommended: false,
+    contactForPricing: true
   },
 ]
 
 // Add counseling and single sessions packages
-const counselingPackages = [
+const counselingPackages: PackageItem[] = [
   {
     id: "counseling-extended",
     name: "Extended Support",
@@ -499,46 +517,161 @@ export default function PackagesPage() {
                 </div>
               </div>
               <div className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {getPackagesByCategory().map((packageItem) => (
-                    <div
-                      key={packageItem.id}
-                      className={`relative rounded-xl border bg-white p-6 shadow-sm ${
-                        packageItem.recommended ? "ring-2 ring-primary" : ""
-                      }`}
-                    >
-                      {packageItem.recommended && (
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
-                          Most Popular Choice
-                        </div>
-                      )}
-                      <div className="flex flex-col justify-between h-full">
-                        <div>
-                          <h3 className="text-xl font-bold">{packageItem.name}</h3>
-                          <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
-                          <div className="my-4">
-                            <span className="text-3xl font-bold">${packageItem.displayPrice}</span>
-                            <span className="ml-1 text-gray-500">per session</span>
+                {selectedCategory === "aba" && (
+                  <div className="mb-8">
+                    <div className="mb-6">
+                      <h2 className="text-2xl font-bold text-center mb-4">School Provision</h2>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {getPackagesByCategory().filter(pkg => 
+                          pkg.id === "aba-school-starter" || 
+                          pkg.id === "aba-school-followup" || 
+                          pkg.id === "aba-school-supervision"
+                        ).map((packageItem) => (
+                          <div
+                            key={packageItem.id}
+                            className={`relative rounded-xl border bg-white p-6 shadow-sm ${
+                              packageItem.recommended ? "ring-2 ring-primary" : ""
+                            }`}
+                          >
+                            {packageItem.recommended && (
+                              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
+                                Most Popular Choice
+                              </div>
+                            )}
+                            <div className="flex flex-col justify-between h-full">
+                              <div>
+                                <h3 className="text-xl font-bold">{packageItem.name}</h3>
+                                <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
+                                <div className="my-4">
+                                  {packageItem.contactForPricing ? (
+                                    <span className="text-lg font-semibold text-primary">Contact for pricing</span>
+                                  ) : (
+                                    <>
+                                      <span className="text-3xl font-bold">${packageItem.displayPrice}</span>
+                                      <span className="ml-1 text-gray-500">per session</span>
+                                    </>
+                                  )}
+                                </div>
+                                <ul className="space-y-2.5 my-6">
+                                  {packageItem.features.map((feature, index) => (
+                                    <li key={index} className="flex items-start">
+                                      <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
+                                      <span className="text-sm">{feature}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <Button
+                                className="w-full mt-6"
+                                onClick={() => handlePackageSelect(packageItem.id)}
+                              >
+                                {packageItem.contactForPricing ? "Contact Us" : "Select This Package"}
+                              </Button>
+                            </div>
                           </div>
-                          <ul className="space-y-2.5 my-6">
-                            {packageItem.features.map((feature, index) => (
-                              <li key={index} className="flex items-start">
-                                <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                                <span className="text-sm">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <Button
-                          className="w-full mt-6"
-                          onClick={() => handlePackageSelect(packageItem.id)}
-                        >
-                          Select This Package
-                        </Button>
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    <div className="mb-6">
+                      <h2 className="text-2xl font-bold text-center mb-4">Intensive Home Program</h2>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {getPackagesByCategory().filter(pkg => pkg.id === "aba-home-intensive").map((packageItem) => (
+                          <div
+                            key={packageItem.id}
+                            className={`relative rounded-xl border bg-white p-6 shadow-sm ${
+                              packageItem.recommended ? "ring-2 ring-primary" : ""
+                            }`}
+                          >
+                            {packageItem.recommended && (
+                              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
+                                Most Popular Choice
+                              </div>
+                            )}
+                            <div className="flex flex-col justify-between h-full">
+                              <div>
+                                <h3 className="text-xl font-bold">{packageItem.name}</h3>
+                                <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
+                                <div className="my-4">
+                                  {packageItem.contactForPricing ? (
+                                    <span className="text-lg font-semibold text-primary">Contact for pricing</span>
+                                  ) : (
+                                    <>
+                                      <span className="text-3xl font-bold">${packageItem.displayPrice}</span>
+                                      <span className="ml-1 text-gray-500">per session</span>
+                                    </>
+                                  )}
+                                </div>
+                                <ul className="space-y-2.5 my-6">
+                                  {packageItem.features.map((feature, index) => (
+                                    <li key={index} className="flex items-start">
+                                      <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
+                                      <span className="text-sm">{feature}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <Button
+                                className="w-full mt-6"
+                                onClick={() => handlePackageSelect(packageItem.id)}
+                              >
+                                {packageItem.contactForPricing ? "Contact Us" : "Select This Package"}
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {selectedCategory !== "aba" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {getPackagesByCategory().map((packageItem) => (
+                      <div
+                        key={packageItem.id}
+                        className={`relative rounded-xl border bg-white p-6 shadow-sm ${
+                          packageItem.recommended ? "ring-2 ring-primary" : ""
+                        }`}
+                      >
+                        {packageItem.recommended && (
+                          <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
+                            Most Popular Choice
+                          </div>
+                        )}
+                        <div className="flex flex-col justify-between h-full">
+                          <div>
+                            <h3 className="text-xl font-bold">{packageItem.name}</h3>
+                            <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
+                            <div className="my-4">
+                              {packageItem.contactForPricing ? (
+                                <span className="text-lg font-semibold text-primary">Contact for pricing</span>
+                              ) : (
+                                <>
+                                  <span className="text-3xl font-bold">${packageItem.displayPrice}</span>
+                                  <span className="ml-1 text-gray-500">per session</span>
+                                </>
+                              )}
+                            </div>
+                            <ul className="space-y-2.5 my-6">
+                              {packageItem.features.map((feature, index) => (
+                                <li key={index} className="flex items-start">
+                                  <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
+                                  <span className="text-sm">{feature}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <Button
+                            className="w-full mt-6"
+                            onClick={() => handlePackageSelect(packageItem.id)}
+                          >
+                            {packageItem.contactForPricing ? "Contact Us" : "Select This Package"}
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="border-t border-gray-200 pt-8 flex justify-center">
                   <TrialSessionCard />
                 </div>

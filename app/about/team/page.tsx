@@ -28,13 +28,13 @@ To find balance and clear my head, I find peace in nature. I go on hikes, I cont
   {
     id: 11,
     name: "Katia Hazoury",
-    role: "Co-founder & Technical Advisor of Academic Department",
+    role: "Technical Advisor of Academic Department",
     bio: "MA in Special Education, Reading Specialist, Teacher Trainer, Educational Evaluator, Published Researcher and Author. With over 20 years of experience in education, specializing in educational administration, team leadership, program development, and academic research.",
     image: "/placeholder.svg?height=400&width=400",
     specialties: ["Special Education", "Reading Specialist", "Educational Administration"],
     education: "MA in Special Education",
     experience: "20+ years",
-    fullBio: `Co-founder and Technical Advisor of the academic department at ONESTI Global, MA in special educator, reading specialist, teacher trainer, educational evaluator, teacher, published researcher and author.
+    fullBio: `Technical Advisor of the academic department at ONESTI Global, MA in special educator, reading specialist, teacher trainer, educational evaluator, teacher, published researcher and author.
 
 With more than 20 years of experience in the field of education, I am adept in educational administration, team leadership, proposal and report writing, program evaluation, curricular and program development, academic research translation and book writing.
 
@@ -263,7 +263,9 @@ export default function TeamPage() {
                   <h3 className="text-xl font-bold">{member.name}</h3>
                   <p className="text-primary">{member.role}</p>
                 </div>
-                <p className="text-gray-600 mb-4 line-clamp-4">{member.bio}</p>
+                <p className="text-gray-600 mb-4 line-clamp-4">
+                  {member.fullBio.split('\n\n')[0]}
+                </p>
                 <div className="mb-4">
                   <h4 className="font-semibold text-sm text-gray-900 mb-2">Specialties:</h4>
                   <div className="flex flex-wrap gap-2">
@@ -273,14 +275,6 @@ export default function TeamPage() {
                       </span>
                     ))}
                   </div>
-                </div>
-                <div className="mb-4">
-                  <h4 className="font-semibold text-sm text-gray-900 mb-2">Education:</h4>
-                  <p className="text-sm text-gray-600">{member.education}</p>
-                </div>
-                <div className="mb-4">
-                  <h4 className="font-semibold text-sm text-gray-900 mb-2">Experience:</h4>
-                  <p className="text-sm text-gray-600">{member.experience}</p>
                 </div>
                 <div className="mt-auto">
                   <Button asChild variant="outline" className="w-full">

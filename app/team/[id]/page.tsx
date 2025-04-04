@@ -294,16 +294,6 @@ export default function TeamMemberPage({ params }: { params: { id: string } }) {
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-semibold text-gray-900">Education</h3>
-                  <p className="text-gray-600">{member.education}</p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold text-gray-900">Experience</h3>
-                  <p className="text-gray-600">{member.experience}</p>
-                </div>
-
-                <div>
                   <h3 className="font-semibold text-gray-900">Specialties</h3>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {member.specialties.map((specialty) => (
@@ -313,15 +303,6 @@ export default function TeamMemberPage({ params }: { params: { id: string } }) {
                     ))}
                   </div>
                 </div>
-
-                <div>
-                  <h3 className="font-semibold text-gray-900">Personal Interests</h3>
-                  <p className="text-gray-600">{member.personalInterests}</p>
-                </div>
-
-                <Button className="w-full mt-6" asChild>
-                  <Link href={`/consultation?specialist=${member.id}`}>Book a Consultation</Link>
-                </Button>
               </div>
             </div>
           </div>
@@ -331,11 +312,39 @@ export default function TeamMemberPage({ params }: { params: { id: string } }) {
             <div className="prose prose-lg max-w-none">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">About {member.name}</h2>
 
-              {member.fullBio.split("\n\n").map((paragraph, index) => (
-                <p key={index} className="mb-4 text-gray-700 leading-relaxed">
-                  {paragraph}
-                </p>
-              ))}
+              {member.fullBio.split("\n\n").map((paragraph, index) => {
+                // Check if the paragraph contains bullet points (lines starting with • or *)
+                if (paragraph.includes("\n• ") || paragraph.includes("\n* ")) {
+                  let introText = "";
+                  let bulletPoints: string[] = [];
+                  
+                  if (paragraph.includes("\n• ")) {
+                    const parts = paragraph.split("\n• ");
+                    introText = parts[0];
+                    bulletPoints = parts.slice(1);
+                  } else if (paragraph.includes("\n* ")) {
+                    const parts = paragraph.split("\n* ");
+                    introText = parts[0];
+                    bulletPoints = parts.slice(1);
+                  }
+                  
+                  return (
+                    <div key={index} className="mb-6">
+                      {introText && <p className="mb-4 text-gray-700 leading-relaxed">{introText}</p>}
+                      <ul className="list-disc pl-6 space-y-2">
+                        {bulletPoints.map((point, i) => (
+                          <li key={i} className="text-gray-700 leading-relaxed">{point.trim()}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                }
+                return (
+                  <p key={index} className="mb-4 text-gray-700 leading-relaxed">
+                    {paragraph}
+                  </p>
+                );
+              })}
             </div>
 
             {/* Related Team Members */}

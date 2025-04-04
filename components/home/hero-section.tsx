@@ -10,12 +10,10 @@ export default function HeroSection() {
           {/* Left content */}
           <div className="md:w-1/2 md:pr-12 mb-10 md:mb-0">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-6">
-              Get <span className="text-onesti-purple">The Right Support</span> For
-              <br />
-              Your Child's Unique Needs.
+              Get <span className="text-onesti-purple">The Right Support</span> For Your Child's Unique Needs.
             </h1>
             <p className="text-xl text-gray-600 mb-8">Start your journey with ONESTI</p>
-            <p className="text-xl font-medium text-onesti-purple mb-6">Unlock personalized intervention designed specifically for your child.</p>
+            <p className="text-xl font-medium text-gray-600 mb-6">Unlock personalized intervention designed <span className="text-onesti-purple">specifically for your child.</span></p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 asChild

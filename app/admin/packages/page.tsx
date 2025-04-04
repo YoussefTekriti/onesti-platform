@@ -55,7 +55,25 @@ import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
 
 // Mock data for packages, matching the client-facing packages
-const initialPackages = [
+interface PackageItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  discountedPrice: number | null;
+  sessionCount: number;
+  sessionPrice: number;
+  displayPrice: number;
+  specialtyType: string;
+  durationInDays: number;
+  isActive: boolean;
+  category: string;
+  featuresCount: number;
+  isRecommended: boolean;
+  contactForPricing?: boolean;
+}
+
+const initialPackages: PackageItem[] = [
   // Developmental Packages
   {
     id: "developmental-thrive",
@@ -161,65 +179,69 @@ const initialPackages = [
     id: "aba-school-starter",
     name: "ABA Intensive Starter Path",
     description: "Intensive support for complex behavioral needs (first month of intervention)",
-    price: 576,
-    discountedPrice: 576,
+    price: 0,
+    discountedPrice: 0,
     sessionCount: 12,
-    sessionPrice: 48,
-    displayPrice: 48,
+    sessionPrice: 0,
+    displayPrice: 0,
     specialtyType: "ABA",
     durationInDays: 30,
     isActive: true,
     category: "Applied Behavior Analysis (ABA)",
     featuresCount: 6,
     isRecommended: true,
+    contactForPricing: true
   },
   {
     id: "aba-school-followup",
     name: "Follow-up & Reinforcement Path",
     description: "Second month of intervention",
-    price: 432,
-    discountedPrice: 432,
+    price: 0,
+    discountedPrice: 0,
     sessionCount: 8,
-    sessionPrice: 54,
-    displayPrice: 54,
+    sessionPrice: 0,
+    displayPrice: 0,
     specialtyType: "ABA",
     durationInDays: 30,
     isActive: true,
     category: "Applied Behavior Analysis (ABA)",
     featuresCount: 8,
     isRecommended: false,
+    contactForPricing: true
   },
   {
     id: "aba-school-supervision",
     name: "Supervision & Refinement Path",
     description: "Third month of Intervention",
-    price: 260,
-    discountedPrice: 260,
-    sessionCount: 4,
-    sessionPrice: 65,
-    displayPrice: 65,
+    price: 0,
+    discountedPrice: 0,
+    sessionCount: 6,
+    sessionPrice: 0,
+    displayPrice: 0,
     specialtyType: "ABA",
     durationInDays: 30,
     isActive: true,
     category: "Applied Behavior Analysis (ABA)",
     featuresCount: 8,
     isRecommended: false,
+    contactForPricing: true
   },
   {
     id: "aba-home-intensive",
     name: "Intensive Home Program",
-    description: "Comprehensive home-based ABA support",
-    price: 578,
-    discountedPrice: 578,
-    sessionCount: 17,
-    sessionPrice: 34,
-    displayPrice: 34,
+    description: "Comprehensive home-based support for your family",
+    price: 0,
+    discountedPrice: 0,
+    sessionCount: 15,
+    sessionPrice: 0,
+    displayPrice: 0,
     specialtyType: "ABA",
     durationInDays: 30,
     isActive: true,
     category: "Applied Behavior Analysis (ABA)",
     featuresCount: 9,
     isRecommended: false,
+    contactForPricing: true
   },
   
   // Counseling Packages
@@ -321,11 +343,11 @@ export default function PackagesPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentPackage, setCurrentPackage] = useState<any>(null);
-  const [newPackage, setNewPackage] = useState({
+  const [newPackage, setNewPackage] = useState<PackageItem>({
     name: "",
     description: "",
     price: 0,
-    discountedPrice: null as number | null,
+    discountedPrice: null,
     sessionCount: 1,
     sessionPrice: 0,
     displayPrice: 0,
@@ -335,6 +357,7 @@ export default function PackagesPage() {
     category: "Developmental Interventions",
     featuresCount: 1,
     isRecommended: false,
+    id: ""
   });
 
   useEffect(() => {
@@ -373,6 +396,7 @@ export default function PackagesPage() {
       category: "Developmental Interventions",
       featuresCount: 1,
       isRecommended: false,
+      id: newId
     });
   };
 
@@ -489,7 +513,11 @@ export default function PackagesPage() {
                       <div className="flex items-center">
                         <DollarSign className="h-4 w-4 text-muted-foreground mr-1" />
                         {pkg.price === 0 ? (
-                          <span className="text-green-600 font-medium">Free</span>
+                          pkg.contactForPricing ? (
+                            <span className="text-blue-600 font-medium">Contact Onesti</span>
+                          ) : (
+                            <span className="text-green-600 font-medium">Free</span>
+                          )
                         ) : (
                           <>
                             <span className={pkg.discountedPrice ? "line-through text-muted-foreground mr-2" : ""}>

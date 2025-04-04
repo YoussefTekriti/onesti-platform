@@ -51,7 +51,7 @@ export default function Footer() {
             <div className="space-y-2">
               <h3 className="font-semibold text-gray-900">Operating Hours</h3>
               <p className="text-sm text-gray-600">Monday to Saturday</p>
-              <p className="text-sm text-gray-600">9 Am to 9 PM Beirut time</p>
+              <p className="text-sm text-gray-600">9 AM to 9 PM Beirut Time</p>
               <p className="text-sm text-gray-600">+961 70 666 064</p>
               <p className="text-sm text-gray-600">letstalk@onestiglobal.com</p>
             </div>
@@ -112,7 +112,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/team" className="text-sm text-gray-600 hover:text-onesti-purple">
+                <Link href="/about/team" className="text-sm text-gray-600 hover:text-onesti-purple">
                   Our Team
                 </Link>
               </li>
