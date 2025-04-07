@@ -6,7 +6,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Tab } from "@headlessui/react"
-import { Mail, ChevronRight, GraduationCap, School, Users, ImageIcon } from "lucide-react"
+import { Mail, ChevronRight, GraduationCap, School, Users, ImageIcon, BookOpen } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -298,89 +298,159 @@ export default function TrainingPage() {
             
             {/* School Inclusion Panel */}
             <Tab.Panel>
-              <div className="max-w-4xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                  <div>
-                    <h2 className="text-2xl font-bold mb-4">School Inclusion</h2>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="max-w-6xl mx-auto"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+                  <div className="lg:col-span-7 space-y-4">
+                    <h2 className="text-2xl font-bold text-[#4b2e83] mb-4">School Inclusion</h2>
                     <p className="text-gray-700">
                       Our specialized training modules help create an inclusive environment at your school and prepare your educators and staff to cater for every child's needs.
                     </p>
-                    <p className="mt-4 text-gray-700">
+                    <p className="text-gray-700">
                       We believe in the power of inclusive education that gives every child the opportunity to learn and grow alongside their peers, regardless of their abilities or challenges.
                     </p>
-                    <p className="mt-4 text-gray-700">
+                    <p className="text-gray-700">
                       Our comprehensive training programs are designed to equip school staff with the knowledge, tools, and strategies needed to create truly inclusive learning environments.
                     </p>
-                    <Link href="/contact">
-                      <Button className="mt-6 bg-[#4b2e83] hover:bg-[#4b2e83]/90">
-                        Request School Training
-                      </Button>
-                    </Link>
-                  </div>
-                  <div className="relative h-full min-h-[300px] rounded-xl overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100"></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <p className="text-lg font-medium text-gray-600">School Inclusion Training</p>
+                    <div className="pt-4">
+                      <Link href="/contact">
+                        <Button className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 px-6 py-2">
+                          Request School Training
+                        </Button>
+                      </Link>
                     </div>
                   </div>
-                </div>
-
-                <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                  <h3 className="text-xl font-semibold mb-6">Our School Inclusion Programs Include:</h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Teacher Training</CardTitle>
-                        <CardDescription>Equipping educators with inclusive teaching strategies</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Comprehensive training for classroom teachers on adapting curriculum, differentiated instruction, and creating supportive learning environments for all students.</p>
-                      </CardContent>
-                    </Card>
-                    
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Staff Development</CardTitle>
-                        <CardDescription>Building a cohesive inclusive school culture</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Training for all school staff including administrators, counselors, and support personnel to ensure a unified approach to inclusion throughout the school.</p>
-                      </CardContent>
-                    </Card>
-                    
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Inclusive Curriculum Design</CardTitle>
-                        <CardDescription>Creating learning materials for all abilities</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Guidance on adapting existing curriculum and designing new materials that accommodate diverse learning needs while maintaining academic standards.</p>
-                      </CardContent>
-                    </Card>
-                    
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Behavior Support Strategies</CardTitle>
-                        <CardDescription>Promoting positive behaviors in all students</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Training on implementing positive behavior supports, de-escalation techniques, and creating effective behavior intervention plans.</p>
-                      </CardContent>
-                    </Card>
+                  <div className="lg:col-span-5">
+                    <motion.div 
+                      className="h-full w-full rounded-2xl overflow-hidden shadow-md relative"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      <Image
+                        src="/placeholder.svg"
+                        alt="School Inclusion Training"
+                        width={500}
+                        height={400}
+                        className="object-cover w-full h-full"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#4b2e83]/80 to-transparent flex flex-col justify-end p-6">
+                        <h3 className="text-white text-xl font-semibold mb-2">School Inclusion Training</h3>
+                        <p className="text-white/90">
+                          Creating supportive learning environments for all students
+                        </p>
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
 
-                <div className="text-center">
-                  <p className="text-sm text-gray-500 mb-4">For more information about our school inclusion programs</p>
+                <div className="bg-[#f9f8fc] rounded-2xl p-8 mb-8 border border-[#e9e4f5]">
+                  <h3 className="text-xl font-semibold text-[#4b2e83] mb-8">Our School Inclusion Programs Include:</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <motion.div 
+                      whileHover={{ y: -5 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                    >
+                      <Card className="h-full hover:shadow-md transition-all border-[#e9e4f5] overflow-hidden group">
+                        <CardHeader className="bg-gradient-to-r from-[#f4f1f9] to-white border-b border-[#e9e4f5]">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-[#4b2e83]/10 p-2 rounded-full">
+                              <GraduationCap className="h-5 w-5 text-[#4b2e83]" />
+                            </div>
+                            <div>
+                              <CardTitle className="text-[#4b2e83]">Teacher Training</CardTitle>
+                              <CardDescription>Equipping educators with inclusive teaching strategies</CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-6">
+                          <p className="text-gray-700">Comprehensive training for classroom teachers on adapting curriculum, differentiated instruction, and creating supportive learning environments for all students.</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                    
+                    <motion.div 
+                      whileHover={{ y: -5 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                    >
+                      <Card className="h-full hover:shadow-md transition-all border-[#e9e4f5] overflow-hidden group">
+                        <CardHeader className="bg-gradient-to-r from-[#f4f1f9] to-white border-b border-[#e9e4f5]">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-[#4b2e83]/10 p-2 rounded-full">
+                              <Users className="h-5 w-5 text-[#4b2e83]" />
+                            </div>
+                            <div>
+                              <CardTitle className="text-[#4b2e83]">Staff Development</CardTitle>
+                              <CardDescription>Building a cohesive inclusive school culture</CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-6">
+                          <p className="text-gray-700">Training for all school staff including administrators, counselors, and support personnel to ensure a unified approach to inclusion throughout the school.</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                    
+                    <motion.div 
+                      whileHover={{ y: -5 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                    >
+                      <Card className="h-full hover:shadow-md transition-all border-[#e9e4f5] overflow-hidden group">
+                        <CardHeader className="bg-gradient-to-r from-[#f4f1f9] to-white border-b border-[#e9e4f5]">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-[#4b2e83]/10 p-2 rounded-full">
+                              <BookOpen className="h-5 w-5 text-[#4b2e83]" />
+                            </div>
+                            <div>
+                              <CardTitle className="text-[#4b2e83]">Inclusive Curriculum Design</CardTitle>
+                              <CardDescription>Creating learning materials for all abilities</CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-6">
+                          <p className="text-gray-700">Guidance on adapting existing curriculum and designing new materials that accommodate diverse learning needs while maintaining academic standards.</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                    
+                    <motion.div 
+                      whileHover={{ y: -5 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                    >
+                      <Card className="h-full hover:shadow-md transition-all border-[#e9e4f5] overflow-hidden group">
+                        <CardHeader className="bg-gradient-to-r from-[#f4f1f9] to-white border-b border-[#e9e4f5]">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-[#4b2e83]/10 p-2 rounded-full">
+                              <School className="h-5 w-5 text-[#4b2e83]" />
+                            </div>
+                            <div>
+                              <CardTitle className="text-[#4b2e83]">Behavior Support Strategies</CardTitle>
+                              <CardDescription>Promoting positive behaviors in all students</CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-6">
+                          <p className="text-gray-700">Training on implementing positive behavior supports, de-escalation techniques, and creating effective behavior intervention plans.</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  </div>
+                </div>
+
+                <div className="text-center pb-6">
+                  <p className="text-gray-600 mb-4">For more information about our school inclusion programs</p>
                   <Link href="/contact">
-                    <Button className="bg-[#4b2e83] hover:bg-[#4b2e83]/90">
+                    <Button className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 px-8">
                       <Mail className="mr-2 h-4 w-4" />
                       Contact Professional Development
                     </Button>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>

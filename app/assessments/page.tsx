@@ -6,11 +6,13 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle, ClipboardList, X } from "lucide-react"
+import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle, ClipboardList, X, BookOpen, Brain, HeartHandshake, Baby } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { motion } from "framer-motion"
 
 // Available packages from the packages page
 const availablePackages = [
@@ -816,10 +818,9 @@ export default function AssessmentsPage() {
   const [currentStep, setCurrentStep] = useState(1)
   const [showResults, setShowResults] = useState(false)
   const [answers, setAnswers] = useState<Record<number, string>>({})
-  // Add state for validation
   const [isValidating, setIsValidating] = useState(false)
-  // Add state for results popup
   const [showResultsPopup, setShowResultsPopup] = useState(false)
+  const [activeTab, setActiveTab] = useState("developmental-set")
 
   // Get the current question set based on the selected category
   const getCurrentQuestions = () => {
@@ -924,6 +925,18 @@ export default function AssessmentsPage() {
 
   const recommendedPackage = getRecommendedPackage()
 
+  // Get icons for tabs
+  const getTabIcon = (tabId: string) => {
+    switch (tabId) {
+      case "developmental-set":
+        return <Brain className="h-5 w-5" />
+      case "routine-set":
+        return <Baby className="h-5 w-5" />
+      default:
+        return <BookOpen className="h-5 w-5" />
+    }
+  }
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-8 lg:py-20">
@@ -974,50 +987,70 @@ export default function AssessmentsPage() {
                 </ol>
               </div>
 
-              <h2 className="text-xl font-semibold text-[#4b2e83]">Select a Screening That's Right for Your Child</h2>
-              <div className="space-y-8">
+              <h2 className="text-xl font-semibold text-[#4b2e83] mb-6">Select a Screening That's Right for Your Child</h2>
+              
+              {/* Tabs component for assessment categories */}
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="w-full mb-8 bg-white border-b border-[#e9e4f5] p-0 h-auto flex justify-center">
+                  {assessmentCategories.map((set) => (
+                    <TabsTrigger 
+                      key={set.id} 
+                      value={set.id}
+                      className="flex items-center gap-2 px-6 py-3 data-[state=active]:text-[#4b2e83] data-[state=active]:border-b-2 data-[state=active]:border-[#4b2e83] data-[state=active]:bg-transparent"
+                    >
+                      {getTabIcon(set.id)}
+                      {set.name}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+                
                 {assessmentCategories.map((set) => (
-                  <div key={set.id} className="space-y-6">
-                    <h2 className="text-2xl font-semibold text-[#4b2e83]">{set.name}</h2>
+                  <TabsContent key={set.id} value={set.id} className="mt-6 animate-in fade-in-50">
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                       {set.screenings.map((screening) => (
-                        <Card
+                        <motion.div
                           key={screening.id}
-                          className="cursor-pointer transition-all hover:shadow-md hover:border-[#4b2e83]/30 overflow-hidden group"
-                          onClick={() => handleCategorySelect(screening.id)}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3 }}
                         >
-                          <div className="relative h-48 w-full overflow-hidden">
-                            <Image
-                              src={screening.image || "/placeholder.svg"}
-                              alt={screening.name}
-                              fill
-                              className="object-cover transition-transform group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                          </div>
-                          <CardHeader>
-                            <div className="flex items-center gap-3">
-                              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#4b2e83]/10">
-                                <screening.icon className="h-5 w-5 text-[#4b2e83]" />
+                          <Card
+                            className="cursor-pointer transition-all hover:shadow-md hover:border-[#4b2e83]/30 overflow-hidden group h-full"
+                            onClick={() => handleCategorySelect(screening.id)}
+                          >
+                            <div className="relative h-48 w-full overflow-hidden">
+                              <Image
+                                src={screening.image || "/placeholder.svg"}
+                                alt={screening.name}
+                                fill
+                                className="object-cover transition-transform group-hover:scale-105"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                            </div>
+                            <CardHeader>
+                              <div className="flex items-center gap-3">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#4b2e83]/10">
+                                  <screening.icon className="h-5 w-5 text-[#4b2e83]" />
+                                </div>
+                                <CardTitle>{screening.name}</CardTitle>
                               </div>
-                              <CardTitle>{screening.name}</CardTitle>
-                            </div>
-                            <CardDescription className="mt-2">{screening.description}</CardDescription>
-                          </CardHeader>
-                          <CardFooter>
-                            <div className="flex w-full items-center justify-between">
-                              <span className="text-sm text-muted-foreground">{screening.questions} quick questions</span>
-                              <Button size="sm" className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 transition-all">
-                                Begin Screening
-                              </Button>
-                            </div>
-                          </CardFooter>
-                        </Card>
+                              <CardDescription className="mt-2">{screening.description}</CardDescription>
+                            </CardHeader>
+                            <CardFooter>
+                              <div className="flex w-full items-center justify-between">
+                                <span className="text-sm text-muted-foreground">{screening.questions} quick questions</span>
+                                <Button size="sm" className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 transition-all">
+                                  Begin Screening
+                                </Button>
+                              </div>
+                            </CardFooter>
+                          </Card>
+                        </motion.div>
                       ))}
                     </div>
-                  </div>
+                  </TabsContent>
                 ))}
-              </div>
+              </Tabs>
             </div>
           )}
 

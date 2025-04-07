@@ -566,11 +566,11 @@ export default function ProgramsPage() {
               ) : (
                 // Collapsed card view
                 <>
-                  {/* Circle image */}
-                  <div className="w-20 h-20 mx-auto mt-6 mb-4">
+                  {/* Circle image - increasing size from w-20/h-20 to w-32/h-32 and adjusting inner circles proportionally */}
+                  <div className="w-32 h-32 mx-auto mt-8 mb-6">
                     <div className="w-full h-full rounded-full bg-[#F4F1F9] flex items-center justify-center">
-                      <div className="w-14 h-14 rounded-full bg-[#E9E4F5] flex items-center justify-center">
-                        <ImageIcon className="w-8 h-8 text-onesti-purple opacity-70" />
+                      <div className="w-24 h-24 rounded-full bg-[#E9E4F5] flex items-center justify-center">
+                        <ImageIcon className="w-12 h-12 text-onesti-purple opacity-70" />
                       </div>
                     </div>
                   </div>
