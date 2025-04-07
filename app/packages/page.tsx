@@ -35,20 +35,20 @@ const packages: PackageItem[] = [
     id: "developmental-thrive",
     name: "Developmental Thrive Path",
     description: "Comprehensive support for developmental delays or challenges",
-    price: 840,  // Global price for the entire package
-    displayPrice: 70, // Price shown per session
+    price: 720,  // Global price for the entire package (60 * 12)
+    displayPrice: 60, // Price shown per session
     regionalPrice: 600, // Regional discount price
     sessionCount: 12,
     features: [
-      "In-depth initial assessment with a supportive multidisciplinary team",
-      "12 flexible therapy sessions tailored to your child's needs",
-      "Individualized intervention plan with clear, achievable goals",
-      "Parent coaching with practical strategies you can use at home",
-      "Easy-to-use interactive dashboard to track your child's progress",
-      "Calendar integration with helpful reminders",
-      "4 video reviews with detailed, supportive feedback",
-      "Regular parent-therapist meetings to ensure we're meeting your family's needs",
-      "Dedicated coordinator to answer questions and provide guidance",
+      "In-depth initial assessment with a multidisciplinary review",
+      "12 therapy sessions to be used flexibly",
+      "Individualized plan with targeted objectives",
+      "Parent support strategies to implement plan objectives in daily life",
+      "Access to an interactive personalized dashboard with progress tracking",
+      "Calendar integration with reminders",
+      "4 video reviews with detailed feedback",
+      "Regular parent and therapist coordination meetings",
+      "Dedicated Technical Advisor for coordination",
     ],
     recommended: true,
   },
@@ -56,20 +56,20 @@ const packages: PackageItem[] = [
     id: "developmental-empower",
     name: "Developmental Empower Path",
     description: "Balanced support for developmental needs",
-    price: 600,  // Global price for the entire package
-    displayPrice: 75, // Price shown per session
+    price: 520,  // Global price for the entire package (65 * 8)
+    displayPrice: 65, // Price shown per session
     regionalPrice: 400, // Regional discount price
     sessionCount: 8,
     features: [
-      "In-depth initial assessment with a supportive multidisciplinary team",
-      "8 flexible therapy sessions tailored to your child's needs",
-      "Individualized intervention plan with clear, achievable goals",
-      "Parent coaching with practical strategies you can use at home",
-      "Regular check-ins to discuss progress and adjust approaches",
-      "Easy-to-use interactive dashboard to track your child's progress",
-      "Calendar integration with helpful reminders",
-      "2 video reviews with detailed, supportive feedback",
-      "Dedicated coordinator to answer questions and provide guidance",
+      "In-depth initial assessment with a multidisciplinary review",
+      "8 therapy sessions to be used flexibly",
+      "Individualized intervention plan with targeted objectives",
+      "Parent support strategies to implement plan objectives in daily life",
+      "Regular progress/coordination meetings",
+      "Access to an interactive personalized dashboard with progress tracking",
+      "Calendar integration with reminders",
+      "2 video reviews with detailed feedback",
+      "Dedicated Technical Advisor for coordination",
     ],
     recommended: false,
   },
@@ -77,18 +77,18 @@ const packages: PackageItem[] = [
     id: "developmental-nurture",
     name: "Developmental Nurture Path",
     description: "Essential support for developmental needs",
-    price: 320,  // Global price for the entire package
-    displayPrice: 80, // Price shown per session
+    price: 280,  // Global price for the entire package (70 * 4)
+    displayPrice: 70, // Price shown per session
     regionalPrice: 200, // Regional discount price
     sessionCount: 4,
     features: [
-      "Supportive initial assessment to understand your child's needs",
-      "4 therapy sessions tailored to your child's specific goals",
-      "Individualized intervention plan with clear, achievable objectives",
-      "Parent coaching with practical strategies you can use at home",
-      "Easy-to-use interactive dashboard to track your child's progress",
-      "Calendar integration with helpful reminders",
-      "Dedicated coordinator to answer questions and provide guidance",
+      "In-depth initial assessment with a multidisciplinary review",
+      "4 therapy sessions to be used flexibly",
+      "Individualized intervention plan with targeted objectives",
+      "Parent support strategies to implement plan objectives in daily life",
+      "Access to an interactive personalized dashboard with progress tracking",
+      "Calendar integration with reminders",
+      "Dedicated Technical Advisor for coordination",
     ],
     recommended: false,
   },
@@ -108,16 +108,16 @@ const routinePackages: PackageItem[] = [
     id: "routine-thrive",
     name: "Routine Thrive Path",
     description: "Comprehensive support for routine-based challenges",
-    price: 700,  // Global price for the entire package
+    price: 700,  // Global price for the entire package (70 * 10)
     displayPrice: 70, // Price shown per session
     regionalPrice: 500, // Regional discount price
     sessionCount: 10,
     features: [
-      "10 supportive intervention sessions",
-      "Easy-to-understand report explaining your child's routine challenges",
-      "Individualized plan with practical strategies for daily routines",
-      "User-friendly dashboard to track progress and celebrate wins",
-      "3 video reviews with helpful feedback and suggestions",
+      "10 intervention sessions",
+      "A report detailing results of the screening checklist",
+      "Individualized intervention plan with targeted objectives",
+      "Access to an interactive personalized dashboard with progress tracking",
+      "3 video review for feedback",
     ],
     recommended: true,
   },
@@ -125,16 +125,16 @@ const routinePackages: PackageItem[] = [
     id: "routine-empower",
     name: "Routine Empower Path",
     description: "Balanced support for routine-based challenges",
-    price: 450,  // Global price for the entire package
+    price: 450,  // Global price for the entire package (75 * 6)
     displayPrice: 75, // Price shown per session
     regionalPrice: 300, // Regional discount price
     sessionCount: 6,
     features: [
-      "6 supportive intervention sessions",
-      "Easy-to-understand report explaining your child's routine challenges",
-      "Individualized plan with practical strategies for daily routines",
-      "User-friendly dashboard to track progress and celebrate wins",
-      "2 video reviews with helpful feedback and suggestions",
+      "6 intervention sessions",
+      "A report detailing results of the screening checklist",
+      "Individualized intervention plan with targeted objectives",
+      "Access to an interactive personalized dashboard with progress tracking",
+      "2 video review for feedback",
     ],
     recommended: false,
   },
@@ -142,16 +142,16 @@ const routinePackages: PackageItem[] = [
     id: "routine-nurture",
     name: "Routine Nurture Path",
     description: "Essential support for routine-based challenges",
-    price: 320,  // Global price for the entire package
+    price: 320,  // Global price for the entire package (80 * 4)
     displayPrice: 80, // Price shown per session
     regionalPrice: 200, // Regional discount price
     sessionCount: 4,
     features: [
-      "4 supportive intervention sessions",
-      "Easy-to-understand report explaining your child's routine challenges",
-      "Individualized plan with practical strategies for daily routines",
-      "User-friendly dashboard to track progress and celebrate wins",
-      "1 video review with helpful feedback and suggestions",
+      "4 intervention sessions",
+      "A report detailing results of the screening checklist",
+      "Individualized intervention plan with targeted objectives",
+      "Access to an interactive personalized dashboard with progress tracking",
+      "1 Video review for feedback",
     ],
     recommended: false,
   },
@@ -166,9 +166,9 @@ const abaPackages: PackageItem[] = [
     price: 0,  // Setting to 0 to indicate contact for pricing
     displayPrice: 0, // Setting to 0 to indicate contact for pricing
     regionalPrice: 0, // Setting to 0 to indicate contact for pricing
-    sessionCount: 12,
+    sessionCount: 10,
     features: [
-      "12 hours of ABA intervention",
+      "10 hours of ABA intervention",
       "Personalized behavior intervention plan",
       "Detailed feedback and recommendations",
       "Implementation of customized reinforcement plan",
@@ -223,7 +223,7 @@ const abaPackages: PackageItem[] = [
   {
     id: "aba-home-intensive",
     name: "Intensive Home Program",
-    description: "Comprehensive home-based support for your family",
+    description: "Comprehensive in-home ABA support",
     price: 0,  // Setting to 0 to indicate contact for pricing
     displayPrice: 0, // Setting to 0 to indicate contact for pricing
     regionalPrice: 0, // Setting to 0 to indicate contact for pricing
@@ -244,48 +244,48 @@ const abaPackages: PackageItem[] = [
   },
 ]
 
-// Add counseling and single sessions packages
+// Add counseling packages
 const counselingPackages: PackageItem[] = [
   {
-    id: "counseling-extended",
-    name: "Extended Support",
-    description: "Comprehensive counseling support",
-    price: 480,  // Global price for the entire package
-    displayPrice: 80, // Price shown per session
-    regionalPrice: 420, // Regional discount price
-    sessionCount: 6,
+    id: "counseling-single",
+    name: "Single Session",
+    description: "One-time counseling support",
+    price: 90,  // Price for a single session
+    displayPrice: 90, // Price shown per session
+    regionalPrice: 60, // Regional discount price
+    sessionCount: 1,
     features: [
-      "6 counseling sessions",
-      "Weekly check-ins via email or chat",
-      "Personalized guidance and support",
+      "One-time counseling session",
+      "Focused on immediate concerns",
     ],
-    recommended: true,
+    recommended: false,
   },
   {
     id: "counseling-bundle",
     name: "Session Bundle",
     description: "Multiple sessions at your convenience",
-    price: 270,  // Global price for the entire package
-    displayPrice: 90, // Price shown per session
-    regionalPrice: 195, // Regional discount price
-    sessionCount: 3,
+    price: 320,  // Global price for the entire package (80 * 4)
+    displayPrice: 80, // Price shown per session
+    regionalPrice: 240, // Regional discount price
+    sessionCount: 4,
     features: [
-      "3 counseling sessions",
+      "4 counseling sessions",
       "Flexible scheduling at your convenience",
     ],
-    recommended: false,
+    recommended: true,
   },
   {
-    id: "counseling-single",
-    name: "Single Session",
-    description: "One-time counseling support",
-    price: 90,  // Global price for the entire package
-    displayPrice: 100, // Price shown per session for homepage display
-    regionalPrice: 70, // Regional discount price
-    sessionCount: 1,
+    id: "counseling-extended",
+    name: "Extended Support",
+    description: "Comprehensive counseling support",
+    price: 420,  // Global price for the entire package (70 * 6)
+    displayPrice: 70, // Price shown per session
+    regionalPrice: 300, // Regional discount price
+    sessionCount: 6,
     features: [
-      "One-time counseling session",
-      "Focused on immediate concerns",
+      "6 counseling sessions",
+      "Weekly check-ins via email or chat",
+      "Personalized guidance and support",
     ],
     recommended: false,
   },
@@ -422,12 +422,15 @@ export default function PackagesPage() {
   }, [cart])
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-8 lg:py-20">
-        <div className="mx-auto max-w-2xl text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Support Packages</h1>
-          <p className="mt-4 text-lg leading-8 text-gray-600">
-            Find the right support plan for your child's needs and your family's journey
+    <div className="bg-background">
+      <main className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+        {/* Hero Section */}
+        <div className="max-w-5xl mx-auto mb-12 text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-[#4b2e83] mb-4">
+            Intervention Packages
+          </h1>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Find the right intervention plan for your child's….
           </p>
         </div>
 
@@ -1143,7 +1146,7 @@ export default function PackagesPage() {
             </Card>
           )}
         </div>
-      </div>
+      </main>
 
       <Dialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
         <DialogContent>

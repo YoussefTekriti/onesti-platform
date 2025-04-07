@@ -138,7 +138,7 @@ export default function Header() {
     <header className="bg-white shadow-sm relative">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:p-6 lg:px-8" aria-label="Global">
         {/* Logo - fixed width on left */}
-        <div className="flex w-32 lg:w-64">
+        <div className={`flex ${language === "ar" ? "lg:w-48" : "w-32 lg:w-64"}`}>
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Onesti</span>
             <Image
@@ -151,17 +151,17 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Navigation - centered */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:gap-x-8">
+        {/* Navigation - centered with better RTL support */}
+        <div className={`hidden lg:flex lg:flex-1 lg:justify-center ${language === "ar" ? "lg:gap-x-5 lg:mx-1" : "lg:gap-x-8"}`}>
           {mounted && navigation.map((item) => (
             isNavItemWithDropdown(item) ? (
               <div key={item.name} className="relative group">
-                <button className="text-sm font-semibold leading-6 flex items-center text-gray-900 hover:text-onesti-purple transition-colors py-2">
-                  {item.name} <ChevronDown className="ml-1 h-4 w-4" />
+                <button className={`text-sm font-semibold leading-6 flex items-center text-gray-900 hover:text-onesti-purple transition-colors py-2 ${language === "ar" ? "gap-x-1" : ""}`}>
+                  {item.name} <ChevronDown className={`${language === "ar" ? "mr-1" : "ml-1"} h-4 w-4`} />
                 </button>
                 
                 {/* Simple CSS dropdown that appears on hover */}
-                <div className="absolute z-10 left-0 mt-1 w-[400px] bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-left">
+                <div className={`absolute z-10 ${language === "ar" ? "right-0" : "left-0"} mt-1 w-[400px] bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ${language === "ar" ? "origin-top-right" : "origin-top-left"}`}>
                   <div className="p-4">
                     {item.dropdown.map((section, idx) => (
                       <div key={idx} className="space-y-4">
@@ -210,7 +210,7 @@ export default function Header() {
                 suppressHydrationWarning
                 className={`text-sm font-semibold leading-6 ${
                   pathname === item.href.replace(/#.*$/, "") ? "text-onesti-purple" : "text-gray-900"
-                } hover:text-onesti-purple transition-colors py-2`}
+                } hover:text-onesti-purple transition-colors py-2 ${language === "ar" ? "whitespace-nowrap" : ""}`}
               >
                 {item.name}
               </Link>
@@ -268,8 +268,8 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Account - fixed width on right */}
-        <div className="hidden lg:flex lg:items-center lg:w-64 lg:justify-end">
+        {/* Account - fixed width on right with better RTL support */}
+        <div className={`hidden lg:flex lg:items-center ${language === "ar" ? "lg:w-48" : "lg:w-64"} lg:justify-end`}>
           {/* Language toggle for desktop */}
           <div className="relative flex items-center bg-white rounded-full p-1 w-28 h-10 shadow-md border border-gray-200 mr-4">
             {/* Sliding background */}
@@ -306,7 +306,7 @@ export default function Header() {
           </div>
 
           {isLoggedIn ? (
-            <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900 flex items-center">
+            <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900 flex items-center whitespace-nowrap">
               <span suppressHydrationWarning>
                 {language === "en" ? (
                   <>Dashboard <span aria-hidden="true" className="ml-1">&rarr;</span></>
@@ -316,7 +316,7 @@ export default function Header() {
               </span>
             </Link>
           ) : (
-            <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900 flex items-center">
+            <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900 flex items-center whitespace-nowrap">
               <span suppressHydrationWarning>
                 {language === "en" ? (
                   <>Log in / Sign up <span aria-hidden="true" className="ml-1">&rarr;</span></>

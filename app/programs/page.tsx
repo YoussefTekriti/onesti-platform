@@ -21,7 +21,7 @@ const programsData = [
     id: "speak",
     category: "developmental",
     title: "SPEAK Program",
-    description: "A supportive program that helps children develop stronger communication and language skills through engaging online sessions and practical everyday activities.",
+    description: "An intervention program that helps children develop stronger communication and language skills through engaging online sessions and practical everyday activities.",
     content: "The SPEAK Program is a comprehensive speech and language therapy program designed to help your child bridge communication gaps and target specific skills through effective, evidence-based interventions. Our highly skilled speech-language pathologists (SLPs) will work closely with your child to help improve their speech, language, and communication abilities. We guide parents in integrating these strategies into daily routines, creating multiple learning and practice opportunities that reinforce progress beyond therapy sessions.",
     additionalContent: "Early intervention is critical for addressing speech and language delays. If you notice any delays in your child's communication skills, don't wait. Complete ONESTI's developmental screening checklist and reach out to our professionals to learn more about your child's development and the steps you can take to support them.",
     whoCanBenefit: [
@@ -43,7 +43,7 @@ const programsData = [
     id: "reach-up",
     category: "developmental",
     title: "REACH UP Program",
-    description: "A movement-focused program that helps children develop stronger coordination, balance, and physical skills through fun, interactive online activities.",
+    description: "An intervention program that helps children develop stronger coordination, balance, and physical skills through fun, interactive online activities.",
     content: "Reach UP is a program designed to enhance your child's motor skills through targeted development and improvement. The program begins with a comprehensive assessment of both gross and fine motor abilities, evaluating their impact on daily activities and overall movement independence. As a hybrid program delivered both online and onsite, your child will engage in customized motor activities through interactive sessions that cater to his/her unique needs. These activities, inspired by your cultural background and family dynamics, are crafted to help your child master and generalize essential skills. Our goal is to empower you as parents with effective techniques to integrate these targeted motor skills into your daily routines.",
     additionalContent: "Early intervention is critical for supporting motor development. If you notice any delays in your child's movement or coordination, don't wait. Complete ONESTI's developmental screening checklist and reach out to our professionals to learn more about your child's motor development and the steps you can take to support their progress.",
     whoCanBenefit: [
@@ -65,7 +65,7 @@ const programsData = [
     id: "senses-in-harmony",
     category: "developmental",
     title: "SENSES IN HARMONY",
-    description: "A program that helps children who are sensitive to sensory experiences (sounds, textures, movements) become more comfortable and confident in their daily activities.",
+    description: "An intervention program that helps children who are sensitive to sensory experiences (sounds, textures, movements) become more comfortable and confident in their daily activities.",
     content: "Sensory challenges occur when the brain struggles to process stimuli—what we see, hear, smell, taste, or touch—effectively. The Senses in Harmony program is a hybrid program (delivered both online and onsite) that helps your child accurately interpret and manage sensory inputs from their environment. Through scientifically designed sensory exercises, activities, and environmental adaptations, the program eases your child's daily struggles. Your child will participate in engaging, interactive sensory sessions tailored to their unique needs, with activities inspired by their cultural background, home environment, and family dynamics. Additionally, the program equips you with proven techniques and methods to adapt the environment, ensuring it aligns with your child's current sensory tolerance levels.",
     additionalContent: "Early intervention is critical for addressing sensory processing challenges. If you notice signs of sensory difficulties in your child, don't wait—begin the sensory profile assessment or contact our professionals to learn more about your child's sensory profile and the steps you can take to support their development.",
     whoCanBenefit: [
@@ -85,7 +85,7 @@ const programsData = [
     id: "i-cue",
     category: "developmental",
     title: "I CUE Program",
-    description: "A program that strengthens children's thinking and problem-solving abilities through engaging activities that build on their natural interests and strengths.",
+    description: "An intervention program that strengthens children's thinking and problem-solving abilities through engaging activities that build on their natural interests and strengths.",
     content: "\"I CUE\" is a program designed to help children enhance their mental and intellectual abilities and overcome daily challenges resulting from delays in these skills. At ONESTI, we believe that child development must be addressed comprehensively, targeting all areas that can affect or be affected by cognitive delays. This comprehensive program supports your child's global development through a hybrid approach—combining online interactive sessions with onsite support. Our educational programs and evidence-based activities are engaging, fun, and individually tailored to match your child's interests and strengths. \"I CUE\" also empowers parents by deepening their understanding of their child's abilities and equipping them with scientifically based techniques and strategies. By utilizing naturally occurring learning opportunities in daily routines, parents can reinforce the acquisition and development of targeted skills.",
     additionalContent: "Early intervention is crucial for addressing cognitive delays. If you notice signs that your child is struggling with problem-solving, attention, or processing skills, don't wait! Fill ONESTI's developmental screening checklist or contact our professionals to learn more about your child's cognitive development.",
     whoCanBenefit: [
@@ -127,7 +127,7 @@ const programsData = [
     id: "bon-appetit",
     category: "routine",
     title: "BON APPETIT",
-    description: "A supportive feeding program that helps families transform mealtime challenges into positive experiences, from infant feeding to independent eating skills.",
+    description: "An intervention feeding program that helps families transform mealtime challenges into positive experiences, from infant feeding to independent eating skills.",
     content: "Feeding your child shouldn't be stressful—it should be a time for bonding and growth! Bon Appétit is a feeding therapy program designed to help parents navigate feeding challenges at every stage. From breastfeeding and introducing solids to self-feeding with utensils. Whether your child is struggling with latching, refusing new foods, or having difficulty chewing and swallowing, our specialists provide expert guidance and evidence-based strategies to make mealtime a positive and stress-free experience.",
     additionalContent: "Feeding challenges are more than just picky eating—they can affect your child's growth, nutrition, and confidence. The earlier you address them, the easier it is to build healthy habits, reduce stress, and prevent long-term struggles around food. Don't wait until mealtimes become a daily battle. Acting early means faster progress and better outcomes for your child. Fill ONESTI's Bon Appetit checklist and connect with our professionals to get personalized support today.",
     whoCanBenefit: [
@@ -170,7 +170,7 @@ const programsData = [
     id: "independent-me",
     category: "routine",
     title: "INDEPENDENT ME",
-    description: "A program that helps children develop everyday life skills like dressing, eating, and personal care, building confidence and independence appropriate for their age.",
+    description: "An intervention program that helps children develop everyday life skills like dressing, eating, and personal care, building confidence and independence appropriate for their age.",
     content: "The Independent ME program is designed to help children master daily living skills and achieve the highest possible level of independence. It starts with a thorough assessment of key abilities—including motor, intellectual, communication, social, and behavioral skills—that are essential for daily functioning. Once any deficits that hinder routine activities are identified, the program focuses on bridging those developmental gaps. For skills that are particularly challenging to develop due to a specific diagnosis, the ONESTI team customizes activities and tools so every child can reach an acceptable level of independence. Additionally, the program empowers parents by enhancing their understanding of their child's abilities and coaching them on scientifically based techniques to naturally generalize newly acquired skills within daily routines.",
     additionalContent: "Early intervention is critical for fostering adaptive skills and ensuring the best outcomes for your child. If you notice your child struggling with daily routine activities, don't wait—fill ONESTI's Independent ME checklist or contact our professionals to learn more about your child's adaptive skills development —prompt action can make a significant difference in your child's development.",
     whoCanBenefit: [
@@ -211,7 +211,7 @@ const programsData = [
     id: "alphabet",
     category: "academics",
     title: "ALPHABEႵ",
-    description: "A supportive online program that helps children who struggle with reading, spelling, language, and math, filling learning gaps and building essential academic skills.",
+    description: "An intervention online program that helps children who struggle with reading, spelling, language, and math, filling learning gaps and building essential academic skills.",
     content: "The Alphabeت Program is a comprehensive intervention designed to address academic gaps and provide targeted support for students struggling with learning disabilities. Through individualized education plans (IEPs), our program aims to improve key areas such as spelling, reading, language, comprehension, memory, and math. Our dedicated team works closely with students to identify their specific challenges through a detailed screening process and then crafts a tailored intervention plan to meet their unique needs.",
     additionalContent: "Addressing academic gaps early is crucial for long-term success. If you notice any red flags or difficulties in your child's academic development, don't wait. Complete ONESTI's Academics checklist and contact our professionals to learn more about your child's needs and how we can help them succeed.",
     whoCanBenefit: [
@@ -233,7 +233,7 @@ const programsData = [
     id: "well-be-ing",
     category: "counseling",
     title: "WELL-BE-ING",
-    description: "A supportive program that helps children, teens, and parents develop emotional skills, build stronger relationships, and navigate life's challenges with confidence.",
+    description: "An intervention program that helps children, teens, and parents develop emotional skills, build stronger relationships, and navigate life's challenges with confidence.",
     content: "Onesti's Well-Be-ing program provides social and emotional support, guidance, and counseling for children, teenagers, and parents. The main purpose is to acquire the fundamental skills necessary to recognize and manage one's emotions, set and achieve goals, build and sustain strong interpersonal relationships, make ethical judgments, and interact with others in a productive way. Through proper development of social and emotional skills, individuals are less likely to experience internal struggles such as anxiety and depression. The Well-Be-ing program focuses on the development of self-awareness, social-awareness, relationship skills and decision making skills. Acquiring these skills help in setting the foundations for building positive social and emotional experiences. Having a strong foundation facilitates healthy growth among all other developmental areas. The sooner an individual acquires healthy social-emotional skills, the better is their general health and well-being. The professionals at Onesti offer a unique outlet for parents and their children to strengthen their emotional bonds by providing evidence-based strategies that will enhance parental sensitivity to emotional and behavioral cues in order to improve a child's attachment security. Through Well-Be-ing we assess and strengthen the caregiver's capacity to provide safety through child development training, parenting skills coaching, and healthy coping strategies, which will result in corrective emotional experiences for caregivers, or address a caregiver's own attachment issues from childhood.",
     additionalContent: "Social and emotional well-being is crucial to an individual's overall health, and it's never too early to start building these foundational skills. The sooner children, teenagers, and parents access support, the greater the potential to prevent future emotional struggles such as anxiety, depression, and relationship challenges. Fill ONESTI's Well-Be-ing checklist to understand your child's specific needs and connect with our professionals for personalized support.",
     whoCanBenefit: [
@@ -325,11 +325,11 @@ export default function ProgramsPage() {
             className="text-center"
           >
             <h1 className="text-4xl md:text-5xl font-bold text-[#4b2e83] mb-6">
-              Our Support Programs
+              Our Intervention Programs
             </h1>
             <div className="w-24 h-1 bg-[#4b2e83] mx-auto mb-8"></div>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-              Supportive programs designed to help your child grow, learn, and thrive. Each program focuses on different developmental areas, providing personalized guidance for both children and parents.
+              Intervention programs designed to help your child grow, learn, and thrive. Each program focuses on different developmental areas, providing personalized guidance for both children and parents.
             </p>
           </motion.div>
         </div>
