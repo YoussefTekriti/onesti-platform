@@ -101,6 +101,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { language, setLanguage } = useLanguage()
   const pathname = usePathname()
+  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
 
   // This would be replaced with actual auth state
   const isLoggedIn = false
@@ -155,13 +156,24 @@ export default function Header() {
         <div className={`hidden lg:flex lg:flex-1 lg:justify-center ${language === "ar" ? "lg:gap-x-5 lg:mx-1" : "lg:gap-x-8"}`}>
           {mounted && navigation.map((item) => (
             isNavItemWithDropdown(item) ? (
-              <div key={item.name} className="relative group">
-                <button className={`text-sm font-semibold leading-6 flex items-center text-gray-900 hover:text-onesti-purple transition-colors py-2 ${language === "ar" ? "gap-x-1" : ""}`}>
+              <div 
+                key={item.name} 
+                className="relative group" 
+                onMouseEnter={() => setDropdownOpen(item.name)}
+                onMouseLeave={() => setDropdownOpen(null)}
+                style={{pointerEvents: 'auto'}}
+              >
+                <button 
+                  className={`text-sm font-semibold leading-6 flex items-center text-gray-900 hover:text-onesti-purple transition-colors py-2 ${language === "ar" ? "gap-x-1" : ""}`}
+                >
                   {item.name} <ChevronDown className={`${language === "ar" ? "mr-1" : "ml-1"} h-4 w-4`} />
                 </button>
                 
-                {/* Simple CSS dropdown that appears on hover */}
-                <div className={`absolute z-10 ${language === "ar" ? "right-0" : "left-0"} mt-1 w-[400px] bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ${language === "ar" ? "origin-top-right" : "origin-top-left"}`}>
+                {/* Simple dropdown with JS control */}
+                <div 
+                  className={`absolute z-[100] ${language === "ar" ? "right-0" : "left-0"} mt-1 w-[400px] bg-white rounded-lg shadow-lg border border-gray-200 transition-all duration-200 ${language === "ar" ? "origin-top-right" : "origin-top-left"} ${dropdownOpen === item.name ? "opacity-100 visible" : "opacity-0 invisible"}`}
+                  style={{pointerEvents: 'auto'}}
+                >
                   <div className="p-4">
                     {item.dropdown.map((section, idx) => (
                       <div key={idx} className="space-y-4">
@@ -332,7 +344,7 @@ export default function Header() {
       {/* Mobile menu */}
       {mounted && mobileMenuOpen && (
         <div className="lg:hidden">
-          <div className="fixed inset-0 z-50 bg-black/60" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
+          <div className="fixed inset-0 z-40 bg-black/60" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
           <div className={`fixed inset-y-0 z-50 w-4/5 max-w-[300px] overflow-y-auto bg-white px-4 py-5 shadow-xl ${language === "ar" ? "right-0" : "left-0"}`}>
             <div className="flex items-center justify-between mb-4">
               <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>

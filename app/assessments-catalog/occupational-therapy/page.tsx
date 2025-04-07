@@ -1,8 +1,12 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Brain, Activity, Eye, Sparkles, Puzzle, HandMetal } from "lucide-react"
+import { ArrowRight, Brain, Activity, Eye, Sparkles, Puzzle, HandMetal, CheckCircle, PlusCircle, MinusCircle } from "lucide-react"
 import { CheckoutModal } from "@/components/assessments/checkout-modal"
+import { motion } from "framer-motion"
+import { useState } from "react"
 
 // Assessment data
 const assessments = [
@@ -156,43 +160,96 @@ const assessments = [
 ]
 
 export default function OccupationalTherapyPage() {
+  const [selectedFaq, setSelectedFaq] = useState<number | null>(null);
+  const [hoveredAssessment, setHoveredAssessment] = useState<string | null>(null);
+  
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+  
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
+
   return (
     <div className="bg-white">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-[#4b2e83] to-[#6a4bbc] text-white">
+      {/* Hero Section with animation */}
+      <div className="relative bg-gradient-to-r from-[#4b2e83] to-[#6a4bbc] text-white overflow-hidden">
         <div className="absolute inset-0 opacity-20 bg-[url('/placeholder.svg?height=600&width=1200')] bg-cover bg-center" />
+        <div className="absolute top-0 right-0 -mt-24 -mr-24 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -mb-24 -ml-24 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
         <div className="relative mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-          <div className="max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl"
+          >
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Occupational Therapy Assessments</h1>
+            <div className="h-1 w-24 bg-white/70 my-6"></div>
             <p className="mt-6 text-lg leading-8">
               Our comprehensive occupational therapy assessments help identify motor, sensory, and functional challenges
               affecting daily life activities.
             </p>
-            <div className="mt-10 flex items-center gap-x-6">
-              <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
+            <motion.div 
+              className="mt-10 flex items-center gap-x-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Button 
+                className="bg-white text-[#4b2e83] hover:bg-gray-100 shadow-md hover:shadow-lg transition-all duration-300" 
+                size="lg" 
+                asChild
+              >
                 <Link href="#assessments">View Assessments</Link>
               </Button>
-              <Button className="bg-white text-[#4b2e83] hover:bg-gray-100" size="lg" asChild>
+              <Button 
+                className="bg-transparent text-white hover:bg-white/10 border border-white shadow-md hover:shadow-lg transition-all duration-300" 
+                size="lg" 
+                asChild
+              >
                 <Link href="/assessments-catalog">Back to Categories</Link>
               </Button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Overview Section */}
+      {/* Overview Section with animated cards */}
       <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto max-w-2xl text-center"
+        >
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             About Occupational Therapy Assessments
           </h2>
+          <div className="h-1 w-16 bg-[#4b2e83] mx-auto my-6"></div>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Our occupational therapy assessments are designed for children who may show motor, sensory, or functional
             challenges affecting daily life activities.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="mx-auto mt-16 max-w-7xl">
+        <motion.div 
+          className="mx-auto mt-16 max-w-7xl"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#4b2e83] text-white">
@@ -222,7 +279,7 @@ export default function OccupationalTherapyPage() {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Assessments Section */}
