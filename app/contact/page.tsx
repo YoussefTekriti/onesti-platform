@@ -25,9 +25,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-lg font-bold mb-2">Address</h3>
                     <p className="text-gray-600">
-                      Daychounieh street, Hajjar building, 2nd floor,
-                      <br />
-                      Mansourieh – Lebanon
+                      Said Freiha street, Shawki Lutfala bldg. Second floor
                     </p>
                   </div>
                 </div>
