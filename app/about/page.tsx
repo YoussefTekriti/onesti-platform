@@ -7,7 +7,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { MilestoneSubscriptionDialog } from "@/components/milestone/milestone-subscription-dialog"
 import { Card, CardContent } from "@/components/ui/card"
-import { CheckCircle, BookOpen, Users, BarChart4, Baby, ChevronRight, Heart, MessageSquare, Brain, GraduationCap, Handshake, BarChart2, Compass, HeartHandshake, Search } from "lucide-react"
+import { CheckCircle, BookOpen, Users, BarChart4, Baby, ChevronRight, Heart, MessageSquare, Brain, GraduationCap, Handshake, BarChart2, Compass, HeartHandshake, Search, ClipboardCheck, LineChart, ShieldCheck, Globe, Calendar, Gamepad2, Home } from "lucide-react"
 
 // Import first three team members
 const teamMembers = [
@@ -71,84 +71,63 @@ export default function AboutPage() {
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
                 What Is ONESTI
               </h1>
-              <div className="h-1 w-24 bg-[#4b2e83] mx-auto"></div>
+              <div className="h-1 w-24 bg-[#4B2E83] mx-auto"></div>
               <p className="text-xl leading-8 text-gray-600 max-w-3xl mx-auto">
-                ONESTI is an innovative online platform, presenting a new and futuristic mode of service delivery for families. Onesti utilizes technology to reach concerned parents anywhere in the world and provide them with guidance and the needed intervention regarding their child's development, academics, behavior, and social-emotional well being.
+                ONESTI is a digital platform that connects families with expert support for child development, behavior, academics, and emotional well-being. Using technology, ONESTI makes it easy for caregivers to access personalized services and track their child's progress, all from home.
               </p>
           </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start max-w-6xl mx-auto">
-            {/* Main Content */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                title: "Book Consultations",
+                description: "Connect with trusted specialists",
+                icon: MessageSquare,
+                bgColor: "bg-blue-50",
+                iconColor: "#00B4D8"
+              },
+              {
+                title: "Complete Assessments",
+                description: "Track developmental progress",
+                icon: ClipboardCheck,
+                bgColor: "bg-purple-50",
+                iconColor: "#4B2E83"
+              },
+              {
+                title: "Monitor Progress",
+                description: "Through personal dashboard",
+                icon: LineChart,
+                bgColor: "bg-green-50",
+                iconColor: "#008264"
+              },
+              {
+                title: "Access Resources",
+                description: "Get helpful guidance",
+                icon: BookOpen,
+                bgColor: "bg-yellow-50",
+                iconColor: "#FFD700"
+              }
+            ].map((feature, index) => (
               <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="relative group"
               >
-              <p className="text-lg leading-7 text-gray-700 mb-8">
-                Our focus is on child development, behavioral support, academic success, and emotional well-being, all backed by a holistic, evidence-based approach. We help children overcome developmental challenges and achieve their full potential.
-              </p>
-              <div className="bg-[#F4F1F9]/30 rounded-3xl p-8">
-                <h3 className="text-xl font-semibold text-[#4b2e83] mb-6">Through our website, parents and caregivers can easily access:</h3>
-                <ul className="space-y-6">
-                  <li className="flex gap-4 items-start">
-                      <div className="mt-1 flex-shrink-0">
-                        <CheckCircle className="h-6 w-6 text-[#4b2e83]" />
+                <div className={`rounded-3xl ${feature.bgColor} p-8 h-full transition-all duration-300 group-hover:shadow-lg`}>
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="rounded-full bg-white p-4 shadow-sm">
+                      <feature.icon style={{ color: feature.iconColor }} className="h-8 w-8" />
                       </div>
-                      <p className="text-gray-700">
-                      Complete child development assessments to track your child's progress and identify areas for improvement.
-                      </p>
-                    </li>
-                  <li className="flex gap-4 items-start">
-                      <div className="mt-1 flex-shrink-0">
-                        <CheckCircle className="h-6 w-6 text-[#4b2e83]" />
+                    <h3 className="text-xl font-semibold text-gray-900">{feature.title}</h3>
+                    <p className="text-gray-600">{feature.description}</p>
                       </div>
-                      <p className="text-gray-700">
-                      Book consultations with our team of specialists for expert guidance tailored to your child's needs.
-                      </p>
-                    </li>
-                  <li className="flex gap-4 items-start">
-                      <div className="mt-1 flex-shrink-0">
-                        <CheckCircle className="h-6 w-6 text-[#4b2e83]" />
-                      </div>
-                      <p className="text-gray-700">
-                      Access a wealth of learning resources to help you understand and support your child's development at every stage.
-                      </p>
-                    </li>
-                  <li className="flex gap-4 items-start">
-                      <div className="mt-1 flex-shrink-0">
-                        <CheckCircle className="h-6 w-6 text-[#4b2e83]" />
-                      </div>
-                      <p className="text-gray-700">
-                      Monitor progress through a personalized dashboard, where you can keep track of assessments, consultations, and milestones in one place.
-                </p>
-                    </li>
-                  </ul>
               </div>
               </motion.div>
-            
-            {/* Image/Visual Column */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-[#4b2e83]/5 rounded-3xl p-8"
-              >
-              <div className="relative h-[400px] rounded-2xl overflow-hidden">
-              <Image
-                  src="/placeholder.svg"
-                  alt="Our services cater to children of all ages"
-                  className="object-cover"
-                  fill
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#4b2e83]/90 to-transparent flex flex-col justify-end p-8">
-                  <h3 className="text-white text-xl font-semibold mb-3">Our services cater to children of all ages</h3>
-                  <p className="text-white/90">
-                    Starting from birth, covering developmental delays, learning disabilities, emotional and behavioral challenges.
-                  </p>
-                </div>
-                </div>
-              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -194,45 +173,35 @@ export default function AboutPage() {
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 Our innovative online platform provides exceptional service delivery for families worldwide.
               </p>
-            </motion.div>
-          </div>
-
+              </motion.div>
+            </div>
+            
           <div className="space-y-20">
             {[
               {
-                title: "Quality Standards",
-                icon: BookOpen,
-                description: "Onesti's professional team of technical advisors ensure the consistent provision of the highest quality of service."
+                title: "Reliable Care",
+                icon: ShieldCheck,
+                description: "Our team of qualified professionals ensures every service is delivered with consistency, precision, and attention to detail."
               },
               {
-                title: "Convenience",
-                icon: BarChart4,
-                description: "Onesti brings the service to the comfort of your home saving you the time and effort that is otherwise spent on the road trying to manage the different therapy appointments at different locations."
+                title: "Easy to Access",
+                icon: Globe,
+                description: "Services are delivered online, so families can access the support they need without commuting or disrupting their daily routines."
               },
               {
-                title: "New and Unique Service Provision",
-                icon: Users,
-                description: "Allowing a team of professionals to provide a comprehensive delivery model that is accessible to you wherever you are."
+                title: "Flexible Scheduling",
+                icon: Calendar,
+                description: "We understand that every family has its own rhythm. Onesti allows you to schedule sessions at times that work best for you."
               },
               {
-                title: "Decrease Parent Stressors",
-                icon: Baby,
-                description: "Taking into consideration all life stressors affecting parent's daily life, Onesti's website allows parents to schedule sessions according to their own timetable."
+                title: "Progress Monitoring",
+                icon: LineChart,
+                description: "Our platform includes a personalized dashboard that gives you full visibility into your child's development, goals, and session history, keeping you informed at every step."
               },
               {
-                title: "Consistent Parent Evaluation",
-                icon: BarChart2,
-                description: "Monitor how your child is progressing through every session by accessing his online plan and progress monitoring via your personalized dashboard."
-              },
-              {
-                title: "Using Technology as a Motivational Factor",
-                icon: Brain,
-                description: "Our online sessions incorporate the use of new software tools and gaming technologies to increase child engagement and motivation."
-              },
-              {
-                title: "Clinical Setting vs Natural Environment",
-                icon: Heart,
-                description: "Incorporating therapy objectives into the family's daily routine and taking advantage of the naturally occurring learning opportunities gives the child consistent practice throughout the day."
+                title: "Child-Friendly Tools",
+                icon: Gamepad2,
+                description: "We incorporate digital tools and interactive elements to maintain your child's focus and encourage active participation during sessions."
               }
             ].map((item, index) => (
               <motion.div
@@ -316,7 +285,7 @@ export default function AboutPage() {
                       transition={{ type: "spring", stiffness: 300, damping: 10 }}
                     >
                       <div className="aspect-[4/3] relative rounded-2xl overflow-hidden group">
-                        <Image
+              <Image
                           src="/placeholder.svg"
                           alt={item.title}
                           fill
@@ -327,13 +296,13 @@ export default function AboutPage() {
                           whileHover={{ opacity: 0.75 }}
                           transition={{ duration: 0.3 }}
                         />
-                      </div>
-                    </motion.div>
-                  </div>
+                </div>
+              </motion.div>
+            </div>
                 </motion.div>
                 
                 {/* Connector line between items */}
-                {index < 6 && (
+                {index < 4 && (
                   <motion.div 
                     className="w-px h-20 bg-gradient-to-b from-[#4b2e83]/30 to-transparent mx-auto my-0"
                     initial={{ height: 0 }}
@@ -348,15 +317,14 @@ export default function AboutPage() {
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#F4F1F9]/10 to-transparent"></div>
       </section>
 
-      {/* Our Approach Section - with improved connection */}
-      <section className="relative py-20 bg-gradient-to-b from-white via-[#F4F1F9]/10 to-white">
-        <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-white to-transparent"></div>
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex flex-col items-center justify-center mb-12">
+      {/* Our Approach Section */}
+      <section className="relative py-20 bg-white">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 relative">
+          <div className="flex flex-col items-center justify-center mb-16">
             <div className="flex items-center gap-2 mb-6">
-              <div className="h-px w-12 bg-gray-300"></div>
-              <span className="text-sm text-gray-500 uppercase tracking-wider">Our Approach</span>
-              <div className="h-px w-12 bg-gray-300"></div>
+              <div className="h-px w-12 bg-[#4B2E83]/30"></div>
+              <span className="text-sm text-[#4B2E83] uppercase tracking-wider font-medium">OUR APPROACH</span>
+              <div className="h-px w-12 bg-[#4B2E83]/30"></div>
             </div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -364,8 +332,10 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
               className="text-center"
-          >
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#4b2e83] mb-4">Our Approach</h2>
+            >
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#4B2E83] mb-4">
+                Our Approach
+              </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               We believe in a comprehensive, personalized approach to child development
             </p>
@@ -378,19 +348,25 @@ export default function AboutPage() {
                 letter: "O",
                 title: "Online/Onsite",
                 description: "Therapy delivered virtually or in person",
-                icon: BookOpen
+                icon: Globe,
+                bgColor: "#FFD700",
+                iconBgColor: "rgba(255, 255, 255, 0.2)"
               },
               {
                 letter: "NE",
                 title: "Natural Environment",
-                description: "Parents are coached about including intervention activities throughout the child's day, with content individualized to meet their needs.",
-                icon: Users
+                description: "Coaching parents to include intervention activities throughout the child's day, tailored to individual needs.",
+                icon: Home,
+                bgColor: "#00B4D8",
+                iconBgColor: "rgba(255, 255, 255, 0.2)"
               },
               {
                 letter: "STI",
                 title: "Specialized Therapy Intervention",
-                description: "Tailored, evidence-based interventions designed by our experts to meet each child's specific challenges",
-                icon: BarChart4
+                description: "Evidence-based interventions designed to address specific challenges.",
+                icon: Brain,
+                bgColor: "#008264",
+                iconBgColor: "rgba(255, 255, 255, 0.2)"
               }
             ].map((item, index) => (
               <motion.div
@@ -398,27 +374,41 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="relative group"
               >
-                <div className="overflow-hidden h-full hover:shadow-lg transition-all duration-300 group rounded-[2.5rem] bg-white border border-[#4b2e83]/10">
-                  <div className="bg-gradient-to-r from-[#4b2e83] to-[#6b4e93] p-8 flex justify-between items-center rounded-t-[2.5rem]">
+                <div className="h-full overflow-hidden rounded-3xl bg-white shadow-lg hover:shadow-xl transition-all duration-300">
+                  <div 
+                    className="p-8 flex justify-between items-center"
+                    style={{ backgroundColor: item.bgColor }}
+                  >
                     <h3 className="text-5xl font-bold text-white">{item.letter}</h3>
-                    <div className="bg-white/10 rounded-full p-3">
-                      <item.icon className="h-10 w-10 text-white group-hover:text-white transition-all duration-300" />
-                    </div>
+                    <motion.div 
+                      className="rounded-full p-3"
+                      style={{ backgroundColor: item.iconBgColor }}
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.7 }}
+                    >
+                      <item.icon className="h-8 w-8 text-white" />
+                    </motion.div>
                   </div>
-                  <div className="p-8">
-                    <h3 className="text-xl font-bold text-[#4b2e83] mb-4 group-hover:translate-x-1 transition-transform duration-300">{item.title}</h3>
+                  <motion.div 
+                    className="p-8 bg-white"
+                    whileHover={{ y: -5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <h3 className="text-xl font-bold text-[#4B2E83] mb-4 group-hover:translate-x-1 transition-transform duration-300">
+                      {item.title}
+                    </h3>
                     <p className="text-gray-600 leading-relaxed">
                       {item.description}
                     </p>
-                  </div>
+                  </motion.div>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-white to-transparent"></div>
       </section>
 
       {/* Our Services Section - with improved transitions */}
@@ -685,9 +675,9 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center mb-12">
             <div className="flex items-center gap-2 mb-6">
-              <div className="h-px w-12 bg-gray-300"></div>
-              <span className="text-sm text-gray-500 uppercase tracking-wider">Our Story</span>
-              <div className="h-px w-12 bg-gray-300"></div>
+              <div className="h-px w-12 bg-[#4B2E83]/30"></div>
+              <span className="text-sm text-[#4B2E83] uppercase tracking-wider font-medium">Our Team</span>
+              <div className="h-px w-12 bg-[#4B2E83]/30"></div>
             </div>
             <motion.div
               initial={{ opacity: 0 }}
@@ -696,26 +686,11 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <motion.h2 
-                className="text-3xl md:text-4xl font-bold tracking-tight mb-4"
-                animate={{ 
-                  backgroundPosition: ['0% center', '100% center', '0% center'],
-                }}
-                transition={{
-                  duration: 10,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                style={{
-                  backgroundImage: 'linear-gradient(90deg, #4b2e83, #6b4e93, #4b2e83)',
-                  backgroundSize: '200%',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >Our Team</motion.h2>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#4B2E83] mb-4">
+                Our Team
+              </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Experienced specialists dedicated to child development
+                Meet our dedicated specialists committed to supporting your child's growth
               </p>
             </motion.div>
           </div>
@@ -742,10 +717,10 @@ export default function AboutPage() {
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
                   <div className="relative h-60 w-60 overflow-hidden rounded-full mb-6 bg-[#4b2e83]/5 flex items-center justify-center shadow-md border-4 border-white">
-                    <Image
+                  <Image
                       className="h-60 w-60 rounded-full object-cover transition-all duration-500 group-hover:scale-110"
-                      src={person.image}
-                      alt={person.name}
+                    src={person.image}
+                    alt={person.name}
                       width={240}
                       height={240}
                     />
@@ -824,9 +799,9 @@ export default function AboutPage() {
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center mb-12">
             <div className="flex items-center gap-2 mb-6">
-              <div className="h-px w-12 bg-white"></div>
-              <span className="text-sm text-gray-500 uppercase tracking-wider">How We Help</span>
-              <div className="h-px w-12 bg-white"></div>
+              <div className="h-px w-12 bg-[#4B2E83]/30"></div>
+              <span className="text-sm text-[#4B2E83] uppercase tracking-wider font-medium">How We Help</span>
+              <div className="h-px w-12 bg-[#4B2E83]/30"></div>
             </div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -835,7 +810,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
               className="text-center"
           >
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#4b2e83] mb-4">How Onesti Helps</h2>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#4B2E83] mb-4">How Onesti Helps</h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Supporting all stakeholders in a child's developmental journey
             </p>
@@ -845,19 +820,22 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
             {[
               {
-                title: "Parents",
+                title: "For Parents",
                 icon: Baby,
-                description: "We provide tools to track your child's development, identify potential concerns early, and connect with specialists for guidance."
+                description: "Track your child's growth, spot challenges early, and get expert advice. With Onesti, you can feel more confident, more supported, and never alone in the decisions you make for your child.",
+                color: "#FFD700"
               },
               {
-                title: "Educators",
-                icon: BookOpen,
-                description: "Access resources and professional development to better support children with diverse developmental needs in your classroom."
+                title: "For Educators",
+                icon: GraduationCap,
+                description: "We offer easy access to resources, training, and insights so you can better support every child, especially those who need a little extra care. With Onesti, you're not just teaching, you're changing lives.",
+                color: "#00B4D8"
               },
               {
-                title: "Specialists",
-                icon: Users,
-                description: "Our platform streamlines assessment, reporting, and therapy sessions, allowing you to focus on what matters most: helping children."
+                title: "For Specialists",
+                icon: HeartHandshake,
+                description: "Onesti helps you organize your schedules, reports, and family communications in one place. It's a practical tool designed to help you work more efficiently and stay focused on delivering effective, meaningful care.",
+                color: "#008264"
               }
             ].map((item, index) => (
               <motion.div
@@ -868,15 +846,15 @@ export default function AboutPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="h-full"
               >
-                <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-[#4b2e83]/10 h-full flex flex-col">
-                  <div className="bg-gradient-to-r from-[#4b2e83] to-[#6b4e93] p-6 flex items-center gap-4 rounded-t-3xl">
-                    <div className="bg-white rounded-full p-3 shrink-0">
-                      <item.icon className="h-6 w-6 text-[#4b2e83]" />
+                <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-[#4B2E83]/10 h-full flex flex-col hover:shadow-xl transition-all duration-300">
+                  <div className="p-6 flex items-center gap-4" style={{ backgroundColor: item.color }}>
+                    <div className="bg-white/20 rounded-full p-3">
+                      <item.icon className="h-6 w-6 text-white" />
               </div>
                     <h3 className="text-xl font-semibold text-white">{item.title}</h3>
               </div>
-                  <div className="p-8 flex-grow bg-white rounded-b-3xl">
-                    <p className="text-gray-700 leading-relaxed">{item.description}</p>
+                  <div className="p-8 flex-grow">
+                    <p className="text-gray-600 leading-relaxed">{item.description}</p>
               </div>
             </div>
               </motion.div>
@@ -885,35 +863,30 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* CTA - Empowering Story Section */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8 text-center">
-          <div className="flex flex-col items-center justify-center mb-12">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="h-px w-12 bg-gray-300"></div>
-              <span className="text-sm text-gray-500 uppercase tracking-wider">Our Promise</span>
-              <div className="h-px w-12 bg-gray-300"></div>
-            </div>
-          </div>
+      {/* Quote Section */}
+      <section className="py-20 bg-[#F4F1F9]/20">
+        <div className="mx-auto max-w-5xl px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="text-center"
           >
-            <h2 className="text-3xl font-bold text-[#4b2e83] mb-4">
-              Onesti is not just about assessment, but also about empowering you to take proactive steps towards your child's development.
-            </h2>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto mb-10">
-              With technology and a human approach, we are here to support you every step of the way on your journey to helping your child thrive.
-            </p>
-            <Button 
-              size="lg" 
-              onClick={() => setIsDialogOpen(true)}
-              className="bg-[#4b2e83] hover:bg-[#4b2e83]/90 text-white px-10 py-6 rounded-full shadow-md hover:shadow-lg transition-all duration-300"
-            >
-            Get Started with Milestone Tracker
-          </Button>
+            <div className="flex justify-center mb-8">
+              <div className="text-[#4B2E83] opacity-20">
+                <svg
+                  className="h-16 w-16"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+              </div>
+            </div>
+            <blockquote className="text-2xl font-medium text-[#4B2E83] max-w-3xl mx-auto mb-8">
+              Whatever your role, Onesti helps by connecting hearts, building trust, and making sure every child gets the support they deserve.
+            </blockquote>
           </motion.div>
         </div>
       </section>
