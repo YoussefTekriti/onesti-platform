@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator"
 import AdminHeader from "@/components/admin/admin-header"
 import { adminTherapistsService } from "@/lib/api/api-services"
 import { useToast } from "@/components/ui/use-toast"
+import { Suspense } from 'react'
 
 // Define specialty interface
 interface Specialty {
@@ -318,6 +319,7 @@ export default function NewTherapistPage() {
   }
 
   return (
+    <Suspense>
     <div className="flex-1">
       <AdminHeader title="Add New Therapist" description="Register a new therapist to the platform" />
 
@@ -943,5 +945,6 @@ export default function NewTherapistPage() {
         </form>
       </main>
     </div>
+    </Suspense>
   )
 }

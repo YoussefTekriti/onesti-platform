@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
@@ -181,6 +181,7 @@ export default function BlogsPage({ searchParams }: { searchParams?: { category?
   };
 
   return (
+    <Suspense>
     <div className="bg-gray-50 py-12">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
@@ -421,6 +422,7 @@ export default function BlogsPage({ searchParams }: { searchParams?: { category?
         </div>
       </div>
     </div>
+    </Suspense>
   )
 }
 
