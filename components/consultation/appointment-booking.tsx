@@ -144,7 +144,7 @@ export default function AppointmentBooking({ user, children = [], packages = [],
         // If using a package, decrement session count (in a real app)
         if (paymentMethod === 'package' && selectedPackage) {
           // In a real app, you would call an API to update the package
-          console.log(`Using session from package: ${selectedPackage.name}`)
+          // console.log(`Using session from package: ${selectedPackage.name}`)
         }
 
         setBookingConfirmed({

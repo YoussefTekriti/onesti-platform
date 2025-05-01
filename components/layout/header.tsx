@@ -109,7 +109,7 @@ export default function Header() {
     setLevel(storedLevel)
   }, [])
   
-  console.log(level)
+  // console.log(level)
 
   // This would be replaced with actual auth state
   const isLoggedIn = false

@@ -450,7 +450,7 @@ export default function DashboardPage() {
         childData.pfp,
         childData.gender,
       )
-      console.log(response)
+      // console.log(response)
       // Show success message
       toast({
         title: "Success",
@@ -510,7 +510,7 @@ export default function DashboardPage() {
     // Clear user session and redirect to login page
     localStorage.removeItem("token")
     localStorage.removeItem("level")
-    console.log("AAAH")
+    // console.log("AAAH")
     toast({
       title: "Logged Out Successfully!",
       description: "Redirecting You to Login Page",
@@ -650,7 +650,7 @@ export default function DashboardPage() {
     const updatedSessions = upcomingSessions.filter((session) => session.id !== appointmentId)
     // In a real app, you would make an API call to cancel the appointment
     // For demo purposes, we'll just log a message
-    console.log(`Appointment ${appointmentId} cancelled`)
+    // console.log(`Appointment ${appointmentId} cancelled`)
     alert(`Appointment has been cancelled successfully.`)
   }
 

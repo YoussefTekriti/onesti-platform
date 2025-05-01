@@ -90,7 +90,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
   if(post && post.table_of_content == 1)
   headings = extractHeadings(post.content)
 
-  console.log(headings)
+  // console.log(headings)
 
   // Render loading state
   if (isLoading) {

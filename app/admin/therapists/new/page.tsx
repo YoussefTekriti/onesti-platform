@@ -36,7 +36,7 @@ const daysOfWeek = [
   { id: "sunday", label: "Sunday", value: 7 },
 ]
 
-export default function NewTherapistPage() {
+function NewTherapistPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { toast } = useToast()
@@ -319,7 +319,6 @@ export default function NewTherapistPage() {
   }
 
   return (
-    <Suspense>
     <div className="flex-1">
       <AdminHeader title="Add New Therapist" description="Register a new therapist to the platform" />
 
@@ -945,6 +944,14 @@ export default function NewTherapistPage() {
         </form>
       </main>
     </div>
+  )
+}
+
+
+export default function Wrapped () {
+  return(
+    <Suspense>
+      <NewTherapistPage />
     </Suspense>
   )
 }

@@ -281,7 +281,7 @@ export default function DashboardPage() {
     try {
       setIsLoading(true)
       const response = await profileService.getProfile()
-      console.log(response.data)
+      // console.log(response.data)
       setProfileData(response.data)
 
       // If there are children in the API response, use them
@@ -441,7 +441,7 @@ export default function DashboardPage() {
 
       // Call the API to create the child
       const response = await profileService.createChild(childData.name, childData.birthDate, childData.pfp, childData.gender)
-      console.log(response)
+      // console.log(response)
       // Show success message
       toast({
         title: "Success",
@@ -501,7 +501,7 @@ export default function DashboardPage() {
     // Clear user session and redirect to login page
     localStorage.removeItem("token")
     localStorage.removeItem("level")
-    console.log("AAAH")
+    // console.log("AAAH")
     toast({
       title: "Logged Out Successfully!",
       description: "Redirecting You to Login Page",

@@ -13,7 +13,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { CheckCircle, AlertCircle } from "lucide-react"
 import { authService } from "@/lib/api/api-services"
 
-export default function ConfirmSignupPage() {
+function ConfirmSignupPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const verifyURL = searchParams.get("verifyURL") || ""
@@ -132,7 +132,6 @@ export default function ConfirmSignupPage() {
   }
 
   return (
-    <Suspense>
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
@@ -237,6 +236,13 @@ export default function ConfirmSignupPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function Wrapped () {
+  return(
+    <Suspense>
+      <ConfirmSignupPage />
     </Suspense>
   )
 }

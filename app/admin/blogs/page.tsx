@@ -35,7 +35,6 @@ export default function AdminBlogsPage() {
         }
 
         const response = await contentService.getAllContent("blog", filters)
-        console.log(response)
         if (response.data) {
           setBlogPosts(response.data.items || [])
           setTotalItems(response.data.total || 0)

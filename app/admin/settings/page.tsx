@@ -163,7 +163,7 @@ export default function SettingsPage() {
         setIsLoading(false)
         return
       }
-      console.log(settings)
+      // console.log(settings)
       // Send update request
       const response = await settingsService.updateSettings(settings)
 

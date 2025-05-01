@@ -23,7 +23,7 @@ export function MilestoneSubscriptionDialog({ open, onOpenChange }: MilestoneSub
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Here you would typically send the data to your backend
-    console.log("Submitted:", { email, childAge })
+    // console.log("Submitted:", { email, childAge })
     setIsSubmitted(true)
   }
 

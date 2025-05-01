@@ -125,7 +125,7 @@ export default function CategoriesPage() {
     // Handle form submission for creating/editing categories
     const onSubmit = async (values: z.infer<typeof categorySchema>) => {
         try {
-            console.log(values)
+            // console.log(values)
             const action = values.id ? "update" : "create"
             const response = await contentService.manageCategory(action, values)
 

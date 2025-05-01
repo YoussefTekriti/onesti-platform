@@ -118,7 +118,7 @@ export default function TherapistMessages() {
     if (newMessage.trim() === "") return
 
     // In a real app, you would send this to an API
-    console.log("Sending message:", newMessage)
+    // console.log("Sending message:", newMessage)
 
     // Clear the input
     setNewMessage("")

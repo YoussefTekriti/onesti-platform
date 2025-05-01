@@ -38,7 +38,7 @@ export function CheckoutModal({ children, assessmentName, price }: CheckoutModal
       const savedCart = localStorage.getItem('onesti-cart');
       if (savedCart) {
         const cartItems = JSON.parse(savedCart);
-        console.log("Loaded cart items:", cartItems);
+        // console.log("Loaded cart items:", cartItems);
         // You could update state here based on cart contents
       }
     } catch (error) {

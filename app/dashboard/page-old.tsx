@@ -265,7 +265,7 @@ export default function DashboardPage() {
     try {
       setIsLoading(true)
       const response = await profileService.getProfile()
-      console.log(response.data)
+      // console.log(response.data)
       setProfileData(response.data)
 
       // If there are children in the API response, use them
@@ -482,7 +482,7 @@ export default function DashboardPage() {
     // Clear user session and redirect to login page
     localStorage.removeItem("token")
     localStorage.removeItem("level")
-    console.log("AAAH")
+    // console.log("AAAH")
     toast({
       title: "Logged Out Successfully!",
       description: "Redirecting You to Login Page",
@@ -599,7 +599,7 @@ export default function DashboardPage() {
     const updatedSessions = upcomingSessions.filter((session) => session.id !== appointmentId)
     // In a real app, you would make an API call to cancel the appointment
     // For demo purposes, we'll just log a message
-    console.log(`Appointment ${appointmentId} cancelled`)
+    // console.log(`Appointment ${appointmentId} cancelled`)
     alert(`Appointment has been cancelled successfully.`)
   }
 
@@ -614,7 +614,7 @@ export default function DashboardPage() {
     if (!medicalRecordData.name || !medicalRecordData.file) return
 
     // In a real app, you would upload the medical record to a server
-    console.log("Medical record uploaded:", medicalRecordData)
+    // console.log("Medical record uploaded:", medicalRecordData)
 
     // Reset form and close modal
     setMedicalRecordData({

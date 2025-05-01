@@ -8,7 +8,7 @@ import Link from "next/link"
 import { useToast } from "@/hooks/use-toast"
 import { authService } from "@/lib/api/api-services"
 
-export default function ForgotPasswordPage() {
+function ForgotPasswordPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const verifyURL = searchParams.get("verifyURL") || ""
@@ -105,7 +105,6 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <Suspense>
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
@@ -217,6 +216,13 @@ export default function ForgotPasswordPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function Wrapped () {
+  return(
+    <Suspense>
+      <ForgotPasswordPage />
     </Suspense>
   )
 }

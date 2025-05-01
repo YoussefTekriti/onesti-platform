@@ -92,7 +92,7 @@ const tags = [
   "Online Sessions",
 ]
 
-export default function BlogsPage({ searchParams }: { searchParams?: { category?: string; tag?: string; q?: string } }) {
+function BlogsPage({ searchParams }: { searchParams?: { category?: string; tag?: string; q?: string } }) {
   const clientSearchParams = useSearchParams()
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("")
@@ -181,7 +181,6 @@ export default function BlogsPage({ searchParams }: { searchParams?: { category?
   };
 
   return (
-    <Suspense>
     <div className="bg-gray-50 py-12">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
@@ -422,6 +421,13 @@ export default function BlogsPage({ searchParams }: { searchParams?: { category?
         </div>
       </div>
     </div>
+  )
+}
+
+export default function Wrapped ({ searchParams }: { searchParams?: { category?: string; tag?: string; q?: string } }) {
+  return(
+    <Suspense>
+      <BlogsPage searchParams={searchParams}/>
     </Suspense>
   )
 }

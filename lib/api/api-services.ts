@@ -574,7 +574,7 @@ export const messagingService = {
 
   // Mark contact message as read
   markAsRead: async (contactId: number) => {
-    console.log(contactId)
+    // console.log(contactId)
     return apiClient.post("/admin/messaging/mark-read", { contactId })
   },
 

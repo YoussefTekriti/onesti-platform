@@ -52,7 +52,7 @@ export default function SpecialistDashboardPage() {
     setIsLoading(true)
     try {
       const response = await specialistService.getProfile()
-      console.log(response.data)
+      // console.log(response.data)
       setProfile(response.data.details)
     } catch (error) {
       console.error("Error fetching profile:", error)
@@ -139,7 +139,7 @@ export default function SpecialistDashboardPage() {
     // Clear user session and redirect to login page
     localStorage.removeItem("token")
     localStorage.removeItem("level")
-    console.log("AAAH")
+    // console.log("AAAH")
     toast({
       title: "Logged Out Successfully!",
       description: "Redirecting You to Login Page",
