@@ -2,14 +2,17 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { authService } from "@/lib/api/api-services"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState("")
+  const {toast} = useToast()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
 
     // Reset states
@@ -17,17 +20,39 @@ export default function ForgotPasswordPage() {
     setIsSubmitting(true)
 
     // Basic validation
-    if (!email || !email.includes("@")) {
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       setError("Please enter a valid email address")
       setIsSubmitting(false)
       return
     }
+    try {
+      // Simulate API call
+      const response = await authService.requestPasswordReset(email);
 
-    // Simulate API call
-    setTimeout(() => {
+      if(response.status == 200){
+        toast({
+          title: "Request Sent",
+          description: response.data.message,
+          variant: "default"
+        })
+        setIsSubmitted(true)
+      }
+    } catch (err : any) {
+      if (err.response) {
+        if (err.response.data && err.response.data.message) {
+          setError(err.response.data.message)
+        } else {
+          setError(`Error: ${err.response.status} - ${err.response.statusText}`)
+        }
+      } else if (err.request) {
+        setError("No response received from server. Please check your internet connection.")
+      } else {
+        setError(err.message || "An error occurred during verification. Please try again.")
+      }
+    }finally{
       setIsSubmitting(false)
-      setIsSubmitted(true)
-    }, 1500)
+    }
+    
   }
 
   return (

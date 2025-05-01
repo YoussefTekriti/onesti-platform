@@ -31,6 +31,7 @@ export default function AdminLayout({
     { name: "Analytics", href: "/admin/analytics" },
     { name: "Messages", href: "/admin/messages" },
     { name: "Blogs", href: "/admin/blogs" },
+    { name: "Categories", href: "/admin/categories" },
     { name: "Settings", href: "/admin/settings" },
   ]
 

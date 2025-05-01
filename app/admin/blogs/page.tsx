@@ -3,71 +3,81 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { PlusCircle, Eye, Edit, Trash2 } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast"
+import { contentService, ContentItem } from "@/lib/api/api-services"
 
 export default function AdminBlogsPage() {
   const { toast } = useToast()
-  const [blogs, setBlogs] = useState([
-    {
-      id: 1,
-      title: "Understanding Child Development Milestones",
-      status: "Published",
-      date: "Mar 15, 2025",
-      slug: "child-development-milestones",
-      author: "Dr. Sarah Johnson",
-      category: "Child Development",
-      image: "/images/child-development.jpeg"
-    },
-    {
-      id: 2,
-      title: "Sensory Processing Strategies for Children with Autism",
-      status: "Published",
-      date: "Nov 06, 2024",
-      slug: "sensory-processing-strategies",
-      author: "Dr. Michael Chen",
-      category: "Delays & Disorders",
-      image: "/images/speech-therapy.jpeg"
-    },
-    {
-      id: 3,
-      title: "Speech Development Milestones: What to Expect",
-      status: "Published",
-      date: "Nov 15, 2024",
-      slug: "speech-development-milestones",
-      author: "Dr. Lisa Patel",
-      category: "Child Development",
-      image: "/images/therapy-session.jpeg"
-    },
-    {
-      id: 4,
-      title: "Nutrition and Child Development: Building Healthy Habits",
-      status: "Published",
-      date: "Dec 08, 2024",
-      slug: "nutrition-child-development",
-      author: "Dr. Emma Rodriguez",
-      category: "Parenting Support",
-      image: "/images/child-development.jpeg"
-    },
-    {
-      id: 5,
-      title: "The Benefits of Early Intervention for Developmental Delays",
-      status: "Draft",
-      date: "Dec 17, 2024",
-      slug: "early-intervention-benefits",
-      author: "Dr. Darren Elder",
-      category: "Assessments & Intervention",
-      image: "/images/child-learning.jpeg"
-    },
-  ])
+  const [blogPosts, setBlogPosts] = useState<ContentItem[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteDeleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [selectedBlogId, setSelectedBlogId] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [statusFilter, setStatusFilter] = useState("all")
+  const [categoryFilter, setCategoryFilter] = useState("all")
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(5)
+  const [totalItems, setTotalItems] = useState(0)
 
-  const handleDeleteBlog = (id: number) => {
-    if (confirm("Are you sure you want to delete this blog post?")) {
-      setBlogs(blogs.filter(blog => blog.id !== id))
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setIsLoading(true)
+
+        const filters = {
+          search: searchTerm || null,
+          status: statusFilter !== "all" ? statusFilter : null,
+          category: categoryFilter !== "all" ? categoryFilter : null,
+          page: currentPage,
+          limit: itemsPerPage,
+        }
+
+        const response = await contentService.getAllContent("blog", filters)
+        console.log(response)
+        if (response.data) {
+          setBlogPosts(response.data.items || [])
+          setTotalItems(response.data.total || 0)
+        }
+
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Error fetching blogs:", error)
+        toast({
+          title: "Error",
+          description: "Failed to load blogs. Please try again.",
+          variant: "destructive",
+        })
+        setIsLoading(false)
+      }
+    }
+
+    fetchBlogs()
+  }, [searchTerm, statusFilter, categoryFilter, currentPage, itemsPerPage, toast])
+
+  const handleDeleteBlog = async (id: number) => {
+    try {
+      setIsDeleting(true)
+      await contentService.deleteContent(id)
+
       toast({
-        title: "Blog Deleted",
-        description: "The blog post has been successfully deleted.",
+        title: "Success",
+        description: "Blog post deleted successfully",
       })
+
+      // Refresh the blog list
+      setBlogPosts(blogPosts.filter((blog) => blog.id !== id))
+    } catch (error) {
+      console.error("Error deleting blog:", error)
+      toast({
+        title: "Error",
+        description: "Failed to delete blog post. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsDeleting(false)
+      setDeleteDialogOpen(false)
     }
   }
 
@@ -131,12 +141,16 @@ export default function AdminBlogsPage() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {blogs.map((blog) => (
+              {blogPosts.map((blog) => (
                 <tr key={blog.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
-                        <img className="h-10 w-10 rounded-md object-cover" src={blog.image} alt={blog.title} />
+                        <img
+                          className="h-10 w-10 rounded-md object-cover"
+                          src={blog.featured_image || "/placeholder.svg"}
+                          alt={blog.title}
+                        />
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">{blog.title}</div>
@@ -144,21 +158,21 @@ export default function AdminBlogsPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{blog.author}</div>
+                    <div className="text-sm text-gray-500">{blog.author_name}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{blog.category}</div>
+                    <div className="text-sm text-gray-500">{blog.category_name}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        blog.status === "Published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
+                        blog.status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
                       }`}
                     >
                       {blog.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{blog.date}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{blog.created_at}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2">
                       <Link
@@ -169,7 +183,7 @@ export default function AdminBlogsPage() {
                         <Eye className="h-4 w-4" />
                       </Link>
                       <Link
-                        href={`/admin/blogs/edit/${blog.id}`}
+                        href={`/admin/blogs/edit/${blog.slug}`}
                         className="text-amber-600 hover:text-amber-900 p-1 rounded-full hover:bg-amber-50"
                       >
                         <Edit className="h-4 w-4" />
@@ -191,4 +205,3 @@ export default function AdminBlogsPage() {
     </div>
   )
 }
-

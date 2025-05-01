@@ -102,14 +102,17 @@ export default function Header() {
   const { language, setLanguage } = useLanguage()
   const pathname = usePathname()
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
+  const [level, setLevel] = useState<string | null>(null) // ⬅️ Add state for `level`
+  useEffect(() => {
+    setMounted(true)
+    const storedLevel = localStorage.getItem("level")
+    setLevel(storedLevel)
+  }, [])
+  
+  console.log(level)
 
   // This would be replaced with actual auth state
   const isLoggedIn = false
-
-  // Only render client-side
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   // Toggle language between English and Arabic
   const toggleLanguage = () => {
@@ -316,28 +319,78 @@ export default function Header() {
               EN
             </button>
           </div>
+          {level == null || level === '' ? (
+  <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900 flex items-center whitespace-nowrap">
+    <span suppressHydrationWarning>
+      {language === "en" ? (
+        <>
+          Log in / Sign up <span aria-hidden="true" className="ml-1">&rarr;</span>
+        </>
+      ) : (
+        <>
+          <span aria-hidden="true" className="mr-1">&larr;</span> تسجيل الدخول / التسجيل
+        </>
+      )}
+    </span>
+  </Link>
+) : level === 'patient' ? (
+  <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900 flex items-center whitespace-nowrap">
+    <span suppressHydrationWarning>
+      {language === "en" ? (
+        <>
+          Profile <span aria-hidden="true" className="ml-1">&rarr;</span>
+        </>
+      ) : (
+        <>
+          <span aria-hidden="true" className="mr-1">&larr;</span> لوحة التحكم
+        </>
+      )}
+    </span>
+  </Link>
+) : level === 'therapist' ? (
+  <Link href="/specialist" className="text-sm font-semibold leading-6 text-gray-900 flex items-center whitespace-nowrap">
+    <span suppressHydrationWarning>
+      {language === "en" ? (
+        <>
+          Specialist <span aria-hidden="true" className="ml-1">&rarr;</span>
+        </>
+      ) : (
+        <>
+          <span aria-hidden="true" className="mr-1">&larr;</span> لوحة التحكم
+        </>
+      )}
+    </span>
+  </Link>
+) : level === 'admin' ? (
+  <Link href="/admin" className="text-sm font-semibold leading-6 text-gray-900 flex items-center whitespace-nowrap">
+    <span suppressHydrationWarning>
+      {language === "en" ? (
+        <>
+          Admin <span aria-hidden="true" className="ml-1">&rarr;</span>
+        </>
+      ) : (
+        <>
+          <span aria-hidden="true" className="mr-1">&larr;</span> لوحة التحكم
+        </>
+      )}
+    </span>
+  </Link>
+) : <Link href="/" className="text-sm font-semibold leading-6 text-gray-900 flex items-center whitespace-nowrap">
+<span suppressHydrationWarning>
+  {language === "en" ? (
+    <>
+      Stop Messing Around <span aria-hidden="true" className="ml-1">&rarr;</span>
+    </>
+  ) : (
+    <>
+      <span aria-hidden="true" className="mr-1">&larr;</span> لوحة التحكم
+    </>
+  )}
+</span>
+</Link>}
 
-          {isLoggedIn ? (
-            <Link href="/dashboard" className="text-sm font-semibold leading-6 text-gray-900 flex items-center whitespace-nowrap">
-              <span suppressHydrationWarning>
-                {language === "en" ? (
-                  <>Dashboard <span aria-hidden="true" className="ml-1">&rarr;</span></>
-                ) : (
-                  <><span aria-hidden="true" className="mr-1">&larr;</span> لوحة التحكم</>
-                )}
-              </span>
-            </Link>
-          ) : (
-            <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900 flex items-center whitespace-nowrap">
-              <span suppressHydrationWarning>
-                {language === "en" ? (
-                  <>Log in / Sign up <span aria-hidden="true" className="ml-1">&rarr;</span></>
-                ) : (
-                  <><span aria-hidden="true" className="mr-1">&larr;</span> تسجيل الدخول / التسجيل</>
-                )}
-              </span>
-            </Link>
-          )}
+          
+          
         </div>
       </nav>
 
@@ -428,21 +481,45 @@ export default function Header() {
                   ))}
                 </div>
                 <div className="py-3">
-                  {isLoggedIn ? (
-                    <Link
-                      href="/dashboard"
-                      className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {language === "en" ? "Dashboard" : "لوحة التحكم"}
-                    </Link>
-                  ) : (
+                {level == null || level === '' ? (
                     <Link
                       href="/login"
                       className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {language === "en" ? "Log in / Sign up" : "تسجيل الدخول / التسجيل"}
+                    </Link>
+                  ): level == 'patient' ? (
+                    <Link
+                      href="/dashboard"
+                      className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {language === "en" ? "Profile" : "لوحة التحكم"}
+                    </Link>
+                  ): level == 'therapist' ? (
+                    <Link
+                      href="/specialist"
+                      className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {language === "en" ? "Specialist" : "لوحة التحكم"}
+                    </Link>
+                  ) : level == 'admin' ? (
+                    <Link
+                      href="/admin"
+                      className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {language === "en" ? "Admin" : "لوحة التحكم"}
+                    </Link>
+                  ) : (
+                    <Link
+                      href="/"
+                      className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {language === "en" ? "Stop Messing Around" : "لوحة التحكم"}
                     </Link>
                   )}
                 </div>

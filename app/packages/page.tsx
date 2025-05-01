@@ -1,299 +1,50 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { appService } from "@/lib/api/api-services"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Check } from "lucide-react"
+import Link from "next/link"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CheckCircle, CreditCard, ShoppingCart } from "lucide-react"
+import { CheckCircle, CreditCard } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import TrialSessionCard from "@/components/packages/trial-session-card"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-// import TestimonialsSection from "@/components/packages/testimonials-section"
-// import CostCalculator from "@/components/packages/cost-calculator"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { useToast } from "@/hooks/use-toast"
 
-// Add type definition for package items to include the contactForPricing property
-type PackageItem = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  displayPrice: number;
-  regionalPrice: number;
-  sessionCount: number;
-  features: string[];
-  recommended: boolean;
-  contactForPricing?: boolean;
-};
+interface Feature {
+  pf_id: number
+  package_id: number
+  feature: string
+}
 
-// Update the packages array to reflect the new service offerings and pricing structure
-const packages: PackageItem[] = [
-  {
-    id: "developmental-thrive",
-    name: "Developmental Thrive Path",
-    description: "Comprehensive support for developmental delays or challenges",
-    price: 720,  // Global price for the entire package (60 * 12)
-    displayPrice: 60, // Price shown per session
-    regionalPrice: 600, // Regional discount price
-    sessionCount: 12,
-    features: [
-      "In-depth initial assessment with a multidisciplinary review",
-      "12 therapy sessions to be used flexibly",
-      "Individualized plan with targeted objectives",
-      "Parent support strategies to implement plan objectives in daily life",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "Calendar integration with reminders",
-      "4 video reviews with detailed feedback",
-      "Regular parent and therapist coordination meetings",
-      "Dedicated Technical Advisor for coordination",
-    ],
-    recommended: true,
-  },
-  {
-    id: "developmental-empower",
-    name: "Developmental Empower Path",
-    description: "Balanced support for developmental needs",
-    price: 520,  // Global price for the entire package (65 * 8)
-    displayPrice: 65, // Price shown per session
-    regionalPrice: 400, // Regional discount price
-    sessionCount: 8,
-    features: [
-      "In-depth initial assessment with a multidisciplinary review",
-      "8 therapy sessions to be used flexibly",
-      "Individualized intervention plan with targeted objectives",
-      "Parent support strategies to implement plan objectives in daily life",
-      "Regular progress/coordination meetings",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "Calendar integration with reminders",
-      "2 video reviews with detailed feedback",
-      "Dedicated Technical Advisor for coordination",
-    ],
-    recommended: false,
-  },
-  {
-    id: "developmental-nurture",
-    name: "Developmental Nurture Path",
-    description: "Essential support for developmental needs",
-    price: 280,  // Global price for the entire package (70 * 4)
-    displayPrice: 70, // Price shown per session
-    regionalPrice: 200, // Regional discount price
-    sessionCount: 4,
-    features: [
-      "In-depth initial assessment with a multidisciplinary review",
-      "4 therapy sessions to be used flexibly",
-      "Individualized intervention plan with targeted objectives",
-      "Parent support strategies to implement plan objectives in daily life",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "Calendar integration with reminders",
-      "Dedicated Technical Advisor for coordination",
-    ],
-    recommended: false,
-  },
-]
+interface Package {
+  pkg_id: number
+  package_category: string
+  package_name: string
+  short_description: string
+  session_count: number
+  global_cost: number | null
+  regional_cost: number | null
+  is_recommended: number
+  features: Feature[]
+}
 
-// Add service categories for the tabs
-const serviceCategories = [
-  { id: "developmental", name: "Developmental Interventions" },
-  { id: "routine", name: "Routine-Based Interventions" },
-  { id: "aba", name: "Applied Behavior Analysis (ABA)" },
-  { id: "counseling", name: "Counseling & Single Sessions" },
-]
-
-// Add routine intervention packages
-const routinePackages: PackageItem[] = [
-  {
-    id: "routine-thrive",
-    name: "Routine Thrive Path",
-    description: "Comprehensive support for routine-based challenges",
-    price: 700,  // Global price for the entire package (70 * 10)
-    displayPrice: 70, // Price shown per session
-    regionalPrice: 500, // Regional discount price
-    sessionCount: 10,
-    features: [
-      "10 intervention sessions",
-      "A report detailing results of the screening checklist",
-      "Individualized intervention plan with targeted objectives",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "3 video review for feedback",
-    ],
-    recommended: true,
-  },
-  {
-    id: "routine-empower",
-    name: "Routine Empower Path",
-    description: "Balanced support for routine-based challenges",
-    price: 450,  // Global price for the entire package (75 * 6)
-    displayPrice: 75, // Price shown per session
-    regionalPrice: 300, // Regional discount price
-    sessionCount: 6,
-    features: [
-      "6 intervention sessions",
-      "A report detailing results of the screening checklist",
-      "Individualized intervention plan with targeted objectives",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "2 video review for feedback",
-    ],
-    recommended: false,
-  },
-  {
-    id: "routine-nurture",
-    name: "Routine Nurture Path",
-    description: "Essential support for routine-based challenges",
-    price: 320,  // Global price for the entire package (80 * 4)
-    displayPrice: 80, // Price shown per session
-    regionalPrice: 200, // Regional discount price
-    sessionCount: 4,
-    features: [
-      "4 intervention sessions",
-      "A report detailing results of the screening checklist",
-      "Individualized intervention plan with targeted objectives",
-      "Access to an interactive personalized dashboard with progress tracking",
-      "1 Video review for feedback",
-    ],
-    recommended: false,
-  },
-]
-
-// Add ABA therapy packages
-const abaPackages: PackageItem[] = [
-  {
-    id: "aba-school-starter",
-    name: "ABA Intensive Starter Path",
-    description: "Intensive support for complex behavioral needs (first month of intervention)",
-    price: 0,  // Setting to 0 to indicate contact for pricing
-    displayPrice: 0, // Setting to 0 to indicate contact for pricing
-    regionalPrice: 0, // Setting to 0 to indicate contact for pricing
-    sessionCount: 10,
-    features: [
-      "10 hours of ABA intervention",
-      "Personalized behavior intervention plan",
-      "Detailed feedback and recommendations",
-      "Implementation of customized reinforcement plan",
-      "Regular progress monitoring",
-      "Documentation of milestones and achievements"
-    ],
-    recommended: true,
-    contactForPricing: true
-  },
-  {
-    id: "aba-school-followup",
-    name: "Follow-up & Reinforcement Path",
-    description: "Second month of intervention",
-    price: 0,  // Setting to 0 to indicate contact for pricing
-    displayPrice: 0, // Setting to 0 to indicate contact for pricing
-    regionalPrice: 0, // Setting to 0 to indicate contact for pricing
-    sessionCount: 8,
-    features: [
-      "8 hours of ABA intervention",
-      "Quality Assurance Measures",
-      "Detailed feedback and recommendations",
-      "Data-driven program modifications",
-      "Assessment of behavioral intervention effectiveness",
-      "Evaluation of need for additional behavioral assessments/interventions",
-      "Regular progress monitoring",
-      "Documentation of milestones and achievements"
-    ],
-    recommended: false,
-    contactForPricing: true
-  },
-  {
-    id: "aba-school-supervision",
-    name: "Supervision & Refinement Path",
-    description: "Third month of Intervention",
-    price: 0,  // Setting to 0 to indicate contact for pricing
-    displayPrice: 0, // Setting to 0 to indicate contact for pricing
-    regionalPrice: 0, // Setting to 0 to indicate contact for pricing
-    sessionCount: 6,
-    features: [
-      "6 hours of ABA intervention",
-      "Quality Assurance Measures",
-      "Detailed feedback and recommendations",
-      "Data-driven program modifications",
-      "Assessment of behavioral intervention effectiveness",
-      "Evaluation of need for additional behavioral assessments/interventions",
-      "Regular progress monitoring",
-      "Documentation of milestones and achievements"
-    ],
-    recommended: false,
-    contactForPricing: true
-  },
-  {
-    id: "aba-home-intensive",
-    name: "Intensive Home Program",
-    description: "Comprehensive in-home ABA support",
-    price: 0,  // Setting to 0 to indicate contact for pricing
-    displayPrice: 0, // Setting to 0 to indicate contact for pricing
-    regionalPrice: 0, // Setting to 0 to indicate contact for pricing
-    sessionCount: 15,
-    features: [
-      "15 hours of ABA intervention",
-      "Personalized behavior intervention plan",
-      "Implementation of customized reinforcement plan",
-      "Data-driven program modifications",
-      "Assessment of behavioral intervention effectiveness",
-      "Evaluation of need for additional behavioral assessments/interventions",
-      "Strategic planning for support reduction",
-      "Regular progress monitoring",
-      "Documentation of milestones and achievements"
-    ],
-    recommended: false,
-    contactForPricing: true
-  },
-]
-
-// Add counseling packages
-const counselingPackages: PackageItem[] = [
-  {
-    id: "counseling-single",
-    name: "Single Session",
-    description: "One-time counseling support",
-    price: 90,  // Price for a single session
-    displayPrice: 90, // Price shown per session
-    regionalPrice: 60, // Regional discount price
-    sessionCount: 1,
-    features: [
-      "One-time counseling session",
-      "Focused on immediate concerns",
-    ],
-    recommended: false,
-  },
-  {
-    id: "counseling-bundle",
-    name: "Session Bundle",
-    description: "Multiple sessions at your convenience",
-    price: 320,  // Global price for the entire package (80 * 4)
-    displayPrice: 80, // Price shown per session
-    regionalPrice: 240, // Regional discount price
-    sessionCount: 4,
-    features: [
-      "4 counseling sessions",
-      "Flexible scheduling at your convenience",
-    ],
-    recommended: true,
-  },
-  {
-    id: "counseling-extended",
-    name: "Extended Support",
-    description: "Comprehensive counseling support",
-    price: 420,  // Global price for the entire package (70 * 6)
-    displayPrice: 70, // Price shown per session
-    regionalPrice: 300, // Regional discount price
-    sessionCount: 6,
-    features: [
-      "6 counseling sessions",
-      "Weekly check-ins via email or chat",
-      "Personalized guidance and support",
-    ],
-    recommended: false,
-  },
-]
-
-// Update the component to include tabs for different service categories
 export default function PackagesPage() {
-  const [selectedCategory, setSelectedCategory] = useState("developmental")
+  const { toast } = useToast()
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null)
   const [customizing, setCustomizing] = useState(false)
   const [showPayment, setShowPayment] = useState(false)
@@ -303,56 +54,73 @@ export default function PackagesPage() {
   const [packageToConfirm, setPackageToConfirm] = useState<string | null>(null)
   const [cart, setCart] = useState<string[]>([])
   const [showCartSummary, setShowCartSummary] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [packages, setPackages] = useState<Package[]>([])
+  const [categories, setCategories] = useState<string[]>([])
+  const [activeTab, setActiveTab] = useState<string>("")
+
+  // Fetch packages on component mount
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const response = await appService.getPackages()
+        const packagesData = response.data.packages
+        setPackages(packagesData)
+
+        // Extract unique categories
+        const uniqueCategories = Array.from(new Set(packagesData.map((pkg: Package) => pkg.package_category)))
+        setCategories(uniqueCategories as string[])
+
+        // Set the first category as active tab
+        if (uniqueCategories.length > 0) {
+          setActiveTab(uniqueCategories[0] as string)
+        }
+
+        setLoading(false)
+      } catch (error) {
+        console.error("Error fetching packages:", error)
+        setLoading(false)
+      }
+    }
+
+    fetchPackages()
+  }, [])
+
+  // Show floating checkout button when there are items in cart
+  useEffect(() => {
+    setShowCartSummary(cart.length > 0)
+  }, [cart])
 
   // Get the appropriate package list based on selected category
-  const getPackagesByCategory = () => {
-    switch (selectedCategory) {
-      case "routine":
-        return routinePackages
-      case "aba":
-        return abaPackages
-      case "counseling":
-        return counselingPackages
-      default:
-        return packages
-    }
+  const getPackagesByCategory = (category: string | null) => {
+    if (!category) return []
+    return packages.filter((pkg) => pkg.package_category === category)
   }
 
-  const currentPackages = getPackagesByCategory()
-  
-  // Get all packages from all categories
+  const currentPackages = selectedCategory ? getPackagesByCategory(selectedCategory) : []
+
+  // Get all packages
   const getAllPackages = () => {
-    return [...packages, ...routinePackages, ...abaPackages, ...counselingPackages]
+    return packages
   }
-  
+
   // Calculate total cart value
   const calculateCartTotal = () => {
     const allPackages = getAllPackages()
     return cart.reduce((total, pkgId) => {
-      const pkg = allPackages.find(p => p.id === pkgId)
-      return total + (pkg?.price || 0)
+      const pkg = allPackages.find((p) => p.pkg_id.toString() === pkgId)
+      return total + (pkg?.global_cost || 0)
     }, 0)
   }
 
-  // Add a function to calculate the real cart total based on global prices
+  // Calculate the real cart total based on global prices
   const calculateRealCartTotal = () => {
     return cart.reduce((total, pkgId) => {
-      const allPackages = getAllPackages();
-      const pkg = allPackages.find(p => p.id === pkgId);
-      // Return the total package price, not the session price
-      return pkg ? total + pkg.price : total;
-    }, 0);
-  };
-
-  // Update the display total to show the total price based on display price
-  const calculateDisplayTotal = () => {
-    return cart.reduce((total, pkgId) => {
-      const allPackages = getAllPackages();
-      const pkg = allPackages.find(p => p.id === pkgId);
-      // For display, use the display price
-      return pkg ? total + pkg.displayPrice : total;
-    }, 0);
-  };
+      const allPackages = getAllPackages()
+      const pkg = allPackages.find((p) => p.pkg_id.toString() === pkgId)
+      return pkg ? total + (pkg.global_cost || 0) : total
+    }, 0)
+  }
 
   // Calculate payment amounts based on selected option
   const calculatePayment = (price: number) => {
@@ -394,7 +162,7 @@ export default function PackagesPage() {
   // Add function to confirm package selection
   const confirmPackageSelection = () => {
     if (packageToConfirm) {
-      setCart(prev => [...prev, packageToConfirm])
+      setCart((prev) => [...prev, packageToConfirm])
       setSelectedPackage(packageToConfirm)
       setConfirmDialogOpen(false)
     }
@@ -403,34 +171,58 @@ export default function PackagesPage() {
   // Add function to add to cart without proceeding to checkout
   const addToCartOnly = () => {
     if (packageToConfirm) {
-      setCart(prev => [...prev, packageToConfirm])
+      setCart((prev) => [...prev, packageToConfirm])
       setConfirmDialogOpen(false)
     }
   }
-  
+
   // Function to remove a package from cart
   const removeFromCart = (packageId: string) => {
-    setCart(prev => prev.filter(id => id !== packageId))
+    setCart((prev) => prev.filter((id) => id !== packageId))
     if (selectedPackage === packageId) {
       setSelectedPackage(null)
     }
   }
-  
-  // Show floating checkout button when there are items in cart
-  useEffect(() => {
-    setShowCartSummary(cart.length > 0)
-  }, [cart])
+
+  if (loading) {
+    return (
+      <div className="container mx-auto py-12">
+        <h1 className="text-3xl font-bold text-center mb-8">Our Therapy Packages</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3].map((i) => (
+            <Card key={i} className="flex flex-col h-full">
+              <CardHeader>
+                <Skeleton className="h-8 w-3/4 mb-2" />
+                <Skeleton className="h-4 w-full" />
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-3/4 mb-2" />
+                <div className="mt-4">
+                  {[1, 2, 3, 4].map((j) => (
+                    <Skeleton key={j} className="h-4 w-full mb-2" />
+                  ))}
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Skeleton className="h-10 w-full" />
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="bg-background">
       <main className="container mx-auto px-4 py-8 md:px-6 md:py-12">
         {/* Hero Section */}
         <div className="max-w-5xl mx-auto mb-12 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-[#4b2e83] mb-4">
-            Intervention Packages
-          </h1>
+          <h1 className="text-4xl font-bold tracking-tight text-[#4b2e83] mb-4">Intervention Packages</h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Find the right intervention plan for your child's….
+            Find the right intervention plan for your child's needs
           </p>
         </div>
 
@@ -441,31 +233,31 @@ export default function PackagesPage() {
               <div className="flex justify-between items-center mb-3">
                 <h3 className="font-semibold">Your Selected Plans</h3>
                 <span className="text-sm bg-primary text-white rounded-full px-2 py-0.5">
-                  {cart.length} {cart.length === 1 ? 'plan' : 'plans'}
+                  {cart.length} {cart.length === 1 ? "plan" : "plans"}
                 </span>
               </div>
-              
+
               {cart.length > 0 && (
                 <div className="max-h-40 overflow-auto mb-3">
                   {cart.map((pkgId) => {
-                    const allPackages = getAllPackages();
-                    const pkg = allPackages.find(p => p.id === pkgId);
+                    const allPackages = getAllPackages()
+                    const pkg = allPackages.find((p) => p.pkg_id.toString() === pkgId)
                     return pkg ? (
                       <div key={pkgId} className="flex justify-between items-center py-2 border-b">
-                        <span className="text-sm truncate max-w-[150px]">{pkg.name}</span>
+                        <span className="text-sm truncate max-w-[150px]">{pkg.package_name}</span>
                         <div className="flex items-center">
-                          <span className="text-sm font-medium mr-2">${pkg.price}</span>
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            className="h-6 w-6 p-0" 
+                          <span className="text-sm font-medium mr-2">${pkg.global_cost}</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0"
                             onClick={() => removeFromCart(pkgId)}
                           >
                             ✕
                           </Button>
                         </div>
                       </div>
-                    ) : null;
+                    ) : null
                   })}
                 </div>
               )}
@@ -476,19 +268,10 @@ export default function PackagesPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="text-xs" 
-                  onClick={handleStartOver}
-                >
+                <Button variant="outline" size="sm" className="text-xs" onClick={handleStartOver}>
                   Continue Shopping
                 </Button>
-                <Button 
-                  size="sm"
-                  className="text-xs"
-                  onClick={handleProceedToPayment}
-                >
+                <Button size="sm" className="text-xs" onClick={handleProceedToPayment}>
                   Proceed to Checkout
                 </Button>
               </div>
@@ -507,179 +290,177 @@ export default function PackagesPage() {
                   </p>
                 </div>
                 <div className="space-x-2 flex flex-wrap gap-2">
-                  {serviceCategories.map((category) => (
-                    <Button
-                      key={category.id}
-                      variant={selectedCategory === category.id ? "default" : "outline"}
-                      className="min-w-[120px]"
-                      onClick={() => setSelectedCategory(category.id)}
-                    >
-                      {category.name}
-                    </Button>
-                  ))}
+                  {/*{packageCategories.map((category) => (*/}
+                  {/*  <Button*/}
+                  {/*    key={category}*/}
+                  {/*    variant={selectedCategory === category ? "default" : "outline"}*/}
+                  {/*    className="min-w-[120px]"*/}
+                  {/*    onClick={() => setSelectedCategory(category)}*/}
+                  {/*  >*/}
+                  {/*    {category}*/}
+                  {/*  </Button>*/}
+                  {/*))}*/}
                 </div>
               </div>
-              <div className="space-y-8">
-                {selectedCategory === "aba" && (
-                  <div className="mb-8">
-                    <div className="mb-6">
-                      <h2 className="text-2xl font-bold text-center mb-4">School Provision</h2>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {getPackagesByCategory().filter(pkg => 
-                          pkg.id === "aba-school-starter" || 
-                          pkg.id === "aba-school-followup" || 
-                          pkg.id === "aba-school-supervision"
-                        ).map((packageItem) => (
-                          <div
-                            key={packageItem.id}
-                            className={`relative rounded-xl border bg-white p-6 shadow-sm ${
-                              packageItem.recommended ? "ring-2 ring-primary" : ""
-                            }`}
-                          >
-                            {packageItem.recommended && (
-                              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
-                                Most Popular Choice
-                              </div>
-                            )}
-                            <div className="flex flex-col justify-between h-full">
-                              <div>
-                                <h3 className="text-xl font-bold">{packageItem.name}</h3>
-                                <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
-                                <div className="my-4">
-                                  {packageItem.contactForPricing ? (
-                                    <span className="text-lg font-semibold text-primary">Contact for pricing</span>
-                                  ) : (
-                                    <>
-                                      <span className="text-3xl font-bold">${packageItem.displayPrice}</span>
-                                      <span className="ml-1 text-gray-500">per session</span>
-                                    </>
-                                  )}
-                                </div>
-                                <ul className="space-y-2.5 my-6">
-                                  {packageItem.features.map((feature, index) => (
-                                    <li key={index} className="flex items-start">
-                                      <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                                      <span className="text-sm">{feature}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              <Button
-                                className="w-full mt-6"
-                                onClick={() => handlePackageSelect(packageItem.id)}
-                              >
-                                {packageItem.contactForPricing ? "Contact Us" : "Select This Package"}
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
 
-                    <div className="mb-6">
-                      <h2 className="text-2xl font-bold text-center mb-4">Intensive Home Program</h2>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {getPackagesByCategory().filter(pkg => pkg.id === "aba-home-intensive").map((packageItem) => (
-                          <div
-                            key={packageItem.id}
-                            className={`relative rounded-xl border bg-white p-6 shadow-sm ${
-                              packageItem.recommended ? "ring-2 ring-primary" : ""
-                            }`}
-                          >
-                            {packageItem.recommended && (
-                              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
-                                Most Popular Choice
-                              </div>
-                            )}
-                            <div className="flex flex-col justify-between h-full">
-                              <div>
-                                <h3 className="text-xl font-bold">{packageItem.name}</h3>
-                                <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
-                                <div className="my-4">
-                                  {packageItem.contactForPricing ? (
-                                    <span className="text-lg font-semibold text-primary">Contact for pricing</span>
-                                  ) : (
-                                    <>
-                                      <span className="text-3xl font-bold">${packageItem.displayPrice}</span>
-                                      <span className="ml-1 text-gray-500">per session</span>
-                                    </>
+              {/*{isLoading ? (*/}
+              {/*  <div className="text-center py-12">*/}
+              {/*    <p className="text-muted-foreground">Loading packages...</p>*/}
+              {/*  </div>*/}
+              {/*) : (*/}
+              {/*  <div className="space-y-8">*/}
+              {/*    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">*/}
+              {/*      {currentPackages.map((packageItem) => (*/}
+              {/*        <div*/}
+              {/*          key={packageItem.pkg_id}*/}
+              {/*          className={`relative rounded-xl border bg-white p-6 shadow-sm ${*/}
+              {/*            packageItem.is_recommended ? "ring-2 ring-primary" : ""*/}
+              {/*          }`}*/}
+              {/*        >*/}
+              {/*          {packageItem.is_recommended && (*/}
+              {/*            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">*/}
+              {/*              Most Popular Choice*/}
+              {/*            </div>*/}
+              {/*          )}*/}
+              {/*          <div className="flex flex-col justify-between h-full">*/}
+              {/*            <div>*/}
+              {/*              <h3 className="text-xl font-bold">{packageItem.package_name}</h3>*/}
+              {/*              <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.short_description}</p>*/}
+              {/*              <div className="my-4">*/}
+              {/*                {packageItem.global_cost === null ? (*/}
+              {/*                  <span className="text-lg font-semibold text-primary">Contact for pricing</span>*/}
+              {/*                ) : (*/}
+              {/*                  <>*/}
+              {/*                    <span className="text-3xl font-bold">${packageItem.global_cost}</span>*/}
+              {/*                    <span className="ml-1 text-gray-500">per package</span>*/}
+              {/*                  </>*/}
+              {/*                )}*/}
+              {/*              </div>*/}
+              {/*              <ul className="space-y-2.5 my-6">*/}
+              {/*                {packageItem.features.map((feature, index) => (*/}
+              {/*                  <li key={index} className="flex items-start">*/}
+              {/*                    <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />*/}
+              {/*                    <span className="text-sm">{feature.feature}</span>*/}
+              {/*                  </li>*/}
+              {/*                ))}*/}
+              {/*              </ul>*/}
+              {/*            </div>*/}
+              {/*            <Button className="w-full mt-6" onClick={() => handlePackageSelect(packageItem.pkg_id.toString())}>*/}
+              {/*              {packageItem.global_cost === null ? "Contact Us" : "Select This Package"}*/}
+              {/*            </Button>*/}
+              {/*          </div>*/}
+              {/*        </div>*/}
+              {/*      ))}*/}
+              {/*    </div>*/}
+              {/*    <div className="border-t border-gray-200 pt-8 flex justify-center">*/}
+              {/*      <TrialSessionCard />*/}
+              {/*    </div>*/}
+              {/*  </div>*/}
+              {/*)}*/}
+            </>
+          )}
+
+          {!selectedPackage && !purchaseComplete && (
+            <div className="container mx-auto py-12">
+              <h1 className="text-3xl font-bold text-center mb-8">Our Therapy Packages</h1>
+              <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+                Choose the package that best fits your needs. Our therapy packages are designed to provide comprehensive
+                support for children with various developmental needs.
+              </p>
+
+              {categories.length > 0 ? (
+                <Tabs defaultValue={activeTab} className="w-full" onValueChange={setActiveTab}>
+                  <TabsList className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-8">
+                    {categories.map((category) => (
+                      <TabsTrigger key={category} value={category} className="text-sm md:text-base">
+                        {category}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+
+                  {categories.map((category) => (
+                    <TabsContent key={category} value={category}>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {packages
+                          .filter((pkg) => pkg.package_category === category)
+                          .sort((a, b) => {
+                            // Sort by recommended first, then by cost
+                            if (a.is_recommended && !b.is_recommended) return -1
+                            if (!a.is_recommended && b.is_recommended) return 1
+
+                            // If both have global_cost, compare them
+                            if (a.global_cost !== null && b.global_cost !== null) {
+                              return a.global_cost - b.global_cost
+                            }
+
+                            // If one has global_cost and the other doesn't, prioritize the one with cost
+                            if (a.global_cost !== null && b.global_cost === null) return -1
+                            if (a.global_cost === null && b.global_cost !== null) return 1
+
+                            return 0
+                          })
+                          .map((pkg) => (
+                            <Card
+                              key={pkg.pkg_id}
+                              className={`flex flex-col h-full ${pkg.is_recommended ? "border-primary shadow-lg" : ""}`}
+                            >
+                              <CardHeader>
+                                <div className="flex justify-between items-start">
+                                  <CardTitle>{pkg.package_name}</CardTitle>
+                                  {(pkg.is_recommended!=0) && (
+                                    <Badge variant="default" className="bg-primary text-white">
+                                      Most Popular
+                                    </Badge>
                                   )}
                                 </div>
-                                <ul className="space-y-2.5 my-6">
-                                  {packageItem.features.map((feature, index) => (
-                                    <li key={index} className="flex items-start">
+                                <CardDescription>{pkg.short_description}</CardDescription>
+                              </CardHeader>
+                              <CardContent className="flex-grow">
+                                <div className="mb-4">
+                                  <p className="text-2xl font-bold">
+                                    {pkg.global_cost !== null ? (
+                                      <>
+                                        ${pkg.global_cost}
+                                        <span className="text-sm font-normal text-gray-500"> / package</span>
+                                      </>
+                                    ) : (
+                                      <span className="text-lg font-semibold text-primary">Contact for pricing</span>
+                                    )}
+                                  </p>
+                                  <p className="text-sm text-gray-500">{pkg.session_count} sessions included</p>
+                                </div>
+                                <div className="space-y-2">
+                                  {pkg.features.map((feature) => (
+                                    <div key={feature.pf_id} className="flex items-start">
                                       <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                                      <span className="text-sm">{feature}</span>
-                                    </li>
+                                      <p className="text-sm">{feature.feature}</p>
+                                    </div>
                                   ))}
-                                </ul>
-                              </div>
-                              <Button
-                                className="w-full mt-6"
-                                onClick={() => handlePackageSelect(packageItem.id)}
-                              >
-                                {packageItem.contactForPricing ? "Contact Us" : "Select This Package"}
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
+                                </div>
+                              </CardContent>
+                              <CardFooter>
+                                {pkg.global_cost !== null ? (
+                                  <Button className="w-full" size="lg">
+                                    Get Started
+                                  </Button>
+                                ) : (
+                                  <Button className="w-full" size="lg" variant="outline" asChild>
+                                    <Link href="/contact">Contact Us</Link>
+                                  </Button>
+                                )}
+                              </CardFooter>
+                            </Card>
+                          ))}
                       </div>
-                    </div>
-                  </div>
-                )}
-                {selectedCategory !== "aba" && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {getPackagesByCategory().map((packageItem) => (
-                      <div
-                        key={packageItem.id}
-                        className={`relative rounded-xl border bg-white p-6 shadow-sm ${
-                          packageItem.recommended ? "ring-2 ring-primary" : ""
-                        }`}
-                      >
-                        {packageItem.recommended && (
-                          <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
-                            Most Popular Choice
-                          </div>
-                        )}
-                        <div className="flex flex-col justify-between h-full">
-                          <div>
-                            <h3 className="text-xl font-bold">{packageItem.name}</h3>
-                            <p className="mt-1.5 text-sm text-gray-600 mb-4">{packageItem.description}</p>
-                            <div className="my-4">
-                              {packageItem.contactForPricing ? (
-                                <span className="text-lg font-semibold text-primary">Contact for pricing</span>
-                              ) : (
-                                <>
-                                  <span className="text-3xl font-bold">${packageItem.displayPrice}</span>
-                                  <span className="ml-1 text-gray-500">per session</span>
-                                </>
-                              )}
-                            </div>
-                            <ul className="space-y-2.5 my-6">
-                              {packageItem.features.map((feature, index) => (
-                                <li key={index} className="flex items-start">
-                                  <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                                  <span className="text-sm">{feature}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <Button
-                            className="w-full mt-6"
-                            onClick={() => handlePackageSelect(packageItem.id)}
-                          >
-                            {packageItem.contactForPricing ? "Contact Us" : "Select This Package"}
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="border-t border-gray-200 pt-8 flex justify-center">
-                  <TrialSessionCard />
+                    </TabsContent>
+                  ))}
+                </Tabs>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-lg text-gray-600">No packages available at the moment. Please check back later.</p>
                 </div>
-              </div>
-            </>
+              )}
+            </div>
           )}
 
           {selectedPackage && !customizing && !showPayment && !purchaseComplete && (
@@ -694,27 +475,27 @@ export default function PackagesPage() {
                     <div className="rounded-lg bg-muted p-4">
                       <h3 className="font-medium mb-4">Your Selected Packages</h3>
                       {cart.map((pkgId) => {
-                        const allPackages = getAllPackages();
-                        const pkg = allPackages.find(p => p.id === pkgId);
+                        const allPackages = getAllPackages()
+                        const pkg = allPackages.find((p) => p.pkg_id.toString() === pkgId)
                         return pkg ? (
                           <div key={pkgId} className="flex justify-between items-center py-2 border-b last:border-0">
                             <div>
-                              <p className="font-medium">{pkg.name}</p>
-                              <p className="text-sm text-muted-foreground">{pkg.description}</p>
+                              <p className="font-medium">{pkg.package_name}</p>
+                              <p className="text-sm text-muted-foreground">{pkg.short_description}</p>
                             </div>
                             <div className="text-right">
-                              <p className="font-medium">${pkg.price}</p>
-                              <Button 
-                                variant="ghost" 
-                                size="sm" 
-                                className="text-red-500 h-8" 
+                              <p className="font-medium">${pkg.global_cost}</p>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-red-500 h-8"
                                 onClick={() => removeFromCart(pkgId)}
                               >
                                 Remove
                               </Button>
                             </div>
                           </div>
-                        ) : null;
+                        ) : null
                       })}
                       <div className="flex justify-between items-center font-semibold mt-4 pt-2 border-t">
                         <span>Total:</span>
@@ -743,9 +524,7 @@ export default function PackagesPage() {
                             Pay Upfront
                           </Label>
                           <p className="text-sm text-muted-foreground">Full payment with 10% family discount</p>
-                          <p className="font-medium text-primary">
-                            ${Math.round(calculateRealCartTotal() * 0.9)}
-                          </p>
+                          <p className="font-medium text-primary">${Math.round(calculateRealCartTotal() * 0.9)}</p>
                         </div>
                       </div>
 
@@ -758,9 +537,7 @@ export default function PackagesPage() {
                             Monthly Plan
                           </Label>
                           <p className="text-sm text-muted-foreground">Easy 2-month payment plan</p>
-                          <p className="font-medium text-primary">
-                            ${Math.round(calculateRealCartTotal() / 2)}/month
-                          </p>
+                          <p className="font-medium text-primary">${Math.round(calculateRealCartTotal() / 2)}/month</p>
                         </div>
                       </div>
 
@@ -773,9 +550,7 @@ export default function PackagesPage() {
                             Weekly Plan
                           </Label>
                           <p className="text-sm text-muted-foreground">Manageable weekly payments</p>
-                          <p className="font-medium text-primary">
-                            ${Math.round(calculateRealCartTotal() / 4)}/week
-                          </p>
+                          <p className="font-medium text-primary">${Math.round(calculateRealCartTotal() / 4)}/week</p>
                         </div>
                       </div>
                     </RadioGroup>
@@ -920,37 +695,39 @@ export default function PackagesPage() {
                 <div className="space-y-6">
                   <div className="rounded-lg bg-muted p-4">
                     <h3 className="font-medium">Your Support Plan</h3>
-                    
+
                     {cart.length > 0 ? (
                       <div className="mt-4 space-y-2">
                         {cart.map((pkgId, index) => {
-                          const allPackages = getAllPackages();
-                          const pkg = allPackages.find(p => p.id === pkgId);
+                          const allPackages = getAllPackages()
+                          const pkg = allPackages.find((p) => p.pkg_id.toString() === pkgId)
                           return pkg ? (
                             <div key={pkgId} className="flex justify-between py-1">
-                              <span className="text-sm text-muted-foreground">{pkg.name}:</span>
-                              <span className="text-sm font-medium">${pkg.price}</span>
+                              <span className="text-sm text-muted-foreground">{pkg.package_name}:</span>
+                              <span className="text-sm font-medium">${pkg.global_cost}</span>
                             </div>
-                          ) : null;
+                          ) : null
                         })}
-                        
+
                         <div className="flex justify-between">
                           <span className="text-sm text-muted-foreground">Payment Option:</span>
                           <span className="text-sm font-medium">
-                            {paymentOption === 'upfront' ? 'Upfront (10% family discount)' : 
-                             paymentOption === 'monthly' ? 'Monthly Plan' : 'Weekly Plan'}
+                            {paymentOption === "upfront"
+                              ? "Upfront (10% family discount)"
+                              : paymentOption === "monthly"
+                                ? "Monthly Plan"
+                                : "Weekly Plan"}
                           </span>
                         </div>
-                        
+
                         <div className="flex justify-between border-t pt-2">
                           <span className="font-medium">Total:</span>
                           <span className="font-medium">
-                            {paymentOption === 'upfront' 
+                            {paymentOption === "upfront"
                               ? `$${Math.round(calculateCartTotal() * 0.9)} (You save $${Math.round(calculateCartTotal() * 0.1)})`
-                              : paymentOption === 'monthly'
+                              : paymentOption === "monthly"
                                 ? `$${calculateCartTotal()} ($${Math.round(calculateCartTotal() / 2)}/month × 2)`
-                                : `$${calculateCartTotal()} ($${Math.round(calculateCartTotal() / 4)}/week × 4)`
-                            }
+                                : `$${calculateCartTotal()} ($${Math.round(calculateCartTotal() / 4)}/week × 4)`}
                           </span>
                         </div>
                       </div>
@@ -961,7 +738,7 @@ export default function PackagesPage() {
                           <span className="text-sm font-medium">
                             {customizing
                               ? "Personalized Support Plan"
-                              : currentPackages.find((p) => p.id === selectedPackage)?.name}
+                              : packages.find((p) => p.pkg_id.toString() === selectedPackage)?.package_name}
                           </span>
                         </div>
                         <div className="flex justify-between">
@@ -971,7 +748,11 @@ export default function PackagesPage() {
                         <div className="flex justify-between border-t pt-2">
                           <span className="font-medium">Total:</span>
                           <span className="font-medium">
-                            ${customizing ? "150" : currentPackages.find((p) => p.id === selectedPackage)?.price}/session
+                            $
+                            {customizing
+                              ? "150"
+                              : packages.find((p) => p.pkg_id.toString() === selectedPackage)?.global_cost}
+                            /session
                           </span>
                         </div>
                       </div>
@@ -1076,14 +857,14 @@ export default function PackagesPage() {
                       <>
                         <h4 className="font-medium">Your Support Plans:</h4>
                         {cart.map((pkgId, index) => {
-                          const allPackages = getAllPackages();
-                          const pkg = allPackages.find(p => p.id === pkgId);
+                          const allPackages = getAllPackages()
+                          const pkg = allPackages.find((p) => p.pkg_id.toString() === pkgId)
                           return pkg ? (
                             <div key={pkgId} className="flex justify-between">
-                              <span className="text-sm text-muted-foreground">{pkg.name}:</span>
-                              <span className="text-sm font-medium">${pkg.price}</span>
+                              <span className="text-sm text-muted-foreground">{pkg.package_name}:</span>
+                              <span className="text-sm font-medium">${pkg.global_cost}</span>
                             </div>
-                          ) : null;
+                          ) : null
                         })}
                       </>
                     ) : (
@@ -1092,33 +873,35 @@ export default function PackagesPage() {
                         <span className="text-sm font-medium">
                           {customizing
                             ? "Personalized Support Plan"
-                            : currentPackages.find((p) => p.id === selectedPackage)?.name}
+                            : packages.find((p) => p.pkg_id.toString() === selectedPackage)?.package_name}
                         </span>
                       </div>
                     )}
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Payment Schedule:</span>
                       <span className="text-sm font-medium">
-                        {paymentOption === 'upfront' 
-                          ? 'One-time Payment (Family discount applied)' 
-                          : paymentOption === 'monthly'
-                            ? 'Monthly (2 payments)'
-                            : 'Weekly (4 payments)'}
+                        {paymentOption === "upfront"
+                          ? "One-time Payment (Family discount applied)"
+                          : paymentOption === "monthly"
+                            ? "Monthly (2 payments)"
+                            : "Weekly (4 payments)"}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Next Payment Date:</span>
                       <span className="text-sm font-medium">
-                        {paymentOption === 'upfront' 
-                          ? 'Paid in full' 
-                          : new Date(Date.now() + (paymentOption === 'monthly' ? 30 : 7) * 24 * 60 * 60 * 1000)
-                              .toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        {paymentOption === "upfront"
+                          ? "Paid in full"
+                          : new Date(
+                              Date.now() + (paymentOption === "monthly" ? 30 : 7) * 24 * 60 * 60 * 1000,
+                            ).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="font-medium">Total Amount:</span>
                       <span className="font-medium">
-                        ${paymentOption === 'upfront' 
+                        $
+                        {paymentOption === "upfront"
                           ? Math.round(calculateRealCartTotal() * 0.9)
                           : calculateRealCartTotal()}
                       </span>
@@ -1131,7 +914,8 @@ export default function PackagesPage() {
                     A confirmation email will arrive shortly with all your plan details.
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Our team will reach out soon to schedule your child's first session. You can also view your upcoming sessions in your dashboard.
+                    Our team will reach out soon to schedule your child's first session. You can also view your upcoming
+                    sessions in your dashboard.
                   </p>
                 </div>
               </CardContent>
@@ -1179,4 +963,3 @@ export default function PackagesPage() {
     </div>
   )
 }
-

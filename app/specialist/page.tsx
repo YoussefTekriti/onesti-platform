@@ -1,14 +1,154 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent } from "@/components/ui/tabs"
-import { Calendar, Clock, FileText, MessageCircle, User, CheckCircle } from "lucide-react"
+import { Calendar, Clock, FileText, MessageCircle, User, CheckCircle, LogOut, Settings, Loader2, FileIcon } from "lucide-react"
+import { specialistService, Profile, Specialty } from "@/lib/api/api-services"
+import { ProfileSettings } from "@/components/specialist/profile-settings"
+import { useToast } from "@/hooks/use-toast"
+import { WeeklyCalendar } from "@/components/specialist/weekly-calendar"
+import { AppointmentManager } from "@/components/specialist/appointment-manager"
+import { PatientDocumentsModal } from "@/components/specialist/patient-documents-modal"
+
+interface Session {
+  id: string
+  date: string
+  start: string
+  end: string
+}
+
+interface Patient {
+  child_id: string
+  child_name: string
+  parent_id: string
+  parent_name: string
+  patient_pfp: string | null
+  nextSession: Session | null
+  lastSession: Session | null
+}
 
 export default function SpecialistDashboardPage() {
   const [activeTab, setActiveTab] = useState("schedule")
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const [patients, setPatients] = useState<Patient[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isPatientsLoading, setIsPatientsLoading] = useState(true)
+  const [documentsModalOpen, setDocumentsModalOpen] = useState(false)
+  const [selectedPatient, setSelectedPatient] = useState<{ id: string; name: string } | null>(null)
+  const { toast } = useToast()
+
+  // Mock user ID - in a real app, this would come from authentication
+  const userId = "1" // Replace with actual user ID from auth context
+
+  useEffect(() => {
+    fetchProfile()
+    fetchPatients()
+  }, [])
+
+  const fetchProfile = async () => {
+    setIsLoading(true)
+    try {
+      const response = await specialistService.getProfile()
+      console.log(response.data)
+      setProfile(response.data.details)
+    } catch (error) {
+      console.error("Error fetching profile:", error)
+      toast({
+        title: "Error",
+        description: "Failed to load profile data. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  const fetchPatients = async () => {
+    setIsPatientsLoading(true)
+    try {
+      const response = await specialistService.getPatients()
+      setPatients(response.data.patients || [])
+    } catch (error) {
+      console.error("Error fetching patients:", error)
+      toast({
+        title: "Error",
+        description: "Failed to load patients data. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsPatientsLoading(false)
+    }
+  }
+
+  const handleProfileUpdate = (updatedProfile: Profile) => {
+    setProfile(updatedProfile)
+  }
+  const handlePendingAppointmentResolved = () => {
+    // Decrease the pendingRequests count in the profile
+    if (profile && profile.pendingRequests > 0) {
+      setProfile({
+        ...profile,
+        pendingRequests: profile.pendingRequests - 1,
+      })
+    }
+  }
+  const openDocumentsModal = (patientId: string, patientName: string) => {
+    setSelectedPatient({ id: patientId, name: patientName })
+    setDocumentsModalOpen(true)
+  }
+
+  const formatSessionDate = (dateString: string) => {
+    if (!dateString) return ""
+
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+
+    const date = new Date(dateString)
+    date.setHours(0, 0, 0, 0)
+
+    if (date.getTime() === today.getTime()) {
+      return "Today"
+    } else if (date.getTime() === tomorrow.getTime()) {
+      return "Tomorrow"
+    } else {
+      return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+    }
+  }
+
+  const formatSessionTime = (startTime: string, endTime: string) => {
+    if (!startTime || !endTime) return ""
+
+    // Convert 24-hour format to 12-hour format
+    const formatTime = (timeStr: string) => {
+      const [hours, minutes] = timeStr.split(":")
+      const hour = Number.parseInt(hours, 10)
+      const ampm = hour >= 12 ? "PM" : "AM"
+      const hour12 = hour % 12 || 12
+      return `${hour12}:${minutes} ${ampm}`
+    }
+
+    return `${formatTime(startTime)} - ${formatTime(endTime)}`
+  }
+
+  const logout = () => {
+    // Clear user session and redirect to login page
+    localStorage.removeItem("token")
+    localStorage.removeItem("level")
+    console.log("AAAH")
+    toast({
+      title: "Logged Out Successfully!",
+      description: "Redirecting You to Login Page",
+      variant: "default",
+    })
+    setTimeout(() => {
+      window.location.href = "/login"
+    }, 1500)
+  }
 
   // Mock data
   const upcomingSessions = [
@@ -41,38 +181,38 @@ export default function SpecialistDashboardPage() {
     },
   ]
 
-  const patients = [
-    {
-      id: 1,
-      name: "Alex Johnson",
-      age: "3 years, 2 months",
-      parent: "Sarah Johnson",
-      package: "Thrive Path",
-      lastSession: "Mar 15, 2023",
-      nextSession: "Today, 10:30 AM",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 2,
-      name: "Emma Wilson",
-      age: "4 years, 5 months",
-      parent: "James Wilson",
-      package: "Empower Path",
-      lastSession: "Mar 12, 2023",
-      nextSession: "Today, 2:00 PM",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 3,
-      name: "Noah Garcia",
-      age: "2 years, 8 months",
-      parent: "Maria Garcia",
-      package: "Nurture Path",
-      lastSession: "Mar 10, 2023",
-      nextSession: "Tomorrow, 9:15 AM",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-  ]
+  // const patients = [
+  //   {
+  //     id: 1,
+  //     name: "Alex Johnson",
+  //     age: "3 years, 2 months",
+  //     parent: "Sarah Johnson",
+  //     package: "Thrive Path",
+  //     lastSession: "Mar 15, 2023",
+  //     nextSession: "Today, 10:30 AM",
+  //     image: "/placeholder.svg?height=60&width=60",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Emma Wilson",
+  //     age: "4 years, 5 months",
+  //     parent: "James Wilson",
+  //     package: "Empower Path",
+  //     lastSession: "Mar 12, 2023",
+  //     nextSession: "Today, 2:00 PM",
+  //     image: "/placeholder.svg?height=60&width=60",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Noah Garcia",
+  //     age: "2 years, 8 months",
+  //     parent: "Maria Garcia",
+  //     package: "Nurture Path",
+  //     lastSession: "Mar 10, 2023",
+  //     nextSession: "Tomorrow, 9:15 AM",
+  //     image: "/placeholder.svg?height=60&width=60",
+  //   },
+  // ]
 
   const reports = [
     {
@@ -111,8 +251,8 @@ export default function SpecialistDashboardPage() {
                 <div className="absolute top-16 left-0 w-full flex justify-center">
                   <div className="relative">
                     <Image
-                      src="/placeholder.svg?height=120&width=120"
-                      alt="Dr. Emily Parker"
+                      src={profile?.pfp || "/placeholder.svg?height=120&width=120"}
+                      alt={profile?.nickname || "Specialist"}
                       width={120}
                       height={120}
                       className="rounded-full border-4 border-white"
@@ -123,9 +263,15 @@ export default function SpecialistDashboardPage() {
               </div>
 
               <div className="pt-16 pb-6 px-4 text-center">
-                <h2 className="text-2xl font-bold">Dr. Emily Parker</h2>
-                <p className="text-gray-500">Speech-Language Pathologist</p>
-                <p className="text-gray-500 mt-1">ID: SP254654</p>
+                <h2 className="text-2xl font-bold">{profile?.nickname || "Loading..."}</h2>
+                <p className="text-gray-500">Specialist</p>
+                {profile && profile?.pendingRequests > 0 && (
+                  <div className="mt-2">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                      {profile.pendingRequests} pending request{profile.pendingRequests > 1 ? "s" : ""}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Navigation */}
@@ -166,6 +312,24 @@ export default function SpecialistDashboardPage() {
                   </div>
                   <span className="font-medium">Messages</span>
                 </button>
+                <button
+                  className={`flex items-center gap-3 px-4 py-3 w-full text-left ${activeTab === "settings" ? "bg-primary/10 border-l-4 border-primary" : "hover:bg-gray-50"}`}
+                  onClick={() => setActiveTab("settings")}
+                >
+                  <div className="w-8 h-8 flex items-center justify-center">
+                    <Settings className="h-5 w-5 text-gray-600" />
+                  </div>
+                  <span className="font-medium">Settings</span>
+                </button>
+                <a
+                  onClick={() => logout()}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 text-red-500 cursor-pointer"
+                >
+                  <div className="w-8 h-8 flex items-center justify-center">
+                    <LogOut className="h-5 w-5" />
+                  </div>
+                  <span className="font-medium">Logout</span>
+                </a>
               </div>
             </div>
           </div>
@@ -174,60 +338,15 @@ export default function SpecialistDashboardPage() {
           <div className="lg:col-span-3 space-y-8">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsContent value="schedule">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Today's Schedule</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex overflow-x-auto gap-2 pb-4">
-                      {[19, 20, 21, 22, 23].map((day, index) => (
-                        <div
-                          key={day}
-                          className={`flex-shrink-0 w-16 h-16 flex flex-col items-center justify-center rounded-lg border ${day === 21 ? "bg-primary text-white" : "hover:bg-gray-50"}`}
-                        >
-                          <div className="text-lg font-bold">{day}</div>
-                          <div className="text-xs">{["Mon", "Tue", "Wed", "Thu", "Fri"][index]}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-6 space-y-4">
-                      {upcomingSessions.map((session) => (
-                        <div key={session.id} className="border rounded-lg p-4">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                              <div className="bg-blue-100 text-blue-800 font-medium px-3 py-1 rounded-full text-sm">
-                                {session.time}
-                              </div>
-                              <div>
-                                <h3 className="font-bold">{session.patient}</h3>
-                                <p className="text-sm text-gray-500">
-                                  {session.age} • {session.type}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="flex gap-2">
-                              <Button variant="outline" size="sm">
-                                <FileText className="h-4 w-4 mr-1" />
-                                Notes
-                              </Button>
-                              <Button size="sm">Start Session</Button>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+              <AppointmentManager onPendingAppointmentResolved={handlePendingAppointmentResolved}/>
 
                 <Card className="mt-6">
                   <CardHeader>
                     <CardTitle>Weekly Overview</CardTitle>
+                    <CardDescription>Manage your availability for appointments</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-80 bg-gray-50 rounded-lg flex items-center justify-center">
-                      <p className="text-gray-500">Calendar view would go here</p>
-                    </div>
+                  <WeeklyCalendar />
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -236,62 +355,83 @@ export default function SpecialistDashboardPage() {
                 <Card>
                   <CardHeader>
                     <CardTitle>My Patients</CardTitle>
+                    <CardDescription>View and manage your patients</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-6">
-                      {patients.map((patient) => (
-                        <div key={patient.id} className="border rounded-lg p-4">
-                          <div className="flex items-start gap-4">
-                            <Image
-                              src={patient.image || "/placeholder.svg"}
-                              alt={patient.name}
-                              width={60}
-                              height={60}
-                              className="rounded-full"
-                            />
-                            <div className="flex-1">
-                              <div className="flex justify-between">
-                                <div>
-                                  <h3 className="font-bold">{patient.name}</h3>
-                                  <p className="text-sm text-gray-500">
-                                    {patient.age} • {patient.package}
-                                  </p>
+                    {isPatientsLoading ? (
+                      <div className="flex justify-center items-center py-12">
+                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                      </div>
+                    ) : patients.length === 0 ? (
+                      <div className="text-center py-12 text-gray-500">
+                        <User className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                        <p>No patients found.</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-6">
+                        {patients.map((patient) => (
+                          <div key={patient.child_id} className="border rounded-lg p-4">
+                            <div className="flex items-start gap-4">
+                              <Image
+                                src={patient.patient_pfp || "/placeholder.svg?height=60&width=60"}
+                                alt={patient.child_name}
+                                width={60}
+                                height={60}
+                                className="rounded-full"
+                              />
+                              <div className="flex-1">
+                                <div className="flex justify-between">
+                                  <div>
+                                    <h3 className="font-bold">{patient.child_name}</h3>
+                                    <p className="text-sm text-gray-500">Parent: {patient.parent_name}</p>
+                                  </div>
                                 </div>
-                                <Button size="sm">View Profile</Button>
-                              </div>
 
-                              <div className="grid grid-cols-2 gap-4 mt-4">
-                                <div>
-                                  <p className="text-sm text-gray-500">Parent/Guardian</p>
-                                  <p className="font-medium">{patient.parent}</p>
-                                </div>
-                                <div>
-                                  <p className="text-sm text-gray-500">Last Session</p>
-                                  <p className="font-medium">{patient.lastSession}</p>
-                                </div>
-                                <div>
-                                  <p className="text-sm text-gray-500">Next Session</p>
-                                  <p className="font-medium">{patient.nextSession}</p>
-                                </div>
-                                <div>
-                                  <p className="text-sm text-gray-500">Actions</p>
-                                  <div className="flex gap-2 mt-1">
-                                    <Button variant="outline" size="sm">
-                                      <FileText className="h-3 w-3 mr-1" />
-                                      Reports
-                                    </Button>
-                                    <Button variant="outline" size="sm">
-                                      <MessageCircle className="h-3 w-3 mr-1" />
-                                      Message
-                                    </Button>
+                                <div className="grid grid-cols-2 gap-4 mt-4">
+                                  <div>
+                                    <p className="text-sm text-gray-500">Last Session</p>
+                                    <p className="font-medium">
+                                      {patient.lastSession
+                                        ? `${formatSessionDate(patient.lastSession.date)}, ${formatSessionTime(patient.lastSession.start, patient.lastSession.end)}`
+                                        : "No previous sessions"}
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <p className="text-sm text-gray-500">Next Session</p>
+                                    <p className="font-medium">
+                                      {patient.nextSession
+                                        ? `${formatSessionDate(patient.nextSession.date)}, ${formatSessionTime(patient.nextSession.start, patient.nextSession.end)}`
+                                        : "No upcoming sessions"}
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <p className="text-sm text-gray-500">Actions</p>
+                                    <div className="flex gap-2 mt-1">
+                                      <Button variant="outline" size="sm">
+                                        <FileText className="h-3 w-3 mr-1" />
+                                        Reports
+                                      </Button>
+                                      <Button variant="outline" size="sm">
+                                        <MessageCircle className="h-3 w-3 mr-1" />
+                                        Message
+                                      </Button>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => openDocumentsModal(patient.parent_id, patient.child_name)}
+                                      >
+                                        <FileIcon className="h-3 w-3 mr-1" />
+                                        Documents
+                                      </Button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -386,11 +526,39 @@ export default function SpecialistDashboardPage() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              <TabsContent value="settings">
+                {profile ? (
+                  <ProfileSettings
+                    profile={profile}
+                    userId={userId}
+                    onProfileUpdate={handleProfileUpdate}
+                    isLoading={isLoading}
+                  />
+                ) : (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Profile Settings</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex justify-center items-center py-10">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                    </CardContent>
+                  </Card>
+                )}
+              </TabsContent>
             </Tabs>
           </div>
         </div>
       </div>
+      {/* Patient Documents Modal */}
+      {selectedPatient && (
+        <PatientDocumentsModal
+          isOpen={documentsModalOpen}
+          onClose={() => setDocumentsModalOpen(false)}
+          patientId={selectedPatient.id}
+          patientName={selectedPatient.name}
+        />
+      )}
     </div>
   )
 }
-

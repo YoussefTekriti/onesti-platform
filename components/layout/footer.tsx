@@ -6,6 +6,7 @@ import { Facebook, Instagram, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState, useEffect } from "react"
+import { appService } from "@/lib/api/api-services"
 
 export default function Footer() {
   // Add mounting state to prevent hydration mismatches
@@ -27,9 +28,15 @@ export default function Footer() {
     }
   };
 
-  const handleSubscribe = () => {
-    setSubscribed(true);
-    setEmail("");
+  const handleSubscribe = async () => {
+    try {
+      await appService.subscribe(email)
+      setSubscribed(true);
+      setEmail("");
+    } catch (error) {
+      
+    }
+    
   }
 
   return (

@@ -7,6 +7,7 @@ import Footer from "@/components/layout/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 import ChatSupport from "@/components/support/chat-support"
 import { LanguageProvider } from "@/components/language-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -30,6 +31,7 @@ export default function RootLayout({
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />
+              <Toaster />
               <ChatSupport />
             </div>
           </LanguageProvider>
