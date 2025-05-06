@@ -107,7 +107,11 @@ export default function AdminHeader({ title, description }: AdminHeaderProps) {
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem><a onClick={() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('level');
+                window.location.href = '/';
+              }}>Logout</a></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
